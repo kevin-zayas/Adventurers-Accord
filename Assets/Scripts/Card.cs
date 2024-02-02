@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 
-public class Card : MonoBehaviour
+public class Card
 {
     public int id;
     public string cardName;
@@ -11,6 +11,7 @@ public class Card : MonoBehaviour
     public int physPower;
     public int magPower;
     public string cardDescription;
+    public Sprite spriteImage;
 
 
     public Card()
@@ -18,7 +19,7 @@ public class Card : MonoBehaviour
 
     }
 
-    public Card(int Id, string CardName, int Cost, int PhysPower, int MagPower, string CardDescription)
+    public Card(int Id, string CardName, int Cost, int PhysPower, int MagPower, string CardDescription, Sprite SpriteImage)
     {
         id = Id;
         cardName = CardName;
@@ -26,5 +27,6 @@ public class Card : MonoBehaviour
         physPower = PhysPower;
         magPower = MagPower;
         cardDescription = CardDescription;
+        spriteImage = SpriteImage;
     }
 }
