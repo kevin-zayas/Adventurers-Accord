@@ -25,16 +25,15 @@ public class DisplayCard : MonoBehaviour
     public TMP_Text descriptionText;
     public TMP_Text costText;
     public Image artImage;
+
+    public bool cardBack;
+    public static bool staticCardBack;
     
 
     void Start()
     {
         displayCards[0] = CardDatabase.cardList[displayId];
 
-    }
-
-    void Update()
-    {
         id = displayCards[0].id;
         cardName = displayCards[0].cardName;
         cost = displayCards[0].cost;
@@ -49,6 +48,14 @@ public class DisplayCard : MonoBehaviour
         magPowerText.text = "" + magPower;
         descriptionText.text = cardDescription;
         artImage.sprite = spriteImage;
+
+    }
+
+    void Update()
+    {
+        staticCardBack = cardBack;
+
+
     }
 
 }
