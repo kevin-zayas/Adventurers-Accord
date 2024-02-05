@@ -6,12 +6,14 @@ using UnityEngine;
 public class TurnManager : MonoBehaviour
 {
     public bool isYourTurn;
-    public int yourTurn;
+    public int turnTracker;
     private int playerCount = 2;
     public TMP_Text turnText;
 
+    public static bool startTurn;
+
     // Will move this to a rewards manager script eventually
-    public int currentGold = 10;
+    public int currentGold;
     public TMP_Text goldText;
     
 
@@ -20,16 +22,18 @@ public class TurnManager : MonoBehaviour
     void Start()
     {
         isYourTurn = true;
-        yourTurn = 1;
+        turnTracker = 1;
+        currentGold = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (yourTurn == 1)
+        if (turnTracker == 1)
         {
             isYourTurn = true;
             turnText.text = "Your Turn";
+
         }
         else
         {
@@ -42,8 +46,12 @@ public class TurnManager : MonoBehaviour
 
     public void EndTurn()
     {
-        yourTurn += 1;
-        yourTurn %= playerCount;
+        turnTracker += 1;
+        turnTracker %= playerCount;
         currentGold += 2;
+        if (turnTracker == 1)
+        {
+            startTurn = true;
+        }
     }
 }
