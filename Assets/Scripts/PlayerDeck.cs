@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class PlayerDeck : MonoBehaviour
 {
-    public Card container;
-    public int x;
-    public static int deckSize;
-    public List<Card> deck = new List<Card>();
+    //public Card container;
+    //public int x;
+    //public List<Card> deck = new List<Card>();
     public static List<Card> staticDeck = new List<Card>();
     public int cardFrequency = 2;
+    float deckMaxSize;
 
-    public GameObject cardInDeck1;
-    public GameObject cardInDeck2;
-    public GameObject cardInDeck3;
-    public GameObject cardInDeck4;
+    public List<GameObject> deckTracker;
 
     public GameObject CardToHand;
     public GameObject[] Clones;
@@ -31,8 +28,8 @@ public class PlayerDeck : MonoBehaviour
                 staticDeck.Add(CardDatabase.cardDatabase[id]);
             }
         }
-        deck = staticDeck;
-        deckSize = staticDeck.Count;
+        deckMaxSize = staticDeck.Count;
+        //deck = staticDeck;
 
         //StartCoroutine(StartGame());
 
@@ -42,21 +39,22 @@ public class PlayerDeck : MonoBehaviour
     void Update()
     {
         //staticDeck = deck;
-        if (deckSize < 15)
+        //print(staticDeck.Count);
+        if (staticDeck.Count < deckMaxSize*.75)
         {
-            cardInDeck1.SetActive(false);
+            deckTracker[0].SetActive(false);
         }
-        if (deckSize < 10)
+        if (staticDeck.Count < deckMaxSize*.5)
         {
-            cardInDeck2.SetActive(false);
+            deckTracker[1].SetActive(false);
         }
-        if (deckSize < 5)
+        if (staticDeck.Count < deckMaxSize*.25)
         {
-            cardInDeck3.SetActive(false);
+            deckTracker[2].SetActive(false);
         }
-        if (deckSize < 1)
+        if (staticDeck.Count == 0)
         {
-            cardInDeck4.SetActive(false);
+            deckTracker[3].SetActive(false);
         }
 
         if (TurnManager.startTurn)
@@ -76,16 +74,16 @@ public class PlayerDeck : MonoBehaviour
         //}
     //}
 
-    public void Shuffle()
-    {
-        for (int i =0; i<deckSize; i++)
-        {
-            container = deck[i];
-            int randomIndex = Random.Range(i, deckSize);
-            deck[i] = deck[randomIndex];
-            deck[randomIndex] = container;
-        }
-    }
+    //public void Shuffle()
+    //{
+    //    for (int i =0; i<deckSize; i++)
+    //    {
+    //        container = deck[i];
+    //        int randomIndex = Random.Range(i, deckSize);
+    //        deck[i] = deck[randomIndex];
+    //        deck[randomIndex] = container;
+    //    }
+    //}
 
     IEnumerator Draw(int x)
     {

@@ -18,9 +18,7 @@ public class CardDatabase : MonoBehaviour
         cardDatabase.Add(2, ClericCardData);
         cardDatabase.Add(3, RogueCardData);
 
-        
-
-        //maintain a list if each card will have a different frequency
+        //maintain a list/dictionary if each card will have a different frequency
         //cardCountList.Add(2);
         //cardCountList.Add(2);
         //cardCountList.Add(2);
