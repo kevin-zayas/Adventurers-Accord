@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class CardDatabase : MonoBehaviour
 {
-    public static List<Card> cardList = new List<Card>();
+    //public static List<int> cardCountList = new();
+    public static Dictionary<int, Card> cardDatabase = new();
+    public Card WarriorCardData;
+    public Card WizardCardData;
+    public Card ClericCardData;
+    public Card RogueCardData;
 
     private void Awake()
     {
-        cardList.Add(new Card(0, "None", 0, 0, 0, "None", Resources.Load<Sprite>("DefaultSprite")));
-        cardList.Add(new Card(1, "Warrior", 5, 3, 0, "Argh", Resources.Load<Sprite>("DefaultSprite")));
-        cardList.Add(new Card(2, "Wizard", 5, 0, 3, "Drzzt", Resources.Load<Sprite>("DefaultSprite")));
-        cardList.Add(new Card(3, "Cleric", 5, 0, 2, "Cleric's Protection", Resources.Load<Sprite>("DefaultSprite")));
-        cardList.Add(new Card(4, "Rogue", 5, 2, 0, "Sticky Fingers", Resources.Load<Sprite>("DefaultSprite")));
+        cardDatabase.Add(0, WarriorCardData);
+        cardDatabase.Add(1, WizardCardData);
+        cardDatabase.Add(2, ClericCardData);
+        cardDatabase.Add(3, RogueCardData);
+
+        
+
+        //maintain a list if each card will have a different frequency
+        //cardCountList.Add(2);
+        //cardCountList.Add(2);
+        //cardCountList.Add(2);
+        //cardCountList.Add(2);
     }
 }

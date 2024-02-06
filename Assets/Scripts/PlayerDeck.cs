@@ -6,9 +6,10 @@ public class PlayerDeck : MonoBehaviour
 {
     public Card container;
     public int x;
-    public static int deckSize = 20;
+    public static int deckSize;
     public List<Card> deck = new List<Card>();
     public static List<Card> staticDeck = new List<Card>();
+    public int cardFrequency = 2;
 
     public GameObject cardInDeck1;
     public GameObject cardInDeck2;
@@ -23,20 +24,24 @@ public class PlayerDeck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        x = 0;
-        for (int i = 0; i <deckSize; i++)
+        for (int id = 0; id < CardDatabase.cardDatabase.Count; id++)
         {
-            x = Random.Range(1,5);
-            deck[i] = CardDatabase.cardList[x];
+            for (int x = 0; x < cardFrequency; x++)
+            {
+                staticDeck.Add(CardDatabase.cardDatabase[id]);
+            }
         }
+        deck = staticDeck;
+        deckSize = staticDeck.Count;
 
-        StartCoroutine(StartGame());
+        //StartCoroutine(StartGame());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        staticDeck = deck;
+        //staticDeck = deck;
         if (deckSize < 15)
         {
             cardInDeck1.SetActive(false);
@@ -61,15 +66,15 @@ public class PlayerDeck : MonoBehaviour
         }
     }
 
-    IEnumerator StartGame()
-    {
-        for (int i = 0; i < 2; i++)
-        {
-            yield return new WaitForSeconds(1);
+    //IEnumerator StartGame()
+    //{
+        //for (int i = 0; i < 2; i++)
+        //{
+        //    yield return new WaitForSeconds(1);
 
-            Instantiate(CardToHand, transform.position, transform.rotation);
-        }
-    }
+        //    Instantiate(CardToHand, transform.position, transform.rotation);
+        //}
+    //}
 
     public void Shuffle()
     {

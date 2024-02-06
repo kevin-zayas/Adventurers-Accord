@@ -35,46 +35,66 @@ public class DisplayCard : MonoBehaviour
 
     void Start()
     {
-        numberOfCardsInDeck = PlayerDeck.deckSize;
-        displayCards[0] = CardDatabase.cardList[displayId];
+        //numberOfCardsInDeck = PlayerDeck.deckSize;
+        //displayCards[0] = CardDatabase.cardList[displayId];
 
     }
 
-    void Update()
+    public void LoadCardData(Card CardData)
     {
-        id = displayCards[0].id;
-        cardName = displayCards[0].cardName;
-        cost = displayCards[0].cost;
-        physPower = displayCards[0].physPower;
-        magPower = displayCards[0].magPower;
-        cardDescription = displayCards[0].cardDescription;
-        spriteImage = displayCards[0].spriteImage;
+        id = CardData.id;
+        cardName = CardData.cardName;
+        cost = CardData.cost;
+        physPower = CardData.physPower;
+        magPower = CardData.magPower;
+        cardDescription = CardData.cardDescription;
+        spriteImage = CardData.spriteImage;
 
+        // would be good to add a listener/trigger to update when something changes
         nameText.text = cardName;
         costText.text = "" + cost;
         physPowerText.text = "" + physPower;
         magPowerText.text = "" + magPower;
         descriptionText.text = cardDescription;
         artImage.sprite = spriteImage;
+    }
 
-        Hand = GameObject.Find("Hand");
-        if (this.transform.parent == Hand.transform.parent)
-        {
-            cardBack = false;
-        }
+    void Update()
+    {
+        //id = displayCards[0].id;
+        //cardName = displayCards[0].cardName;
+        //cost = displayCards[0].cost;
+        //physPower = displayCards[0].physPower;
+        //magPower = displayCards[0].magPower;
+        //cardDescription = displayCards[0].cardDescription;
+        //spriteImage = displayCards[0].spriteImage;
 
-        staticCardBack = cardBack;
+        //nameText.text = cardName;
+        //costText.text = "" + cost;
+        //physPowerText.text = "" + physPower;
+        //magPowerText.text = "" + magPower;
+        //descriptionText.text = cardDescription;
+        //artImage.sprite = spriteImage;
 
-        if (this.tag == "Clone")
-        {
-            displayCards[0] = PlayerDeck.staticDeck[numberOfCardsInDeck - 1];
-            numberOfCardsInDeck -= 1;
-            PlayerDeck.deckSize -= 1;
-            cardBack = false;
-            this.tag = "Untagged";
-        }
+        //Hand = GameObject.Find("Hand");
+        //if (this.transform.parent == Hand.transform.parent)
+        //{
+        //    cardBack = false;
+        //}
+
+        //staticCardBack = cardBack;
+
+        //if (this.tag == "Clone")
+        //{
+        //    //displayCards[0] = PlayerDeck.staticDeck[numberOfCardsInDeck - 1];
+        //    numberOfCardsInDeck -= 1;
+        //    PlayerDeck.deckSize -= 1;
+        //    cardBack = false;
+        //    this.tag = "Untagged";
+        //}
 
 
     }
+
 
 }
