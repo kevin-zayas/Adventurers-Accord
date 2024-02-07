@@ -14,4 +14,6 @@ public class Card : ScriptableObject
     public string cardDescription;
     public Sprite spriteImage;
 
+    public int slotIndex;
+
 }

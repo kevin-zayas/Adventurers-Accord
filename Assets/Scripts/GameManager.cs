@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
         if (deck.Count >= 1)
         {
             Card randomCard = deck[Random.Range(0, deck.Count)];
-            //print(randomCard);
 
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
