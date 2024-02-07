@@ -12,7 +12,7 @@ public class DisplayCard : MonoBehaviour
     public int cost;
     public int physPower;
     public int magPower;
-    public int slotIndex;
+    public int? slotIndex;
     public string cardDescription;
     public Sprite spriteImage;
 

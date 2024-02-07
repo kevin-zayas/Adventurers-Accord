@@ -18,10 +18,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         deck = PlayerDeck.staticDeck;
-        //DrawCard();
-
-
-
     }
 
     // Update is called once per frame
@@ -33,40 +29,50 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void DrawCard()
+    public void DrawCard(int slotIndex)
     {
         //print(deck.Count);
         if (deck.Count >= 1)
         {
-            for (int i = 0; i < availableCardSlots.Length; i++)
+            if (availableCardSlots[slotIndex] == true)
             {
-                if (availableCardSlots[i] == true)
-                {
-                    //if i is > 3, draw from tier 2 deck
-                    Card randomCard = deck[Random.Range(0, deck.Count)];
+                //if slotIndex is > 3, draw from tier 2 deck
+                Card randomCard = deck[Random.Range(0, deck.Count)];
 
-                    GameObject card = Instantiate(AdventurerCard, cardSlots[i].transform.position, Quaternion.identity);
-                    card.transform.SetParent(cardSlots[i].transform); //experiment with true false
-                    card.GetComponent<DisplayCard>().LoadCardData(randomCard);
-                    card.GetComponent<DisplayCard>().slotIndex = i;
+                GameObject card = Instantiate(AdventurerCard, cardSlots[slotIndex].transform.position, Quaternion.identity);
+                card.GetComponent<DisplayCard>().LoadCardData(randomCard);
+                card.transform.SetParent(cardSlots[slotIndex].transform); //experiment with true false
+                card.GetComponent<DisplayCard>().slotIndex = slotIndex;
 
-                    availableCardSlots[i] = false;
-                    deck.Remove(randomCard);
-
-                    //return;
-                }
+                availableCardSlots[slotIndex] = false;
+                deck.Remove(randomCard);
             }
+           
         }
     }
 
-    public void CheckAvailableSlots()
+    public void StartGame()
     {
-        for (int i = 0; i < cardSlots.Length; i++)
+        for (int i = 0; i < availableCardSlots.Length; i++)
         {
-            if (cardSlots[i].transform.childCount == 1)
-            {
-                availableCardSlots[i] = true;
-            }
+            DrawCard(i);
         }
     }
+
+    public void ReplaceCard(int slotIndex)
+    {
+        availableCardSlots[slotIndex] = true;
+        DrawCard(slotIndex);
+    }
+
+    //public void CheckAvailableSlots()
+    //{
+    //    for (int i = 0; i < cardSlots.Length; i++)
+    //    {
+    //        if (cardSlots[i].transform.childCount == 1)
+    //        {
+    //            availableCardSlots[i] = true;
+    //        }
+    //    }
+    //}
 }
