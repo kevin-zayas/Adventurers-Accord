@@ -13,7 +13,7 @@ public class DragDrop : MonoBehaviour
     private void Start()
     {
         gm = FindObjectOfType<GameManager>();
-        print(gm);
+        //print(gm);
     }
 
     // Update is called once per frame
@@ -51,7 +51,10 @@ public class DragDrop : MonoBehaviour
         isDragging = false;
         if (isOverDropZone)
         {
+            print(this.GetComponent<DisplayCard>().slotIndex);
             transform.SetParent(dropZone.transform,false);
+            gm.CheckAvailableSlots();
+            
         }
         else
         {

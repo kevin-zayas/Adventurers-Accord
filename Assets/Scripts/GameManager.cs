@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         deck = PlayerDeck.staticDeck;
-        DrawCard();
+        //DrawCard();
 
 
 
@@ -38,21 +38,34 @@ public class GameManager : MonoBehaviour
         //print(deck.Count);
         if (deck.Count >= 1)
         {
-            Card randomCard = deck[Random.Range(0, deck.Count)];
-
             for (int i = 0; i < availableCardSlots.Length; i++)
             {
                 if (availableCardSlots[i] == true)
                 {
+                    //if i is > 3, draw from tier 2 deck
+                    Card randomCard = deck[Random.Range(0, deck.Count)];
+
                     GameObject card = Instantiate(AdventurerCard, cardSlots[i].transform.position, Quaternion.identity);
                     card.transform.SetParent(cardSlots[i].transform); //experiment with true false
                     card.GetComponent<DisplayCard>().LoadCardData(randomCard);
+                    card.GetComponent<DisplayCard>().slotIndex = i;
 
                     availableCardSlots[i] = false;
                     deck.Remove(randomCard);
 
-                    return;
+                    //return;
                 }
+            }
+        }
+    }
+
+    public void CheckAvailableSlots()
+    {
+        for (int i = 0; i < cardSlots.Length; i++)
+        {
+            if (cardSlots[i].transform.childCount == 1)
+            {
+                availableCardSlots[i] = true;
             }
         }
     }

@@ -461,6 +461,7 @@ MonoBehaviour:
   cost: 0
   physPower: 0
   magPower: 0
+  slotIndex: 0
   cardDescription: 
   spriteImage: {fileID: 0}
   nameText: {fileID: 2029664163792765779}
