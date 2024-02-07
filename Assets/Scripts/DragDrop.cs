@@ -53,9 +53,9 @@ public class DragDrop : MonoBehaviour
         {
             transform.SetParent(dropZone.transform,false);
 
-            int? slotIndex = this.GetComponent<DisplayCard>().slotIndex;
-            this.GetComponent<DisplayCard>().slotIndex = null;
-            gm.ReplaceCard(slotIndex.Value);
+            int slotIndex = this.GetComponent<DisplayCard>().slotIndex;
+            this.GetComponent<DisplayCard>().slotIndex = -1;
+            gm.ReplaceCard(slotIndex);
 
             //gm.CheckAvailableSlots();
             
