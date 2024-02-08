@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
                 //if slotIndex is > 3, draw from tier 2 deck
                 Card randomCard = deck[Random.Range(0, deck.Count)];
 
-                GameObject card = Instantiate(AdventurerCard, cardSlots[slotIndex].transform.position, Quaternion.identity);
+                GameObject card = Instantiate(AdventurerCard, Vector2.zero, Quaternion.identity);
                 card.GetComponent<DisplayCard>().LoadCardData(randomCard);
-                card.transform.SetParent(cardSlots[slotIndex].transform); //experiment with true false
+                card.transform.SetParent(cardSlots[slotIndex].transform, false); //experiment with true false
                 card.GetComponent<DisplayCard>().slotIndex = slotIndex;
 
                 availableCardSlots[slotIndex] = false;
@@ -61,8 +61,11 @@ public class GameManager : MonoBehaviour
 
     public void ReplaceCard(int slotIndex)
     {
-        availableCardSlots[slotIndex] = true;
-        DrawCard(slotIndex);
+        if (slotIndex >= 0)
+        {
+            availableCardSlots[slotIndex] = true;
+            DrawCard(slotIndex);
+        }
     }
 
     //public void CheckAvailableSlots()
