@@ -53,6 +53,8 @@ public class DragDrop : MonoBehaviour
 
     public void EndDrag()
     {
+        // set as first/last sibling? may  help if player wants to reorder cards
+
         isDragging = false;
         if (isOverDropZone && transform.parent != dropZone.transform)   // no need if dragging and dropping into same zone
         {

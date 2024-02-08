@@ -372,9 +372,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7184070916402621257}
   - component: {fileID: 3885643823678439189}
+  - component: {fileID: 9083479996198271190}
   - component: {fileID: 1071464946648242112}
   - component: {fileID: 6092715111979766608}
   - component: {fileID: 2075477376264919328}
+  - component: {fileID: 6479187236686648526}
   - component: {fileID: 7109734022086063676}
   - component: {fileID: -3940136168109046893}
   - component: {fileID: 8381347151152243069}
@@ -414,6 +416,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298241252680445397}
   m_CullTransparentMesh: 1
+--- !u!225 &9083479996198271190
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298241252680445397}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &1071464946648242112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,6 +496,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb903755611af4e4a90eec22c71dd9d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6479187236686648526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298241252680445397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b79ccd4ddd42d48388855c009667f238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7109734022086063676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,6 +525,18 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 6479187236686648526}
+          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
+          m_MethodName: OnHoverExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 2075477376264919328}
           m_TargetAssemblyTypeName: DragDrop, Assembly-CSharp
           m_MethodName: BeginDrag
@@ -515,9 +553,53 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 6479187236686648526}
+          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
+          m_MethodName: OnHoverExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 2075477376264919328}
           m_TargetAssemblyTypeName: DragDrop, Assembly-CSharp
           m_MethodName: EndDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6479187236686648526}
+          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
+          m_MethodName: OnHoverExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6479187236686648526}
+          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
+          m_MethodName: OnClick
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
