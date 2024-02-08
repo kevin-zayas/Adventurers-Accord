@@ -7,13 +7,16 @@ public class DragDrop : MonoBehaviour
     private bool isDragging = false;
     private bool isOverDropZone = false;
     private GameObject dropZone;
+    private GameObject canvas;
+    private GameObject startParent;
     private Vector2 startPosition;
+
     private GameManager gm;
 
-    private void Start()
+    private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
-        //print(gm);
+        canvas = GameObject.Find("Main Canvas");
     }
 
     // Update is called once per frame
@@ -22,6 +25,7 @@ public class DragDrop : MonoBehaviour
         if (isDragging)
         {
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            transform.SetParent(canvas.transform,true);
         }
     }
 
@@ -42,6 +46,7 @@ public class DragDrop : MonoBehaviour
     public void BeginDrag()
     {
         startPosition = transform.position;
+        startParent = transform.parent.gameObject;
         isDragging = true;
     }
 
@@ -59,7 +64,10 @@ public class DragDrop : MonoBehaviour
         }
         else
         {
+            transform.SetParent(startParent.transform, false);
             transform.position = startPosition;
+            
+
         }
     }
 }
