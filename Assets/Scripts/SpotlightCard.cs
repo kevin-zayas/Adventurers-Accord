@@ -18,7 +18,14 @@ public class SpotlightCard : MonoBehaviour
     {
         if (!spotlightCard)
         {
-            spotlightCard = Instantiate(gameObject, new Vector2(Input.mousePosition.x, Input.mousePosition.y), Quaternion.identity);
+            Vector2 spawnPosition = gameObject.transform.position;
+
+            if (gameObject.tag == "Hand")
+            {
+                spawnPosition += new Vector2(0, 90);    // shift Card in Hand up to prevent cutoff when spotlighting
+            }
+
+            spotlightCard = Instantiate(gameObject, spawnPosition, Quaternion.identity);
             spotlightCard.transform.SetParent(canvas.transform, true);
             spotlightCard.layer = LayerMask.NameToLayer("Spotlight");
 

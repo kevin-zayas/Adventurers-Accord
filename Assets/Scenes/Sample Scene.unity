@@ -3721,6 +3721,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hand
       objectReference: {fileID: 0}
+    - target: {fileID: 780822927576980492, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
+      propertyPath: m_TagString
+      value: Hand
+      objectReference: {fileID: 0}
     - target: {fileID: 1773678696107905794, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
