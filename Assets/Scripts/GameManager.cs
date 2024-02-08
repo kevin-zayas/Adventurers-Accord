@@ -67,15 +67,4 @@ public class GameManager : MonoBehaviour
             DrawCard(slotIndex);
         }
     }
-
-    //public void CheckAvailableSlots()
-    //{
-    //    for (int i = 0; i < cardSlots.Length; i++)
-    //    {
-    //        if (cardSlots[i].transform.childCount == 1)
-    //        {
-    //            availableCardSlots[i] = true;
-    //        }
-    //    }
-    //}
 }

@@ -49,16 +49,13 @@ public class DragDrop : MonoBehaviour
     public void EndDrag()
     {
         isDragging = false;
-        if (isOverDropZone)
+        if (isOverDropZone && transform.parent != dropZone.transform)   // no need if dragging and dropping into same zone
         {
             transform.SetParent(dropZone.transform,false);
 
             int slotIndex = this.GetComponent<DisplayCard>().slotIndex;
             this.GetComponent<DisplayCard>().slotIndex = -1;
             gm.ReplaceCard(slotIndex);
-
-            //gm.CheckAvailableSlots();
-            
         }
         else
         {
