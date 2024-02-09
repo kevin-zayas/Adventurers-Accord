@@ -31,13 +31,12 @@ public class ResourceManager : MonoBehaviour
         
     }
 
-    public void UpdateGoldAmount()
+    public void OnGoldAmountChange()
     {
-        print("update gold");
         goldText.text = currentGold + " GP";
     }
 
-    public void UpdateRepAmount()
+    public void OnRepAmountChange()
     {
         repText.text = currentRep + " rep.";
     }

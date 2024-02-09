@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,17 +10,16 @@ public class GameManager : MonoBehaviour
     public Transform[] cardSlots;
     public bool[] availableCardSlots;
     public GameObject AdventurerCard;
-    public TMP_Text deckSizeText;
     public ResourceManager player;
-
-    int deckSize;
-
-
+    private PlayerDeck playerDeck;
 
     // Start is called before the first frame update
     void Start()
     {
         deck = PlayerDeck.staticDeck;
+        playerDeck = gameObject.GetComponent<PlayerDeck>();
+        playerDeck.deckSizeChange.Invoke();
+
     }
 
     public void StartGame()
@@ -33,9 +33,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //change to listener or event system to not update deck count every frame
-        deckSize = PlayerDeck.staticDeck.Count;
-        deckSizeText.text = deckSize.ToString();
 
     }
 
@@ -51,11 +48,12 @@ public class GameManager : MonoBehaviour
 
                 GameObject card = Instantiate(AdventurerCard, Vector2.zero, Quaternion.identity);
                 card.GetComponent<DisplayCard>().LoadCardData(randomCard);
-                card.transform.SetParent(cardSlots[slotIndex].transform, false); //experiment with true false
+                card.transform.SetParent(cardSlots[slotIndex].transform, false);
                 card.GetComponent<DisplayCard>().slotIndex = slotIndex;
 
                 availableCardSlots[slotIndex] = false;
                 deck.Remove(randomCard);
+                playerDeck.deckSizeChange.Invoke();
             }
            
         }
