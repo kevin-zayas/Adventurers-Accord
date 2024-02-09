@@ -6,12 +6,13 @@ public class SpotlightCard : MonoBehaviour
 {
     private GameObject canvas;
     private GameObject spotlightCard;
-
+    private RectTransform cardRect;
 
 
     private void Awake()
     {
         canvas = GameObject.Find("Main Canvas");
+        cardRect = gameObject.GetComponent<RectTransform>();
     }
 
     public void OnClick()
@@ -29,24 +30,27 @@ public class SpotlightCard : MonoBehaviour
             spotlightCard.transform.SetParent(canvas.transform, true);
             spotlightCard.layer = LayerMask.NameToLayer("Spotlight");
 
-            RectTransform rect = spotlightCard.GetComponent<RectTransform>();
-            rect.localScale = new Vector2(2, 2);
+            RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
+            spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cardRect.rect.width);    // manually set size since it spawns with 0,0 in quest drop zone
+            spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cardRect.rect.height);
+            spotlightRect.localScale = new Vector2(2, 2);
 
-            CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
-            canvasGroup.blocksRaycasts = false;
+            CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();   
+            canvasGroup.blocksRaycasts = false;     // turn off to allow player to click on card to hide spotlight
         }
         else
         {
-            Destroy(spotlightCard);
+            DestroySpotlightCard();
         }
 
     }
 
-    public void OnHoverExit()
+    public void DestroySpotlightCard()
     {
         if (spotlightCard)
         {
             Destroy(spotlightCard);
+            //spotlightCard = null;
         }
     }
 }

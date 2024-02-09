@@ -3620,8 +3620,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card Drop Zone
       objectReference: {fileID: 0}
+    - target: {fileID: 1776641940053133519, guid: 8f52d0dd95d97451f84aab77bf2fdc44, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3236647217484952210, guid: 8f52d0dd95d97451f84aab77bf2fdc44, type: 3}
       propertyPath: m_Padding.m_Top
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236647217484952210, guid: 8f52d0dd95d97451f84aab77bf2fdc44, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236647217484952210, guid: 8f52d0dd95d97451f84aab77bf2fdc44, type: 3}
+      propertyPath: m_Padding.m_Right
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6241257144816827665, guid: 8f52d0dd95d97451f84aab77bf2fdc44, type: 3}

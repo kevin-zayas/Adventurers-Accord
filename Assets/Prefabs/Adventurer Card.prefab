@@ -527,7 +527,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6479187236686648526}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnHoverExit
+          m_MethodName: DestroySpotlightCard
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -555,7 +555,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6479187236686648526}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnHoverExit
+          m_MethodName: DestroySpotlightCard
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -583,7 +583,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 6479187236686648526}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnHoverExit
+          m_MethodName: DestroySpotlightCard
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -592,7 +592,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
   - eventID: 4
     callback:
       m_PersistentCalls:
