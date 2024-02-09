@@ -76,11 +76,14 @@ public class DragDrop : MonoBehaviour
         {
             if (gameObject.tag == "DraftCard")
             {
-                if (dropZoneTag == "Hand")
+                if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
                 {
-                    transform.SetParent(dropZone.transform, false);
-                    gameObject.tag = "HandCard";
-
+                    transform.SetParent(startParent.transform, false);
+                    transform.position = startPosition;
+                    return;
+                }
+                else if (dropZoneTag == "Hand")
+                {
                     slotIndex = this.GetComponent<CardDisplay>().slotIndex;
                     this.GetComponent<CardDisplay>().slotIndex = -1;
                     gm.ReplaceCard(slotIndex);
@@ -88,36 +91,14 @@ public class DragDrop : MonoBehaviour
                     gm.player.currentGold -= cardDisplay.cost;
                     gm.player.goldChange.Invoke();
                 }
-                else if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
-                {
-                    transform.SetParent(startParent.transform, false);
-                    transform.position = startPosition;
-                }
             }
-            else if (gameObject.tag == "HandCard")
-            {
-                transform.SetParent(dropZone.transform, false);
-                gameObject.tag = "QuestCard";
-            }
-            else if (gameObject.tag == "QuestCard")
-            {
-                transform.SetParent(dropZone.transform, false);
-                gameObject.tag = "HandCard";
-            }
-
-            //transform.SetParent(dropZone.transform,false);
-            //gameObject.tag = dropZone.tag;
-
-            //slotIndex = this.GetComponent<CardDisplay>().slotIndex;
-            //this.GetComponent<CardDisplay>().slotIndex = -1;
-            //gm.ReplaceCard(slotIndex);
-            
+            transform.SetParent(dropZone.transform, false);
+            gameObject.tag = dropZoneTag + "Card";
         }
         else
         {
             transform.SetParent(startParent.transform, false);
             transform.position = startPosition;
-            
 
         }
     }
