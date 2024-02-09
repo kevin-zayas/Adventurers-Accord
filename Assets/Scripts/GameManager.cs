@@ -47,9 +47,10 @@ public class GameManager : MonoBehaviour
                 Card randomCard = deck[Random.Range(0, deck.Count)];
 
                 GameObject card = Instantiate(AdventurerCard, Vector2.zero, Quaternion.identity);
-                card.GetComponent<DisplayCard>().LoadCardData(randomCard);
+                card.GetComponent<CardDisplay>().LoadCardData(randomCard);
+                card.GetComponent<CardDisplay>().slotIndex = slotIndex;
                 card.transform.SetParent(cardSlots[slotIndex].transform, false);
-                card.GetComponent<DisplayCard>().slotIndex = slotIndex;
+                card.tag = "DraftCard";
 
                 availableCardSlots[slotIndex] = false;
                 deck.Remove(randomCard);

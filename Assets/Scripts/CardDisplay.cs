@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class DisplayCard : MonoBehaviour
+public class CardDisplay : MonoBehaviour
 {
     public int id;
     public string cardName;

@@ -21,7 +21,7 @@ public class SpotlightCard : MonoBehaviour
         {
             Vector2 spawnPosition = gameObject.transform.position;
 
-            if (gameObject.tag == "Hand")
+            if (gameObject.tag == "HandCard")
             {
                 spawnPosition += new Vector2(0, 90);    // shift Card in Hand up to prevent cutoff when spotlighting
             }
@@ -30,6 +30,7 @@ public class SpotlightCard : MonoBehaviour
             spotlightCard.transform.SetParent(canvas.transform, true);
             spotlightCard.layer = LayerMask.NameToLayer("Spotlight");
 
+            //could check if quest card to make more efficient
             RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
             spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cardRect.rect.width);    // manually set size since it spawns with 0,0 in quest drop zone
             spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cardRect.rect.height);

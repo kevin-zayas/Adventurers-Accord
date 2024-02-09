@@ -10,13 +10,16 @@ public class DragDrop : MonoBehaviour
     private GameObject canvas;
     private GameObject startParent;
     private Vector2 startPosition;
-
     private GameManager gm;
+
+    private string dropZoneTag;
+    private CardDisplay cardDisplay;
 
     private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
         canvas = GameObject.Find("Main Canvas");
+        cardDisplay = gameObject.GetComponent<CardDisplay>();
     }
 
     // Update is called once per frame
@@ -34,6 +37,7 @@ public class DragDrop : MonoBehaviour
     {
         isOverDropZone = true;
         dropZone = collision.gameObject;
+        dropZoneTag = collision.gameObject.tag;
     }
 
 
@@ -43,14 +47,19 @@ public class DragDrop : MonoBehaviour
         {
             isOverDropZone = false;
             dropZone = null;
+            dropZoneTag = null;
         }
     }
 
     public void BeginDrag()
     {
-        startPosition = transform.position;
-        startParent = transform.parent.gameObject;
-        isDragging = true;
+        if (gameObject.tag != "DraftCard" || gm.player.currentGold >= cardDisplay.cost)     // only check for player gold if trying to drag a DraftCard
+        {
+            startPosition = transform.position;
+            startParent = transform.parent.gameObject;
+            isDragging = true;
+        }
+
     }
 
 
@@ -58,15 +67,51 @@ public class DragDrop : MonoBehaviour
     {
         // set as first/last sibling? may  help if player wants to reorder cards
 
-        isDragging = false;
-        if (isOverDropZone && transform.parent != dropZone.transform)   // no need if dragging and dropping into same zone
-        {
-            transform.SetParent(dropZone.transform,false);
-            gameObject.tag = dropZone.tag;
+        if (!isDragging) return;        // wasn't able to begin dragging a card, quit early
 
-            int slotIndex = this.GetComponent<DisplayCard>().slotIndex;
-            this.GetComponent<DisplayCard>().slotIndex = -1;
-            gm.ReplaceCard(slotIndex);
+        isDragging = false;
+        int slotIndex;
+
+        if (isOverDropZone && transform.parent != dropZone.transform)   // no need to update parent if dragging and dropping into same zone
+        {
+            if (gameObject.tag == "DraftCard")
+            {
+                if (dropZoneTag == "Hand")
+                {
+                    transform.SetParent(dropZone.transform, false);
+                    gameObject.tag = "HandCard";
+
+                    slotIndex = this.GetComponent<CardDisplay>().slotIndex;
+                    this.GetComponent<CardDisplay>().slotIndex = -1;
+                    gm.ReplaceCard(slotIndex);
+
+                    gm.player.currentGold -= cardDisplay.cost;
+                    gm.player.goldChange.Invoke();
+                }
+                else if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
+                {
+                    transform.SetParent(startParent.transform, false);
+                    transform.position = startPosition;
+                }
+            }
+            else if (gameObject.tag == "HandCard")
+            {
+                transform.SetParent(dropZone.transform, false);
+                gameObject.tag = "QuestCard";
+            }
+            else if (gameObject.tag == "QuestCard")
+            {
+                transform.SetParent(dropZone.transform, false);
+                gameObject.tag = "HandCard";
+            }
+
+            //transform.SetParent(dropZone.transform,false);
+            //gameObject.tag = dropZone.tag;
+
+            //slotIndex = this.GetComponent<CardDisplay>().slotIndex;
+            //this.GetComponent<CardDisplay>().slotIndex = -1;
+            //gm.ReplaceCard(slotIndex);
+            
         }
         else
         {

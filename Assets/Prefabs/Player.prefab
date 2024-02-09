@@ -45,15 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   repText: {fileID: 0}
+  goldText: {fileID: 0}
   currentRep: 0
   currentGold: 0
-  goldText: {fileID: 0}
   goldChange:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7694309254672940084}
         m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
-        m_MethodName: UpdateGoldAmount
+        m_MethodName: OnGoldAmountChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -68,7 +68,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7694309254672940084}
         m_TargetAssemblyTypeName: ResourceManager, Assembly-CSharp
-        m_MethodName: UpdateRepAmount
+        m_MethodName: OnRepAmountChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
