@@ -41,14 +41,13 @@ public class TurnManager : MonoBehaviour
             turnText.text = "Opponent Turn";
         }
 
-        goldText.text = currentGold + " GP";
+        //goldText.text = currentGold + " GP";
     }
 
     public void EndTurn()
     {
         turnTracker += 1;
         turnTracker %= playerCount;
-        currentGold += 2;
         if (turnTracker == 1)
         {
             startTurn = true;

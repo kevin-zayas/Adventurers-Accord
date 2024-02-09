@@ -32,7 +32,6 @@ public class DragDrop : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("collision enter");
         isOverDropZone = true;
         dropZone = collision.gameObject;
     }
@@ -40,7 +39,6 @@ public class DragDrop : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        print("collision exit");
         if (collision.gameObject == dropZone)
         {
             isOverDropZone = false;

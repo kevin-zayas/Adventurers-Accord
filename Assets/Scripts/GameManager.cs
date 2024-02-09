@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public bool[] availableCardSlots;
     public GameObject AdventurerCard;
     public TMP_Text deckSizeText;
+    public ResourceManager player;
+
     int deckSize;
 
 
@@ -18,6 +20,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         deck = PlayerDeck.staticDeck;
+    }
+
+    public void StartGame()
+    {
+        for (int i = 0; i < availableCardSlots.Length; i++)
+        {
+            DrawCard(i);
+        }
     }
 
     // Update is called once per frame
@@ -51,14 +61,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
-    {
-        for (int i = 0; i < availableCardSlots.Length; i++)
-        {
-            DrawCard(i);
-        }
-    }
-
     public void ReplaceCard(int slotIndex)
     {
         if (slotIndex >= 0)
@@ -66,5 +68,17 @@ public class GameManager : MonoBehaviour
             availableCardSlots[slotIndex] = true;
             DrawCard(slotIndex);
         }
+    }
+
+    public void ChangeGold(int goldDelta)
+    {
+        player.currentGold += goldDelta;
+        player.goldChange.Invoke();
+    }
+
+    public void ChangeReputation(int repDelta)
+    {
+        player.currentRep += repDelta;
+        player.repChange.Invoke();
     }
 }
