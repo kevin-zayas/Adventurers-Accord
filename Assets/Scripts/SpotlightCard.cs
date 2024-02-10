@@ -51,7 +51,6 @@ public class SpotlightCard : MonoBehaviour
         if (spotlightCard)
         {
             Destroy(spotlightCard);
-            //spotlightCard = null;
         }
     }
 }

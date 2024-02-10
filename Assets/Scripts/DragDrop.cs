@@ -78,8 +78,7 @@ public class DragDrop : MonoBehaviour
             {
                 if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
                 {
-                    transform.SetParent(startParent.transform, false);
-                    transform.position = startPosition;
+                    ResetCardPosition();
                     return;
                 }
                 else if (dropZoneTag == "Hand")
@@ -90,25 +89,30 @@ public class DragDrop : MonoBehaviour
 
                     gm.player.currentGold -= cardDisplay.cost;
                     gm.goldChange.Invoke();
-
-                    transform.SetParent(dropZone.transform, false);
-                    gameObject.tag = dropZoneTag + "Card";
+                    AssignNewCardParent();
                 }
             }
             else
             {
-                transform.SetParent(dropZone.transform, false);
-                gameObject.tag = dropZoneTag + "Card";
-
+                AssignNewCardParent();
                 gm.questCardChange.Invoke();
-
             }
         }
         else
         {
-            transform.SetParent(startParent.transform, false);
-            transform.position = startPosition;
-
+            ResetCardPosition();
         }
+    }
+
+    private void ResetCardPosition()
+    {
+        transform.SetParent(startParent.transform, false);
+        transform.position = startPosition;
+    }
+
+    private void AssignNewCardParent()
+    {
+        transform.SetParent(dropZone.transform, false);
+        gameObject.tag = dropZoneTag + "Card";
     }
 }

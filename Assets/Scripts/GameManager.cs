@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     public void DrawCard(int slotIndex)
     {
-        //print(deck.Count);
         if (deck.Count >= 1)
         {
             if (availableCardSlots[slotIndex] == true)

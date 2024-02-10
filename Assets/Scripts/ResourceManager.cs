@@ -13,10 +13,6 @@ public class ResourceManager : MonoBehaviour
 
     private GameManager gm;
 
-    //public UnityEvent goldChange;
-    //public UnityEvent repChange;
-
-
     // Start is called before the first frame update
     void Start()
     {

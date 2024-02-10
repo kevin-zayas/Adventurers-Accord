@@ -11,10 +11,6 @@ public class TurnManager : MonoBehaviour
     public TMP_Text turnText;
 
     public static bool startTurn;
-
-    // Will move this to a rewards manager script eventually
-    public int currentGold;
-    public TMP_Text goldText;
     
 
 
@@ -23,7 +19,7 @@ public class TurnManager : MonoBehaviour
     {
         isYourTurn = true;
         turnTracker = 1;
-        currentGold = 10;
+
     }
 
     // Update is called once per frame
@@ -41,7 +37,7 @@ public class TurnManager : MonoBehaviour
             turnText.text = "Opponent Turn";
         }
 
-        //goldText.text = currentGold + " GP";
+
     }
 
     public void EndTurn()
