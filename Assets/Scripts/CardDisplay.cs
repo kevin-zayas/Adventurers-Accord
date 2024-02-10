@@ -41,11 +41,11 @@ public class CardDisplay : MonoBehaviour
         cardDescription = CardData.cardDescription;
         spriteImage = CardData.spriteImage;
 
-        // would be good to add a listener/trigger to update when something changes
+        // put this in a OnCardDataChanged method and add a UnityEvent whenever those are changed
         nameText.text = cardName;
-        costText.text = "" + cost;
-        physPowerText.text = "" + physPower;
-        magPowerText.text = "" + magPower;
+        costText.text = cost.ToString();
+        physPowerText.text = physPower.ToString();
+        magPowerText.text = magPower.ToString();
         descriptionText.text = cardDescription;
         artImage.sprite = spriteImage;
     }

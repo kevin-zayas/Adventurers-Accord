@@ -89,11 +89,20 @@ public class DragDrop : MonoBehaviour
                     gm.ReplaceCard(slotIndex);
 
                     gm.player.currentGold -= cardDisplay.cost;
-                    gm.player.goldChange.Invoke();
+                    gm.goldChange.Invoke();
+
+                    transform.SetParent(dropZone.transform, false);
+                    gameObject.tag = dropZoneTag + "Card";
                 }
             }
-            transform.SetParent(dropZone.transform, false);
-            gameObject.tag = dropZoneTag + "Card";
+            else
+            {
+                transform.SetParent(dropZone.transform, false);
+                gameObject.tag = dropZoneTag + "Card";
+
+                gm.questCardChange.Invoke();
+
+            }
         }
         else
         {

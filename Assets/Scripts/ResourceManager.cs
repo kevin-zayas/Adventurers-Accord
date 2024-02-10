@@ -10,19 +10,21 @@ public class ResourceManager : MonoBehaviour
     public TMP_Text goldText;
     public float currentRep;
     public int currentGold;
-    private float repMax = 30;
 
-    public UnityEvent goldChange;
-    public UnityEvent repChange;
+    private GameManager gm;
+
+    //public UnityEvent goldChange;
+    //public UnityEvent repChange;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        gm = FindObjectOfType<GameManager>();
         currentRep = 5;
         currentGold = 10;
-        goldChange.Invoke();
-        repChange.Invoke();
+        gm.goldChange.Invoke();
+        gm.repChange.Invoke();
 ;    }
 
     // Update is called once per frame

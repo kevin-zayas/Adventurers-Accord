@@ -13,9 +13,6 @@ public class PlayerDeck : MonoBehaviour
     public int cardFrequency = 2;
     private float deckMaxSize;
 
-    public UnityEvent deckSizeChange;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +24,7 @@ public class PlayerDeck : MonoBehaviour
             }
         }
         deckMaxSize = staticDeck.Count;
+        OnDeckSizeChange();
 
     }
 

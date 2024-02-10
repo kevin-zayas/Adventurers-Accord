@@ -8,7 +8,6 @@ public class PlayerReputation : MonoBehaviour
 {
     public TMP_Text repText;
     public float currentRep;
-    private float repMax = 30;
 
 
     // Start is called before the first frame update

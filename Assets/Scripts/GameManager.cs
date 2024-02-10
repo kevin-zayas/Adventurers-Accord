@@ -13,13 +13,16 @@ public class GameManager : MonoBehaviour
     public ResourceManager player;
     private PlayerDeck playerDeck;
 
+    public UnityEvent goldChange;
+    public UnityEvent repChange;
+    public UnityEvent deckSizeChange;
+    public UnityEvent questCardChange;
+
     // Start is called before the first frame update
     void Start()
     {
         deck = PlayerDeck.staticDeck;
         playerDeck = gameObject.GetComponent<PlayerDeck>();
-        playerDeck.deckSizeChange.Invoke();
-
     }
 
     public void StartGame()
@@ -54,7 +57,7 @@ public class GameManager : MonoBehaviour
 
                 availableCardSlots[slotIndex] = false;
                 deck.Remove(randomCard);
-                playerDeck.deckSizeChange.Invoke();
+                deckSizeChange.Invoke();
             }
            
         }
@@ -72,12 +75,12 @@ public class GameManager : MonoBehaviour
     public void ChangeGold(int goldDelta)
     {
         player.currentGold += goldDelta;
-        player.goldChange.Invoke();
+        goldChange.Invoke();
     }
 
     public void ChangeReputation(int repDelta)
     {
         player.currentRep += repDelta;
-        player.repChange.Invoke();
+        repChange.Invoke();
     }
 }
