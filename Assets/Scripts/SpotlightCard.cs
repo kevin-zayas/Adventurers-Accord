@@ -23,7 +23,7 @@ public class SpotlightCard : MonoBehaviour
 
             if (gameObject.tag == "HandCard")
             {
-                spawnPosition += new Vector2(0, 90);    // shift Card in Hand up to prevent cutoff when spotlighting
+                spawnPosition += new Vector2(0, 150);    // shift Card in Hand up to prevent cutoff when spotlighting
             }
 
             spotlightCard = Instantiate(gameObject, spawnPosition, Quaternion.identity);

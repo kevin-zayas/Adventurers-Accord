@@ -6,12 +6,12 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    public List<Card> deck;
+    public List<Card> tierOneDeck;
+    public List<Card> tierTwoDeck;
     public Transform[] cardSlots;
     public bool[] availableCardSlots;
     public GameObject AdventurerCard;
     public ResourceManager player;
-    private PlayerDeck playerDeck;
 
     public UnityEvent goldChange;
     public UnityEvent repChange;
@@ -21,8 +21,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        deck = PlayerDeck.staticDeck;
-        playerDeck = gameObject.GetComponent<PlayerDeck>();
+        tierOneDeck = PlayerDeck.tierOneDeck;
+        tierTwoDeck = PlayerDeck.tierTwoDeck;
+
     }
 
     public void StartGame()
@@ -41,11 +42,14 @@ public class GameManager : MonoBehaviour
 
     public void DrawCard(int slotIndex)
     {
+        List<Card> deck;
+        if (slotIndex > 3) { deck = tierTwoDeck; }
+        else { deck = tierOneDeck; }
+
         if (deck.Count >= 1)
         {
             if (availableCardSlots[slotIndex] == true)
             {
-                //if slotIndex is > 3, draw from tier 2 deck
                 Card randomCard = deck[Random.Range(0, deck.Count)];
 
                 GameObject card = Instantiate(AdventurerCard, Vector2.zero, Quaternion.identity);
