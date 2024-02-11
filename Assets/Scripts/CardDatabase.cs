@@ -10,6 +10,7 @@ public class CardDatabase : MonoBehaviour
     public Card WizardCardData;
     public Card ClericCardData;
     public Card RogueCardData;
+    public Card BardCardData;
 
     private void Awake()
     {
@@ -17,11 +18,6 @@ public class CardDatabase : MonoBehaviour
         cardDatabase.Add(1, WizardCardData);
         cardDatabase.Add(2, ClericCardData);
         cardDatabase.Add(3, RogueCardData);
-
-        //maintain a list/dictionary if each card will have a different frequency
-        //cardCountList.Add(2);
-        //cardCountList.Add(2);
-        //cardCountList.Add(2);
-        //cardCountList.Add(2);
+        cardDatabase.Add(4, BardCardData);
     }
 }

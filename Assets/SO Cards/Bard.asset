@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67e7d27643fe54cce8581eaa3eadf8dc, type: 3}
-  m_Name: Rogue
+  m_Name: Bard
   m_EditorClassIdentifier: 
-  id: 3
-  cardName: Rogue
+  id: 4
+  cardName: Bard
   cost: 5
-  physPower: 2
-  magPower: 0
-  cardDescription: Temporarily steal an Item played here by another guild
+  physPower: 1
+  magPower: 1
+  cardDescription: +1 reputation when on a successful Quest
   spriteImage: {fileID: 21300000, guid: e277dd44924fe453d8b8d6b0b6a39837, type: 3}
   slotIndex: 0

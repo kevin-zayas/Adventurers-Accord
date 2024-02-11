@@ -34,7 +34,7 @@ public class SpotlightCard : MonoBehaviour
             RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
             spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cardRect.rect.width);    // manually set size since it spawns with 0,0 in quest drop zone
             spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cardRect.rect.height);
-            spotlightRect.localScale = new Vector2(2, 2);
+            spotlightRect.localScale = new Vector2(2.5f, 2.5f);
 
             CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();   
             canvasGroup.blocksRaycasts = false;     // turn off to allow player to click on card to hide spotlight

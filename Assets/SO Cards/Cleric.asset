@@ -17,5 +17,6 @@ MonoBehaviour:
   cost: 5
   physPower: 0
   magPower: 2
-  cardDescription: Cleric's Protection
+  cardDescription: Your Adventurer cards on this quest cannot be debuffed
   spriteImage: {fileID: 21300000, guid: e277dd44924fe453d8b8d6b0b6a39837, type: 3}
+  slotIndex: 0
