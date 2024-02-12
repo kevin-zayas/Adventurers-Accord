@@ -971,7 +971,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197189610194906552, guid: 0a79726eab64540acb3b169d278bdd20, type: 3}
       propertyPath: m_Name
-      value: Deck 2
+      value: T2 Deck
       objectReference: {fileID: 0}
     - target: {fileID: 5966466946245310282, guid: 0a79726eab64540acb3b169d278bdd20, type: 3}
       propertyPath: m_Pivot.x
@@ -1222,8 +1222,8 @@ RectTransform:
   - {fileID: 502003624}
   - {fileID: 1643052121}
   - {fileID: 1955507389}
-  - {fileID: 149315307}
   - {fileID: 989087103}
+  - {fileID: 149315307}
   - {fileID: 769963917}
   - {fileID: 1945861571}
   m_Father: {fileID: 0}
@@ -2109,7 +2109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5197189610194906552, guid: 0a79726eab64540acb3b169d278bdd20, type: 3}
       propertyPath: m_Name
-      value: Deck
+      value: T1 Deck
       objectReference: {fileID: 0}
     - target: {fileID: 5966466946245310282, guid: 0a79726eab64540acb3b169d278bdd20, type: 3}
       propertyPath: m_Pivot.x
