@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7909667353633847971}
   - component: {fileID: 6437037739733604431}
   - component: {fileID: -8337865869386900824}
+  - component: {fileID: -4032492676933784728}
   m_Layer: 5
   m_Name: Start Game Button
   m_TagString: Untagged
@@ -123,8 +124,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+      - m_Target: {fileID: -4032492676933784728}
+        m_TargetAssemblyTypeName: DrawCard, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -187,6 +188,22 @@ MonoBehaviour:
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
+--- !u!114 &-4032492676933784728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404788133618142358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edada655c7f544f93861e2455253c834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  playerManager: {fileID: 0}
 --- !u!1 &7583980669208851685
 GameObject:
   m_ObjectHideFlags: 0
