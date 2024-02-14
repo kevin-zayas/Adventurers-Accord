@@ -47,7 +47,7 @@ public class CardDisplay : MonoBehaviour
         physPowerText.text = physPower.ToString();
         magPowerText.text = magPower.ToString();
         descriptionText.text = cardDescription;
-        artImage.sprite = spriteImage;
+        //artImage.sprite = spriteImage;
     }
 
     void Update()

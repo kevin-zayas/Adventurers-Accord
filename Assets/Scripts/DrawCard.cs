@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class DrawCard : NetworkBehaviour
 {
@@ -10,10 +11,17 @@ public class DrawCard : NetworkBehaviour
 
     public void StartGame()
     {
-        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
         print("button press");
-        print(networkIdentity);
+
+        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+        NetworkIdentity local = NetworkClient.localPlayer;
+        print($"local ID: {local}");
+        print($"networkIdentity: {networkIdentity}");
+
         playerManager = networkIdentity.GetComponent<PlayerManager>();
-        playerManager.CmdDrawCard(0);
+        playerManager.CmdStart();
+
+        //playerManager.CmdDrawCard(0);
     }
+
 }

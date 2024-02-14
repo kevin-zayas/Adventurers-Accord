@@ -13,11 +13,17 @@ public class PlayerManager : NetworkBehaviour
     public List<Card> tierOneDeck;
     public List<Card> tierTwoDeck;
     public List<Transform> cardSlots;
-    public List<bool> availableCardSlots;
+    public bool[] availableCardSlots;
 
     public override void OnStartClient()
     {
         base.OnStartClient();
+
+        if (!isLocalPlayer) { return; }
+        uint id = NetworkClient.localPlayer.netId;
+        NetworkIdentity networkIdentity = NetworkClient.connection.identity;
+        print($"id:  {id}");
+        print($"networkIdentity: {networkIdentity}");
 
         hand = GameObject.Find("Hand");
         questLocation = GameObject.Find("Quest Location");
@@ -26,11 +32,10 @@ public class PlayerManager : NetworkBehaviour
         foreach (Transform child in T1Deck.transform.GetChild(0))
         {
             cardSlots.Add(child);
-            availableCardSlots.Add(true);
         }
 
-        //tierOneDeck = PlayerDeck.tierOneDeck;
-        //tierTwoDeck = PlayerDeck.tierTwoDeck;
+        tierOneDeck = PlayerDeck.tierOneDeck;
+        tierTwoDeck = PlayerDeck.tierTwoDeck;
     }
 
     [Server]
@@ -40,6 +45,16 @@ public class PlayerManager : NetworkBehaviour
 
         tierOneDeck = PlayerDeck.tierOneDeck;
         tierTwoDeck = PlayerDeck.tierTwoDeck;
+
+        availableCardSlots = new bool[4] { true, true, true, true };
+
+        GameObject T1Deck = GameObject.Find("T1 Deck");
+        foreach (Transform child in T1Deck.transform.GetChild(0))
+        {
+            cardSlots.Add(child);
+        }
+
+
     }
 
     [Command]
@@ -52,13 +67,14 @@ public class PlayerManager : NetworkBehaviour
         //print($"isServer: {isServer}");
         //print($"isLocalPlayer: {isLocalPlayer}");
         //print($"isOwned: {isOwned}");
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 4; i++)
         {
             CmdDrawCard(i);
         }
     }
 
-    [Command]
+    //[Command]
+    [Command(requiresAuthority =false)]
     public void CmdDrawCard(int slotIndex)
     {
         print("draw card");
@@ -66,26 +82,29 @@ public class PlayerManager : NetworkBehaviour
         List<Card> deck;
         if (slotIndex > 3) { deck = tierTwoDeck; }
         else { deck = tierOneDeck; }
-
+        print("deck");
         if (deck.Count >= 1)
         {
-            //if (availableCardSlots[slotIndex] == true)
+            print("available slots");
+            if (availableCardSlots[slotIndex] == true)
             {
+                print("getting random card");
                 Card randomCard = deck[Random.Range(0, deck.Count)];
+                print("got random card");
 
                 GameObject card = Instantiate(adventurerCard, Vector2.zero, Quaternion.identity);
-                NetworkServer.Spawn(card, connectionToClient);
-
-
                 card.GetComponent<CardDisplay>().LoadCardData(randomCard);
                 card.GetComponent<CardDisplay>().slotIndex = slotIndex;
+
+                NetworkServer.Spawn(card, connectionToClient);
+
                 //card.transform.SetParent(cardSlots[slotIndex].transform, false);
                 card.tag = "DraftCard";
                 RpcShowCard(card, slotIndex);
                 
 
-                //availableCardSlots[slotIndex] = false;
-                deck.Remove(randomCard);
+                availableCardSlots[slotIndex] = false;
+                //deck.Remove(randomCard);
                 //deckSizeChange.Invoke();
             }
 
@@ -97,19 +116,21 @@ public class PlayerManager : NetworkBehaviour
     {
         print("show card");
         print($"networkIdentity: {NetworkClient.connection.identity}");
-        if (card.tag == "DraftCard")
+        print($"card tag: {card.tag}");
+        if (isOwned)
         {
-            if (isOwned)
-            {
-                print("is owned");
-                card.transform.SetParent(hand.transform, false);
-            }
-            else
-            {
-                print("not owned");
-            }
-
+            print("is owned");
             //card.transform.SetParent(hand.transform, false);
+            card.transform.SetParent(cardSlots[slotIndex].transform, false);
+            //deck.Remove(randomCard);
+        }
+        else
+        {
+            print("not owned");
+            //card.transform.SetParent(hand.transform, false);
+            card.transform.SetParent(cardSlots[slotIndex].transform, false);
+            
         }
     }
+
 }

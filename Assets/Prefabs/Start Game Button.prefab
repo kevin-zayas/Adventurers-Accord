@@ -203,7 +203,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  playerManager: {fileID: 0}
+  playerManager: {fileID: 5282013867093448900, guid: d9fc37140babe45059fcfffaeb1336ae, type: 3}
 --- !u!1 &7583980669208851685
 GameObject:
   m_ObjectHideFlags: 0
