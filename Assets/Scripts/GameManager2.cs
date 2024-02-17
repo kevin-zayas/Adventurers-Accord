@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -11,9 +12,11 @@ public class GameManager2 : NetworkBehaviour
     [field: SyncObject]
     public SyncList<Player> Players { get; } = new SyncList<Player>();
 
+    [field: SerializeField]
     [field: SyncVar]
     public bool CanStart { get; private set; }
 
+    [field: SerializeField]
     [field: SyncVar]
     public bool DidStart { get; private set; }
 
@@ -26,7 +29,7 @@ public class GameManager2 : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        CanStart = Players.Count > 1;
+        CanStart = Players.All(player => player.IsReady);
 
         print($"There are {Players.Count} players in the game");
     }
@@ -34,12 +37,22 @@ public class GameManager2 : NetworkBehaviour
     [Server]
     public void StartGame()
     {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].StartGame();
+        }
+
         DidStart = true;
     }
 
     [Server]
     public void StopGame()
     {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].StopGame();
+        }
+
         DidStart = false;
     }
 }

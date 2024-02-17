@@ -7,5 +7,9 @@ public class Pawn : NetworkBehaviour
     [SyncVar]
     public Player controllingPlayer;
 
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerMove(int tileIndex)
+    {
 
+    }
 }

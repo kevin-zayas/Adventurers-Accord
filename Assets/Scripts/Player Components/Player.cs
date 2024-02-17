@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class Player : NetworkBehaviour
 {
@@ -11,11 +12,20 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public string username;
 
-    [SyncVar]
-    public bool isReady;
+    [field: SyncVar]
+    public bool IsReady
+    {
+        get;
+
+        [ServerRpc(RequireOwnership = false)]   //alternate way to set IsReady
+        set;
+    }
+
+    [SerializeField]
+    private Pawn pawnPrefab;
 
     [SyncVar]
-    public Pawn ontrolledPawn;
+    public Pawn controlledPawn;
 
     public override void OnStartServer()
     {
@@ -38,6 +48,33 @@ public class Player : NetworkBehaviour
         if (!IsOwner) return;
 
         Instance = this;
+
+        ViewManager.Instance.Initialize();
+    }
+
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerSetIsReady(bool value)
+    //{
+    //    IsReady = value;
+    //}
+
+    [Server]
+    public void StartGame()
+    {
+        //GameObject pawnPrefab = Addressables.LoadAssetAsync<GameObject>("Pawn").WaitForCompletion();
+        //GameObject pawnInstance = Instantiate(pawnPrefab);
+        //GameObject pawnInstance = Instantiate(pawnPrefab);
+
+        Pawn pawnInstance = Instantiate(pawnPrefab);
+        controlledPawn = pawnInstance;
+        controlledPawn.controllingPlayer = this;
+        Spawn(pawnInstance.gameObject, Owner);
+    }
+
+    [Server]
+    public void StopGame()
+    {
+        if (controlledPawn != null) controlledPawn.Despawn();
     }
 
 }
