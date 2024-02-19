@@ -218,6 +218,8 @@ MonoBehaviour:
   <PawnPositions>k__BackingField:
   - {fileID: 1680652636088024225}
   - {fileID: 9146665401232329679}
+  owningPlayer: {fileID: 0}
+  meshRenderer: {fileID: 8575952476205145780}
 --- !u!1 &8192037902327374545
 GameObject:
   m_ObjectHideFlags: 0

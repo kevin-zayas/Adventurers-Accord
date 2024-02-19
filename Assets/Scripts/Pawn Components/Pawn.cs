@@ -9,7 +9,6 @@ public class Pawn : NetworkBehaviour
     [SyncVar]
     public Player controllingPlayer;
 
-    [SyncVar]
     public int currentPosition;
 
     private bool _isMoving;
@@ -33,11 +32,17 @@ public class Pawn : NetworkBehaviour
         {
             _isMoving = false;
 
-            currentPosition += steps;
+            ObserversSetCurrentPosition(currentPosition + steps);
 
             GameManager2.Instance.EndTurn();
         });
 
         tween.Play();
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    public void ObserversSetCurrentPosition(int value)
+    {
+        currentPosition = value;
     }
 }

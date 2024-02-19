@@ -43,6 +43,17 @@ public class Board : NetworkBehaviour
             }
         }
         return slice.ToArray();
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerSetTileOwner(int tileindex, Player value)
+    {
+        ObserversSetTileOwner(tileindex, value);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversSetTileOwner(int tileIndex,Player value)
+    {
+        Tiles[tileIndex].owningPlayer = value;
     }
 }
