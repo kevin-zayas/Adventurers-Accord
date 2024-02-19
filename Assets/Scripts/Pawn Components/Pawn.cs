@@ -34,6 +34,8 @@ public class Pawn : NetworkBehaviour
             _isMoving = false;
 
             currentPosition += steps;
+
+            GameManager2.Instance.EndTurn();
         });
 
         tween.Play();

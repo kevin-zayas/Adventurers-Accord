@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -77,8 +75,6 @@ public class Player : NetworkBehaviour
         controlledPawn.controllingPlayer = this;
 
         Spawn(pawnInstance.gameObject, Owner);
-
-        TargetStartGame(Owner);
     }
 
     [Server]
@@ -87,10 +83,22 @@ public class Player : NetworkBehaviour
         if (controlledPawn != null) controlledPawn.Despawn();
     }
 
-    [TargetRpc]
-    private void TargetStartGame(NetworkConnection networkConnection)
+    [Server]
+    public void BeginTurn()
     {
-        ViewManager.Instance.Show<MainView>();
+        TargetBeginTurn(Owner,GameManager2.Instance.Turn == GameManager2.Instance.Players.IndexOf(this));
     }
 
+    [TargetRpc]
+    private void TargetBeginTurn(NetworkConnection networkConnection, bool canPlay)
+    {
+        if (canPlay)
+        {
+            ViewManager.Instance.Show<MainView>();
+        }
+        else
+        {
+            ViewManager.Instance.Show<WaitView>();
+        }
+    }
 }

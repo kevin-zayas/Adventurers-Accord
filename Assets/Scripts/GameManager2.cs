@@ -20,6 +20,10 @@ public class GameManager2 : NetworkBehaviour
     [field: SyncVar]
     public bool DidStart { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public int Turn { get; private set; }
+
     private void Awake()
     {
         Instance = this;
@@ -43,6 +47,8 @@ public class GameManager2 : NetworkBehaviour
         }
 
         DidStart = true;
+
+        BeginTurn();
     }
 
     [Server]
@@ -54,5 +60,22 @@ public class GameManager2 : NetworkBehaviour
         }
 
         DidStart = false;
+    }
+
+    [Server]
+    public void BeginTurn()
+    {
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].BeginTurn();
+        }
+    }
+
+    [Server]
+    public void EndTurn()
+    {
+        Turn = (Turn + 1) % Players.Count;
+
+        BeginTurn();
     }
 }
