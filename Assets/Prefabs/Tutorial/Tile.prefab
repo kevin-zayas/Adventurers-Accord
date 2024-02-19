@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985ff99e3b7794c16a174bb78d54fcca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <spawnPositions>k__BackingField:
+  <PawnPositions>k__BackingField:
   - {fileID: 1680652636088024225}
   - {fileID: 9146665401232329679}
 --- !u!1 &8192037902327374545

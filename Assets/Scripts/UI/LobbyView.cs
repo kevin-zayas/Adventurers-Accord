@@ -40,11 +40,15 @@ public class LobbyView : View
 
         string playerListText = "";
 
-        for (int i = 0; i < GameManager2.Instance.Players.Count; i++)
+        int playerCount = GameManager2.Instance.Players.Count;
+
+        for (int i = 0; i < playerCount; i++)
         {
             Player player = GameManager2.Instance.Players[i];
 
-            playerListText += $"\r\nPlayer {player.OwnerId} (Is Ready: {player.IsReady})";
+            playerListText += $"Player {player.OwnerId} (Is Ready: {player.IsReady})";
+
+            if (i < playerCount - 1) playerListText += "\r\n";
         }
         playerList.text = playerListText;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [field: SerializeField]
-    public Transform[] spawnPositions { get; private set; }
+    public Transform[] PawnPositions { get; private set; }
 
 
 }

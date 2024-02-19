@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -67,7 +68,7 @@ public class Player : NetworkBehaviour
 
         int playerIndex = GameManager2.Instance.Players.IndexOf(this);
 
-        Transform spawnPoint = Board.Instance.Tiles[0].spawnPositions[playerIndex];
+        Transform spawnPoint = Board.Instance.Tiles[0].PawnPositions[playerIndex];
 
         Pawn pawnInstance = Instantiate(pawnPrefab, spawnPoint.position, Quaternion.identity);
 
@@ -76,12 +77,20 @@ public class Player : NetworkBehaviour
         controlledPawn.controllingPlayer = this;
 
         Spawn(pawnInstance.gameObject, Owner);
+
+        TargetStartGame(Owner);
     }
 
     [Server]
     public void StopGame()
     {
         if (controlledPawn != null) controlledPawn.Despawn();
+    }
+
+    [TargetRpc]
+    private void TargetStartGame(NetworkConnection networkConnection)
+    {
+        ViewManager.Instance.Show<MainView>();
     }
 
 }
