@@ -65,9 +65,16 @@ public class Player : NetworkBehaviour
         //GameObject pawnInstance = Instantiate(pawnPrefab);
         //GameObject pawnInstance = Instantiate(pawnPrefab);
 
-        Pawn pawnInstance = Instantiate(pawnPrefab);
+        int playerIndex = GameManager2.Instance.Players.IndexOf(this);
+
+        Transform spawnPoint = Board.Instance.Tiles[0].spawnPositions[playerIndex];
+
+        Pawn pawnInstance = Instantiate(pawnPrefab, spawnPoint.position, Quaternion.identity);
+
         controlledPawn = pawnInstance;
+
         controlledPawn.controllingPlayer = this;
+
         Spawn(pawnInstance.gameObject, Owner);
     }
 
