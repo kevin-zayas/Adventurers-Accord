@@ -4,9 +4,9 @@ using FishNet.Object.Synchronizing;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-public class Player : NetworkBehaviour
+public class TutorialPlayer : NetworkBehaviour
 {
-    public static Player Instance { get; private set; }
+    public static TutorialPlayer Instance { get; private set; }
 
     [SyncVar]
     public string username;
@@ -21,23 +21,23 @@ public class Player : NetworkBehaviour
     }
 
     [SerializeField]
-    private Pawn pawnPrefab;
+    private TutorialPawn pawnPrefab;
 
     [SyncVar]
-    public Pawn controlledPawn;
+    public TutorialPawn controlledPawn;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
 
-        GameManager2.Instance.Players.Add(this);
+        TutorialGameManager.Instance.Players.Add(this);
     }
 
     public override void OnStopServer()
     {
         base.OnStopServer();
 
-        GameManager2.Instance.Players.Remove(this);
+        TutorialGameManager.Instance.Players.Remove(this);
     }
 
     public override void OnStartClient()
@@ -48,7 +48,7 @@ public class Player : NetworkBehaviour
 
         Instance = this;
 
-        ViewManager.Instance.Initialize();
+        TutorialViewManager.Instance.Initialize();
     }
 
     //[ServerRpc(RequireOwnership = false)]
@@ -64,11 +64,11 @@ public class Player : NetworkBehaviour
         //GameObject pawnInstance = Instantiate(pawnPrefab);
         //GameObject pawnInstance = Instantiate(pawnPrefab);
 
-        int playerIndex = GameManager2.Instance.Players.IndexOf(this);
+        int playerIndex = TutorialGameManager.Instance.Players.IndexOf(this);
 
-        Transform spawnPoint = Board.Instance.Tiles[0].PawnPositions[playerIndex];
+        Transform spawnPoint = TutorialBoard.Instance.Tiles[0].PawnPositions[playerIndex];
 
-        Pawn pawnInstance = Instantiate(pawnPrefab, spawnPoint.position, Quaternion.identity);
+        TutorialPawn pawnInstance = Instantiate(pawnPrefab, spawnPoint.position, Quaternion.identity);
 
         controlledPawn = pawnInstance;
 
@@ -86,7 +86,7 @@ public class Player : NetworkBehaviour
     [Server]
     public void BeginTurn()
     {
-        TargetBeginTurn(Owner,GameManager2.Instance.Turn == GameManager2.Instance.Players.IndexOf(this));
+        TargetBeginTurn(Owner,TutorialGameManager.Instance.Turn == TutorialGameManager.Instance.Players.IndexOf(this));
     }
 
     [TargetRpc]
@@ -94,11 +94,11 @@ public class Player : NetworkBehaviour
     {
         if (canPlay)
         {
-            ViewManager.Instance.Show<MainView>();
+            TutorialViewManager.Instance.Show<TutorialMainView>();
         }
         else
         {
-            ViewManager.Instance.Show<WaitView>();
+            TutorialViewManager.Instance.Show<TutorialWaitView>();
         }
     }
 }

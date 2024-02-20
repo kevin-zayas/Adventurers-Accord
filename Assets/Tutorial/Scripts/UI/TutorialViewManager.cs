@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class ViewManager : MonoBehaviour
+public class TutorialViewManager : MonoBehaviour
 {
-    public static ViewManager Instance { get; private set; }
+    public static TutorialViewManager Instance { get; private set; }
 
     [SerializeField]
-    private View[] views;
+    private TutorialView[] views;
 
     [SerializeField]
-    private View defaultView;
+    private TutorialView defaultView;
 
-    private View _currentView;
+    private TutorialView _currentView;
 
     [SerializeField]
     private bool autoInitialize;
@@ -27,7 +27,7 @@ public class ViewManager : MonoBehaviour
 
     public void Initialize()
     {
-        foreach (View view in views)
+        foreach (TutorialView view in views)
         {
             view.Initialize();
             view.Hide();
@@ -36,9 +36,9 @@ public class ViewManager : MonoBehaviour
         if (defaultView != null) Show(defaultView);
     }
 
-    public void Show<TView>(object args = null) where TView : View
+    public void Show<TView>(object args = null) where TView : TutorialView
     {
-        foreach (View view in views)
+        foreach (TutorialView view in views)
         {
             if (view is not TView) continue;
 
@@ -51,7 +51,7 @@ public class ViewManager : MonoBehaviour
         }
     }
 
-    public void Show(View view, object args = null)
+    public void Show(TutorialView view, object args = null)
     {
         if (_currentView != null) _currentView.Hide();
 

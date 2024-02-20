@@ -5,12 +5,12 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class GameManager2 : NetworkBehaviour
+public class TutorialGameManager : NetworkBehaviour
 {
-    public static GameManager2 Instance { get; private set; }
+    public static TutorialGameManager Instance { get; private set; }
 
     [field: SyncObject]
-    public SyncList<Player> Players { get; } = new SyncList<Player>();
+    public SyncList<TutorialPlayer> Players { get; } = new SyncList<TutorialPlayer>();
 
     [field: SerializeField]
     [field: SyncVar]

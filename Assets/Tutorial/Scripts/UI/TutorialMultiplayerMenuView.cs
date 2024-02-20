@@ -2,7 +2,7 @@ using FishNet;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MultiplayerMenuView : View
+public class TutorialMultiplayerMenuView : TutorialView
 {
     [SerializeField]
     private Button hostButton;

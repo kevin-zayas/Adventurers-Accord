@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class View : MonoBehaviour
+public abstract class TutorialView : MonoBehaviour
 {
     public bool IsInitialized { get; private set; }
 

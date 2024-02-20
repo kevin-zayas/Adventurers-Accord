@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public class TutorialTile : MonoBehaviour
 {
     [field: SerializeField]
     public Transform[] PawnPositions { get; private set; }
 
-    public Player owningPlayer;
+    public TutorialPlayer owningPlayer;
 
     [SerializeField]
     private MeshRenderer meshRenderer;
@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
             return;
         }
         // set borders of cards in a similar way
-        meshRenderer.material.color = GameManager2.Instance.Players.IndexOf(owningPlayer) switch
+        meshRenderer.material.color = TutorialGameManager.Instance.Players.IndexOf(owningPlayer) switch
         {
             0 => Color.red,
             1 => Color.blue,

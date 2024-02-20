@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Sample Scene.unity
     guid: f7aebcddb5288491daa49136a06ca13f
   - enabled: 1
-    path: Assets/Scenes/Scene_1.unity
+    path: Assets/Tutorial/Scenes/Tutorial_Scene_1.unity
     guid: 26a66cf178dd841d583b31fae3f744a2
   - enabled: 1
-    path: Assets/Scenes/Scene_2.unity
+    path: Assets/Tutorial/Scenes/Tutorial_Scene_2.unity
     guid: b47da089aed7d41d3b1e45a46012fe52
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4b3e7dff268c84d339e816d30ddbe808, type: 2}

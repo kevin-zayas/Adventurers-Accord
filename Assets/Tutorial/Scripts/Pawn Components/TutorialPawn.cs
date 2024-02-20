@@ -4,10 +4,10 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
-public class Pawn : NetworkBehaviour
+public class TutorialPawn : NetworkBehaviour
 {
     [SyncVar]
-    public Player controllingPlayer;
+    public TutorialPlayer controllingPlayer;
 
     public int currentPosition;
 
@@ -20,9 +20,9 @@ public class Pawn : NetworkBehaviour
 
         _isMoving = true;
 
-        Tile[] tiles = Board.Instance.Slice(currentPosition, currentPosition + steps);
+        TutorialTile[] tiles = TutorialBoard.Instance.Slice(currentPosition, currentPosition + steps);
 
-        int controllingPlayerIndex = GameManager2.Instance.Players.IndexOf(controllingPlayer);
+        int controllingPlayerIndex = TutorialGameManager.Instance.Players.IndexOf(controllingPlayer);
 
         Vector3[] path = tiles.Select(tile => tile.PawnPositions[controllingPlayerIndex].position).ToArray();
 
@@ -34,7 +34,7 @@ public class Pawn : NetworkBehaviour
 
             ObserversSetCurrentPosition(currentPosition + steps);
 
-            GameManager2.Instance.EndTurn();
+            TutorialGameManager.Instance.EndTurn();
         });
 
         tween.Play();
