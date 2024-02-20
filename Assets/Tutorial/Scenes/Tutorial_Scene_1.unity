@@ -1188,8 +1188,8 @@ MonoBehaviour:
   _enabled: 1
   _enableGlobalScenes: 1
   _startInOffline: 0
-  _offlineScene: 
-  _onlineScene: 
+  _offlineScene: Assets/Tutorial/Scenes/Tutorial_Scene_1.unity
+  _onlineScene: Assets/Tutorial/Scenes/Tutorial_Scene_2.unity
   _replaceScenes: 0
 --- !u!114 &1896124755
 MonoBehaviour:

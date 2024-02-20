@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialLobbyView : TutorialView
+public class LobbyView : View
 {
     [SerializeField]
     private TMP_Text playerList;
@@ -19,11 +19,11 @@ public class TutorialLobbyView : TutorialView
 
     public override void Initialize()
     {
-        readyButton.onClick.AddListener(() => TutorialPlayer.Instance.IsReady = !TutorialPlayer.Instance.IsReady);
+        readyButton.onClick.AddListener(() => Player.Instance.IsReady = !Player.Instance.IsReady);
 
         if (InstanceFinder.IsServer)
         {
-            startButton.onClick.AddListener(() => TutorialGameManager.Instance.StartGame());
+            startButton.onClick.AddListener(() => GameManager.Instance.StartGame());
         }
         else
         {
@@ -39,11 +39,11 @@ public class TutorialLobbyView : TutorialView
 
         string playerListText = "";
 
-        int playerCount = TutorialGameManager.Instance.Players.Count;
+        int playerCount = GameManager.Instance.Players.Count;
 
         for (int i = 0; i < playerCount; i++)
         {
-            TutorialPlayer player = TutorialGameManager.Instance.Players[i];
+            Player player = GameManager.Instance.Players[i];
 
             playerListText += $"Player {player.OwnerId} (Is Ready: {player.IsReady})";
 
@@ -51,9 +51,8 @@ public class TutorialLobbyView : TutorialView
         }
         playerList.text = playerListText;
 
-        readyButtonText.color = TutorialPlayer.Instance.IsReady ? Color.green : Color.red;
+        readyButtonText.color = Player.Instance.IsReady ? Color.green : Color.red;
 
-        startButton.interactable = TutorialGameManager.Instance.CanStart;
+        startButton.interactable = GameManager.Instance.CanStart;
     }
 }
-

@@ -636,7 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4efb71bac23d284cad8e1d0ffa0db6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  views: []
+  views:
+  - {fileID: 285254871}
   defaultView: {fileID: 285254871}
   autoInitialize: 1
 --- !u!1 &1594816350
@@ -1262,6 +1263,7 @@ GameObject:
   - component: {fileID: 2084902070}
   - component: {fileID: 2084902071}
   - component: {fileID: 2084902072}
+  - component: {fileID: 2084902073}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -1318,9 +1320,24 @@ MonoBehaviour:
   _enabled: 1
   _enableGlobalScenes: 1
   _startInOffline: 0
-  _offlineScene: 
-  _onlineScene: 
+  _offlineScene: Assets/Scenes/Start Screen.unity
+  _onlineScene: Assets/Scenes/Main Screen.unity
   _replaceScenes: 0
+--- !u!114 &2084902073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084902069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211a9f6ec51ddc14f908f5acc0cd0423, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 7497081857176530316, guid: c53262c3cfd308e46b2f1615b98d717f, type: 3}
+  _addToDefaultScene: 1
+  Spawns: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
