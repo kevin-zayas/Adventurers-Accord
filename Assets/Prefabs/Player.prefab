@@ -82,3 +82,5 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 0}
   username: 
   <IsReady>k__BackingField: 0
+  handPrefab: {fileID: 780822927576980492, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
+  controlledHand: {fileID: 0}

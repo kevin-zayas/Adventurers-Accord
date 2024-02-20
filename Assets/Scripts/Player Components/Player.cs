@@ -19,11 +19,11 @@ public class Player : NetworkBehaviour
         set;
     }
 
-    //[SerializeField]
-    //private TutorialPawn pawnPrefab;
+    [SerializeField]
+    private GameObject handPrefab;
 
-    //[SyncVar]
-    //public TutorialPawn controlledPawn;
+    [SyncVar]
+    public GameObject controlledHand;
 
     public override void OnStartServer()
     {
@@ -68,6 +68,8 @@ public class Player : NetworkBehaviour
         //controlledPawn.controllingPlayer = this;
 
         //Spawn(pawnInstance.gameObject, Owner);
+
+        TargetCreateHand(Owner);
     }
 
     [Server]
@@ -93,5 +95,19 @@ public class Player : NetworkBehaviour
         {
             ViewManager.Instance.Show<WaitView>();
         }
+    }
+
+    [TargetRpc]
+    private void TargetCreateHand(NetworkConnection networkConnection)
+    {
+        print("Creating hand");
+        GameObject canvas = GameObject.Find("Canvas");
+
+        GameObject handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
+        handInstance.transform.SetParent(canvas.transform, false);
+
+        controlledHand = handInstance;
+
+        Spawn(handInstance, Owner);
     }
 }
