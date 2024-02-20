@@ -11,12 +11,12 @@ public class ResourceManager : MonoBehaviour
     public float currentRep;
     public int currentGold;
 
-    private GameManager gm;
+    private OldGameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
-        gm = FindObjectOfType<GameManager>();
+        gm = FindObjectOfType<OldGameManager>();
         currentRep = 5;
         currentGold = 10;
         gm.goldChange.Invoke();

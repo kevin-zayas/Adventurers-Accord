@@ -10,14 +10,14 @@ public class DragDrop : MonoBehaviour
     private GameObject canvas;
     private GameObject startParent;
     private Vector2 startPosition;
-    private GameManager gm;
+    private OldGameManager gm;
 
     private string dropZoneTag;
     private CardDisplay cardDisplay;
 
     private void Awake()
     {
-        gm = FindObjectOfType<GameManager>();
+        gm = FindObjectOfType<OldGameManager>();
         canvas = GameObject.Find("Main Canvas");
         cardDisplay = gameObject.GetComponent<CardDisplay>();
     }

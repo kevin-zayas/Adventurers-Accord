@@ -927,8 +927,8 @@ MonoBehaviour:
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 2584653461
-  <SceneId>k__BackingField: 11101002090145198421
+  _scenePathHash: 87754713
+  <SceneId>k__BackingField: 376903623254472976
   <AssetPathHash>k__BackingField: 0
 --- !u!114 &403743510
 MonoBehaviour:
@@ -1744,7 +1744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &976631143
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2069,7 +2069,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1150216410
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2648,8 +2648,8 @@ MonoBehaviour:
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 2584653461
-  <SceneId>k__BackingField: 11101002088140964527
+  _scenePathHash: 87754713
+  <SceneId>k__BackingField: 376903626633153216
   <AssetPathHash>k__BackingField: 0
 --- !u!114 &1388117269
 MonoBehaviour:
@@ -2699,7 +2699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1456857784
 RectTransform:
   m_ObjectHideFlags: 0
