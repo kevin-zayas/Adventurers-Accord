@@ -97,13 +97,13 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public void RenderHand(Hand prev, Hand next, bool asSever)
+    public void RenderHand(Hand prevHand, Hand newHand, bool asSever)
     {
         if (!IsOwner) return;
         if (asSever) return;
 
-        print("Render Hand");
-        print($"Owner ID: {Owner.ClientId}");
+        //print("Render Hand");
+        //print($"Owner ID: {Owner.ClientId}");
 
         if (controlledHand == null) print("hand is null");
 

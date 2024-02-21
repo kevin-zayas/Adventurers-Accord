@@ -31,7 +31,7 @@ public class CardDisplay : MonoBehaviour
 
     }
 
-    public void LoadCardData(Card CardData)
+    public void LoadCardData(OldCard CardData)
     {
         id = CardData.id;
         cardName = CardData.cardName;

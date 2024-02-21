@@ -32,8 +32,6 @@ public class GameManager : NetworkBehaviour
         if (!IsServer) return;
 
         CanStart = Players.All(player => player.IsReady);
-
-        //print($"There are {Players.Count} players in the game");
     }
 
     [Server]
@@ -42,11 +40,9 @@ public class GameManager : NetworkBehaviour
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].StartGame();
-            //Players[i].CreateHand();
         }
-
+        Board.Instance.StartGame();
         DidStart = true;
-
         BeginTurn();
     }
 

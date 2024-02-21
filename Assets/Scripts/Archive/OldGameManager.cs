@@ -6,8 +6,8 @@ using UnityEngine.Events;
 
 public class OldGameManager : MonoBehaviour
 {
-    public List<Card> tierOneDeck;
-    public List<Card> tierTwoDeck;
+    public List<OldCard> tierOneDeck;
+    public List<OldCard> tierTwoDeck;
     public Transform[] cardSlots;
     public bool[] availableCardSlots;
     public GameObject AdventurerCard;
@@ -42,7 +42,7 @@ public class OldGameManager : MonoBehaviour
 
     public void DrawCard(int slotIndex)
     {
-        List<Card> deck;
+        List<OldCard> deck;
         if (slotIndex > 3) { deck = tierTwoDeck; }
         else { deck = tierOneDeck; }
 
@@ -50,7 +50,7 @@ public class OldGameManager : MonoBehaviour
         {
             if (availableCardSlots[slotIndex] == true)
             {
-                Card randomCard = deck[Random.Range(0, deck.Count)];
+                OldCard randomCard = deck[Random.Range(0, deck.Count)];
 
                 GameObject card = Instantiate(AdventurerCard, Vector2.zero, Quaternion.identity);
                 card.GetComponent<CardDisplay>().LoadCardData(randomCard);

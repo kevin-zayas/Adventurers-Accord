@@ -6,10 +6,10 @@ using UnityEngine.Events;
 
 public class PlayerDeck : MonoBehaviour
 {
-    public static List<Card> tierOneDeck = new List<Card>();
+    public static List<OldCard> tierOneDeck = new List<OldCard>();
     public List<GameObject> tierOneDeckTracker;
 
-    public static List<Card> tierTwoDeck = new List<Card>();
+    public static List<OldCard> tierTwoDeck = new List<OldCard>();
     public List<GameObject> tierTwoDeckTracker;
 
     public TMP_Text deckOneSizeText;
@@ -33,7 +33,7 @@ public class PlayerDeck : MonoBehaviour
 
     }
 
-    void CreateDeck(List<Card> deck,List<Card> cardList)
+    void CreateDeck(List<OldCard> deck,List<OldCard> cardList)
     {
         for (int id = 0; id < cardList.Count; id++)
         {
