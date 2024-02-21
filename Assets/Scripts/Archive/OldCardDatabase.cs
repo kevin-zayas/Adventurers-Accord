@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardDatabase : MonoBehaviour
+public class OldCardDatabase : MonoBehaviour
 {
     //public static List<int> cardCountList = new();
     public static List<OldCard> tierOneCardList = new();

@@ -20,8 +20,8 @@ public class PlayerDeck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateDeck(tierOneDeck, CardDatabase.tierOneCardList);
-        CreateDeck(tierTwoDeck, CardDatabase.tierTwoCardList);
+        CreateDeck(tierOneDeck, OldCardDatabase.tierOneCardList);
+        CreateDeck(tierTwoDeck, OldCardDatabase.tierTwoCardList);
 
         OnDeckSizeChange();
 
