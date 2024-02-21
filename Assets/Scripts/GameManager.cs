@@ -42,6 +42,7 @@ public class GameManager : NetworkBehaviour
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].StartGame();
+            //Players[i].CreateHand();
         }
 
         DidStart = true;

@@ -8,7 +8,7 @@ public class Player : NetworkBehaviour
     public static Player Instance { get; private set; }
 
     [SyncVar]
-    public string username;
+    public int playerID;
 
     [field: SyncVar]
     public bool IsReady
@@ -20,10 +20,10 @@ public class Player : NetworkBehaviour
     }
 
     [SerializeField]
-    private GameObject handPrefab;
+    private Hand handPrefab;
 
     [SyncVar]
-    public GameObject controlledHand;
+    public Hand controlledHand;
 
     public override void OnStartServer()
     {
@@ -57,19 +57,20 @@ public class Player : NetworkBehaviour
         //GameObject pawnInstance = Instantiate(pawnPrefab);
         //GameObject pawnInstance = Instantiate(pawnPrefab);
 
-        int playerIndex = GameManager.Instance.Players.IndexOf(this);
+        playerID = GameManager.Instance.Players.IndexOf(this);
+        print("Start Game");
+        print("Player ID: " + playerID);
+        print("Client ID: " + Owner.ClientId);
 
-        //Transform spawnPoint = TutorialBoard.Instance.Tiles[0].PawnPositions[playerIndex];
+        Hand handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
 
-        //TutorialPawn pawnInstance = Instantiate(pawnPrefab, spawnPoint.position, Quaternion.identity);
+        controlledHand = handInstance;
+        handInstance.controllingPlayer = this;
+        handInstance.playerID = playerID;
+        Spawn(handInstance.gameObject, Owner);
 
-        //controlledPawn = pawnInstance;
+        TargetRenderHand(Owner,handInstance, playerID);
 
-        //controlledPawn.controllingPlayer = this;
-
-        //Spawn(pawnInstance.gameObject, Owner);
-
-        TargetCreateHand(Owner);
     }
 
     [Server]
@@ -98,16 +99,44 @@ public class Player : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void TargetCreateHand(NetworkConnection networkConnection)
+    private void TargetRenderHand(NetworkConnection networkConnection, Hand hand, int id)
     {
-        print("Creating hand");
+        print("Render Hand");
+        print($"Owner ID: {Owner.ClientId}");
+        print($"Client ID: {networkConnection.ClientId}");
+        print($"Player ID: {id}");
+
+        print(controlledHand.playerID);
+
+        if (!IsOwner) print("not owner");
+        if (hand == null) print("hand is null");
+
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas == null) print("Canvas not found");
+
+        hand.transform.SetParent(canvas.transform, false);
+
+    }
+
+    public void CreateHand()
+    {
+        print(IsOwner);
+        print("CreateHand");
+        TargetCreateHand(Owner);
+    }
+
+    [TargetRpc]
+    private void TargetCreateHand(NetworkConnection owner)
+    {
+        print(IsOwner);
+        print("ServerCreateHand");
         GameObject canvas = GameObject.Find("Canvas");
 
-        GameObject handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
+        Hand handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
         handInstance.transform.SetParent(canvas.transform, false);
 
         controlledHand = handInstance;
 
-        Spawn(handInstance, Owner);
+        Spawn(handInstance.gameObject, owner);
     }
 }

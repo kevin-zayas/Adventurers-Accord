@@ -48,7 +48,8 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: 1922618169412426516}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -60,7 +61,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 7
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 2371282274
   <SceneId>k__BackingField: 0
@@ -77,10 +78,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de681d957456449419f72949df601c19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7497081857176530316}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7497081857176530316}
   username: 
   <IsReady>k__BackingField: 0
-  handPrefab: {fileID: 780822927576980492, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
+  handPrefab: {fileID: -4189799564275192412, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
   controlledHand: {fileID: 0}
