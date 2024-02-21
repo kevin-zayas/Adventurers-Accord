@@ -2,6 +2,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class Player : NetworkBehaviour
 {
@@ -22,7 +23,7 @@ public class Player : NetworkBehaviour
     [SerializeField]
     private Hand handPrefab;
 
-    [SyncVar]
+    [SyncVar(OnChange =nameof(RenderHand))]
     public Hand controlledHand;
 
     public override void OnStartServer()
@@ -69,8 +70,6 @@ public class Player : NetworkBehaviour
         handInstance.playerID = playerID;
         Spawn(handInstance.gameObject, Owner);
 
-        TargetRenderHand(Owner,handInstance, playerID);
-
     }
 
     [Server]
@@ -98,45 +97,19 @@ public class Player : NetworkBehaviour
         }
     }
 
-    [TargetRpc]
-    private void TargetRenderHand(NetworkConnection networkConnection, Hand hand, int id)
+    public void RenderHand(Hand prev, Hand next, bool asSever)
     {
+        if (!IsOwner) return;
+        if (asSever) return;
+
         print("Render Hand");
         print($"Owner ID: {Owner.ClientId}");
-        print($"Client ID: {networkConnection.ClientId}");
-        print($"Player ID: {id}");
 
-        print(controlledHand.playerID);
-
-        if (!IsOwner) print("not owner");
-        if (hand == null) print("hand is null");
+        if (controlledHand == null) print("hand is null");
 
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas == null) print("Canvas not found");
 
-        hand.transform.SetParent(canvas.transform, false);
-
-    }
-
-    public void CreateHand()
-    {
-        print(IsOwner);
-        print("CreateHand");
-        TargetCreateHand(Owner);
-    }
-
-    [TargetRpc]
-    private void TargetCreateHand(NetworkConnection owner)
-    {
-        print(IsOwner);
-        print("ServerCreateHand");
-        GameObject canvas = GameObject.Find("Canvas");
-
-        Hand handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
-        handInstance.transform.SetParent(canvas.transform, false);
-
-        controlledHand = handInstance;
-
-        Spawn(handInstance.gameObject, owner);
+        controlledHand.transform.SetParent(canvas.transform, false);
     }
 }
