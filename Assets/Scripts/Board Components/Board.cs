@@ -32,24 +32,28 @@ public class Board : NetworkBehaviour
     public void StartGame()
     {
         ConstructDecks();
-        DrawCards();
+        for (int i = 0; i < CardSlots.Length; i++)
+        {
+            DrawCard(i);
+        }
+        
     }
 
     [Server]
-    private void DrawCards()
+    private void DrawCard(int slotIndex)
     {
-        for (int i = 0; i < CardSlots.Length; i++)
-        {
-            Transform slot = CardSlots[i].transform;
-            Card randomCard = deck[Random.Range(0, deck.Count)];
-            Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
-            card.parent = slot;
-            card.tag = "DraftCard";
+        print("Drawing card");
+        Card randomCard = deck[Random.Range(0, deck.Count)];
+        Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
 
-            Spawn(card.gameObject);
-            AvailableCardSlots[i] = false;
-            deck.Remove(randomCard);
-        }
+        card.parent = CardSlots[slotIndex].transform;
+        card.tag = "DraftCard";
+        card.slotIndex = slotIndex;
+
+        Spawn(card.gameObject);
+        //card.ServerSetCardParent(CardSlots[slotIndex].transform);
+        AvailableCardSlots[slotIndex] = false;
+        deck.Remove(randomCard);
     }
 
     [Server]
@@ -64,6 +68,15 @@ public class Board : NetworkBehaviour
                 deck.Add(cardList[i]);
             }
         }
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void ReplaceCard(int slotIndex)
+    {   print("replacing card");
+        if (slotIndex >= 0 && deck.Count > 0)
+        {
+            AvailableCardSlots[slotIndex] = true;
+            DrawCard(slotIndex);
+        }
     }
 }

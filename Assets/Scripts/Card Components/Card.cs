@@ -10,12 +10,26 @@ public class Card : NetworkBehaviour
     [SyncVar(OnChange = nameof(CardParentChanged))]
     public Transform parent;
 
+    [SyncVar]
+    public int slotIndex;
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerSetCardParent(Transform parent, bool worldPositionStays)
+    {
+        OberserversSetCardParent(parent, worldPositionStays);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    {
+        this.transform.SetParent(parent, worldPositionStays);
+    }
     private void CardParentChanged(Transform oldValue, Transform newValue, bool asServer)
     {
-        //print($"Old parent is {oldValue}");
-        //print($"New parent is {newValue}");
+        print($"Old parent is {oldValue}");
+        print($"New parent is {newValue}");
         //print($"Is server? {asServer}");
-        if (asServer) return;
+        //if (asServer) return;
 
         if (newValue == null) print("Card parent is null");
 

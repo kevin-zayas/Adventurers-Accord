@@ -29,6 +29,7 @@ public class SpotlightCard : MonoBehaviour
 
             if (gameObject.CompareTag("HandCard"))
             {
+                // TODO: dynamically shift card depending on screen size
                 spawnPosition += new Vector2(0, 100);    // shift Card in Hand up to prevent cutoff when spotlighting
             }
 

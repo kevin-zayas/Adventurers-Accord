@@ -548,12 +548,13 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: -7842671299078475954}
+  - {fileID: -6065017822878975917}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
   _isGlobal: 0
   _initializeOrder: 0
@@ -581,6 +582,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: -3672523780777450086}
   controllingPlayer: {fileID: 0}
   parent: {fileID: 0}
+  slotIndex: 0
 --- !u!114 &-6065017822878975917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,8 +595,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e82621df6b02be48bfad9da126b3078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
   isDragging: 0
   isOverDropZone: 0
+  card: {fileID: 0}
   canvas: {fileID: 0}
   dropZone: {fileID: 0}
   startParent: {fileID: 0}
@@ -1198,7 +1204,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Name
+  m_text: Wizard
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
