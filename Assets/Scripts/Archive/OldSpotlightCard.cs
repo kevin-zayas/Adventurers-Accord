@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpotlightCard : MonoBehaviour
+public class OldSpotlightCard : MonoBehaviour
 {
     private GameObject canvas;
     private GameObject spotlightCard;

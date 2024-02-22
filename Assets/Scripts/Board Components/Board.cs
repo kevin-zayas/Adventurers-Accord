@@ -44,6 +44,7 @@ public class Board : NetworkBehaviour
             Card randomCard = deck[Random.Range(0, deck.Count)];
             Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
             card.parent = slot;
+            card.tag = "DraftCard";
 
             Spawn(card.gameObject);
             AvailableCardSlots[i] = false;

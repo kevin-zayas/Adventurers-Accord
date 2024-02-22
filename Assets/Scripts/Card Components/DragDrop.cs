@@ -4,34 +4,35 @@ using UnityEngine;
 
 public class DragDrop : MonoBehaviour
 {
-    private bool isDragging = false;
-    private bool isOverDropZone = false;
-    private GameObject dropZone;
-    private GameObject canvas;
-    private GameObject startParent;
-    private Vector2 startPosition;
-    private OldGameManager gm;
+    [SerializeField] private bool isDragging = false;
 
-    private string dropZoneTag;
-    private CardDisplay cardDisplay;
+    [SerializeField] private bool isOverDropZone = false;
+
+    [SerializeField] private GameObject canvas;
+
+    [SerializeField] private GameObject dropZone;
+
+    [SerializeField] private GameObject startParent;
+
+    [SerializeField] private Vector2 startPosition;
+
+    [SerializeField] private string dropZoneTag;
+
+
 
     private void Awake()
     {
-        gm = FindObjectOfType<OldGameManager>();
-        canvas = GameObject.Find("Main Canvas");
-        cardDisplay = gameObject.GetComponent<CardDisplay>();
+        canvas = GameObject.Find("Canvas");
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (isDragging)
         {
             transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-            transform.SetParent(canvas.transform,true);
+            transform.SetParent(canvas.transform, true);
         }
     }
-
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -40,10 +41,9 @@ public class DragDrop : MonoBehaviour
         dropZoneTag = collision.gameObject.tag;
     }
 
-
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject == dropZone)
+        if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
         {
             isOverDropZone = false;
             dropZone = null;
@@ -53,26 +53,24 @@ public class DragDrop : MonoBehaviour
 
     public void BeginDrag()
     {
-        if (gameObject.tag != "DraftCard" || gm.player.currentGold >= cardDisplay.cost)     // only check for player gold if trying to drag a DraftCard
-        {
-            startPosition = transform.position;
-            startParent = transform.parent.gameObject;
-            isDragging = true;
-        }
-
+        //if (gameObject.tag != "DraftCard" || gm.player.currentGold >= cardDisplay.cost)     // only check for player gold if trying to drag a DraftCard
+        //{
+        startPosition = transform.position;
+        startParent = transform.parent.gameObject;
+        isDragging = true;
+        //}
     }
-
 
     public void EndDrag()
     {
         // set as first/last sibling? may  help if player wants to reorder cards
 
-        if (!isDragging) return;        // wasn't able to begin dragging a card, quit early
+        if (!isDragging) return;
 
         isDragging = false;
         int slotIndex;
 
-        if (isOverDropZone && transform.parent != dropZone.transform)   // no need to update parent if dragging and dropping into same zone
+        if (isOverDropZone && transform.parent != dropZone.transform)   // dont update parent if dragging and dropping into same zone
         {
             if (gameObject.tag == "DraftCard")
             {
@@ -83,19 +81,19 @@ public class DragDrop : MonoBehaviour
                 }
                 else if (dropZoneTag == "Hand")
                 {
-                    slotIndex = this.GetComponent<CardDisplay>().slotIndex;
-                    this.GetComponent<CardDisplay>().slotIndex = -1;
-                    gm.ReplaceCard(slotIndex);
+                    //slotIndex = this.GetComponent<CardDisplay>().slotIndex;
+                    //this.GetComponent<CardDisplay>().slotIndex = -1;
+                    //gm.ReplaceCard(slotIndex);
 
-                    gm.player.currentGold -= cardDisplay.cost;
-                    gm.goldChange.Invoke();
+                    //gm.player.currentGold -= cardDisplay.cost;
+                    //gm.goldChange.Invoke();
                     AssignNewCardParent();
                 }
             }
             else
             {
                 AssignNewCardParent();
-                gm.questCardChange.Invoke();
+                //gm.questCardChange.Invoke();
             }
         }
         else
