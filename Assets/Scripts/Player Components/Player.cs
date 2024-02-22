@@ -99,7 +99,11 @@ public class Player : NetworkBehaviour
 
     public void RenderHand(Hand prevHand, Hand newHand, bool asSever)
     {
-        if (!IsOwner) return;
+        if (!IsOwner)
+        {
+            newHand.GetComponent<BoxCollider2D>().enabled = false;
+            return;
+        }
         if (asSever) return;
 
         //print("Render Hand");
