@@ -1,5 +1,7 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +11,9 @@ public class GameManager : NetworkBehaviour
 
     [field: SyncObject]
     public SyncList<Player> Players { get; } = new SyncList<Player>();
+
+    [field: SyncObject]
+    public SyncList<NetworkConnection> PlayerConnections { get; } = new SyncList<NetworkConnection>();
 
     [field: SerializeField]
     [field: SyncVar]
@@ -21,6 +26,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField]
     [field: SyncVar]
     public int Turn { get; private set; }
+
 
     private void Awake()
     {
@@ -64,6 +70,7 @@ public class GameManager : NetworkBehaviour
         {
             Players[i].BeginTurn();
         }
+        Board.Instance.UpdateDraftCardOwnwer();
     }
 
     [ServerRpc(RequireOwnership = false)]

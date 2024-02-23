@@ -1,21 +1,29 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using TMPro;
 using UnityEngine;
 
 public class Card : NetworkBehaviour
 {
-    [SyncVar]
-    public Player controllingPlayer;
+    [SyncVar] public Player controllingPlayer;
+    [SyncVar] public Hand controllingPlayerHand;
+    [SyncVar] public Transform parent;      //[SyncVar(OnChange = nameof(CardParentChanged))]
+    
+    [SyncVar] public int slotIndex;
+    [SyncVar] public int physicalPower;
+    [SyncVar] public int magicalPower;
 
-    [SyncVar]
-    public Hand controllingPlayerHand;
+    public TMP_Text physicalPowerText;
+    public TMP_Text magicalPowerText;
+    public TMP_Text costText;
+    public int cost;
 
-    //[SyncVar(OnChange = nameof(CardParentChanged))]
-    [SyncVar]
-    public Transform parent;
-
-    [SyncVar]
-    public int slotIndex;
+    private void Start()
+    {
+        physicalPowerText.text = physicalPower.ToString();
+        magicalPowerText.text = magicalPower.ToString();
+        costText.text = cost.ToString();
+    }
 
     [Server]
     public void SetCardParent(Transform parent, bool worldPositionStays)
@@ -44,11 +52,11 @@ public class Card : NetworkBehaviour
         controllingPlayerHand = owner.controlledHand;
     }
 
-    [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardOwner(Player owner)
-    {
-        controllingPlayer = owner;
-    }
+    //[ObserversRpc(BufferLast = true)]
+    //private void OberserversSetCardOwner(Player owner)
+    //{
+    //    controllingPlayer = owner;
+    //}
 
     //private void CardParentChanged(Transform oldValue, Transform newValue, bool asServer)
     //{

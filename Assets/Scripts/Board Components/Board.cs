@@ -11,6 +11,9 @@ public class Board : NetworkBehaviour
     [field: SerializeField]
     public CardSlot[] CardSlots { get; private set; }
 
+    [SerializeField]
+    private Card[] draftCards = new Card[4];
+
     [field: SerializeField]
     [field: SyncVar]
     public bool[] AvailableCardSlots { get; private set; }
@@ -36,6 +39,7 @@ public class Board : NetworkBehaviour
         {
             DrawCard(i);
         }
+        UpdateDraftCardOwnwer();
         
     }
 
@@ -51,6 +55,7 @@ public class Board : NetworkBehaviour
         card.SetCardParent(CardSlots[slotIndex].transform, false);
 
         AvailableCardSlots[slotIndex] = false;
+        draftCards[slotIndex] = card;
         deck.Remove(randomCard);
     }
 
@@ -74,7 +79,20 @@ public class Board : NetworkBehaviour
         if (slotIndex >= 0 && deck.Count > 0)
         {
             AvailableCardSlots[slotIndex] = true;
+            draftCards[slotIndex] = null;
             DrawCard(slotIndex);
+        }
+    }
+
+    [Server]
+    public void UpdateDraftCardOwnwer()
+    {
+        foreach (Card card in draftCards)
+        {
+            SyncList<Player> players = GameManager.Instance.Players;
+            int turn = GameManager.Instance.Turn;
+
+            card.GiveOwnership(players[turn].Owner);
         }
     }
 }

@@ -31,6 +31,8 @@ public class Player : NetworkBehaviour
         base.OnStartServer();
 
         GameManager.Instance.Players.Add(this);
+        print($"Owner: {Owner}");
+        GameManager.Instance.PlayerConnections.Add(Owner);
     }
 
     public override void OnStopServer()

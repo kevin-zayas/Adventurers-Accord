@@ -58,6 +58,8 @@ public class DragDrop : NetworkBehaviour
     {
         //if (gameObject.tag != "DraftCard" || gm.player.currentGold >= cardDisplay.cost)     // only check for player gold if trying to drag a DraftCard
         //{
+        if (!IsOwner) return;
+
         startPosition = transform.position;
         startParentTransform = transform.parent;
         isDragging = true;
@@ -68,7 +70,6 @@ public class DragDrop : NetworkBehaviour
     public void EndDrag()
     {
         // set as first/last sibling? may  help if player wants to reorder cards
-
         if (!isDragging) return;
 
         isDragging = false;
@@ -96,7 +97,6 @@ public class DragDrop : NetworkBehaviour
             }
             else
             {
-                print("101");
                 card.ServerSetCardParent(dropZone.transform, false);
                 //gm.questCardChange.Invoke();
             }

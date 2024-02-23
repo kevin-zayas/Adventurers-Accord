@@ -581,8 +581,15 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
   controllingPlayer: {fileID: 0}
+  controllingPlayerHand: {fileID: 0}
   parent: {fileID: 0}
   slotIndex: 0
+  physicalPower: 0
+  magicalPower: 5
+  physicalPowerText: {fileID: 8026055629125033657}
+  magicalPowerText: {fileID: 3313565800043067953}
+  costText: {fileID: 3602657811630039641}
+  cost: 5
 --- !u!114 &-6065017822878975917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,7 +610,7 @@ MonoBehaviour:
   card: {fileID: 0}
   canvas: {fileID: 0}
   dropZone: {fileID: 0}
-  startParent: {fileID: 0}
+  startParentTransform: {fileID: 0}
   startPosition: {x: 0, y: 0}
   dropZoneTag: 
 --- !u!114 &5413191868477890168
