@@ -87,10 +87,7 @@ public class DragDrop : NetworkBehaviour
                 else if (dropZoneTag == "Hand")
                 {
                     slotIndex = card.slotIndex;
-                    card.slotIndex = -1;
-                    if (Board.Instance == null) print("Board is null");
-
-                    print("94");
+                    //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
 
                     card.ServerSetCardParent(dropZone.transform, false);
                     card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
@@ -112,24 +109,4 @@ public class DragDrop : NetworkBehaviour
 
         }
     }
-
-    //[ServerRpc(RequireOwnership = false)]
-    //private void ServerResetCardPosition(Transform startParent)
-    //{
-    //    card.parent = null;  // this is a hack to get around the fact that the syncvar is not being updated
-    //    print("Resetting position");
-    //    //transform.SetParent(startParent, false);
-    //    card.parent = startParent;
-    //    transform.position = startPosition;
-    //}
-
-    //[ServerRpc(RequireOwnership = false)]
-    //private void ServerAssignCardParent(Transform parent, string tag)
-    //{
-    //    print("Assigning parent");
-    //    if (parent == null) print("Parent is null");
-    //    //transform.SetParent(dropZone.transform, false);
-    //    card.parent = parent;
-    //    gameObject.tag = tag + "Card";
-    //}
 }
