@@ -45,13 +45,11 @@ public class Board : NetworkBehaviour
         print("Drawing card");
         Card randomCard = deck[Random.Range(0, deck.Count)];
         Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
-
-        card.parent = CardSlots[slotIndex].transform;
-        card.tag = "DraftCard";
         card.slotIndex = slotIndex;
 
         Spawn(card.gameObject);
-        //card.ServerSetCardParent(CardSlots[slotIndex].transform);
+        card.SetCardParent(CardSlots[slotIndex].transform, false);
+
         AvailableCardSlots[slotIndex] = false;
         deck.Remove(randomCard);
     }

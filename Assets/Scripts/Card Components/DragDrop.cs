@@ -76,7 +76,7 @@ public class DragDrop : NetworkBehaviour
 
         if (isOverDropZone && startParentTransform != dropZone.transform)   // dont update parent if dragging and dropping into same zone
         {
-            if (gameObject.tag == "DraftCard")
+            if (card.controllingPlayer == null)            //should only be true for draft cards
             {
                 if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
                 {
@@ -90,12 +90,10 @@ public class DragDrop : NetworkBehaviour
                     card.slotIndex = -1;
                     if (Board.Instance == null) print("Board is null");
 
-                    //gm.player.currentGold -= cardDisplay.cost;
-                    //gm.goldChange.Invoke();
                     print("94");
 
-                    //ServerAssignCardParent(dropZone.transform, dropZoneTag);
                     card.ServerSetCardParent(dropZone.transform, false);
+                    card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
                     Board.Instance.ReplaceCard(slotIndex);
                 }
             }
