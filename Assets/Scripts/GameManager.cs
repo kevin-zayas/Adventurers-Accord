@@ -10,10 +10,8 @@ public class GameManager : NetworkBehaviour
     public static GameManager Instance { get; private set; }
 
     [field: SyncObject]
+    [field: SerializeField]
     public SyncList<Player> Players { get; } = new SyncList<Player>();
-
-    [field: SyncObject]
-    public SyncList<NetworkConnection> PlayerConnections { get; } = new SyncList<NetworkConnection>();
 
     [field: SerializeField]
     [field: SyncVar]

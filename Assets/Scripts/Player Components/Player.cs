@@ -12,6 +12,12 @@ public class Player : NetworkBehaviour
     public int playerID;
 
     [field: SyncVar]
+    public int gold { get; private set; }
+
+    [SyncVar]
+    public int reputation;
+
+    [field: SyncVar]
     public bool IsReady
     {
         get;
@@ -31,8 +37,7 @@ public class Player : NetworkBehaviour
         base.OnStartServer();
 
         GameManager.Instance.Players.Add(this);
-        print($"Owner: {Owner}");
-        GameManager.Instance.PlayerConnections.Add(Owner);
+        gold = 10;
     }
 
     public override void OnStopServer()
@@ -86,6 +91,12 @@ public class Player : NetworkBehaviour
         TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
     }
 
+    [ServerRpc]
+    public void ServerChangeGold(int value)
+    {
+        this.gold += value;
+    }
+
     [TargetRpc]
     private void TargetBeginTurn(NetworkConnection networkConnection, bool canPlay)
     {
@@ -101,15 +112,13 @@ public class Player : NetworkBehaviour
 
     public void RenderHand(Hand prevHand, Hand newHand, bool asSever)
     {
+        if (asSever) return;
+
         if (!IsOwner)
         {
             newHand.GetComponent<BoxCollider2D>().enabled = false;
             return;
         }
-        if (asSever) return;
-
-        //print("Render Hand");
-        //print($"Owner ID: {Owner.ClientId}");
 
         if (controlledHand == null) print("hand is null");
 

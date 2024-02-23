@@ -46,7 +46,6 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawCard(int slotIndex)
     {
-        print("Drawing card");
         Card randomCard = deck[Random.Range(0, deck.Count)];
         Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
         card.slotIndex = slotIndex;

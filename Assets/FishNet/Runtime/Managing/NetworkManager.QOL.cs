@@ -30,6 +30,8 @@ namespace FishNet.Managing
         /// Collection to use for spawnable objects added at runtime, such as addressables.
         /// </summary>
         public IReadOnlyDictionary<ushort, PrefabObjects> RuntimeSpawnablePrefabs => _runtimeSpawnablePrefabs;
+
+        public object Instance { get; set; }
         #endregion
 
         #region Private.

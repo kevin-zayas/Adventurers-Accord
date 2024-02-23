@@ -56,15 +56,19 @@ public class DragDrop : NetworkBehaviour
 
     public void BeginDrag()
     {
-        //if (gameObject.tag != "DraftCard" || gm.player.currentGold >= cardDisplay.cost)     // only check for player gold if trying to drag a DraftCard
-        //{
         if (!IsOwner) return;
 
-        startPosition = transform.position;
-        startParentTransform = transform.parent;
-        isDragging = true;
-        transform.SetParent(canvas.transform, true);
-        //}
+        Player player = GameManager.Instance.Players[Owner.ClientId];
+
+        print($"player gold: {player.gold}, card cost: {card.cost}");
+
+        if (card.controllingPlayer != null || player.gold >= card.cost)         // only check for player gold if trying to drag a DraftCard
+        {
+            startPosition = transform.position;
+            startParentTransform = transform.parent;
+            isDragging = true;
+            transform.SetParent(canvas.transform, true);
+        }
     }
 
     public void EndDrag()
@@ -87,11 +91,14 @@ public class DragDrop : NetworkBehaviour
                 }
                 else if (dropZoneTag == "Hand")
                 {
+                    Player player = GameManager.Instance.Players[Owner.ClientId];
                     slotIndex = card.slotIndex;
                     //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
 
                     card.ServerSetCardParent(dropZone.transform, false);
                     card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
+
+                    player.ServerChangeGold(-card.cost);
                     Board.Instance.ReplaceCard(slotIndex);
                 }
             }
