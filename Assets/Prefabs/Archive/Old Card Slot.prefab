@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 111381413356248564}
   - component: {fileID: 8374792181923092418}
   m_Layer: 0
-  m_Name: Card Slot
+  m_Name: Old Card Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

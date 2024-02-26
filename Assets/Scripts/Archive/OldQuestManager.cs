@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class QuestManager : MonoBehaviour
+public class OldQuestManager : MonoBehaviour
 {
     public TMP_Text physicalPowerText;
     public TMP_Text magicalPowerText;
