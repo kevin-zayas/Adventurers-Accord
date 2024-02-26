@@ -25,6 +25,9 @@ public class GameManager : NetworkBehaviour
     [field: SyncVar]
     public int Turn { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public Player CurrentTurnPlayer { get; private set; }
 
     private void Awake()
     {
@@ -57,7 +60,6 @@ public class GameManager : NetworkBehaviour
         {
             Players[i].StopGame();
         }
-
         DidStart = false;
     }
 
@@ -68,14 +70,16 @@ public class GameManager : NetworkBehaviour
         {
             Players[i].BeginTurn();
         }
+        CurrentTurnPlayer = Players[Turn];
         Board.Instance.UpdateDraftCardOwnwer();
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void EndTurn()
-    {
-        Turn = (Turn + 1) % Players.Count;
+    {   
+        CurrentTurnPlayer.ServerChangeGold(5);      // temporary to test gold changing functionality
 
+        Turn = (Turn + 1) % Players.Count;
         BeginTurn();
     }
 }

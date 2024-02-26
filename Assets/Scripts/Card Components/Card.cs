@@ -51,22 +51,4 @@ public class Card : NetworkBehaviour
         controllingPlayer = owner;
         controllingPlayerHand = owner.controlledHand;
     }
-
-    //[ObserversRpc(BufferLast = true)]
-    //private void OberserversSetCardOwner(Player owner)
-    //{
-    //    controllingPlayer = owner;
-    //}
-
-    //private void CardParentChanged(Transform oldValue, Transform newValue, bool asServer)
-    //{
-    //    print($"Old parent is {oldValue}");
-    //    print($"New parent is {newValue}");
-    //    //print($"Is server? {asServer}");
-    //    //if (asServer) return;
-
-    //    if (newValue == null) print("Card parent is null");
-
-    //    this.transform.SetParent(newValue, false);
-    //}
 }

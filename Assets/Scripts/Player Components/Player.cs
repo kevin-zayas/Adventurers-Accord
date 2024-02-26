@@ -43,7 +43,6 @@ public class Player : NetworkBehaviour
     public override void OnStopServer()
     {
         base.OnStopServer();
-
         GameManager.Instance.Players.Remove(this);
     }
 
@@ -54,7 +53,6 @@ public class Player : NetworkBehaviour
         if (!IsOwner) return;
 
         Instance = this;
-
         ViewManager.Instance.Initialize();
     }
 
@@ -87,12 +85,6 @@ public class Player : NetworkBehaviour
         TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
     }
 
-    [ServerRpc]
-    public void ServerChangeGold(int value)
-    {
-        this.Gold += value;
-    }
-
     [TargetRpc]
     private void TargetBeginTurn(NetworkConnection networkConnection, bool canPlay)
     {
@@ -122,5 +114,11 @@ public class Player : NetworkBehaviour
         if (canvas == null) print("Canvas not found");
 
         controlledHand.transform.SetParent(canvas.transform, false);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerChangeGold(int value)
+    {
+        this.Gold += value;
     }
 }

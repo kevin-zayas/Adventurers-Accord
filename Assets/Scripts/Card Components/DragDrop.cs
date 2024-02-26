@@ -6,22 +6,15 @@ using UnityEngine;
 public class DragDrop : NetworkBehaviour
 {
     [SerializeField] private bool isDragging = false;
-
     [SerializeField] private bool isOverDropZone = false;
 
     [SerializeField] private Card card;
-
     [SerializeField] private GameObject canvas;
-
     [SerializeField] private GameObject dropZone;
-
-    [SerializeField] private Transform startParentTransform;
-
-    [SerializeField] private Vector2 startPosition;
-
     [SerializeField] private string dropZoneTag;
 
-
+    [SerializeField] private Transform startParentTransform;
+    [SerializeField] private Vector2 startPosition;
 
     private void Awake()
     {
@@ -112,8 +105,6 @@ public class DragDrop : NetworkBehaviour
         {
             card.ServerSetCardParent(startParentTransform, true);
             transform.position = startPosition;
-
-
         }
     }
 }
