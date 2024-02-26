@@ -12,7 +12,7 @@ public class Player : NetworkBehaviour
     public int playerID;
 
     [field: SyncVar]
-    public int gold { get; private set; }
+    public int Gold { get; private set; }
 
     [SyncVar]
     public int reputation;
@@ -37,7 +37,7 @@ public class Player : NetworkBehaviour
         base.OnStartServer();
 
         GameManager.Instance.Players.Add(this);
-        gold = 10;
+        Gold = 10;
     }
 
     public override void OnStopServer()
@@ -61,10 +61,6 @@ public class Player : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        //GameObject pawnPrefab = Addressables.LoadAssetAsync<GameObject>("Pawn").WaitForCompletion();
-        //GameObject pawnInstance = Instantiate(pawnPrefab);
-        //GameObject pawnInstance = Instantiate(pawnPrefab);
-
         playerID = GameManager.Instance.Players.IndexOf(this);
         print("Start Game");
         print("Player ID: " + playerID);
@@ -94,7 +90,7 @@ public class Player : NetworkBehaviour
     [ServerRpc]
     public void ServerChangeGold(int value)
     {
-        this.gold += value;
+        this.Gold += value;
     }
 
     [TargetRpc]

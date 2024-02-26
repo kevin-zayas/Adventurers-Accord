@@ -61,11 +61,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 9
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 2371282274
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 7807759643866311769
+  <AssetPathHash>k__BackingField: 4121606829519803397
 --- !u!114 &1922618169412426516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,7 +81,9 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7497081857176530316}
   _networkObjectCache: {fileID: 7497081857176530316}
-  username: 
+  playerID: 0
+  <gold>k__BackingField: 0
+  reputation: 0
   <IsReady>k__BackingField: 0
   handPrefab: {fileID: -4189799564275192412, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
   controlledHand: {fileID: 0}

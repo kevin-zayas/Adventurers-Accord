@@ -2,6 +2,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Board : NetworkBehaviour
@@ -18,13 +19,17 @@ public class Board : NetworkBehaviour
     [field: SyncVar]
     public bool[] AvailableCardSlots { get; private set; }
 
-    [SerializeField]
-    private List<Card> deck;
+    [field: SerializeField]
+    private List<Card> Deck { get; } = new List<Card>();
 
     private readonly int cardFrequency = 3;
 
     [SerializeField]
-    private Card cardPrefab;
+    private TMP_Text deckTrackerText;
+
+    [SerializeField]
+    [SyncVar(OnChange = nameof(UpdateDeckTrackers))]
+    private int deckSize;
 
     private void Awake()
     {
@@ -46,7 +51,7 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawCard(int slotIndex)
     {
-        Card randomCard = deck[Random.Range(0, deck.Count)];
+        Card randomCard = Deck[Random.Range(0, Deck.Count)];
         Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
         card.slotIndex = slotIndex;
 
@@ -55,19 +60,19 @@ public class Board : NetworkBehaviour
 
         AvailableCardSlots[slotIndex] = false;
         draftCards[slotIndex] = card;
-        deck.Remove(randomCard);
+        Deck.Remove(randomCard);
+        deckSize = Deck.Count;
     }
 
     [Server]
     private void ConstructDecks()
     {
-        deck = new List<Card>();
         List<Card> cardList = CardDatabase.Instance.tierOneCards;
         for (int i = 0; i < cardList.Count; i++)
         {
             for (int x = 0; x < cardFrequency; x++)
             {
-                deck.Add(cardList[i]);
+                Deck.Add(cardList[i]);
             }
         }
     }
@@ -75,7 +80,7 @@ public class Board : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ReplaceCard(int slotIndex)
     {   print("replacing card");
-        if (slotIndex >= 0 && deck.Count > 0)
+        if (slotIndex >= 0 && Deck.Count > 0)
         {
             AvailableCardSlots[slotIndex] = true;
             draftCards[slotIndex] = null;
@@ -93,5 +98,10 @@ public class Board : NetworkBehaviour
 
             card.GiveOwnership(players[turn].Owner);
         }
+    }
+
+    private void UpdateDeckTrackers(int oldSize, int newSize, bool asServer)
+    {
+        deckTrackerText.text = deckSize.ToString();
     }
 }

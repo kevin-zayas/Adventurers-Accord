@@ -44,7 +44,7 @@ public class TutorialBoard : NetworkBehaviour
         }
         return slice.ToArray();
     }
-
+ 
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetTileOwner(int tileindex, TutorialPlayer value)
     {

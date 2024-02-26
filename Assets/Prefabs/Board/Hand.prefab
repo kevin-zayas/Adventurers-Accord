@@ -165,7 +165,8 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: -4189799564275192412}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -177,11 +178,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 22
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 17650670840819586565
+  <AssetPathHash>k__BackingField: 9670173719048217052
 --- !u!114 &-4189799564275192412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b967788aa18f6f42bbed8ac21b5acf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7094362613940595149}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7094362613940595149}
   controllingPlayer: {fileID: 0}
+  playerID: 0
