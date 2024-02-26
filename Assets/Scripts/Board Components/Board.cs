@@ -31,6 +31,9 @@ public class Board : NetworkBehaviour
     [SyncVar(OnChange = nameof(UpdateDeckTrackers))]
     private int deckSize;
 
+    [SerializeField]
+    public TMP_Text goldText;
+
     private void Awake()
     {
         Instance = this;

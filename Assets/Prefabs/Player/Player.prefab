@@ -61,7 +61,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 9
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 2371282274
   <SceneId>k__BackingField: 0
@@ -82,8 +82,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 7497081857176530316}
   _networkObjectCache: {fileID: 7497081857176530316}
   playerID: 0
-  <gold>k__BackingField: 0
+  <Gold>k__BackingField: 0
   reputation: 0
   <IsReady>k__BackingField: 0
-  handPrefab: {fileID: -4189799564275192412, guid: 3bb0e9201fb904171a53ec3084f78e68, type: 3}
+  handPrefab: {fileID: -4189799564275192412, guid: 64f30eb03052569409114af943247a21, type: 3}
   controlledHand: {fileID: 0}

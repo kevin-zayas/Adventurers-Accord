@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -11,7 +12,7 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int playerID;
 
-    [field: SyncVar]
+    [field: SyncVar(OnChange = nameof(UpdateGoldText))]
     public int Gold { get; private set; }
 
     [SyncVar]
@@ -121,4 +122,12 @@ public class Player : NetworkBehaviour
     {
         this.Gold += value;
     }
+
+    private void UpdateGoldText(int prevGold, int newGold, bool asServer)
+    {
+        if (asServer) return;
+        if (!IsOwner) return;
+
+        Board.Instance.goldText.text = $"{newGold} GP";
+    }   
 }

@@ -53,8 +53,6 @@ public class DragDrop : NetworkBehaviour
 
         Player player = GameManager.Instance.Players[Owner.ClientId];
 
-        print($"player gold: {player.Gold}, card cost: {card.cost}");
-
         if (card.controllingPlayer != null || player.Gold >= card.cost)         // only check for player gold if trying to drag a DraftCard
         {
             startPosition = transform.position;
