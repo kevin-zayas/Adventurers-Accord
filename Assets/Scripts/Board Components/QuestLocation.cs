@@ -2,6 +2,7 @@ using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestLocation : NetworkBehaviour
 {
@@ -18,15 +19,20 @@ public class QuestLocation : NetworkBehaviour
     private void ObserversInitializeQuestLocation()
     {
         int playerCount = GameManager.Instance.Players.Count;
+        int questLocationWidth = 10 + 200 * playerCount;
 
         for (int i = 0; i < dropZones.Length; i++)
         {
             dropZones[i].SetActive(i < playerCount);
+
+            if (LocalConnection.ClientId == i)
+            {
+                dropZones[i].GetComponent<BoxCollider2D>().enabled = true;
+                dropZones[i].GetComponent<Image>().color = Color.white;
+            }
         }
 
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(10+ 200 * playerCount, rectTransform.sizeDelta.y);
-
-
+        rectTransform.sizeDelta = new Vector2(questLocationWidth, rectTransform.sizeDelta.y);
     }
 }
