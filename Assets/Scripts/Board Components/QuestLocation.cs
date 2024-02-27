@@ -32,7 +32,7 @@ public class QuestLocation : NetworkBehaviour
             }
         }
 
-        RectTransform rectTransform = GetComponent<RectTransform>();
+        RectTransform rectTransform = transform.GetChild(0).GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(questLocationWidth, rectTransform.sizeDelta.y);
     }
 }
