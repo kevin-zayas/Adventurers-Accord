@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class QuestLocation : NetworkBehaviour
 {
     [SerializeField]
-    private GameObject[] dropZones;
+    private QuestLane[] questLanes;
 
     [Server]
     public void StartGame()
@@ -21,14 +21,14 @@ public class QuestLocation : NetworkBehaviour
         int playerCount = GameManager.Instance.Players.Count;
         int questLocationWidth = 10 + 200 * playerCount;
 
-        for (int i = 0; i < dropZones.Length; i++)
+        for (int i = 0; i < questLanes.Length; i++)
         {
-            dropZones[i].SetActive(i < playerCount);
+            questLanes[i].gameObject.SetActive(i < playerCount);
 
             if (LocalConnection.ClientId == i)
             {
-                dropZones[i].GetComponent<BoxCollider2D>().enabled = true;
-                dropZones[i].GetComponent<Image>().color = Color.white;
+                questLanes[i].DropZone.GetComponent<BoxCollider2D>().enabled = true;
+                questLanes[i].DropZone.GetComponent<Image>().color = Color.white;
             }
         }
 

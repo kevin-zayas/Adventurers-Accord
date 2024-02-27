@@ -371,6 +371,10 @@ PrefabInstance:
       propertyPath: <IsNested>k__BackingField
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3415008840768130624, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4037141114969146950, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -410,6 +414,10 @@ PrefabInstance:
     - target: {fileID: 6270991009754265562, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6270991009754265562, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8010892491060213443, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: m_Name
@@ -423,6 +431,10 @@ PrefabInstance:
       propertyPath: <IsNested>k__BackingField
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8055822322088917389, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8362106369548198222, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <SceneId>k__BackingField
       value: 0
@@ -430,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 8362106369548198222, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8362106369548198222, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
