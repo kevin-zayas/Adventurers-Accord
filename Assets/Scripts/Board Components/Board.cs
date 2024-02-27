@@ -22,6 +22,9 @@ public class Board : NetworkBehaviour
     [field: SerializeField]
     private List<Card> Deck { get; } = new List<Card>();
 
+    [field: SerializeField]
+    private QuestLocation questLocation;
+
     private readonly int cardFrequency = 3;
 
     [SerializeField]
@@ -48,6 +51,7 @@ public class Board : NetworkBehaviour
             DrawCard(i);
         }
         UpdateDraftCardOwnwer();
+        questLocation.StartGame();
         
     }
 
