@@ -10,8 +10,14 @@ public class Card : NetworkBehaviour
     [SyncVar] public Transform parent;      //[SyncVar(OnChange = nameof(CardParentChanged))]
     
     [SyncVar] public int slotIndex;
-    [SyncVar] public int physicalPower;
-    [SyncVar] public int magicalPower;
+
+    [field: SerializeField]
+    [field: SyncVar] 
+    public int PhysicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public int MagicalPower { get; private set; }
 
     public TMP_Text physicalPowerText;
     public TMP_Text magicalPowerText;
@@ -20,8 +26,8 @@ public class Card : NetworkBehaviour
 
     private void Start()
     {
-        physicalPowerText.text = physicalPower.ToString();
-        magicalPowerText.text = magicalPower.ToString();
+        physicalPowerText.text = PhysicalPower.ToString();
+        magicalPowerText.text = MagicalPower.ToString();
         costText.text = cost.ToString();
     }
 
@@ -35,6 +41,7 @@ public class Card : NetworkBehaviour
     public void ServerSetCardParent(Transform parent, bool worldPositionStays)
     {
         OberserversSetCardParent(parent, worldPositionStays);
+        this.transform.SetParent(parent, worldPositionStays);
         this.parent = parent;
     }
 

@@ -96,7 +96,8 @@ public class DragDrop : NetworkBehaviour
             else
             {
                 card.ServerSetCardParent(dropZone.transform, false);
-                //gm.questCardChange.Invoke();
+                if (dropZoneTag == "Quest") dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
+                else startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
             }
         }
         else

@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class QuestLane : NetworkBehaviour
 {
-    [field: SerializeField] 
+    [field: SerializeField]
+    [field: SyncVar]
     public GameObject DropZone { get; private set; }
 
     [field: SerializeField]
@@ -20,4 +21,29 @@ public class QuestLane : NetworkBehaviour
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerUpdatePower()
+    {
+        PhysicalPower = 0;
+        MagicalPower = 0;
+
+        for (int i = 0; i < DropZone.transform.childCount; i++)
+        {
+            Transform cardTransform = DropZone.transform.GetChild(i);
+            Card card = cardTransform.GetComponent<Card>();
+
+            PhysicalPower += card.PhysicalPower;
+            MagicalPower += card.MagicalPower;
+        }
+
+        ObserversUpdatePower(PhysicalPower, MagicalPower);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversUpdatePower(int physicalPower, int magicalPower)
+    {
+        physicalPowerText.text = physicalPower.ToString();
+        magicalPowerText.text = magicalPower.ToString();
+    }
 }
