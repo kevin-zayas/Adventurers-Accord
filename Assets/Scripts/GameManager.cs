@@ -9,7 +9,7 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum Phase { Draft, Dispath, Magic, Resolve }
+    public enum Phase { Draft, Dispatch, Magic, Resolve }
 
     [field: SyncObject]
     [field: SerializeField]
@@ -126,10 +126,10 @@ public class GameManager : NetworkBehaviour
         switch (CurrentPhase)
         {
             case Phase.Draft:
-                CurrentPhase = Phase.Dispath;
+                CurrentPhase = Phase.Dispatch;
                 Turn = StartingTurn;
                 break;
-            case Phase.Dispath:
+            case Phase.Dispatch:
                 CurrentPhase = Phase.Draft;
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;

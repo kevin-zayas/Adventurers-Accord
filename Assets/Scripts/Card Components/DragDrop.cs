@@ -49,11 +49,14 @@ public class DragDrop : NetworkBehaviour
 
     public void BeginDrag()
     {
-        if (!IsOwner) return;
+        if (!IsOwner) return;  // might not be neccessary if player can only drag on their turn
+
+        if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
+        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Draft) return;   
 
         Player player = GameManager.Instance.Players[Owner.ClientId];
 
-        if (card.controllingPlayer != null || player.Gold >= card.cost)         // only check for player gold if trying to drag a DraftCard
+        if (!card.IsDraftCard || player.Gold >= card.Cost)         // only check for player gold if trying to drag a DraftCard
         {
             startPosition = transform.position;
             startParentTransform = transform.parent;
@@ -70,41 +73,50 @@ public class DragDrop : NetworkBehaviour
         isDragging = false;
         int slotIndex;
 
-        if (isOverDropZone && startParentTransform != dropZone.transform)   // dont update parent if dragging and dropping into same zone
+        if (!isOverDropZone || startParentTransform == dropZone.transform)          // dont update parent if dragging and dropping into same zone
         {
-            if (card.controllingPlayer == null)            //should only be true for draft cards
+            card.ServerSetCardParent(startParentTransform, true);
+            transform.position = startPosition;
+            return;
+        }
+
+        if (card.IsDraftCard)
+        {
+            if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
             {
-                if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
-                {
-                    transform.position = startPosition;
-                    card.ServerSetCardParent(startParentTransform, true);
-                    return;
-                }
-                else if (dropZoneTag == "Hand")
-                {
-                    Player player = GameManager.Instance.Players[Owner.ClientId];
-                    slotIndex = card.slotIndex;
-                    //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
-
-                    card.ServerSetCardParent(dropZone.transform, false);
-                    card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
-
-                    player.ServerChangeGold(-card.cost);
-                    Board.Instance.ReplaceCard(slotIndex);
-                    GameManager.Instance.EndTurn(false);
-                }
+                transform.position = startPosition;
+                card.ServerSetCardParent(startParentTransform, true);
+                return;
             }
-            else
+            else if (dropZoneTag == "Hand")
+            {
+                Player player = GameManager.Instance.Players[Owner.ClientId];
+                slotIndex = card.slotIndex;
+                //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
+
+                card.ServerSetCardParent(dropZone.transform, false);
+                card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
+
+                player.ServerChangeGold(-card.Cost);
+                Board.Instance.ReplaceCard(slotIndex);
+                GameManager.Instance.EndTurn(false);
+            }
+        }
+        else
+        {
+            if (GameManager.Instance.CurrentPhase == GameManager.Phase.Dispatch)
             {
                 card.ServerSetCardParent(dropZone.transform, false);
                 if (dropZoneTag == "Quest") dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
                 else startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
             }
-        }
-        else
-        {
-            card.ServerSetCardParent(startParentTransform, true);
-            transform.position = startPosition;
+            else
+            {
+                card.ServerSetCardParent(startParentTransform, true);
+                transform.position = startPosition;
+                return;
+            }
+            
         }
     }
 }

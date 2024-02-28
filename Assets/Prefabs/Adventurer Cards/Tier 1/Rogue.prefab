@@ -580,16 +580,17 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  controllingPlayer: {fileID: 0}
-  controllingPlayerHand: {fileID: 0}
-  parent: {fileID: 0}
+  <ControllingPlayer>k__BackingField: {fileID: 0}
+  <ControllingPlayerHand>k__BackingField: {fileID: 0}
+  <Parent>k__BackingField: {fileID: 0}
+  <IsDraftCard>k__BackingField: 0
   slotIndex: 0
   <PhysicalPower>k__BackingField: 2
   <MagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 5
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
   costText: {fileID: 3602657811630039641}
-  cost: 5
 --- !u!114 &7546161789419670961
 MonoBehaviour:
   m_ObjectHideFlags: 0

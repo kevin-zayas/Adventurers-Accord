@@ -5,11 +5,24 @@ using UnityEngine;
 
 public class Card : NetworkBehaviour
 {
-    [SyncVar] public Player controllingPlayer;
-    [SyncVar] public Hand controllingPlayerHand;
-    [SyncVar] public Transform parent;
+    [field: SerializeField]
+    [field: SyncVar] 
+    public Player ControllingPlayer { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public Hand ControllingPlayerHand { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public Transform Parent { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool IsDraftCard { get; private set; }
     
-    [SyncVar] public int slotIndex;
+    [SyncVar]
+    public int slotIndex;
 
     [field: SerializeField]
     [field: SyncVar] 
@@ -19,16 +32,21 @@ public class Card : NetworkBehaviour
     [field: SyncVar]
     public int MagicalPower { get; private set; }
 
-    public TMP_Text physicalPowerText;
-    public TMP_Text magicalPowerText;
-    public TMP_Text costText;
-    public int cost;
+    [field: SerializeField]
+    [field: SyncVar]
+    public int Cost { get; private set; }
+
+    [SerializeField] private TMP_Text physicalPowerText;
+    [SerializeField] private TMP_Text magicalPowerText;
+    [SerializeField] private TMP_Text costText;
+    
 
     private void Start()
     {
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
-        costText.text = cost.ToString();
+        costText.text = Cost.ToString();
+        IsDraftCard = true;
     }
 
     [Server]
@@ -42,7 +60,7 @@ public class Card : NetworkBehaviour
     {
         OberserversSetCardParent(parent, worldPositionStays);
         this.transform.SetParent(parent, worldPositionStays);
-        this.parent = parent;
+        this.Parent = parent;
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -54,7 +72,8 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player owner)
     {
-        controllingPlayer = owner;
-        controllingPlayerHand = owner.controlledHand;
+        ControllingPlayer = owner;
+        ControllingPlayerHand = owner.controlledHand;
+        IsDraftCard = false;
     }
 }
