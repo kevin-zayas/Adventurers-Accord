@@ -7,7 +7,7 @@ public class Card : NetworkBehaviour
 {
     [SyncVar] public Player controllingPlayer;
     [SyncVar] public Hand controllingPlayerHand;
-    [SyncVar] public Transform parent;      //[SyncVar(OnChange = nameof(CardParentChanged))]
+    [SyncVar] public Transform parent;
     
     [SyncVar] public int slotIndex;
 
@@ -54,7 +54,6 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player owner)
     {
-        //OberserversSetCardOwner(owner);
         controllingPlayer = owner;
         controllingPlayerHand = owner.controlledHand;
     }

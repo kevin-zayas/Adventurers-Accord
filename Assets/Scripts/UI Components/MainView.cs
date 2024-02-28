@@ -10,7 +10,7 @@ public class MainView : View
     {
         endTurnButton.onClick.AddListener(() =>
         {
-            GameManager.Instance.EndTurn();
+            GameManager.Instance.EndTurn(true);
         });
 
         //may be useful for buying card logic

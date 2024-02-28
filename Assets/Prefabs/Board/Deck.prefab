@@ -175,7 +175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8425349481781584880, guid: deb8a98ad62ec4bbb86bf8a453f14140, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -545
+      value: -550
       objectReference: {fileID: 0}
     - target: {fileID: 8425349481781584880, guid: deb8a98ad62ec4bbb86bf8a453f14140, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -225,7 +225,7 @@ MonoBehaviour:
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
-    Position: {x: -545, y: -50, z: 0}
+    Position: {x: -550, y: -50, z: 0}
     Rotation: {x: -0, y: -0, z: -0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
@@ -313,7 +313,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8070412833175983, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -270
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: 8070412833175983, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -373,7 +373,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3415008840768130624, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 12
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3415008840768130624, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: SerializedTransformProperties.Position.x
+      value: 570
       objectReference: {fileID: 0}
     - target: {fileID: 4037141114969146950, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: m_AnchorMax.y
@@ -417,7 +421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6270991009754265562, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 9
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8010892491060213443, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: m_Name
@@ -433,7 +437,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8055822322088917389, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055822322088917389, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: SerializedTransformProperties.Position.x
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 8362106369548198222, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <SceneId>k__BackingField
@@ -445,7 +453,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362106369548198222, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 11
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8362106369548198222, guid: 66f75e11cb4be9c46997a8ec33956619, type: 3}
+      propertyPath: SerializedTransformProperties.Position.x
+      value: 390
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

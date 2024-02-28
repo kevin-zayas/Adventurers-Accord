@@ -91,6 +91,7 @@ public class DragDrop : NetworkBehaviour
 
                     player.ServerChangeGold(-card.cost);
                     Board.Instance.ReplaceCard(slotIndex);
+                    GameManager.Instance.EndTurn(false);
                 }
             }
             else
