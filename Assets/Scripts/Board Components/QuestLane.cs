@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class QuestLane : NetworkBehaviour
 {
+    [SerializeField]
+    private QuestLocation questLocation;
+
     [field: SerializeField]
     [field: SyncVar]
     public GameObject DropZone { get; private set; }
@@ -18,6 +21,10 @@ public class QuestLane : NetworkBehaviour
     [field: SerializeField]
     [field: SyncVar]
     public int MagicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public QuestCard QuestCard { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -38,6 +45,8 @@ public class QuestLane : NetworkBehaviour
         }
 
         ObserversUpdatePower(PhysicalPower, MagicalPower);
+        questLocation.CalculatePowerTotal();
+
     }
 
     [ObserversRpc(BufferLast = true)]

@@ -22,7 +22,7 @@ public class Card : NetworkBehaviour
     public bool IsDraftCard { get; private set; }
     
     [SyncVar]
-    public int slotIndex;
+    public int draftCardIndex;
 
     [field: SerializeField]
     [field: SyncVar] 
@@ -46,7 +46,8 @@ public class Card : NetworkBehaviour
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
         costText.text = Cost.ToString();
-        IsDraftCard = true;
+
+        if (IsServer) IsDraftCard = true;
     }
 
     [Server]

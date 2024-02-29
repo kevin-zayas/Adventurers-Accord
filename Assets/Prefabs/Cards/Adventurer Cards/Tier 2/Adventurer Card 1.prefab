@@ -376,13 +376,10 @@ GameObject:
   - component: {fileID: 1071464946648242112}
   - component: {fileID: -3940136168109046893}
   - component: {fileID: 8381347151152243069}
-  - component: {fileID: -3672523780777450086}
   - component: {fileID: -7842671299078475954}
-  - component: {fileID: 7546161789419670961}
-  - component: {fileID: -5180572597052913166}
-  - component: {fileID: 5170065117594714673}
+  - component: {fileID: -3672523780777450086}
   m_Layer: 8
-  m_Name: Rogue
+  m_Name: Adventurer Card 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -531,6 +528,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &-7842671299078475954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298241252680445397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: added44e882a6634ea11dd42d61d6c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: 0}
+  <ControllingPlayer>k__BackingField: {fileID: 0}
+  <ControllingPlayerHand>k__BackingField: {fileID: 0}
+  <Parent>k__BackingField: {fileID: 0}
+  <IsDraftCard>k__BackingField: 0
+  draftCardIndex: 0
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 0
+  physicalPowerText: {fileID: 0}
+  magicalPowerText: {fileID: 0}
+  costText: {fileID: 0}
 --- !u!114 &-3672523780777450086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,187 +569,23 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
-  - {fileID: -7842671299078475954}
-  - {fileID: 7546161789419670961}
+  _networkBehaviours: []
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    LocalScale: {x: 0, y: 0, z: 0}
   _isNetworked: 1
   _isGlobal: 0
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 26
+  <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 15984931531817410677
---- !u!114 &-7842671299078475954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: added44e882a6634ea11dd42d61d6c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: -3672523780777450086}
-  _networkObjectCache: {fileID: -3672523780777450086}
-  <ControllingPlayer>k__BackingField: {fileID: 0}
-  <ControllingPlayerHand>k__BackingField: {fileID: 0}
-  <Parent>k__BackingField: {fileID: 0}
-  <IsDraftCard>k__BackingField: 0
-  slotIndex: 0
-  <PhysicalPower>k__BackingField: 2
-  <MagicalPower>k__BackingField: 0
-  <Cost>k__BackingField: 5
-  physicalPowerText: {fileID: 8026055629125033657}
-  magicalPowerText: {fileID: 3313565800043067953}
-  costText: {fileID: 3602657811630039641}
---- !u!114 &7546161789419670961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e82621df6b02be48bfad9da126b3078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: -3672523780777450086}
-  _networkObjectCache: {fileID: -3672523780777450086}
-  isDragging: 0
-  isOverDropZone: 0
-  card: {fileID: 0}
-  canvas: {fileID: 0}
-  dropZone: {fileID: 0}
-  dropZoneTag: 
-  startParentTransform: {fileID: 0}
-  startPosition: {x: 0, y: 0}
---- !u!114 &-5180572597052913166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 13
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5170065117594714673}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 7546161789419670961}
-          m_TargetAssemblyTypeName: DragDrop, Assembly-CSharp
-          m_MethodName: BeginDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 14
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5170065117594714673}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 7546161789419670961}
-          m_TargetAssemblyTypeName: DragDrop, Assembly-CSharp
-          m_MethodName: EndDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5170065117594714673}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5170065117594714673}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &5170065117594714673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  <AssetPathHash>k__BackingField: 9997237240782330902
 --- !u!1 &1649686517057891831
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +651,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Sticky Fingers
+  m_text: Description
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
@@ -1212,7 +1071,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Rogue
+  m_text: Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}

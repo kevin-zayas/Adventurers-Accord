@@ -378,11 +378,11 @@ GameObject:
   - component: {fileID: 8381347151152243069}
   - component: {fileID: -3672523780777450086}
   - component: {fileID: -7842671299078475954}
-  - component: {fileID: 3113119230753172474}
-  - component: {fileID: -2126292366406778957}
-  - component: {fileID: 5078900074449231446}
+  - component: {fileID: -4143602561087136498}
+  - component: {fileID: 5759323976574761889}
+  - component: {fileID: 2292354804936784491}
   m_Layer: 8
-  m_Name: Warrior
+  m_Name: Bard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,7 +548,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: -7842671299078475954}
-  - {fileID: 3113119230753172474}
+  - {fileID: -4143602561087136498}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -560,11 +560,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 24
+  <PrefabId>k__BackingField: 6
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 13723035518689204413
+  <AssetPathHash>k__BackingField: 18291618969532560191
 --- !u!114 &-7842671299078475954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,14 +584,14 @@ MonoBehaviour:
   <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <Parent>k__BackingField: {fileID: 0}
   <IsDraftCard>k__BackingField: 0
-  slotIndex: 0
-  <PhysicalPower>k__BackingField: 3
-  <MagicalPower>k__BackingField: 0
+  draftCardIndex: 0
+  <PhysicalPower>k__BackingField: 1
+  <MagicalPower>k__BackingField: 1
   <Cost>k__BackingField: 5
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
   costText: {fileID: 3602657811630039641}
---- !u!114 &3113119230753172474
+--- !u!114 &-4143602561087136498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -614,7 +614,7 @@ MonoBehaviour:
   dropZoneTag: 
   startParentTransform: {fileID: 0}
   startPosition: {x: 0, y: 0}
---- !u!114 &-2126292366406778957
+--- !u!114 &5759323976574761889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -631,7 +631,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5078900074449231446}
+        - m_Target: {fileID: 2292354804936784491}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
           m_MethodName: DestroySpotlightCard
           m_Mode: 1
@@ -643,7 +643,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 3113119230753172474}
+        - m_Target: {fileID: -4143602561087136498}
           m_TargetAssemblyTypeName: DragDrop, Assembly-CSharp
           m_MethodName: BeginDrag
           m_Mode: 1
@@ -659,7 +659,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5078900074449231446}
+        - m_Target: {fileID: 2292354804936784491}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
           m_MethodName: DestroySpotlightCard
           m_Mode: 1
@@ -671,7 +671,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 3113119230753172474}
+        - m_Target: {fileID: -4143602561087136498}
           m_TargetAssemblyTypeName: DragDrop, Assembly-CSharp
           m_MethodName: EndDrag
           m_Mode: 1
@@ -687,7 +687,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5078900074449231446}
+        - m_Target: {fileID: 2292354804936784491}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
           m_MethodName: DestroySpotlightCard
           m_Mode: 1
@@ -703,7 +703,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5078900074449231446}
+        - m_Target: {fileID: 2292354804936784491}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
           m_MethodName: OnClick
           m_Mode: 1
@@ -715,7 +715,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &5078900074449231446
+--- !u!114 &2292354804936784491
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1212,7 +1212,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Warrior
+  m_text: Bard
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}

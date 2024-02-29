@@ -11,7 +11,10 @@ public class CardDatabase : NetworkBehaviour
 
     public List<Card> tierTwoCards = new();
 
-    public Card warriorPrefab;
+    public List<QuestCard> questCards = new();
+
+    [SerializeField]
+    private Card warriorPrefab;
 
     [SerializeField]
     private Card wizardPrefab;
@@ -24,6 +27,15 @@ public class CardDatabase : NetworkBehaviour
 
     [SerializeField]
     private Card bardPrefab;
+
+    [SerializeField]
+    private QuestCard slimePrefab;
+
+    [SerializeField]
+    public QuestCard lichPrefab;
+
+    [SerializeField]
+    private QuestCard beholderPrefab;
 
 
 

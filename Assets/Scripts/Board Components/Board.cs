@@ -50,6 +50,7 @@ public class Board : NetworkBehaviour
         {
             DrawCard(i);
         }
+        DrawQuestCard();
         UpdateDraftCardOwnwer();
         questLocation.StartGame();
         
@@ -60,7 +61,7 @@ public class Board : NetworkBehaviour
     {
         Card randomCard = Deck[Random.Range(0, Deck.Count)];
         Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
-        card.slotIndex = slotIndex;
+        card.draftCardIndex = slotIndex;
 
         Spawn(card.gameObject);
         card.SetCardParent(CardSlots[slotIndex].transform, false);
@@ -69,6 +70,21 @@ public class Board : NetworkBehaviour
         draftCards[slotIndex] = card;
         Deck.Remove(randomCard);
         deckSize = Deck.Count;
+    }
+
+    [Server]
+    private void DrawQuestCard()
+    {
+        QuestCard randomQuestCard = CardDatabase.Instance.lichPrefab;     //questCards[Random.Range(0, CardDatabase.Instance.questCards.Count)];
+        QuestCard questCard = Instantiate(randomQuestCard, Vector2.zero, Quaternion.identity);
+        //questCard.questCardIndex = 0;
+
+        questLocation.AssignQuestCard(questCard);
+
+        //Spawn(questCard.gameObject);
+        //questCard.SetCardParent(questCardSlot.transform, false);
+        //questCardSlot.Occupied = true;
+        //questCardSlot.Card = questCard;
     }
 
     [Server]

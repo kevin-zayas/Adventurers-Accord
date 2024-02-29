@@ -91,7 +91,7 @@ public class DragDrop : NetworkBehaviour
             else if (dropZoneTag == "Hand")
             {
                 Player player = GameManager.Instance.Players[Owner.ClientId];
-                slotIndex = card.slotIndex;
+                slotIndex = card.draftCardIndex;
                 //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
 
                 card.ServerSetCardParent(dropZone.transform, false);

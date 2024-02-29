@@ -564,7 +564,7 @@ MonoBehaviour:
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 8650547194165639049
+  <AssetPathHash>k__BackingField: 465755388246822245
 --- !u!114 &-7842671299078475954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +584,7 @@ MonoBehaviour:
   <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <Parent>k__BackingField: {fileID: 0}
   <IsDraftCard>k__BackingField: 0
-  slotIndex: 0
+  draftCardIndex: 0
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 5
