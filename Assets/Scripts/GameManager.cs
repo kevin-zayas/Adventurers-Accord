@@ -98,7 +98,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void EndTurn(bool passTurn)
     {
-        CurrentTurnPlayer.ServerChangeGold(5);      // temporary to test gold changing functionality
+        //CurrentTurnPlayer.ServerChangeGold(5);      // temporary to test gold changing functionality
         if (passTurn) PlayerSkipTurnStatus[Turn] = true;
 
         Turn = (Turn + 1) % Players.Count;
@@ -130,6 +130,7 @@ public class GameManager : NetworkBehaviour
                 Turn = StartingTurn;
                 break;
             case Phase.Dispatch:
+                Board.Instance.CheckQuests();
                 CurrentPhase = Phase.Draft;
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;

@@ -29,6 +29,7 @@ public class QuestLocation : NetworkBehaviour
     public void StartGame()
     {
         ObserversInitializeQuestLocation();
+
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -45,6 +46,8 @@ public class QuestLocation : NetworkBehaviour
             {
                 questLanes[i].DropZone.GetComponent<BoxCollider2D>().enabled = true;
                 questLanes[i].DropZone.GetComponent<Image>().color = Color.white;
+
+                questLanes[i].ServerSetQuestLanePlayer(GameManager.Instance.Players[i]);
             }
         }
 
@@ -79,6 +82,110 @@ public class QuestLocation : NetworkBehaviour
             print("Quest Complete");
             print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
             print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
+            CalculateQuestContributions();
+        }
+        else
+        {
+            print("Quest Incomplete");
+        }
+    }
+
+    [Server]
+    private void CalculateQuestContributions()
+    {
+        List<QuestLane> laneList = new(questLanes);
+        laneList.Sort((a, b) => b.EffectiveTotalPower.CompareTo(a.EffectiveTotalPower));
+
+        List<QuestLane> primaryContributors = new();
+        List<QuestLane> secondaryContributors = new();
+
+        foreach (QuestLane lane in laneList)
+        {
+            if (lane.MagicalPower >= QuestCard.MagicalPower && lane.PhysicalPower >= QuestCard.PhysicalPower)       
+            {
+                primaryContributors.Add(lane);                                      //primary contributors are those who meet or exceed the quest requirements
+            }
+            else
+            {
+                if (lane.EffectiveTotalPower > 0) secondaryContributors.Add(lane);
+            }
+        }
+        CalculateQuestRwards(primaryContributors, secondaryContributors);
+    }
+
+    [Server]
+    private void CalculateQuestRwards(List<QuestLane> primaryContributors, List<QuestLane> secondaryContributors)
+    {
+        if (primaryContributors.Count == 0)         //all secondary contributors recieve half rewards
+        {
+            foreach (QuestLane lane in secondaryContributors)
+            {
+                DistributeQuestRewards(lane.Player, false);
+            }
+            return;
+        }
+        else if (primaryContributors.Count == 1)    //give all rewards to primary contributor, top secondary contributor(s) recieves half rewards
+        {
+            DistributeQuestRewards(primaryContributors[0].Player, true);
+
+            if (secondaryContributors.Count == 0) return;
+            int topSecondaryPower = secondaryContributors[0].EffectiveTotalPower;
+
+            foreach (QuestLane lane in secondaryContributors)
+            {
+                if (lane.EffectiveTotalPower == topSecondaryPower)
+                {
+                    DistributeQuestRewards(lane.Player, false);
+                }
+                else break;
+            }
+            return;
+        }
+        else if (primaryContributors.Count > 1)         //top primary contributors recieve full rewards, next highest primary contributor(s) recieves half rewards
+        {
+            int topPower = primaryContributors[0].EffectiveTotalPower;
+            int secondPower = 0;
+
+            foreach (QuestLane lane in primaryContributors)
+            {
+                if (lane.EffectiveTotalPower == topPower)
+                {
+                    DistributeQuestRewards(lane.Player, true);
+                }
+                else if (secondPower != 0 && lane.EffectiveTotalPower == secondPower)
+                {
+                    DistributeQuestRewards(lane.Player, false);
+                }
+                else if (secondPower == 0)
+                {
+                    secondPower = lane.EffectiveTotalPower;
+                    DistributeQuestRewards(lane.Player, false);
+                }
+                else break;
+            }
+            return;
+        }
+    }
+
+    [Server]
+    private void DistributeQuestRewards(Player player, bool primaryContributor)
+    {
+        if (!primaryContributor)
+        {
+            int secondaryGoldReward = QuestCard.GoldReward / 2;
+            int secondaryReputationReward = QuestCard.ReputationReward / 2;
+
+            player.ServerChangeGold(secondaryGoldReward);
+            player.ServerChangeReputation(secondaryReputationReward);
+
+            print($"Player {player.PlayerID} recieves {secondaryGoldReward} GP and {secondaryReputationReward} Rep. for their contribution to the quest");
+        }
+        else
+        {
+            player.ServerChangeGold(QuestCard.GoldReward);
+            player.ServerChangeReputation(QuestCard.ReputationReward);
+
+            print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP and {QuestCard.ReputationReward} Rep. for their contribution to the quest");
         }
     }
 }

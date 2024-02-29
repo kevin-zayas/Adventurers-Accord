@@ -9,14 +9,14 @@ public class Player : NetworkBehaviour
 {
     public static Player Instance { get; private set; }
 
-    [SyncVar]
-    public int playerID;
+    [field: SyncVar]
+    public int PlayerID { get; private set; }
 
     [field: SyncVar(OnChange = nameof(UpdateGoldText))]
     public int Gold { get; private set; }
 
-    [SyncVar]
-    public int reputation;
+    [field: SyncVar]
+    public int Reputation { get; private set; }
 
     [field: SyncVar]
     public bool IsReady
@@ -38,7 +38,7 @@ public class Player : NetworkBehaviour
         base.OnStartServer();
 
         GameManager.Instance.Players.Add(this);
-        Gold = 10;
+        Gold = 25;
     }
 
     public override void OnStopServer()
@@ -60,16 +60,16 @@ public class Player : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        playerID = GameManager.Instance.Players.IndexOf(this);
+        PlayerID = GameManager.Instance.Players.IndexOf(this);
         print("Start Game");
-        print("Player ID: " + playerID);
+        print("Player ID: " + PlayerID);
         print("Client ID: " + Owner.ClientId);
 
         Hand handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
 
         controlledHand = handInstance;
         handInstance.controllingPlayer = this;
-        handInstance.playerID = playerID;
+        handInstance.playerID = PlayerID;
         Spawn(handInstance.gameObject, Owner);
 
     }
@@ -121,6 +121,12 @@ public class Player : NetworkBehaviour
     public void ServerChangeGold(int value)
     {
         this.Gold += value;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerChangeReputation(int value)
+    {
+        this.Reputation += value;
     }
 
     private void UpdateGoldText(int prevGold, int newGold, bool asServer)

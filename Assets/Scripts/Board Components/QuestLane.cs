@@ -12,6 +12,10 @@ public class QuestLane : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public Player Player { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public GameObject DropZone { get; private set; }
 
     [field: SerializeField]
@@ -24,7 +28,11 @@ public class QuestLane : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public QuestCard QuestCard { get; private set; }
+    public int EffectiveTotalPower { get; private set; }
+
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public QuestCard QuestCard { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -34,6 +42,7 @@ public class QuestLane : NetworkBehaviour
     {
         PhysicalPower = 0;
         MagicalPower = 0;
+        EffectiveTotalPower = 0;
 
         for (int i = 0; i < DropZone.transform.childCount; i++)
         {
@@ -44,8 +53,11 @@ public class QuestLane : NetworkBehaviour
             MagicalPower += card.MagicalPower;
         }
 
+        if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower;
+        if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower;
+
         ObserversUpdatePower(PhysicalPower, MagicalPower);
-        questLocation.CalculatePowerTotal();
+        //questLocation.CalculatePowerTotal();
 
     }
 
@@ -55,4 +67,16 @@ public class QuestLane : NetworkBehaviour
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerSetQuestLanePlayer(Player player)
+    {
+        Player = player;
+    }
+
+    //[Server]
+    //public void AssignQuestCard(QuestCard questCard)
+    //{
+    //    QuestCard = questCard;
+    //}
 }

@@ -103,7 +103,7 @@ public class Board : NetworkBehaviour
     }
 
     [Server]
-    public void UpdateDraftCardOwnwer()
+    public void UpdateDraftCardOwnwer()             // should be able to delete this since players can now only drag draft cards if its their turn
     {
         foreach (Card card in draftCards)
         {
@@ -118,5 +118,11 @@ public class Board : NetworkBehaviour
     private void ObserversUpdateDeckTrackers(int deckSize)
     {
         deckTrackerText.text = deckSize.ToString();
+    }
+
+    [Server]
+    public void CheckQuests()
+    {
+        questLocation.CalculatePowerTotal();
     }
 }
