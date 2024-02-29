@@ -31,10 +31,6 @@ public class Board : NetworkBehaviour
     private TMP_Text deckTrackerText;
 
     [SerializeField]
-    [SyncVar(OnChange = nameof(UpdateDeckTrackers))]
-    private int deckSize;
-
-    [SerializeField]
     public TMP_Text goldText;
 
     private void Awake()
@@ -69,7 +65,7 @@ public class Board : NetworkBehaviour
         AvailableCardSlots[slotIndex] = false;
         draftCards[slotIndex] = card;
         Deck.Remove(randomCard);
-        deckSize = Deck.Count;
+        ObserversUpdateDeckTrackers(Deck.Count);
     }
 
     [Server]
@@ -80,11 +76,6 @@ public class Board : NetworkBehaviour
         //questCard.questCardIndex = 0;
 
         questLocation.AssignQuestCard(questCard);
-
-        //Spawn(questCard.gameObject);
-        //questCard.SetCardParent(questCardSlot.transform, false);
-        //questCardSlot.Occupied = true;
-        //questCardSlot.Card = questCard;
     }
 
     [Server]
@@ -123,7 +114,8 @@ public class Board : NetworkBehaviour
         }
     }
 
-    private void UpdateDeckTrackers(int oldSize, int newSize, bool asServer)
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversUpdateDeckTrackers(int deckSize)
     {
         deckTrackerText.text = deckSize.ToString();
     }
