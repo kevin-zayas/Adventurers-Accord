@@ -26,7 +26,9 @@ public class DragDrop : NetworkBehaviour
     {
         if (isDragging)
         {
-            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            //transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector2(worldPosition.x, worldPosition.y);
         }
     }
 
@@ -49,6 +51,7 @@ public class DragDrop : NetworkBehaviour
 
     public void BeginDrag()
     {
+        if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
         if (!IsOwner) return;  // might not be neccessary if player can only drag on their turn
 
         if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
