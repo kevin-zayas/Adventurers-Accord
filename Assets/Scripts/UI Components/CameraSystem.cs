@@ -6,28 +6,33 @@ using UnityEngine;
 public class CameraSystem : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+    [SerializeField] private Camera mainCamera;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float moveSpeedScaler;
+    [SerializeField] private float orthographicRatio;
     [SerializeField] private float dragPanSpeed;
     [SerializeField] private bool useEdgeScrolling = false;
     [SerializeField] private bool useDragPanning = true;
     [SerializeField] private bool isPanning;
-
-    private Vector2 lastMousePosition;
-
-    private Vector3 moveDir;
 
     [SerializeField] private float orthographicSize;
     [SerializeField] private float minOrthographicSize;
     [SerializeField] private float maxOrthographicSize;
     [SerializeField] private float zoomSpeed;
 
+    private Vector2 lastMousePosition;
+    private Vector3 moveDir;
+    private Vector2 cameraColliderSize;
+
+    [SerializeField] private BoxCollider2D cameraCollider;
+    [SerializeField] private Rigidbody2D rb;
+
     private void Awake()
     {
-        orthographicSize = virtualCamera.m_Lens.OrthographicSize;
+        //orthographicSize = virtualCamera.m_Lens.OrthographicSize;
+        cameraColliderSize = cameraCollider.size;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         HandleCameraMovement();
         HandleCameraZoom();
@@ -35,10 +40,15 @@ public class CameraSystem : MonoBehaviour
         if (useEdgeScrolling) HandleEdgeScrolling();
         if (useDragPanning) HandleDragPanning();
 
-        transform.position += moveSpeed * Time.deltaTime * moveDir;
+        //transform.position += moveSpeed * Time.deltaTime * moveDir;
+        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * (Vector2)moveDir);
+        print(rb.position);
+        print(moveDir);
+        print(Time.fixedDeltaTime);
+        print(moveSpeed * Time.fixedDeltaTime * (Vector2)moveDir);
+        
 
         moveDir = Vector3.zero;
-        moveSpeedScaler = orthographicSize / maxOrthographicSize;
     }
 
     private void HandleCameraMovement()
@@ -79,8 +89,8 @@ public class CameraSystem : MonoBehaviour
         {
             Vector2 mouseMovementDelta = (Vector2)Input.mousePosition - lastMousePosition;
 
-            moveDir.x = -mouseMovementDelta.x * dragPanSpeed;
-            moveDir.y = -mouseMovementDelta.y * dragPanSpeed;
+            moveDir.x = -mouseMovementDelta.x * dragPanSpeed * orthographicRatio;
+            moveDir.y = -mouseMovementDelta.y * dragPanSpeed * orthographicRatio;
 
             lastMousePosition = Input.mousePosition;
         }
@@ -92,7 +102,16 @@ public class CameraSystem : MonoBehaviour
         if (Input.mouseScrollDelta.y < 0) orthographicSize += 50;
 
         orthographicSize = Mathf.Clamp(orthographicSize, minOrthographicSize, maxOrthographicSize);
-
         virtualCamera.m_Lens.OrthographicSize = Mathf.Lerp(virtualCamera.m_Lens.OrthographicSize, orthographicSize, Time.deltaTime * zoomSpeed);
+
+        orthographicRatio = orthographicSize / maxOrthographicSize;
+        cameraCollider.size = cameraColliderSize * orthographicRatio;
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        //make sure the camera system is always centered on the main camera
+        //transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, transform.position.z);
+    }
+    
 }
