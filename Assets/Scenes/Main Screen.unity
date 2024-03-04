@@ -1255,7 +1255,6 @@ GameObject:
   - component: {fileID: 518994278}
   - component: {fileID: 518994279}
   - component: {fileID: 518994280}
-  - component: {fileID: 518994281}
   m_Layer: 0
   m_Name: CameraSystem
   m_TagString: Untagged
@@ -1292,9 +1291,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 165226749}
   mainCamera: {fileID: 101664334}
-  moveSpeed: 1500
+  moveSpeed: 2000
   orthographicRatio: 0
-  dragPanSpeed: 0.5
+  dragPanSpeed: 0.05
   useEdgeScrolling: 0
   useDragPanning: 1
   isPanning: 0
@@ -1302,7 +1301,6 @@ MonoBehaviour:
   minOrthographicSize: 200
   maxOrthographicSize: 1080
   zoomSpeed: 10
-  correctionSpeed: 1
   cameraCollider: {fileID: 518994279}
   rb: {fileID: 518994280}
 --- !u!61 &518994279
@@ -1373,24 +1371,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &518994281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 518994276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d146db5e39943c4409ffcbea10f87a25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1000
-  rb: {fileID: 518994280}
 --- !u!1 &592086888
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,15 +34,16 @@ public class CameraSystem : MonoBehaviour
     {
         HandleCameraZoom();
 
-        if (useEdgeScrolling) HandleEdgeScrolling();
-        if (useDragPanning) HandleDragPanning();
-        
+        if (Input.GetMouseButtonDown(1)) isPanning = true;
+        if (Input.GetMouseButtonUp(1)) isPanning = false;
     }
     void FixedUpdate()
     {
         HandleCameraMovement();
+        if (useDragPanning && isPanning) HandleDragPanning();
+        if (useEdgeScrolling) HandleEdgeScrolling();
 
-        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * (Vector2)moveDir);
+        rb.MovePosition(rb.position + moveSpeed*orthographicRatio * Time.fixedDeltaTime * (Vector2)moveDir);
         
         moveDir = Vector3.zero;
     }
@@ -71,25 +72,12 @@ public class CameraSystem : MonoBehaviour
 
     private void HandleDragPanning()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            isPanning = true;
-            lastMousePosition = Input.mousePosition;
-        }
-        if (Input.GetMouseButtonUp(1))
-        {
-            isPanning = false;
-        }
+        Vector2 mouseMovementDelta = (Vector2)Input.mousePosition - lastMousePosition;
 
-        if (isPanning)
-        {
-            Vector2 mouseMovementDelta = (Vector2)Input.mousePosition - lastMousePosition;
+        moveDir.x = -mouseMovementDelta.x * dragPanSpeed;
+        moveDir.y = -mouseMovementDelta.y * dragPanSpeed;
 
-            moveDir.x = -mouseMovementDelta.x * dragPanSpeed * orthographicRatio;
-            moveDir.y = -mouseMovementDelta.y * dragPanSpeed * orthographicRatio;
-
-            lastMousePosition = Input.mousePosition;
-        }
+        lastMousePosition = Input.mousePosition;
     }
 
     private void HandleCameraZoom()
@@ -124,5 +112,5 @@ public class CameraSystem : MonoBehaviour
             transform.position = new Vector3(transform.position.x, transform.position.y - (cameraCollider.bounds.max.y - collision.collider.bounds.max.y), transform.position.z);
         }
     }
-    
+
 }
