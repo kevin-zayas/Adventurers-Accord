@@ -16,17 +16,21 @@ public class DragDrop : NetworkBehaviour
     [SerializeField] private Transform startParentTransform;
     [SerializeField] private Vector2 startPosition;
 
+    private Vector3 enlargedScale = new(2f, 2f, 1);
+    private Vector3 originalScale = new(1, 1, 1);
+    private Vector3 currentScale;
+
     private void Awake()
     {
         card = this.GetComponent<Card>();
         canvas = GameObject.Find("Canvas");
+        currentScale = transform.localScale;
     }
 
     private void Update()
     {
         if (isDragging)
         {
-            //transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector2(worldPosition.x, worldPosition.y);
         }
@@ -65,6 +69,7 @@ public class DragDrop : NetworkBehaviour
             startParentTransform = transform.parent;
             isDragging = true;
             transform.SetParent(canvas.transform, true);
+            transform.localScale = enlargedScale;
         }
     }
 
@@ -80,6 +85,7 @@ public class DragDrop : NetworkBehaviour
         {
             card.ServerSetCardParent(startParentTransform, true);
             transform.position = startPosition;
+            transform.localScale = currentScale;
             return;
         }
 
@@ -89,6 +95,7 @@ public class DragDrop : NetworkBehaviour
             {
                 transform.position = startPosition;
                 card.ServerSetCardParent(startParentTransform, true);
+                transform.localScale = originalScale;
                 return;
             }
             else if (dropZoneTag == "Hand")
@@ -100,6 +107,9 @@ public class DragDrop : NetworkBehaviour
                 card.ServerSetCardParent(dropZone.transform, false);
                 card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
 
+                card.transform.localScale = enlargedScale;
+                currentScale = enlargedScale;
+
                 player.ServerChangeGold(-card.Cost);
                 Board.Instance.ReplaceCard(slotIndex);
                 GameManager.Instance.EndTurn(false);
@@ -110,13 +120,24 @@ public class DragDrop : NetworkBehaviour
             if (GameManager.Instance.CurrentPhase == GameManager.Phase.Dispatch)
             {
                 card.ServerSetCardParent(dropZone.transform, false);
-                if (dropZoneTag == "Quest") dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
-                else startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
+                if (dropZoneTag == "Quest")
+                {
+                    dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
+                    transform.localScale = originalScale;
+                    currentScale = originalScale;
+                }
+                else
+                {
+                    startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
+                    transform.localScale = enlargedScale;
+                    currentScale = enlargedScale;
+                }
             }
             else
             {
                 card.ServerSetCardParent(startParentTransform, true);
                 transform.position = startPosition;
+                transform.localScale = currentScale;
                 return;
             }
             

@@ -1255,7 +1255,7 @@ GameObject:
   - component: {fileID: 518994278}
   - component: {fileID: 518994279}
   - component: {fileID: 518994280}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CameraSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1270,7 +1270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518994276}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2088,7 +2088,7 @@ GameObject:
   - component: {fileID: 1206346940}
   - component: {fileID: 1206346941}
   - component: {fileID: 1206346943}
-  m_Layer: 2
+  m_Layer: 10
   m_Name: Camera Bounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
