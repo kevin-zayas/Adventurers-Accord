@@ -1302,6 +1302,7 @@ MonoBehaviour:
   minOrthographicSize: 200
   maxOrthographicSize: 1080
   zoomSpeed: 10
+  correctionSpeed: 1
   cameraCollider: {fileID: 518994279}
   rb: {fileID: 518994280}
 --- !u!61 &518994279
@@ -1374,8 +1375,8 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!114 &518994281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2169,10 +2170,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -1920, y: 1080}
-      - {x: -1920, y: -1080}
-      - {x: 1920, y: -1080}
-      - {x: 1920, y: 1080}
+    - - {x: -1930, y: 1090}
+      - {x: -1930, y: -1090}
+      - {x: 1930, y: -1090}
+      - {x: 1930, y: 1090}
   m_UseDelaunayMesh: 0
 --- !u!68 &1206346943
 EdgeCollider2D:
@@ -2209,11 +2210,11 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 1
   m_Points:
-  - {x: -1920, y: 1080}
-  - {x: -1920, y: -1080}
-  - {x: 1920, y: -1080}
-  - {x: 1920, y: 1080}
-  - {x: -1920, y: 1080}
+  - {x: -1930, y: 1090}
+  - {x: -1930, y: -1090}
+  - {x: 1930, y: -1090}
+  - {x: 1930, y: 1090}
+  - {x: -1930, y: 1090}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

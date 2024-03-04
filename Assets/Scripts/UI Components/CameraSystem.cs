@@ -28,26 +28,22 @@ public class CameraSystem : MonoBehaviour
 
     private void Awake()
     {
-        //orthographicSize = virtualCamera.m_Lens.OrthographicSize;
         cameraColliderSize = cameraCollider.size;
     }
-
-    void FixedUpdate()
+    private void Update()
     {
-        HandleCameraMovement();
         HandleCameraZoom();
 
         if (useEdgeScrolling) HandleEdgeScrolling();
         if (useDragPanning) HandleDragPanning();
-
-        //transform.position += moveSpeed * Time.deltaTime * moveDir;
-        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * (Vector2)moveDir);
-        print(rb.position);
-        print(moveDir);
-        print(Time.fixedDeltaTime);
-        print(moveSpeed * Time.fixedDeltaTime * (Vector2)moveDir);
         
+    }
+    void FixedUpdate()
+    {
+        HandleCameraMovement();
 
+        rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * (Vector2)moveDir);
+        
         moveDir = Vector3.zero;
     }
 
@@ -110,8 +106,23 @@ public class CameraSystem : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        //make sure the camera system is always centered on the main camera
-        //transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, transform.position.z);
+        //if the camera hitbox is past the collision bounds, move it back to the center
+        if (cameraCollider.bounds.min.x < collision.collider.bounds.min.x)
+        {
+            transform.position = new Vector3(transform.position.x + (collision.collider.bounds.min.x - cameraCollider.bounds.min.x), transform.position.y, transform.position.z);
+        }
+        if (cameraCollider.bounds.max.x > collision.collider.bounds.max.x)
+        {
+            transform.position = new Vector3(transform.position.x - (cameraCollider.bounds.max.x - collision.collider.bounds.max.x), transform.position.y, transform.position.z);
+        }
+        if (cameraCollider.bounds.min.y < collision.collider.bounds.min.y)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y + (collision.collider.bounds.min.y - cameraCollider.bounds.min.y), transform.position.z);
+        }
+        if (cameraCollider.bounds.max.y > collision.collider.bounds.max.y)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y - (cameraCollider.bounds.max.y - collision.collider.bounds.max.y), transform.position.z);
+        }
     }
     
 }
