@@ -99,6 +99,8 @@ public class GameManager : NetworkBehaviour
     public void EndTurn(bool passTurn)
     {
         //CurrentTurnPlayer.ServerChangeGold(5);      // temporary to test gold changing functionality
+        //CurrentTurnPlayer.ServerChangeReputation(1);      // temporary to test reputation changing functionality
+
         if (passTurn) PlayerSkipTurnStatus[Turn] = true;
 
         Turn = (Turn + 1) % Players.Count;

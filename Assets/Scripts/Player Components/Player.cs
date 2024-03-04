@@ -12,7 +12,7 @@ public class Player : NetworkBehaviour
     [field: SyncVar]
     public int PlayerID { get; private set; }
 
-    [field: SyncVar(OnChange = nameof(UpdateGoldText))]
+    [field: SyncVar]
     public int Gold { get; private set; }
 
     [field: SyncVar]
@@ -72,6 +72,7 @@ public class Player : NetworkBehaviour
         handInstance.playerID = PlayerID;
         Spawn(handInstance.gameObject, Owner);
 
+        ObserversUpdateGoldText(this.Gold);
     }
 
     [Server]
@@ -121,19 +122,27 @@ public class Player : NetworkBehaviour
     public void ServerChangeGold(int value)
     {
         this.Gold += value;
+        ObserversUpdateGoldText(this.Gold);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangeReputation(int value)
     {
         this.Reputation += value;
+        ObserversUpdateReputationText(this.Reputation);
     }
 
-    private void UpdateGoldText(int prevGold, int newGold, bool asServer)
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversUpdateGoldText(int gold)
     {
-        if (asServer) return;
         if (!IsOwner) return;
+        Board.Instance.goldText.text = $"{gold} GP";
+    }
 
-        Board.Instance.goldText.text = $"{newGold} GP";
-    }   
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversUpdateReputationText(int reputation)
+    {
+        if (!IsOwner) return;
+        Board.Instance.reputationText.text = $"{reputation} Rep.";
+    }
 }

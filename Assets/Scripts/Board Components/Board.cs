@@ -33,6 +33,9 @@ public class Board : NetworkBehaviour
     [SerializeField]
     public TMP_Text goldText;
 
+    [SerializeField]
+    public TMP_Text reputationText;
+
     private void Awake()
     {
         Instance = this;
