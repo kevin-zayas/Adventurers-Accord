@@ -59,8 +59,10 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     {
         CurrentPhase = Phase.Draft;
-        StartingTurn = 0;
+        Board.Instance.ObserversUpdatePhaseText("Draft");
 
+        StartingTurn = 0;
+        
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].StartGame();
@@ -129,12 +131,14 @@ public class GameManager : NetworkBehaviour
         {
             case Phase.Draft:
                 CurrentPhase = Phase.Dispatch;
+                Board.Instance.ObserversUpdatePhaseText("Dispatch");
                 Turn = StartingTurn;
                 break;
             case Phase.Dispatch:
                 Board.Instance.CheckQuests();
                 Board.Instance.ResetQuests();
                 CurrentPhase = Phase.Draft;
+                Board.Instance.ObserversUpdatePhaseText("Draft");
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
                 break;

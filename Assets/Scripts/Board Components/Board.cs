@@ -31,6 +31,9 @@ public class Board : NetworkBehaviour
     private TMP_Text deckTrackerText;
 
     [SerializeField]
+    private TMP_Text phaseText;
+
+    [SerializeField]
     public TMP_Text goldText;
 
     [SerializeField]
@@ -121,6 +124,12 @@ public class Board : NetworkBehaviour
     private void ObserversUpdateDeckTrackers(int deckSize)
     {
         deckTrackerText.text = deckSize.ToString();
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    public void ObserversUpdatePhaseText(string phase)
+    {
+        phaseText.text = $"Phase : {phase}";
     }
 
     [Server]

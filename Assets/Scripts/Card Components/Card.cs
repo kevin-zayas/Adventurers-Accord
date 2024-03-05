@@ -66,7 +66,7 @@ public class Card : NetworkBehaviour
     public void ServerSetCardParent(Transform parent, bool worldPositionStays)
     {
         OberserversSetCardParent(parent, worldPositionStays, CurrentScale);
-        //this.transform.SetParent(parent, worldPositionStays);
+        this.transform.SetParent(parent, worldPositionStays);
         this.Parent = parent;
     }
 

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DragDrop : NetworkBehaviour
+public class AdventurerDragDrop : NetworkBehaviour
 {
     [SerializeField] private bool isDragging = false;
     [SerializeField] private bool isOverDropZone = false;
@@ -55,7 +55,7 @@ public class DragDrop : NetworkBehaviour
     public void BeginDrag()
     {
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
-        if (!IsOwner) return;  // might not be neccessary if player can only drag on their turn
+        if (!IsOwner) return;                   // might not be neccessary if player can only drag on their turn
 
         if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
         if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Draft) return;   
@@ -79,12 +79,11 @@ public class DragDrop : NetworkBehaviour
         if (!isDragging) return;
 
         isDragging = false;
-        int slotIndex;
 
         if (!isOverDropZone || startParentTransform == dropZone.transform)          // dont update parent if dragging and dropping into same zone
         {
-            card.ServerSetCardParent(startParentTransform, true);
-            transform.position = startPosition;
+            print("not over drop zone or same zone");
+            ResetCardPosition();
             return;
         }
 
@@ -92,50 +91,62 @@ public class DragDrop : NetworkBehaviour
         {
             if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
             {
-                transform.position = startPosition;
-                card.ServerSetCardParent(startParentTransform, true);
-                return;
+                print("cant move draft card to quest");
+                ResetCardPosition();
             }
-            else if (dropZoneTag == "Hand")
-            {
-                Player player = GameManager.Instance.Players[Owner.ClientId];
-                slotIndex = card.draftCardIndex;
-                card.ServerSetCardScale(enlargedScale);
-                //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
-
-                card.ServerSetCardParent(dropZone.transform, false);
-                card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
-
-
-                player.ServerChangeGold(-card.Cost);
-                Board.Instance.ReplaceCard(slotIndex);
-                GameManager.Instance.EndTurn(false);
-            }
+            else if (dropZoneTag == "Hand") AssignDraftCardToPlayer();
         }
         else
         {
-            if (GameManager.Instance.CurrentPhase == GameManager.Phase.Dispatch)
-            {
-                
-                if (dropZoneTag == "Quest")
-                {
-                    dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
-                    card.ServerSetCardScale(originalScale);
-                }
-                else
-                {
-                    startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
-                    card.ServerSetCardScale(enlargedScale);
-                }
-                card.ServerSetCardParent(dropZone.transform, false);
-            }
-            else
-            {
-                card.ServerSetCardParent(startParentTransform, true);
-                transform.position = startPosition;
-                return;
-            }
-            
+            print("Handling owned card movement");
+            HandleOwnedCardMovement();
         }
+    }
+
+    private void ResetCardPosition()
+    {
+        card.ServerSetCardParent(startParentTransform, true);
+        transform.position = startPosition;
+    }
+
+    private void AssignDraftCardToPlayer()
+    {
+        Player player = GameManager.Instance.Players[Owner.ClientId];
+        card.ServerSetCardScale(enlargedScale);
+
+        card.ServerSetCardParent(dropZone.transform, false);
+        card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
+
+
+        player.ServerChangeGold(-card.Cost);
+        Board.Instance.ReplaceCard(card.draftCardIndex);
+        GameManager.Instance.EndTurn(false);
+    }
+
+    private void HandleOwnedCardMovement()
+    {
+        QuestLane questLane;
+
+        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch)
+        {
+            print("cant move card during this phase");
+            ResetCardPosition();
+            return;
+        }
+
+        if (dropZoneTag == "Quest")
+        {
+            questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+            //dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
+            card.ServerSetCardScale(originalScale);
+        }
+        else
+        {
+            questLane = startParentTransform.parent.GetComponent<QuestLane>();
+            //startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
+            card.ServerSetCardScale(enlargedScale);
+        }
+        card.ServerSetCardParent(dropZone.transform, false);
+        questLane.ServerUpdatePower();
     }
 }
