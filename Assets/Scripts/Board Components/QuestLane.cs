@@ -57,7 +57,6 @@ public class QuestLane : NetworkBehaviour
         if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower;
 
         ObserversUpdatePower(PhysicalPower, MagicalPower);
-        //questLocation.CalculatePowerTotal();
 
     }
 
@@ -74,9 +73,29 @@ public class QuestLane : NetworkBehaviour
         Player = player;
     }
 
+    [Server]
+    public void ResetQuestLane()
+    {
+        PhysicalPower = 0;
+        MagicalPower = 0;
+        EffectiveTotalPower = 0;
+        //QuestCard = null;
+        for (int i = 0; i < DropZone.transform.childCount; i++)
+        {
+            Transform cardTransform = DropZone.transform.GetChild(i);
+            Card card = cardTransform.GetComponent<Card>();
+
+            card.SetCardScale(new Vector3(2f, 2f, 1f));
+            card.SetCardParent(card.ControllingPlayerHand.transform, false);
+            
+        }
+        ObserversUpdatePower(PhysicalPower, MagicalPower);
+    }
+
     //[Server]
     //public void AssignQuestCard(QuestCard questCard)
     //{
     //    QuestCard = questCard;
     //}
+
 }

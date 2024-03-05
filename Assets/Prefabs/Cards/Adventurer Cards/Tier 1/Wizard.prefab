@@ -560,7 +560,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 2
+  <PrefabId>k__BackingField: 15
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -588,6 +588,7 @@ MonoBehaviour:
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 3
   <Cost>k__BackingField: 5
+  <CurrentScale>k__BackingField: {x: 1, y: 1, z: 1}
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
   costText: {fileID: 3602657811630039641}

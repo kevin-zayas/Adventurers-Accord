@@ -188,4 +188,16 @@ public class QuestLocation : NetworkBehaviour
             print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP and {QuestCard.ReputationReward} Rep. for their contribution to the quest");
         }
     }
+
+    [Server]
+    public void ResetQuestLocation()
+    {
+        TotalPhysicalPower = 0;
+        TotalMagicalPower = 0;
+
+        for (int i = 0; i < questLanes.Length; i++)
+        {
+            questLanes[i].ResetQuestLane();
+        }
+    }
 }

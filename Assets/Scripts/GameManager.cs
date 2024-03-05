@@ -133,6 +133,7 @@ public class GameManager : NetworkBehaviour
                 break;
             case Phase.Dispatch:
                 Board.Instance.CheckQuests();
+                Board.Instance.ResetQuests();
                 CurrentPhase = Phase.Draft;
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;

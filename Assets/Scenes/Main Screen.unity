@@ -437,7 +437,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   <AvailableCardSlots>k__BackingField: 01010101
-  questLocation: {fileID: 4596520147084675065}
+  questLocations:
+  - {fileID: 4596520147084675065}
   deckTrackerText: {fileID: 920776766}
   goldText: {fileID: 2434517644923894390}
   reputationText: {fileID: 1729491780357733826}

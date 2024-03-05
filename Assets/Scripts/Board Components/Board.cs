@@ -23,7 +23,7 @@ public class Board : NetworkBehaviour
     private List<Card> Deck { get; } = new List<Card>();
 
     [field: SerializeField]
-    private QuestLocation questLocation;
+    private QuestLocation[] questLocations;
 
     private readonly int cardFrequency = 3;
 
@@ -51,7 +51,7 @@ public class Board : NetworkBehaviour
         }
         DrawQuestCard();
         UpdateDraftCardOwnwer();
-        questLocation.StartGame();
+        questLocations[0].StartGame();
         
     }
 
@@ -78,7 +78,7 @@ public class Board : NetworkBehaviour
         QuestCard questCard = Instantiate(randomQuestCard, Vector2.zero, Quaternion.identity);
         //questCard.questCardIndex = 0;
 
-        questLocation.AssignQuestCard(questCard);
+        questLocations[0].AssignQuestCard(questCard);
     }
 
     [Server]
@@ -126,6 +126,14 @@ public class Board : NetworkBehaviour
     [Server]
     public void CheckQuests()
     {
-        questLocation.CalculatePowerTotal();
+        questLocations[0].CalculatePowerTotal();
+    }
+
+    public void ResetQuests()
+    {
+        foreach (QuestLocation location in questLocations)
+        {
+            location.ResetQuestLocation();
+        }
     }
 }

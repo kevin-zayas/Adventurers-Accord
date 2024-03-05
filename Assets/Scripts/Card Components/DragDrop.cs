@@ -1,4 +1,5 @@
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,13 +19,11 @@ public class DragDrop : NetworkBehaviour
 
     private Vector3 enlargedScale = new(2f, 2f, 1);
     private Vector3 originalScale = new(1, 1, 1);
-    private Vector3 currentScale;
 
     private void Awake()
     {
         card = this.GetComponent<Card>();
         canvas = GameObject.Find("Canvas");
-        currentScale = transform.localScale;
     }
 
     private void Update()
@@ -32,7 +31,7 @@ public class DragDrop : NetworkBehaviour
         if (isDragging)
         {
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector2(worldPosition.x, worldPosition.y);
+            transform.position = (Vector2)worldPosition;
         }
     }
 
@@ -68,6 +67,7 @@ public class DragDrop : NetworkBehaviour
             startPosition = transform.position;
             startParentTransform = transform.parent;
             isDragging = true;
+
             transform.SetParent(canvas.transform, true);
             transform.localScale = enlargedScale;
         }
@@ -85,7 +85,6 @@ public class DragDrop : NetworkBehaviour
         {
             card.ServerSetCardParent(startParentTransform, true);
             transform.position = startPosition;
-            transform.localScale = currentScale;
             return;
         }
 
@@ -95,20 +94,18 @@ public class DragDrop : NetworkBehaviour
             {
                 transform.position = startPosition;
                 card.ServerSetCardParent(startParentTransform, true);
-                transform.localScale = originalScale;
                 return;
             }
             else if (dropZoneTag == "Hand")
             {
                 Player player = GameManager.Instance.Players[Owner.ClientId];
                 slotIndex = card.draftCardIndex;
+                card.ServerSetCardScale(enlargedScale);
                 //card.slotIndex = -1;                      // TODO: either make this ServerRpc or use availableCardSlots to draw new cards
 
                 card.ServerSetCardParent(dropZone.transform, false);
                 card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
 
-                card.transform.localScale = enlargedScale;
-                currentScale = enlargedScale;
 
                 player.ServerChangeGold(-card.Cost);
                 Board.Instance.ReplaceCard(slotIndex);
@@ -119,25 +116,23 @@ public class DragDrop : NetworkBehaviour
         {
             if (GameManager.Instance.CurrentPhase == GameManager.Phase.Dispatch)
             {
-                card.ServerSetCardParent(dropZone.transform, false);
+                
                 if (dropZoneTag == "Quest")
                 {
                     dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
-                    transform.localScale = originalScale;
-                    currentScale = originalScale;
+                    card.ServerSetCardScale(originalScale);
                 }
                 else
                 {
                     startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
-                    transform.localScale = enlargedScale;
-                    currentScale = enlargedScale;
+                    card.ServerSetCardScale(enlargedScale);
                 }
+                card.ServerSetCardParent(dropZone.transform, false);
             }
             else
             {
                 card.ServerSetCardParent(startParentTransform, true);
                 transform.position = startPosition;
-                transform.localScale = currentScale;
                 return;
             }
             
