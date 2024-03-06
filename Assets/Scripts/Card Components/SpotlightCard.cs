@@ -7,12 +7,17 @@ public class SpotlightCard : MonoBehaviour
     private GameObject canvas;
     private GameObject spotlightCard;
     private RectTransform cardRect;
+    private float width;
+    private float height;
 
 
     private void Awake()
     {
         canvas = GameObject.Find("Canvas");
         cardRect = gameObject.GetComponent<RectTransform>();
+        width = cardRect.rect.width;
+        height = cardRect.rect.height;
+        
     }
 
     private void Update()
@@ -27,20 +32,24 @@ public class SpotlightCard : MonoBehaviour
         {
             Vector2 spawnPosition = gameObject.transform.position;
 
-            if (gameObject.CompareTag("HandCard"))
-            {
-                // TODO: dynamically shift card depending on screen size
-                spawnPosition += new Vector2(0, 100);    // shift Card in Hand up to prevent cutoff when spotlighting
-            }
-
             spotlightCard = Instantiate(gameObject, spawnPosition, Quaternion.identity);
             spotlightCard.transform.SetParent(canvas.transform, true);
             spotlightCard.layer = LayerMask.NameToLayer("Spotlight");
 
-            //could check if quest card to make more efficient
+            Card card = spotlightCard.GetComponent<Card>();
+            if (card && card.HasItem) 
+            {
+                //print(card.transform.GetChild(1));       // show item card
+                //card.transform.GetChild(1).gameObject.SetActive(true);
+                //print(card.transform.GetChild(1).gameObject.activeSelf);
+                //card.transform.GetChild(1).GetComponent<SpotlightCard>().OnClick();
+            }
+
             RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
-            spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, cardRect.rect.width);    // manually set size since it spawns with 0,0 in quest drop zone
-            spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, cardRect.rect.height);
+            //spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);   
+            //spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);       // set card to original size in case an item was equipped
+
+            
             spotlightRect.localScale = new Vector2(2f, 2f);
 
             CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();

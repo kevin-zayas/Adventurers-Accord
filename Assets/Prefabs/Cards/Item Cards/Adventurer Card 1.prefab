@@ -150,8 +150,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: -5630888917086196066}
   - component: {fileID: -4959033644106127066}
   m_Layer: 8
-  m_Name: Adventurer Card
+  m_Name: Adventurer Card 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,7 +564,7 @@ MonoBehaviour:
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 13734508280674943513
+  <AssetPathHash>k__BackingField: 9974601489188788612
 --- !u!114 &-7842671299078475954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -587,10 +587,7 @@ MonoBehaviour:
   draftCardIndex: 0
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
-  <OriginalPhysicalPower>k__BackingField: 0
-  <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
-  <HasItem>k__BackingField: 0
   <CurrentScale>k__BackingField: {x: 1, y: 1, z: 1}
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
@@ -1015,8 +1012,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

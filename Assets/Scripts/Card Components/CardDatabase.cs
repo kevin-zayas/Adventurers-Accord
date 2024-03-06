@@ -13,29 +13,31 @@ public class CardDatabase : NetworkBehaviour
 
     public List<QuestCard> questCards = new();
 
-    [SerializeField]
-    private Card warriorPrefab;
+    //TIER 1 CARDS
+    [SerializeField] private Card warriorPrefab;
 
-    [SerializeField]
-    private Card wizardPrefab;
+    [SerializeField] private Card wizardPrefab;
 
-    [SerializeField]
-    private Card clericPrefab;
+    [SerializeField] private Card clericPrefab;
 
-    [SerializeField]
-    private Card roguePrefab;
+    [SerializeField] private Card roguePrefab;
 
-    [SerializeField]
-    private Card bardPrefab;
+    [SerializeField] private Card bardPrefab;
 
-    [SerializeField]
-    private QuestCard slimePrefab;
+    //QUEST CARDS
 
-    [SerializeField]
-    public QuestCard lichPrefab;
+    [SerializeField] private QuestCard slimePrefab;
 
-    [SerializeField]
-    private QuestCard beholderPrefab;
+    [SerializeField] public QuestCard lichPrefab;
+
+    [SerializeField] private QuestCard beholderPrefab;
+
+    // MAGIC ITEM CARDS
+
+    [SerializeField] public ItemCard swordPrefab;
+    [SerializeField] public ItemCardHeader itemHeaderPrefab;
+
+
 
 
 

@@ -2806,7 +2806,7 @@ MonoBehaviour:
   tierOneCards: []
   tierTwoCards: []
   questCards: []
-  warriorPrefab: {fileID: -7842671299078475954, guid: ae16123b9cfc72f488045aa23a4e2de3, type: 3}
+  warriorPrefab: {fileID: 2375407051779204461, guid: 062de0dd0e54d8e4e976080acf875340, type: 3}
   wizardPrefab: {fileID: -7842671299078475954, guid: 4c7b00ea3b5704b4c924e755e6d3ad57, type: 3}
   clericPrefab: {fileID: -7842671299078475954, guid: 946ec2b906b9b8345bdc6c1477f57d01, type: 3}
   roguePrefab: {fileID: -7842671299078475954, guid: c27bb69b660726c43b687bba7784d38b, type: 3}
@@ -2814,6 +2814,8 @@ MonoBehaviour:
   slimePrefab: {fileID: -5912677968188888225, guid: aae8549251d420b4f80db17e5679a9fa, type: 3}
   lichPrefab: {fileID: -5912677968188888225, guid: e7701cdf11b86634ea9b4389cb544818, type: 3}
   beholderPrefab: {fileID: -5912677968188888225, guid: 6c78bac00862339438252e1a928c78d9, type: 3}
+  swordPrefab: {fileID: 3478594553878486444, guid: d611220e5137274468b13454f2fa4969, type: 3}
+  itemHeaderPrefab: {fileID: -6448425254066891952, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
 --- !u!1 &1827101433
 GameObject:
   m_ObjectHideFlags: 3

@@ -55,7 +55,15 @@ public class Board : NetworkBehaviour
         DrawQuestCard();
         UpdateDraftCardOwnwer();
         questLocations[0].StartGame();
-        
+
+        ItemCard item = CardDatabase.Instance.swordPrefab;     //questCards[Random.Range(0, CardDatabase.Instance.questCards.Count)];
+        ItemCard itemCard = Instantiate(item, Vector2.zero, Quaternion.identity);
+
+        Spawn(itemCard.gameObject);
+        itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
+        itemCard.SetCardParent(GameManager.Instance.Players[0].controlledHand.transform, false);
+
+
     }
 
     [Server]
@@ -79,6 +87,7 @@ public class Board : NetworkBehaviour
     {
         QuestCard randomQuestCard = CardDatabase.Instance.lichPrefab;     //questCards[Random.Range(0, CardDatabase.Instance.questCards.Count)];
         QuestCard questCard = Instantiate(randomQuestCard, Vector2.zero, Quaternion.identity);
+        
         //questCard.questCardIndex = 0;
 
         questLocations[0].AssignQuestCard(questCard);

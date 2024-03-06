@@ -79,7 +79,7 @@ public class QuestLane : NetworkBehaviour
         PhysicalPower = 0;
         MagicalPower = 0;
         EffectiveTotalPower = 0;
-        //QuestCard = null;
+
         for (int i = 0; i < DropZone.transform.childCount; i++)
         {
             Transform cardTransform = DropZone.transform.GetChild(i);

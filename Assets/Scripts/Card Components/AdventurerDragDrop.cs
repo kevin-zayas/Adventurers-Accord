@@ -20,6 +20,9 @@ public class AdventurerDragDrop : NetworkBehaviour
     private Vector3 enlargedScale = new(2f, 2f, 1);
     private Vector3 originalScale = new(1, 1, 1);
 
+
+    // TODO: Dont need IsOverDropZone, just check if dropZone is null or not
+
     private void Awake()
     {
         card = this.GetComponent<Card>();
@@ -37,6 +40,7 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (!collision.gameObject.CompareTag("Quest") && !collision.gameObject.CompareTag("Hand")) return;
         isOverDropZone = true;
         dropZone = collision.gameObject;
         dropZoneTag = collision.gameObject.tag;
