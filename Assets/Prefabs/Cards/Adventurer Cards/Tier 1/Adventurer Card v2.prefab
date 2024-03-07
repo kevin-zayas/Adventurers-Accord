@@ -1472,11 +1472,11 @@ MonoBehaviour:
   Description: 
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
-  <ItemPhysicalPower>k__BackingField: 0
-  <ItemMagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
-  <Cost>k__BackingField: 5
+  <ItemPhysicalPower>k__BackingField: 0
+  <ItemMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 0
   <HasItem>k__BackingField: 0
   <CurrentScale>k__BackingField: {x: 1, y: 1, z: 1}
   physicalPowerText: {fileID: 6897460745711348589}

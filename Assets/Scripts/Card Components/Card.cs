@@ -26,9 +26,6 @@ public class Card : NetworkBehaviour
     [SyncVar] private string Name;
     [SyncVar] private string Description;
 
-    [field: SerializeField] public int OriginalPhysicalPower { get; private set; }
-    [field: SerializeField] public int OriginalMagicalPower { get; private set; }
-
     [field: SerializeField]
     [field: SyncVar] 
     public int PhysicalPower { get; private set; }
@@ -39,12 +36,19 @@ public class Card : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public int OriginalPhysicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public int OriginalMagicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public int ItemPhysicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
     public int ItemMagicalPower { get; private set; }
-
 
     [field: SerializeField]
     [field: SyncVar]
@@ -53,10 +57,6 @@ public class Card : NetworkBehaviour
     [field: SerializeField]
     [field: SyncVar]
     public bool HasItem { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public Vector3 CurrentScale { get; private set;}
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -81,20 +81,25 @@ public class Card : NetworkBehaviour
     [Server]
     public void SetCardParent(Transform parent, bool worldPositionStays)
     {
-        OberserversSetCardParent(parent, worldPositionStays, CurrentScale);
+        OberserversSetCardParent(parent, worldPositionStays);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardParent(Transform parent, bool worldPositionStays)
     {
-        OberserversSetCardParent(parent, worldPositionStays, CurrentScale);
+        OberserversSetCardParent(parent, worldPositionStays);
         this.transform.SetParent(parent, worldPositionStays);
         this.Parent = parent;
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform parent, bool worldPositionStays, Vector3 scale)
+    private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
     {
+        Vector3 scale;
+
+        if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
+        else scale = new Vector3(1f, 1f, 1f);
+
         this.transform.localScale = scale;
         this.transform.SetParent(parent, worldPositionStays);
     }
@@ -108,20 +113,8 @@ public class Card : NetworkBehaviour
         IsDraftCard = false;
     }
 
-    [Server]
-    public void SetCardScale(Vector3 scale)
-    {
-        this.CurrentScale = scale;
-    }
-
     [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardScale(Vector3 scale)
-    {
-        this.CurrentScale = scale;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetItem(bool hasItem, ItemCard itemCard)
+    public void ServerEquipItem(bool hasItem, ItemCard itemCard)
     {
         HasItem = hasItem;
 

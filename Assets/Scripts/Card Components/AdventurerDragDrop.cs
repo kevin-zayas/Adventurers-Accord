@@ -17,12 +17,6 @@ public class AdventurerDragDrop : NetworkBehaviour
     [SerializeField] private Transform startParentTransform;
     [SerializeField] private Vector2 startPosition;
 
-    private Vector3 enlargedScale = new(2f, 2f, 1);
-    private Vector3 originalScale = new(1, 1, 1);
-
-    // check for quest/hand tags in set parent logic to determine card scale instead of tracking it
-    //if canvas or hand, enlarge, otherwise, original scale
-
     private void Awake()
     {
         card = this.GetComponent<Card>();
@@ -72,7 +66,7 @@ public class AdventurerDragDrop : NetworkBehaviour
             isDragging = true;
 
             transform.SetParent(canvas.transform, true);
-            transform.localScale = enlargedScale;
+            transform.localScale = new Vector3(2f, 2f, 1f);
         }
     }
 
@@ -115,11 +109,9 @@ public class AdventurerDragDrop : NetworkBehaviour
     private void AssignDraftCardToPlayer()
     {
         Player player = GameManager.Instance.Players[LocalConnection.ClientId];
-        card.ServerSetCardScale(enlargedScale);
 
         card.ServerSetCardParent(dropZone.transform, false);
-        card.ServerSetCardOwner(dropZone.GetComponent<Hand>().controllingPlayer);
-
+        card.ServerSetCardOwner(player);
 
         player.ServerChangeGold(-card.Cost);
         Board.Instance.ReplaceCard(card.draftCardIndex);
@@ -140,12 +132,10 @@ public class AdventurerDragDrop : NetworkBehaviour
         if (dropZoneTag == "Quest")
         {
             questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-            card.ServerSetCardScale(originalScale);
         }
         else
         {
             questLane = startParentTransform.parent.GetComponent<QuestLane>();
-            card.ServerSetCardScale(enlargedScale);
         }
         card.ServerSetCardParent(dropZone.transform, false);
         questLane.ServerUpdatePower();

@@ -91,7 +91,7 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        card.ServerSetItem(true,this.GetComponent<ItemCard>());
+        card.ServerEquipItem(true,this.GetComponent<ItemCard>());
         this.GetComponent<ItemCard>().ServerDespawnItem();
     }
 

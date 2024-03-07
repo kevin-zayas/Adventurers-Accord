@@ -85,7 +85,6 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(i);
             Card card = cardTransform.GetComponent<Card>();
 
-            card.SetCardScale(new Vector3(2f, 2f, 1f));
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
             
         }
