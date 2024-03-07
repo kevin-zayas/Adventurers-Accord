@@ -5,7 +5,7 @@ public class ItemDragDrop : NetworkBehaviour
 {
     [SerializeField] private bool isDragging = false;
 
-    [SerializeField] private ItemCard item;
+    [SerializeField] private ItemCard itemCard;
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject adventurerCard;
 
@@ -13,11 +13,10 @@ public class ItemDragDrop : NetworkBehaviour
     [SerializeField] private Vector2 startPosition;
 
     private Vector3 enlargedScale = new(2f, 2f, 1);
-    //private Vector3 originalScale = new(1, 1, 1);
 
     private void Awake()
     {
-        item = this.GetComponent<ItemCard>();
+        itemCard = this.GetComponent<ItemCard>();
         canvas = GameObject.Find("Canvas");
     }
 
@@ -82,7 +81,7 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        if (item.MagicalPower > 0 && card.OriginalMagicalPower == 0 || item.PhysicalPower > 0 && card.OriginalPhysicalPower == 0)
+        if (itemCard.MagicalPower > 0 && card.OriginalMagicalPower == 0 || itemCard.PhysicalPower > 0 && card.OriginalPhysicalPower == 0)
         { 
             print("Card does not have the required power type");
             ResetCardPosition();
@@ -95,7 +94,7 @@ public class ItemDragDrop : NetworkBehaviour
 
     private void ResetCardPosition()
     {
-        item.ServerSetCardParent(startParentTransform, true);
+        itemCard.ServerSetCardParent(startParentTransform, true);
         transform.position = startPosition;
     }
 }

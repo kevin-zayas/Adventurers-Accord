@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7821442633937665688}
   - component: {fileID: 6387864536621127754}
   - component: {fileID: 1505903167680471305}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Physical Power Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 2014966540962646060}
   - component: {fileID: 5445000493131543050}
   - component: {fileID: 3313565800043067953}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Magical Power Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 6994029384681310045}
   - component: {fileID: 6707684224655754978}
   - component: {fileID: 7767814741894645841}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Card Type Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 2504231823006971229}
   - component: {fileID: 5902683942916845234}
   - component: {fileID: 1341507225892689765}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Description Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,7 +380,8 @@ GameObject:
   - component: {fileID: -4959033644106127066}
   - component: {fileID: -5630888917086196066}
   - component: {fileID: 6669853012309926568}
-  m_Layer: 7
+  - component: {fileID: 3577841985777620674}
+  m_Layer: 6
   m_Name: Spell Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,6 +548,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 6669853012309926568}
+  - {fileID: 3577841985777620674}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -558,7 +560,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 26
+  <PrefabId>k__BackingField: 28
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -604,8 +606,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ItemDragDrop, Assembly-CSharp
+        - m_Target: {fileID: 3577841985777620674}
+          m_TargetAssemblyTypeName: SpellDragDrop, Assembly-CSharp
           m_MethodName: BeginDrag
           m_Mode: 1
           m_Arguments:
@@ -632,8 +634,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ItemDragDrop, Assembly-CSharp
+        - m_Target: {fileID: 3577841985777620674}
+          m_TargetAssemblyTypeName: SpellDragDrop, Assembly-CSharp
           m_MethodName: EndDrag
           m_Mode: 1
           m_Arguments:
@@ -702,6 +704,28 @@ MonoBehaviour:
   magicalPowerText: {fileID: 3313565800043067953}
   nameText: {fileID: 2029664163792765779}
   descriptionText: {fileID: 3101418111192428437}
+--- !u!114 &3577841985777620674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298241252680445397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b88aab0f76897e047b7ff8c2017963af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  isDragging: 0
+  spellCard: {fileID: 0}
+  canvas: {fileID: 0}
+  dropZone: {fileID: 0}
+  dropZoneTag: 
+  startParentTransform: {fileID: 0}
+  startPosition: {x: 0, y: 0}
 --- !u!1 &1649686517057891831
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +737,7 @@ GameObject:
   - component: {fileID: 6335118759540969356}
   - component: {fileID: 6406293880635271081}
   - component: {fileID: 3101418111192428437}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Description Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +871,7 @@ GameObject:
   - component: {fileID: 1135286747312864953}
   - component: {fileID: 2160437339132628494}
   - component: {fileID: 4319967514475021601}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -865,8 +889,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5060433045479373600}
+  m_Children: []
   m_Father: {fileID: 7761235991776374320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -923,7 +946,7 @@ GameObject:
   - component: {fileID: 6010824422993210682}
   - component: {fileID: 7104132361858171868}
   - component: {fileID: 8026055629125033657}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Physical Power Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1057,7 +1080,7 @@ GameObject:
   - component: {fileID: 982228379713246214}
   - component: {fileID: 1844625145404964473}
   - component: {fileID: 7395197083250917862}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Card Type Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,7 +1157,7 @@ GameObject:
   - component: {fileID: 5060433045479373600}
   - component: {fileID: 8791540378486234846}
   - component: {fileID: 2029664163792765779}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Name Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1148,17 +1171,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3741814179643944358}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1135286747312864953}
+  m_Father: {fileID: 7761235991776374320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 70, y: 17.5}
+  m_SizeDelta: {x: 67, y: 17.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8791540378486234846
 CanvasRenderer:
@@ -1215,11 +1238,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 11.8
   m_fontSizeBase: 14
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 5
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -1268,7 +1291,7 @@ GameObject:
   - component: {fileID: 4051037938474727732}
   - component: {fileID: 2446420104124946549}
   - component: {fileID: 293013481501250714}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Gold Cost Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1344,7 +1367,7 @@ GameObject:
   - component: {fileID: 8932638312122843732}
   - component: {fileID: 5661959828193369505}
   - component: {fileID: 6958857792175851566}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1419,7 +1442,7 @@ GameObject:
   - component: {fileID: 6160614096576153424}
   - component: {fileID: 2875005347532937308}
   - component: {fileID: 3602657811630039641}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Gold Cost Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1553,7 +1576,7 @@ GameObject:
   - component: {fileID: 8582138972638150540}
   - component: {fileID: 556066685660464481}
   - component: {fileID: 7968583851048519434}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Image Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1629,7 +1652,7 @@ GameObject:
   - component: {fileID: 8993565562841899314}
   - component: {fileID: 526045230316988219}
   - component: {fileID: 1160586593837932891}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Card Type Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1763,7 +1786,7 @@ GameObject:
   - component: {fileID: 4598698422829104249}
   - component: {fileID: 3641385059057062773}
   - component: {fileID: 2791331612048735893}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Description Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1838,7 +1861,7 @@ GameObject:
   - component: {fileID: 8685713706935660801}
   - component: {fileID: 9206524156624128369}
   - component: {fileID: 380845020992638230}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Physical Power Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1915,7 +1938,7 @@ GameObject:
   - component: {fileID: 7761235991776374320}
   - component: {fileID: 7232435306114364955}
   - component: {fileID: 4728181806062659936}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Name Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1935,6 +1958,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1135286747312864953}
+  - {fileID: 5060433045479373600}
   m_Father: {fileID: 2807776106187691063}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1991,7 +2015,7 @@ GameObject:
   - component: {fileID: 1697372021174204799}
   - component: {fileID: 8327477866517080513}
   - component: {fileID: 5327936678973351918}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Gold Cost Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2067,7 +2091,7 @@ GameObject:
   - component: {fileID: 3361029980243490254}
   - component: {fileID: 5421024102342924741}
   - component: {fileID: 783877031983777558}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Magical Power Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2144,7 +2168,7 @@ GameObject:
   - component: {fileID: 2357096737808283209}
   - component: {fileID: 5198466577436436792}
   - component: {fileID: 3226558356428409685}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Magical Power Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2219,7 +2243,7 @@ GameObject:
   - component: {fileID: 6966553098590769342}
   - component: {fileID: 3218495559807428805}
   - component: {fileID: 6348006093116403189}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: SubDescription Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2353,7 +2377,7 @@ GameObject:
   - component: {fileID: 2807776106187691063}
   - component: {fileID: 558423533190786510}
   - component: {fileID: 3867973295702762390}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Front Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2438,7 +2462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1099626951572417499, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1099626951572417499, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_IsActive
@@ -2446,7 +2470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1956391607716598439, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6564929055347162224, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_Pivot.x

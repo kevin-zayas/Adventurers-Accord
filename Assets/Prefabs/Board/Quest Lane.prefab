@@ -605,6 +605,7 @@ RectTransform:
   - {fileID: 3752759915475645925}
   - {fileID: 7917181600023174286}
   - {fileID: 3568430525261134332}
+  - {fileID: 3117126216938332001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -627,9 +628,13 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5648548999079657597}
   _networkObjectCache: {fileID: 5648548999079657597}
+  questLocation: {fileID: 0}
+  <Player>k__BackingField: {fileID: 0}
   <DropZone>k__BackingField: {fileID: 9205107535061240866}
+  <SpellDropZone>k__BackingField: {fileID: 0}
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
+  <EffectiveTotalPower>k__BackingField: 0
   physicalPowerText: {fileID: 4129425861735006748}
   magicalPowerText: {fileID: 3172343994968927532}
 --- !u!114 &5648548999079657597
@@ -652,6 +657,7 @@ MonoBehaviour:
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 2119475767431536679}
+  - {fileID: 0}
   SerializedTransformProperties:
     Position: {x: -960, y: -540, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -770,6 +776,14 @@ PrefabInstance:
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 5648548999079657597}
+    - target: {fileID: 8939698410116029984, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
+      propertyPath: SerializedTransformProperties.Position.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939698410116029984, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
+      propertyPath: SerializedTransformProperties.Position.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -795,4 +809,110 @@ RectTransform:
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2217687626750751269, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
   m_PrefabInstance: {fileID: 7023877837163150855}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7586333397495116469
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 410274817210553332}
+    m_Modifications:
+    - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: <IsNested>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769825860021199324, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_Name
+      value: Spell Drop Zone
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+--- !u!224 &3117126216938332001 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+  m_PrefabInstance: {fileID: 7586333397495116469}
   m_PrefabAsset: {fileID: 0}

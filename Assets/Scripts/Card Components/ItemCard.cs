@@ -72,6 +72,14 @@ public class ItemCard : NetworkBehaviour
         this.transform.SetParent(parent, worldPositionStays);
     }
 
+    [Server]
+    public void SetCardOwner(Player player)
+    {
+        ControllingPlayer = player;
+        ControllingPlayerHand = player.controlledHand;
+        GiveOwnership(player.Owner);
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player player)
     {

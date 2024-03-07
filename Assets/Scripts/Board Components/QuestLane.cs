@@ -18,6 +18,10 @@ public class QuestLane : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public GameObject SpellDropZone { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public int PhysicalPower { get; private set; }
 
     [field: SerializeField]

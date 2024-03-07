@@ -92,7 +92,7 @@ public class AdventurerDragDrop : NetworkBehaviour
         else
         {
             print("Handling owned card movement");
-            HandleOwnedCardMovement();
+            HandleCardMovement();
         }
     }
 
@@ -114,7 +114,7 @@ public class AdventurerDragDrop : NetworkBehaviour
         GameManager.Instance.EndTurn(false);
     }
 
-    private void HandleOwnedCardMovement()
+    private void HandleCardMovement()
     {
         QuestLane questLane;
 

@@ -47,6 +47,14 @@ public class SpellCard : NetworkBehaviour
         OberserversSetCardParent(parent, worldPositionStays);
     }
 
+    [Server]
+    public void SetCardOwner(Player player)
+    {
+        ControllingPlayer = player;
+        ControllingPlayerHand = player.controlledHand;
+        GiveOwnership(player.Owner);
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardParent(Transform parent, bool worldPositionStays)
     {

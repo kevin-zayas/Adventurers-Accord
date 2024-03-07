@@ -156,6 +156,7 @@ public class Board : NetworkBehaviour
 
                 Spawn(itemCard.gameObject);
                 itemCard.LoadCardData(randomLootData);
+                itemCard.SetCardOwner(player);
                 itemCard.SetCardParent(player.controlledHand.transform, false);
             }
             else
@@ -164,6 +165,7 @@ public class Board : NetworkBehaviour
 
                 Spawn(spellCard.gameObject);
                 spellCard.LoadCardData(randomLootData);
+                spellCard.SetCardOwner(player);
                 spellCard.SetCardParent(player.controlledHand.transform, false);
             }
 
