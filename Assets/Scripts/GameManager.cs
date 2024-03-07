@@ -94,15 +94,11 @@ public class GameManager : NetworkBehaviour
             Players[i].BeginTurn();
         }
         CurrentTurnPlayer = Players[Turn];
-        Board.Instance.UpdateDraftCardOwnwer();
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void EndTurn(bool passTurn)
     {
-        //CurrentTurnPlayer.ServerChangeGold(5);      // temporary to test gold changing functionality
-        //CurrentTurnPlayer.ServerChangeReputation(1);      // temporary to test reputation changing functionality
-
         if (passTurn) PlayerSkipTurnStatus[Turn] = true;
 
         Turn = (Turn + 1) % Players.Count;

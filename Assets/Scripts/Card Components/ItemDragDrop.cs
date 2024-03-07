@@ -77,7 +77,7 @@ public class ItemDragDrop : NetworkBehaviour
 
         Card card = adventurerCard.GetComponent<Card>();
 
-        if (card.IsDraftCard || card.HasItem || !card.IsOwner)  // check if over owned card
+        if (card.IsDraftCard || card.HasItem || !card.IsOwner)
         {
             print("Card already has item or over unowned card");
             ResetCardPosition();

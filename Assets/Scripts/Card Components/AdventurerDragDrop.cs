@@ -2,12 +2,12 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AdventurerDragDrop : NetworkBehaviour
 {
     [SerializeField] private bool isDragging = false;
-    [SerializeField] private bool isOverDropZone = false;
 
     [SerializeField] private Card card;
     [SerializeField] private GameObject canvas;
@@ -20,8 +20,8 @@ public class AdventurerDragDrop : NetworkBehaviour
     private Vector3 enlargedScale = new(2f, 2f, 1);
     private Vector3 originalScale = new(1, 1, 1);
 
-
-    // TODO: Dont need IsOverDropZone, just check if dropZone is null or not
+    // check for quest/hand tags in set parent logic to determine card scale instead of tracking it
+    //if canvas or hand, enlarge, otherwise, original scale
 
     private void Awake()
     {
@@ -41,7 +41,7 @@ public class AdventurerDragDrop : NetworkBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Quest") && !collision.gameObject.CompareTag("Hand")) return;
-        isOverDropZone = true;
+
         dropZone = collision.gameObject;
         dropZoneTag = collision.gameObject.tag;
     }
@@ -50,7 +50,6 @@ public class AdventurerDragDrop : NetworkBehaviour
     {
         if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
         {
-            isOverDropZone = false;
             dropZone = null;
             dropZoneTag = null;
         }
@@ -59,12 +58,12 @@ public class AdventurerDragDrop : NetworkBehaviour
     public void BeginDrag()
     {
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
-        if (!IsOwner) return;                   // might not be neccessary if player can only drag on their turn
+        if (!card.IsDraftCard && !IsOwner) return;
 
         if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
         if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Draft) return;   
 
-        Player player = GameManager.Instance.Players[Owner.ClientId];
+        Player player = GameManager.Instance.Players[LocalConnection.ClientId];
 
         if (!card.IsDraftCard || player.Gold >= card.Cost)         // only check for player gold if trying to drag a DraftCard
         {
@@ -84,7 +83,7 @@ public class AdventurerDragDrop : NetworkBehaviour
 
         isDragging = false;
 
-        if (!isOverDropZone || startParentTransform == dropZone.transform)          // dont update parent if dragging and dropping into same zone
+        if (dropZone == null || startParentTransform == dropZone.transform)          // dont update parent if dragging and dropping into same zone
         {
             print("not over drop zone or same zone");
             ResetCardPosition();
@@ -115,7 +114,7 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void AssignDraftCardToPlayer()
     {
-        Player player = GameManager.Instance.Players[Owner.ClientId];
+        Player player = GameManager.Instance.Players[LocalConnection.ClientId];
         card.ServerSetCardScale(enlargedScale);
 
         card.ServerSetCardParent(dropZone.transform, false);
@@ -141,13 +140,11 @@ public class AdventurerDragDrop : NetworkBehaviour
         if (dropZoneTag == "Quest")
         {
             questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-            //dropZone.transform.parent.GetComponent<QuestLane>().ServerUpdatePower();
             card.ServerSetCardScale(originalScale);
         }
         else
         {
             questLane = startParentTransform.parent.GetComponent<QuestLane>();
-            //startParentTransform.parent.GetComponent<QuestLane>().ServerUpdatePower();
             card.ServerSetCardScale(enlargedScale);
         }
         card.ServerSetCardParent(dropZone.transform, false);

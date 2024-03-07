@@ -94,11 +94,13 @@ public class Card : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardOwner(Player owner)
+    public void ServerSetCardOwner(Player player)
     {
-        ControllingPlayer = owner;
-        ControllingPlayerHand = owner.controlledHand;
+        ControllingPlayer = player;
+        ControllingPlayerHand = player.controlledHand;
+        GiveOwnership(player.Owner);
         IsDraftCard = false;
+
     }
 
     [Server]

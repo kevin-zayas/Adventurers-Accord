@@ -56,7 +56,7 @@ public class Board : NetworkBehaviour
             DrawCard(i);
         }
         DrawQuestCard();
-        UpdateDraftCardOwnwer();
+
         questLocations[0].StartGame();
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
@@ -95,20 +95,6 @@ public class Board : NetworkBehaviour
     [Server]
     private void ConstructDecks()
     {
-        //List<Card> cardList = CardDatabase.Instance.tierOneCards;
-        //foreach(Card card in CardDatabase.Instance.tierOneCards)
-        //{
-        //    //for (int x = 0; x < cardFrequency; x++)
-        //    //{
-        //    //    Deck.Add(cardList[i]);
-        //    //}
-        //    //Deck.AddRange(card)
-        //}
-
-        //foreach(ItemCard item in CardDatabase.Instance.lootCards)
-        //{
-        //    LootDeck.Add(item);
-        //}
         for (int i = 0; i < cardFrequency; i++)
         {
             Deck.AddRange(CardDatabase.Instance.tierOneCards);
@@ -124,18 +110,6 @@ public class Board : NetworkBehaviour
             AvailableCardSlots[slotIndex] = true;
             draftCards[slotIndex] = null;
             DrawCard(slotIndex);
-        }
-    }
-
-    [Server]
-    public void UpdateDraftCardOwnwer()             // should be able to delete this since players can now only drag draft cards if its their turn
-    {
-        foreach (Card card in draftCards)
-        {
-            SyncList<Player> players = GameManager.Instance.Players;
-            int turn = GameManager.Instance.Turn;
-
-            card.GiveOwnership(players[turn].Owner);
         }
     }
 
