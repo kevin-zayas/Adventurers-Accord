@@ -1,14 +1,11 @@
-using FishNet.Object.Synchronizing;
 using FishNet.Object;
-using System;
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Unity.VisualScripting;
-using FishNet.Demo.AdditiveScenes;
 
-public class ItemCard : NetworkBehaviour
+public class SpellCard : NetworkBehaviour
 {
     [field: SerializeField]
     [field: SyncVar]
@@ -20,10 +17,10 @@ public class ItemCard : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public string Name { get; private set; }
+    public Transform Parent { get; private set; }
 
+    [SyncVar] private string Name;
     [SyncVar] private string Description;
-    [SyncVar] private string SubDescription;
 
     [field: SerializeField]
     [field: SyncVar]
@@ -33,21 +30,15 @@ public class ItemCard : NetworkBehaviour
     [field: SyncVar]
     public int MagicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool IsEquipped { get; private set; }
-
-    [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
+    [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text subDescriptionText;
 
     private void Start()
     {
         nameText.text = Name;
         descriptionText.text = Description;
-        subDescriptionText.text = SubDescription;
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
     }
@@ -63,6 +54,7 @@ public class ItemCard : NetworkBehaviour
     {
         OberserversSetCardParent(parent, worldPositionStays);
         this.transform.SetParent(parent, worldPositionStays);
+        this.Parent = parent;
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -85,12 +77,6 @@ public class ItemCard : NetworkBehaviour
         GiveOwnership(player.Owner);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerDespawnItem()
-    {
-        this.Despawn();
-    }
-
     [Server]
     public void LoadCardData(CardData cardData)
     {
@@ -98,7 +84,6 @@ public class ItemCard : NetworkBehaviour
         MagicalPower = cardData.magicalPower;
         Name = cardData.cardName;
         Description = cardData.cardDescription;
-        SubDescription = cardData.cardSubDescription;
 
         ObserversLoadCardData(cardData);
     }
@@ -110,7 +95,5 @@ public class ItemCard : NetworkBehaviour
         magicalPowerText.text = cardData.magicalPower.ToString();
         nameText.text = cardData.cardName;
         descriptionText.text = cardData.cardDescription;
-        subDescriptionText.text = cardData.cardSubDescription;
     }
-
 }

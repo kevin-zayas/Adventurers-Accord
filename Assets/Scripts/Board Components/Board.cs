@@ -23,7 +23,7 @@ public class Board : NetworkBehaviour
     private List<CardData> Deck { get; } = new List<CardData>();
 
     [field: SerializeField]
-    private List<ItemCard> LootDeck { get; } = new List<ItemCard>();
+    private List<CardData> LootDeck { get; } = new List<CardData>();
 
     [field: SerializeField]
     private QuestLocation[] questLocations;
@@ -149,14 +149,26 @@ public class Board : NetworkBehaviour
 
         for (int i=0; i<lootAmount; i++)
         {
-            ItemCard randomLoot = LootDeck[Random.Range(0, LootDeck.Count)];
-            ItemCard itemCard = Instantiate(randomLoot, Vector2.zero, Quaternion.identity);
+            CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
 
-            Spawn(itemCard.gameObject);
-            itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
-            itemCard.SetCardParent(player.controlledHand.transform, false);
+            if (randomLootData.cardType == "Item")
+            {
+                ItemCard itemCard = Instantiate(CardDatabase.Instance.itemCardPrefab, Vector2.zero, Quaternion.identity);
 
-            LootDeck.Remove(randomLoot);
+                Spawn(itemCard.gameObject);
+                itemCard.LoadCardData(randomLootData);
+                itemCard.SetCardParent(player.controlledHand.transform, false);
+            }
+            else
+            {
+                SpellCard spellCard = Instantiate(CardDatabase.Instance.spellCardPrefab, Vector2.zero, Quaternion.identity);
+
+                Spawn(spellCard.gameObject);
+                spellCard.LoadCardData(randomLootData);
+                spellCard.SetCardParent(player.controlledHand.transform, false);
+            }
+
+            LootDeck.Remove(randomLootData);
         }
     }
 }

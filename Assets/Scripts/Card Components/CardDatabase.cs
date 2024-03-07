@@ -12,10 +12,12 @@ public class CardDatabase : NetworkBehaviour
 
     public List<QuestCard> questCards = new();
 
-    public List<ItemCard> lootCards = new();
+    public List<CardData> lootCards = new();
 
 
     public Card adventurerCardPrefab;
+    public ItemCard itemCardPrefab;
+    public SpellCard spellCardPrefab;
 
     //QUEST CARDS
 
