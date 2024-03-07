@@ -20,7 +20,7 @@ public class Board : NetworkBehaviour
     public bool[] AvailableCardSlots { get; private set; }
 
     [field: SerializeField]
-    private List<Card> Deck { get; } = new List<Card>();
+    private List<CardData> Deck { get; } = new List<CardData>();
 
     [field: SerializeField]
     private List<ItemCard> LootDeck { get; } = new List<ItemCard>();
@@ -68,16 +68,17 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawCard(int slotIndex)
     {
-        Card randomCard = Deck[Random.Range(0, Deck.Count)];
-        Card card = Instantiate(randomCard, Vector2.zero, Quaternion.identity);
+        CardData randomCardData = Deck[Random.Range(0, Deck.Count)];
+        Card card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
         card.draftCardIndex = slotIndex;
 
         Spawn(card.gameObject);
+        card.LoadCardData(randomCardData);
         card.SetCardParent(CardSlots[slotIndex].transform, false);
 
         AvailableCardSlots[slotIndex] = false;
         draftCards[slotIndex] = card;
-        Deck.Remove(randomCard);
+        Deck.Remove(randomCardData);
         ObserversUpdateDeckTrackers(Deck.Count);
     }
 

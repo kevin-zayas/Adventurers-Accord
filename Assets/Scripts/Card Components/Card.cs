@@ -21,8 +21,13 @@ public class Card : NetworkBehaviour
     [field: SyncVar]
     public bool IsDraftCard { get; private set; }
     
-    [SyncVar]
-    public int draftCardIndex;
+    [SyncVar] public int draftCardIndex;
+
+    [SyncVar] private string Name;
+    [SyncVar] private string Description;
+
+    [field: SerializeField] public int OriginalPhysicalPower { get; private set; }
+    [field: SerializeField] public int OriginalMagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar] 
@@ -41,9 +46,6 @@ public class Card : NetworkBehaviour
     public int ItemMagicalPower { get; private set; }
 
 
-    [field: SerializeField] public int OriginalPhysicalPower { get; private set; }
-    [field: SerializeField] public int OriginalMagicalPower { get; private set;}
-
     [field: SerializeField]
     [field: SyncVar]
     public int Cost { get; private set; }
@@ -58,10 +60,14 @@ public class Card : NetworkBehaviour
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text costText;
-
+    
     private void Start()
     {
+        nameText.text = Name;
+        descriptionText.text = Description;
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
         costText.text = Cost.ToString();
@@ -100,7 +106,6 @@ public class Card : NetworkBehaviour
         ControllingPlayerHand = player.controlledHand;
         GiveOwnership(player.Owner);
         IsDraftCard = false;
-
     }
 
     [Server]
@@ -176,6 +181,30 @@ public class Card : NetworkBehaviour
         if (magicalPower > OriginalMagicalPower) magicalPowerText.color = Color.green;
         else if (magicalPower < OriginalMagicalPower) magicalPowerText.color = Color.red;
         else magicalPowerText.color = Color.white;
+    }
+
+    [Server]
+    public void LoadCardData(CardData cardData)
+    {
+        PhysicalPower = cardData.physicalPower;
+        MagicalPower = cardData.magicalPower;
+        OriginalPhysicalPower = cardData.originalPhysicalPower;
+        OriginalMagicalPower = cardData.originalMagicalPower;
+        Name = cardData.cardName;
+        Description = cardData.cardDescription;
+        Cost = cardData.cost;
+
+        ObserversLoadCardData(cardData);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversLoadCardData(CardData cardData)
+    {
+        physicalPowerText.text = cardData.physicalPower.ToString();
+        magicalPowerText.text = cardData.magicalPower.ToString();
+        nameText.text = cardData.cardName;
+        descriptionText.text = cardData.cardDescription;
+        costText.text = cardData.cost.ToString();
     }
 
 }
