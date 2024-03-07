@@ -1,12 +1,7 @@
 using FishNet.Object.Synchronizing;
 using FishNet.Object;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using Unity.VisualScripting;
-using FishNet.Demo.AdditiveScenes;
 
 public class ItemCard : NetworkBehaviour
 {

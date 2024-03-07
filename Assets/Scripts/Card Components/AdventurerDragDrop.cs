@@ -1,8 +1,4 @@
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AdventurerDragDrop : NetworkBehaviour
