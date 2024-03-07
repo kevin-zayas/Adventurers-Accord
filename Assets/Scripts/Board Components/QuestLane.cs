@@ -30,6 +30,14 @@ public class QuestLane : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public int SpellPhysicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public int SpellMagicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public int EffectiveTotalPower { get; private set; }
 
     //[field: SerializeField]
@@ -55,11 +63,31 @@ public class QuestLane : NetworkBehaviour
             MagicalPower += card.MagicalPower + card.ItemMagicalPower;
         }
 
-        if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower;
-        if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower;
+        if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
+        if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
 
-        ObserversUpdatePower(PhysicalPower, MagicalPower);
+        ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
+    }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerUpdateSpellEffects()
+    {
+        SpellPhysicalPower = 0;
+        SpellMagicalPower = 0;
+
+        for (int i = 0; i < SpellDropZone.transform.childCount; i++)
+        {
+            Transform spellCardTransform = SpellDropZone.transform.GetChild(i);
+            SpellCard spellCard = spellCardTransform.GetComponent<SpellCard>();
+
+            SpellPhysicalPower += spellCard.PhysicalPower;
+            SpellMagicalPower += spellCard.MagicalPower;
+        }
+
+        if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
+        if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
+
+        ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -80,6 +108,8 @@ public class QuestLane : NetworkBehaviour
     {
         PhysicalPower = 0;
         MagicalPower = 0;
+        SpellPhysicalPower = 0;
+        SpellMagicalPower = 0;
         EffectiveTotalPower = 0;
 
         for (int i = 0; i < DropZone.transform.childCount; i++)
@@ -90,7 +120,20 @@ public class QuestLane : NetworkBehaviour
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
             
         }
+        ClearSpellEffects();
         ObserversUpdatePower(PhysicalPower, MagicalPower);
+    }
+
+    [Server]
+    private void ClearSpellEffects()
+    {
+        for (int i = 0; i < SpellDropZone.transform.childCount; i++)
+        {
+            Transform spellCardTransform = SpellDropZone.transform.GetChild(i);
+            SpellCard spellCard = spellCardTransform.GetComponent<SpellCard>();
+
+            spellCard.Despawn();
+        }
     }
 
     //[Server]

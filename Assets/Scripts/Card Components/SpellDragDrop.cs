@@ -118,6 +118,6 @@ public class SpellDragDrop : NetworkBehaviour
             spellCard.ServerSetCardParent(dropZone.transform, false);
         }
         
-        questLane.ServerUpdatePower();
+        questLane.ServerUpdateSpellEffects();
     }
 }

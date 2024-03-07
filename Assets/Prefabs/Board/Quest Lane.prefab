@@ -631,9 +631,11 @@ MonoBehaviour:
   questLocation: {fileID: 0}
   <Player>k__BackingField: {fileID: 0}
   <DropZone>k__BackingField: {fileID: 9205107535061240866}
-  <SpellDropZone>k__BackingField: {fileID: 0}
+  <SpellDropZone>k__BackingField: {fileID: 3799721727428252521}
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
+  <SpellPhysicalPower>k__BackingField: 0
+  <SpellMagicalPower>k__BackingField: 0
   <EffectiveTotalPower>k__BackingField: 0
   physicalPowerText: {fileID: 4129425861735006748}
   magicalPowerText: {fileID: 3172343994968927532}
@@ -657,7 +659,7 @@ MonoBehaviour:
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 2119475767431536679}
-  - {fileID: 0}
+  - {fileID: 8658483110098520777}
   SerializedTransformProperties:
     Position: {x: -960, y: -540, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -822,6 +824,18 @@ PrefabInstance:
       propertyPath: <IsNested>k__BackingField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: <ParentNetworkObject>k__BackingField
+      value: 
+      objectReference: {fileID: 5648548999079657597}
+    - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: SerializedTransformProperties.Position.y
+      value: -225
+      objectReference: {fileID: 0}
     - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -916,3 +930,19 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
   m_PrefabInstance: {fileID: 7586333397495116469}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3799721727428252521 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6769825860021199324, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+  m_PrefabInstance: {fileID: 7586333397495116469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8658483110098520777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+  m_PrefabInstance: {fileID: 7586333397495116469}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799721727428252521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
