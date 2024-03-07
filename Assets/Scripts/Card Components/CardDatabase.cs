@@ -8,10 +8,11 @@ public class CardDatabase : NetworkBehaviour
     public static CardDatabase Instance { get; private set; }
 
     public List<Card> tierOneCards = new();
-
     public List<Card> tierTwoCards = new();
 
     public List<QuestCard> questCards = new();
+
+    public List<ItemCard> lootCards = new();
 
     //TIER 1 CARDS
     [SerializeField] private Card warriorPrefab;
@@ -35,6 +36,7 @@ public class CardDatabase : NetworkBehaviour
     // MAGIC ITEM CARDS
 
     [SerializeField] public ItemCard swordPrefab;
+    [SerializeField] public ItemCard staffPrefab;
 
 
 
@@ -48,6 +50,9 @@ public class CardDatabase : NetworkBehaviour
         tierOneCards.Add(clericPrefab);
         tierOneCards.Add(roguePrefab);
         tierOneCards.Add(bardPrefab);
+
+        lootCards.Add(swordPrefab);
+        lootCards.Add(staffPrefab);
     }
 
     // Start is called before the first frame update

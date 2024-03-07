@@ -124,7 +124,7 @@ public class Card : NetworkBehaviour
         itemCardHeader.SetItemInfo(itemCard);
         UpdateItemPower(itemCard.PhysicalPower, itemCard.MagicalPower);
         
-        ObserversAdjustCardSize(235);    // increase card size to adjust for item header
+        ObserversAdjustCardSize(233);    // increase card size to adjust for item header
     }
 
     [Server]

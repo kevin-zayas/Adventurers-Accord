@@ -397,7 +397,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2628959184568137696}
-  - {fileID: 7966423119466087768}
+  - {fileID: 5202597445527753966}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -509,7 +509,7 @@ MonoBehaviour:
   - {fileID: 7546161789419670961}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
-  - {fileID: 4626334697135082379}
+  - {fileID: 7388497910565444157}
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -546,6 +546,8 @@ MonoBehaviour:
   draftCardIndex: 0
   <PhysicalPower>k__BackingField: 2
   <MagicalPower>k__BackingField: 0
+  <ItemPhysicalPower>k__BackingField: 0
+  <ItemMagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 2
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 5
@@ -2355,7 +2357,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1001 &953806481518030353
+--- !u!1001 &3134967824597778343
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2368,28 +2370,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: <PrefabId>k__BackingField
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: -3672523780777450086}
-    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: SerializedTransformProperties.Position.y
-      value: 105
-      objectReference: {fileID: 0}
     - target: {fileID: 1298241252680445397, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_Name
       value: Item Card Header
-      objectReference: {fileID: 0}
-    - target: {fileID: 1298241252680445397, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_Pivot.x
@@ -2421,7 +2407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2476,10 +2462,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
---- !u!114 &4626334697135082379 stripped
+--- !u!224 &5202597445527753966 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
+  m_PrefabInstance: {fileID: 3134967824597778343}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7388497910565444157 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-  m_PrefabInstance: {fileID: 953806481518030353}
+  m_PrefabInstance: {fileID: 3134967824597778343}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -2487,8 +2478,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &7966423119466087768 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-  m_PrefabInstance: {fileID: 953806481518030353}
-  m_PrefabAsset: {fileID: 0}

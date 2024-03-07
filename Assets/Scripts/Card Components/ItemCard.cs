@@ -18,10 +18,6 @@ public class ItemCard : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public Transform Parent { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
     public int PhysicalPower { get; private set; }
 
     [field: SerializeField]
@@ -58,7 +54,6 @@ public class ItemCard : NetworkBehaviour
     {
         OberserversSetCardParent(parent, worldPositionStays, CurrentScale);
         this.transform.SetParent(parent, worldPositionStays);
-        this.Parent = parent;
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -90,7 +85,6 @@ public class ItemCard : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerDespawnItem()
     {
-        //despawn item
         this.Despawn();
     }
 

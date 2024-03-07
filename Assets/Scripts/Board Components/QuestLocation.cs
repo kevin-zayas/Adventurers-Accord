@@ -170,7 +170,15 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private void DistributeQuestRewards(Player player, bool primaryContributor)
     {
-        if (!primaryContributor)
+        if (primaryContributor)
+        {
+            player.ServerChangeGold(QuestCard.GoldReward);
+            player.ServerChangeReputation(QuestCard.ReputationReward);
+            Board.Instance.RewardLoot(player, QuestCard.LootReward);
+
+            print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP and {QuestCard.ReputationReward} Rep. for their contribution to the quest");
+        }
+        else
         {
             int secondaryGoldReward = QuestCard.GoldReward / 2;
             int secondaryReputationReward = QuestCard.ReputationReward / 2;
@@ -180,13 +188,7 @@ public class QuestLocation : NetworkBehaviour
 
             print($"Player {player.PlayerID} recieves {secondaryGoldReward} GP and {secondaryReputationReward} Rep. for their contribution to the quest");
         }
-        else
-        {
-            player.ServerChangeGold(QuestCard.GoldReward);
-            player.ServerChangeReputation(QuestCard.ReputationReward);
-
-            print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP and {QuestCard.ReputationReward} Rep. for their contribution to the quest");
-        }
+        
     }
 
     [Server]

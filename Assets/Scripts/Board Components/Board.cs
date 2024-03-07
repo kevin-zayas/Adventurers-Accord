@@ -23,6 +23,9 @@ public class Board : NetworkBehaviour
     private List<Card> Deck { get; } = new List<Card>();
 
     [field: SerializeField]
+    private List<ItemCard> LootDeck { get; } = new List<ItemCard>();
+
+    [field: SerializeField]
     private QuestLocation[] questLocations;
 
     private readonly int cardFrequency = 3;
@@ -56,22 +59,10 @@ public class Board : NetworkBehaviour
         UpdateDraftCardOwnwer();
         questLocations[0].StartGame();
 
-        ItemCard item = CardDatabase.Instance.swordPrefab;     //questCards[Random.Range(0, CardDatabase.Instance.questCards.Count)];
-        foreach (Player player in GameManager.Instance.Players)
+        foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
         {
-            ItemCard itemCard = Instantiate(item, Vector2.zero, Quaternion.identity);
-
-            Spawn(itemCard.gameObject);
-            itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
-            itemCard.SetCardParent(player.controlledHand.transform, false);
+            RewardLoot(player, 2);
         }
-        //ItemCard itemCard = Instantiate(item, Vector2.zero, Quaternion.identity);
-
-        //Spawn(itemCard.gameObject);
-        //itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
-        //itemCard.SetCardParent(GameManager.Instance.Players[0].controlledHand.transform, false);
-
-
     }
 
     [Server]
@@ -104,13 +95,24 @@ public class Board : NetworkBehaviour
     [Server]
     private void ConstructDecks()
     {
-        List<Card> cardList = CardDatabase.Instance.tierOneCards;
-        for (int i = 0; i < cardList.Count; i++)
+        //List<Card> cardList = CardDatabase.Instance.tierOneCards;
+        //foreach(Card card in CardDatabase.Instance.tierOneCards)
+        //{
+        //    //for (int x = 0; x < cardFrequency; x++)
+        //    //{
+        //    //    Deck.Add(cardList[i]);
+        //    //}
+        //    //Deck.AddRange(card)
+        //}
+
+        //foreach(ItemCard item in CardDatabase.Instance.lootCards)
+        //{
+        //    LootDeck.Add(item);
+        //}
+        for (int i = 0; i < cardFrequency; i++)
         {
-            for (int x = 0; x < cardFrequency; x++)
-            {
-                Deck.Add(cardList[i]);
-            }
+            Deck.AddRange(CardDatabase.Instance.tierOneCards);
+            LootDeck.AddRange(CardDatabase.Instance.lootCards);
         }
     }
 
@@ -155,11 +157,31 @@ public class Board : NetworkBehaviour
         questLocations[0].CalculatePowerTotal();
     }
 
+    [Server]
     public void ResetQuests()
     {
         foreach (QuestLocation location in questLocations)
         {
             location.ResetQuestLocation();
+        }
+    }
+
+    [Server]
+    public void RewardLoot(Player player, int lootAmount)
+    {
+        if (LootDeck.Count == 0) return;
+        if (LootDeck.Count < lootAmount) lootAmount = LootDeck.Count;
+
+        for (int i=0; i<lootAmount; i++)
+        {
+            ItemCard randomLoot = LootDeck[Random.Range(0, LootDeck.Count)];
+            ItemCard itemCard = Instantiate(randomLoot, Vector2.zero, Quaternion.identity);
+
+            Spawn(itemCard.gameObject);
+            itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
+            itemCard.SetCardParent(player.controlledHand.transform, false);
+
+            LootDeck.Remove(randomLoot);
         }
     }
 }

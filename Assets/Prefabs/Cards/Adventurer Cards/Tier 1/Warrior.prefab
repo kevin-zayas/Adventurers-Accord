@@ -397,7 +397,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2767321250380126570}
-  - {fileID: 3063250483855450344}
+  - {fileID: 1288394032932146055}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -509,7 +509,7 @@ MonoBehaviour:
   - {fileID: 3113119230753172474}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
-  - {fileID: 304199056384470587}
+  - {fileID: 0}
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -546,6 +546,8 @@ MonoBehaviour:
   draftCardIndex: 0
   <PhysicalPower>k__BackingField: 3
   <MagicalPower>k__BackingField: 0
+  <ItemPhysicalPower>k__BackingField: 0
+  <ItemMagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 3
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 5
@@ -2355,7 +2357,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1001 &5273759669466942369
+--- !u!1001 &8238132534219890894
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2367,18 +2369,6 @@ PrefabInstance:
       propertyPath: <IsNested>k__BackingField
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: <PrefabId>k__BackingField
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-      propertyPath: <ParentNetworkObject>k__BackingField
-      value: 
-      objectReference: {fileID: -3672523780777450086}
     - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
       value: 105
@@ -2421,7 +2411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2476,19 +2466,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
---- !u!114 &304199056384470587 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-  m_PrefabInstance: {fileID: 5273759669466942369}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!224 &3063250483855450344 stripped
+--- !u!224 &1288394032932146055 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7184070916402621257, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
-  m_PrefabInstance: {fileID: 5273759669466942369}
+  m_PrefabInstance: {fileID: 8238132534219890894}
   m_PrefabAsset: {fileID: 0}
