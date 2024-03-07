@@ -42,25 +42,9 @@ public class ItemCard : NetworkBehaviour
 
     [SerializeField] private TMP_Text nameText;
 
-    //[SerializeField] private TMP_Text physicalPowerText;
-    //[SerializeField] private TMP_Text magicalPowerText;
-    //[SerializeField] private TMP_Text costText;
-
-    private void Awake()
-    {
-        print("ItemCard Awake");
-        print(isActiveAndEnabled);
-        gameObject.SetActive(true);
-    }
     private void Start()
     {
-        //physicalPowerText.text = PhysicalPower.ToString();
-        //magicalPowerText.text = MagicalPower.ToString();
-        //costText.text = Cost.ToString();
-        print("ItemCard Start");
         nameText.text = Name;
-
-
     }
 
     [Server]
@@ -101,6 +85,13 @@ public class ItemCard : NetworkBehaviour
     public void ServerSetCardScale(Vector3 scale)
     {
         this.CurrentScale = scale;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerDespawnItem()
+    {
+        //despawn item
+        this.Despawn();
     }
 
 }

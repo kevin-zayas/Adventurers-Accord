@@ -49,8 +49,8 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(i);
             Card card = cardTransform.GetComponent<Card>();
 
-            PhysicalPower += card.PhysicalPower;
-            MagicalPower += card.MagicalPower;
+            PhysicalPower += card.PhysicalPower + card.ItemPhysicalPower;
+            MagicalPower += card.MagicalPower + card.ItemMagicalPower;
         }
 
         if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower;

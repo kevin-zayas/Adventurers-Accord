@@ -32,7 +32,15 @@ public class Card : NetworkBehaviour
     [field: SyncVar]
     public int MagicalPower { get; private set; }
 
-    
+    [field: SerializeField]
+    [field: SyncVar]
+    public int ItemPhysicalPower { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public int ItemMagicalPower { get; private set; }
+
+
     [field: SerializeField] public int OriginalPhysicalPower { get; private set; }
     [field: SerializeField] public int OriginalMagicalPower { get; private set;}
 
@@ -54,11 +62,6 @@ public class Card : NetworkBehaviour
 
     private void Start()
     {
-        //if (PhysicalPower == 0) PhysicalPower = OriginalPhysicalPower;        // will need to implement when card stat changes are implemented
-        //if (MagicalPower == 0) MagicalPower = OriginalMagicalPower;           // this will make sure spotlight card show updated stats
-        PhysicalPower = OriginalPhysicalPower;
-        MagicalPower = OriginalMagicalPower;
-
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
         costText.text = Cost.ToString();
@@ -119,9 +122,16 @@ public class Card : NetworkBehaviour
         Spawn(itemCardHeader.gameObject);
 
         itemCardHeader.SetItemInfo(itemCard);
+        UpdateItemPower(itemCard.PhysicalPower, itemCard.MagicalPower);
+        
+        ObserversAdjustCardSize(235);    // increase card size to adjust for item header
+    }
 
-        // increase card size to adjust for item header
-        ObserversAdjustCardSize(235);
+    [Server]
+    private void UpdateItemPower(int physicalPower, int magicalPower)
+    {
+        ItemPhysicalPower = physicalPower;
+        ItemMagicalPower = magicalPower;
     }
 
     [ObserversRpc(BufferLast = true)]

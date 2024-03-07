@@ -97,10 +97,9 @@ public class ItemDragDrop : NetworkBehaviour
             ResetCardPosition();
             return;
         }
-        //card.ServerChangeMagicalPower(item.MagicalPower);
-        //card.ServerChangePhysicalPower(item.PhysicalPower);
+
         card.ServerSetItem(true,this.GetComponent<ItemCard>());
-        this.Despawn();
+        this.GetComponent<ItemCard>().ServerDespawnItem();
     }
 
     private void ResetCardPosition()

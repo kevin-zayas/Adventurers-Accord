@@ -35,7 +35,6 @@ public class CardDatabase : NetworkBehaviour
     // MAGIC ITEM CARDS
 
     [SerializeField] public ItemCard swordPrefab;
-    [SerializeField] public ItemCardHeader itemHeaderPrefab;
 
 
 

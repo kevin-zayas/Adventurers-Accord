@@ -57,11 +57,19 @@ public class Board : NetworkBehaviour
         questLocations[0].StartGame();
 
         ItemCard item = CardDatabase.Instance.swordPrefab;     //questCards[Random.Range(0, CardDatabase.Instance.questCards.Count)];
-        ItemCard itemCard = Instantiate(item, Vector2.zero, Quaternion.identity);
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            ItemCard itemCard = Instantiate(item, Vector2.zero, Quaternion.identity);
 
-        Spawn(itemCard.gameObject);
-        itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
-        itemCard.SetCardParent(GameManager.Instance.Players[0].controlledHand.transform, false);
+            Spawn(itemCard.gameObject);
+            itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
+            itemCard.SetCardParent(player.controlledHand.transform, false);
+        }
+        //ItemCard itemCard = Instantiate(item, Vector2.zero, Quaternion.identity);
+
+        //Spawn(itemCard.gameObject);
+        //itemCard.SetCardScale(new Vector3(2f, 2f, 1f));
+        //itemCard.SetCardParent(GameManager.Instance.Players[0].controlledHand.transform, false);
 
 
     }

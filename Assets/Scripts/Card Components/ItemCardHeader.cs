@@ -35,25 +35,9 @@ public class ItemCardHeader : NetworkBehaviour
     [field: SyncVar]
     public Vector3 CurrentScale { get; private set; }
 
-
-
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
-    //[SerializeField] private TMP_Text costText;
-
-    private void Awake()
-    {
-       
-    }
-    private void Start()
-    {
-        //physicalPowerText.text = PhysicalPower.ToString();
-        //magicalPowerText.text = MagicalPower.ToString();
-        //costText.text = Cost.ToString();
-        print("ItemCard Start");
-
-    }
 
     [Server]
     public void SetCardParent(Transform parent, bool worldPositionStays)
