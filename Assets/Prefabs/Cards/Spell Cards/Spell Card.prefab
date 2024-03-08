@@ -502,7 +502,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 150, y: 210}
+  m_Size: {x: 70, y: 210}
   m_EdgeRadius: 0
 --- !u!50 &8381347151152243069
 Rigidbody2D:
@@ -723,7 +723,6 @@ MonoBehaviour:
   spellCard: {fileID: 0}
   canvas: {fileID: 0}
   dropZone: {fileID: 0}
-  dropZoneTag: 
   startParentTransform: {fileID: 0}
   startPosition: {x: 0, y: 0}
 --- !u!1 &1649686517057891831

@@ -83,7 +83,10 @@ public class Player : NetworkBehaviour
 
     [Server]
     public void BeginTurn()
-    {
+    {   
+        //if (GameManager.Instance.CurrentPhase == GameManager.Phase.Magic) TargetBeginTurn(Owner, true);
+        //else TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
+
         TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
     }
 

@@ -130,6 +130,11 @@ public class GameManager : NetworkBehaviour
                 Turn = StartingTurn;
                 break;
             case Phase.Dispatch:
+                CurrentPhase = Phase.Magic;
+                Board.Instance.ObserversUpdatePhaseText("Magic");
+                Turn = StartingTurn;
+                break;
+            case Phase.Magic:
                 Board.Instance.CheckQuests();
                 Board.Instance.ResetQuests();
                 CurrentPhase = Phase.Draft;
@@ -137,11 +142,7 @@ public class GameManager : NetworkBehaviour
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
                 break;
-            //case Phase.Magic:
-            //    CurrentPhase = Phase.Resolve;
-            //    break;
             //case Phase.Resolve:
-            //    CurrentPhase = Phase.Draft;
             //    break;
         }
         BeginTurn();

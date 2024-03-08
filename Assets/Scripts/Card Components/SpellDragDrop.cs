@@ -10,7 +10,6 @@ public class SpellDragDrop : NetworkBehaviour
     [SerializeField] private SpellCard spellCard;
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject dropZone;
-    [SerializeField] private string dropZoneTag;
 
     [SerializeField] private Transform startParentTransform;
     [SerializeField] private Vector2 startPosition;
@@ -32,36 +31,35 @@ public class SpellDragDrop : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Quest") && !collision.gameObject.CompareTag("Hand")) return;
-
         dropZone = collision.gameObject;
-        dropZoneTag = collision.gameObject.tag;
     }
+
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if (dropZone != null) return;        
+    //    dropZone = collision.gameObject;
+    //}
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
         {
             dropZone = null;
-            dropZoneTag = null;
         }
     }
 
     public void BeginDrag()
     {
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
-        print(IsOwner);
         if (!IsOwner) return;
+        if (transform.parent.CompareTag("Quest")) return;      // prevent dragging if card is already in a quest lane
 
-        //only allow player to drag cards during dispatch on their turn or during magic phase
-        if ((GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch || GameManager.Instance.Turn != LocalConnection.ClientId) &&
-            GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
+        //only allow player to drag cards during dispatch or magic phase
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Draft)
         {
-            print("not your turn or cant move spells during this phase");
+            print("cant move spells during this phase");
             return;
         }
-
-        //Player player = GameManager.Instance.Players[LocalConnection.ClientId];
   
         startPosition = transform.position;
         startParentTransform = transform.parent;
@@ -86,15 +84,7 @@ public class SpellDragDrop : NetworkBehaviour
             return;
         }
 
-        //if ((GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch || GameManager.Instance.Turn != LocalConnection.ClientId) &&
-        //    GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
-        //{
-        //    print("not your turn or cant move spells during this phase");
-        //    ResetCardPosition();
-        //    return;
-        //}
         HandleCardMovement();
-
     }
 
     private void ResetCardPosition()
@@ -105,19 +95,8 @@ public class SpellDragDrop : NetworkBehaviour
 
     private void HandleCardMovement()
     {
-        QuestLane questLane;
-
-        if (dropZoneTag == "Quest")
-        {
-            questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-            spellCard.ServerSetCardParent(dropZone.transform, false);
-        }
-        else
-        {
-            questLane = startParentTransform.parent.GetComponent<QuestLane>();
-            spellCard.ServerSetCardParent(dropZone.transform, false);
-        }
-        
+        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+        spellCard.ServerSetCardParent(dropZone.transform, false);
         questLane.ServerUpdateSpellEffects();
     }
 }

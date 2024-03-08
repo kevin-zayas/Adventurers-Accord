@@ -916,6 +916,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6261802738609176185, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_Size.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6261802738609176185, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6769825860021199324, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
       propertyPath: m_Name
       value: Spell Drop Zone
