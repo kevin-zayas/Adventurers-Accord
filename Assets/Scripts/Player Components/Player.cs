@@ -90,6 +90,20 @@ public class Player : NetworkBehaviour
         TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
     }
 
+    [Server]
+    public void BeginEndRound()
+    {
+        TargetBeginEndRound(Owner);
+    }
+
+    [TargetRpc]
+    public void TargetBeginEndRound(NetworkConnection networkConnection)
+    {
+
+        ViewManager.Instance.Show<EndRoundView>();
+        GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = LocalConnection.ClientId;
+    }
+
     [TargetRpc]
     private void TargetBeginTurn(NetworkConnection networkConnection, bool canPlay)
     {

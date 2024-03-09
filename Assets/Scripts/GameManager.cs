@@ -42,6 +42,10 @@ public class GameManager : NetworkBehaviour
     [field: SyncVar]
     public bool[] PlayerSkipTurnStatus { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool[] PlayerEndRoundStatus { get; private set; }
+
     private void Awake()
     {
         Instance = this;
@@ -101,21 +105,60 @@ public class GameManager : NetworkBehaviour
         if (passTurn) PlayerSkipTurnStatus[Turn] = true;
 
         Turn = (Turn + 1) % Players.Count;
-        int attemptCount = 0;
 
-        while (PlayerSkipTurnStatus[Turn] && attemptCount < Players.Count)
-        {
-            Turn = (Turn + 1) % Players.Count;
-            attemptCount++;
-        }
-
-        if (attemptCount == Players.Count)
+        if (PlayerSkipTurnStatus.All(status => status))
         {
             EndPhase();
             return;
         }
 
+        while (PlayerSkipTurnStatus[Turn])
+        {
+            Turn = (Turn + 1) % Players.Count;
+        }
+
+        //if (attemptCount == Players.Count)
+        //{
+        //    EndPhase();
+        //    return;
+        //}
         BeginTurn();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ConfirmEndRound(int playerID)
+    {
+        PlayerEndRoundStatus[playerID] = true;
+
+        if (PlayerEndRoundStatus.All(status => status))     // if all players have confirmed end round
+        {
+            ObserversEnableEndRoundButton();
+            EndPhase();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RefreshEndRoundStatus()
+    {
+        // reset end round status
+        PlayerEndRoundStatus = new bool[Players.Count];
+        ObserversEnableEndRoundButton();
+    }
+
+    [ObserversRpc]
+    private void ObserversEnableEndRoundButton()
+    {
+        GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundButton();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void BeginEndRound()
+    {
+        PlayerEndRoundStatus = new bool[Players.Count];
+        foreach (Player player in Players)
+        {
+            player.BeginEndRound();
+        }
     }
 
     [Server]
@@ -128,11 +171,13 @@ public class GameManager : NetworkBehaviour
                 CurrentPhase = Phase.Dispatch;
                 Board.Instance.ObserversUpdatePhaseText("Dispatch");
                 Turn = StartingTurn;
+                BeginTurn();
                 break;
             case Phase.Dispatch:
                 CurrentPhase = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
-                Turn = StartingTurn;
+                //Turn = StartingTurn;
+                 BeginEndRound();
                 break;
             case Phase.Magic:
                 Board.Instance.CheckQuests();
@@ -141,10 +186,11 @@ public class GameManager : NetworkBehaviour
                 Board.Instance.ObserversUpdatePhaseText("Draft");
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
+                BeginTurn();
                 break;
             //case Phase.Resolve:
             //    break;
         }
-        BeginTurn();
+        //BeginTurn();
     }
 }

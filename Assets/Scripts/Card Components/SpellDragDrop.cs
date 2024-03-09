@@ -98,5 +98,10 @@ public class SpellDragDrop : NetworkBehaviour
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
         spellCard.ServerSetCardParent(dropZone.transform, false);
         questLane.ServerUpdateSpellEffects();
+
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Magic)
+        {
+            GameManager.Instance.RefreshEndRoundStatus();
+        }
     }
 }
