@@ -19,6 +19,8 @@ public class CardDatabase : NetworkBehaviour
     public SpellCard spellCardPrefab;
     public QuestCard questCardPrefab;
 
+    public CardData wolfCardData;
+
 
     private void Awake()
     {

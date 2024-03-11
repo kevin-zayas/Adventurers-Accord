@@ -12,14 +12,17 @@ public class Board : NetworkBehaviour
     public CardSlot[] CardSlots { get; private set; }
 
     [SerializeField]
-    private Card[] draftCards = new Card[4];
+    private Card[] draftCards = new Card[8];
 
     [field: SerializeField]
     [field: SyncVar]
     public bool[] AvailableCardSlots { get; private set; }
 
     [field: SerializeField]
-    private List<CardData> Deck { get; } = new List<CardData>();
+    private List<CardData> T1Deck { get; } = new List<CardData>();
+
+    [field: SerializeField]
+    private List<CardData> T2Deck { get; } = new List<CardData>();
 
     [field: SerializeField]
     private List<CardData> LootDeck { get; } = new List<CardData>();
@@ -33,7 +36,10 @@ public class Board : NetworkBehaviour
     private readonly int cardFrequency = 3;
 
     [SerializeField]
-    private TMP_Text deckTrackerText;
+    private TMP_Text t1DeckTrackerText;
+
+    [SerializeField]
+    private TMP_Text t2DeckTrackerText;
 
     [SerializeField]
     private TMP_Text phaseText;
@@ -70,7 +76,13 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawCard(int slotIndex)
     {
-        CardData randomCardData = Deck[Random.Range(0, Deck.Count)];
+        List<CardData> deck; 
+
+        if (slotIndex < 4) deck = T1Deck;
+        else deck = T2Deck;
+
+        CardData randomCardData= deck[Random.Range(0, deck.Count)];
+
         Card card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
         card.draftCardIndex = slotIndex;
 
@@ -80,8 +92,8 @@ public class Board : NetworkBehaviour
 
         AvailableCardSlots[slotIndex] = false;
         draftCards[slotIndex] = card;
-        Deck.Remove(randomCardData);
-        ObserversUpdateDeckTrackers(Deck.Count);
+        deck.Remove(randomCardData);
+        ObserversUpdateDeckTrackers();
     }
 
     [Server]
@@ -102,7 +114,8 @@ public class Board : NetworkBehaviour
     {
         for (int i = 0; i < cardFrequency; i++)
         {
-            Deck.AddRange(CardDatabase.Instance.tierOneCards);
+            T1Deck.AddRange(CardDatabase.Instance.tierOneCards);
+            T2Deck.AddRange(CardDatabase.Instance.tierTwoCards);
             LootDeck.AddRange(CardDatabase.Instance.lootCards);
         }
         QuestCardsDeck.AddRange(CardDatabase.Instance.questCards);
@@ -111,7 +124,12 @@ public class Board : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ReplaceCard(int slotIndex)
     {   print("replacing card");
-        if (slotIndex >= 0 && Deck.Count > 0)
+        List<CardData> deck;
+
+        if (slotIndex < 4) deck = T1Deck;
+        else deck = T2Deck;
+
+        if (deck.Count > 0)
         {
             AvailableCardSlots[slotIndex] = true;
             draftCards[slotIndex] = null;
@@ -120,9 +138,10 @@ public class Board : NetworkBehaviour
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversUpdateDeckTrackers(int deckSize)
+    private void ObserversUpdateDeckTrackers()
     {
-        deckTrackerText.text = deckSize.ToString();
+        t1DeckTrackerText.text = T1Deck.Count.ToString();
+        t2DeckTrackerText.text = T2Deck.Count.ToString();
     }
 
     [ObserversRpc(BufferLast = true)]
