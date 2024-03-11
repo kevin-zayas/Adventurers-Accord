@@ -93,7 +93,7 @@ public class Board : NetworkBehaviour
         AvailableCardSlots[slotIndex] = false;
         draftCards[slotIndex] = card;
         deck.Remove(randomCardData);
-        ObserversUpdateDeckTrackers();
+        ObserversUpdateDeckTrackers(T1Deck.Count, T2Deck.Count);
     }
 
     [Server]
@@ -138,10 +138,10 @@ public class Board : NetworkBehaviour
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversUpdateDeckTrackers()
+    private void ObserversUpdateDeckTrackers(int t1DeckSize, int t2DeckSize)
     {
-        t1DeckTrackerText.text = T1Deck.Count.ToString();
-        t2DeckTrackerText.text = T2Deck.Count.ToString();
+        t1DeckTrackerText.text = t1DeckSize.ToString();
+        t2DeckTrackerText.text = t2DeckSize.ToString();
     }
 
     [ObserversRpc(BufferLast = true)]
