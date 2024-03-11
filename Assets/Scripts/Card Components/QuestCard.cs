@@ -32,6 +32,18 @@ public class QuestCard : NetworkBehaviour
     [field: SyncVar]
     public int LootReward { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool Drain { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public int PhysicalDrain { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public int MagicalDrain { get; private set; }
+
 
 
     [SerializeField] private TMP_Text physicalPowerText;

@@ -175,7 +175,7 @@ public class QuestLocation : NetworkBehaviour
             player.ServerChangeReputation(QuestCard.ReputationReward);
             Board.Instance.RewardLoot(player, QuestCard.LootReward);
 
-            print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP and {QuestCard.ReputationReward} Rep. for their contribution to the quest");
+            print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP, {QuestCard.ReputationReward} Rep. and {QuestCard.LootReward} Loot for their contribution to the quest");
         }
         else
         {

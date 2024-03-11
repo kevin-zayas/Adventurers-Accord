@@ -1,5 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -40,12 +41,28 @@ public class QuestLane : NetworkBehaviour
     [field: SyncVar]
     public int EffectiveTotalPower { get; private set; }
 
+    private readonly Dictionary<string, int> adventurerEffects = new();
+
+    [field: SyncVar(OnChange = nameof(UpdateDrainEffects))]
+    public bool ClericProtection { get; private set; }
+
     //[field: SerializeField]
     //[field: SyncVar]
     //public QuestCard QuestCard { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
+
+    private void Start()
+    {
+        adventurerEffects.Add("Bard", 0);
+        adventurerEffects.Add("Cleric", 0);
+        adventurerEffects.Add("Rogue", 0);
+
+        //adventurerEffects.Add("Assassin", 0);
+        //adventurerEffects.Add("Enchanter", 0);
+        //adventurerEffects.Add("Tinkerer", 0);
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerUpdatePower()
@@ -118,10 +135,12 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(i);
             Card card = cardTransform.GetComponent<Card>();
 
+            card.ResetPower();
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
             
         }
         ClearSpellEffects();
+        //ClearAdventurerEffects();
         ObserversUpdatePower(PhysicalPower, MagicalPower);
     }
 
@@ -135,6 +154,78 @@ public class QuestLane : NetworkBehaviour
 
             spellCard.Despawn();
         }
+    }
+
+    [Server]
+    public void AddAdventurerToQuestLane(Card card)
+    {
+        if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]++;
+
+        switch (card.Name)
+        {
+            case "Bard":
+                //bardInspiration = true;
+                break;
+            case "Cleric":
+                ClericProtection = true;
+                break;
+            case "Rogue":
+                //stickyFingers = true;
+                break;
+
+        }
+
+        if (questLocation.QuestCard.Drain && !ClericProtection)
+        {
+            card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
+            card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+        }
+
+        ServerUpdatePower();
+    }
+
+    [Server]
+    public void RemoveAdventurerFromQuestLane(Card card)
+    {
+        if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]--;
+
+        switch (card.Name)
+        {
+            case "Bard":
+                //bardInspiration = false;
+                break;
+            case "Cleric":
+                if (adventurerEffects["Cleric"] == 0) ClericProtection = false;
+                break;
+            case "Rogue":
+                //stickyFingers = false;
+                break;
+
+        }
+        card.ServerResetPower();
+
+        ServerUpdatePower();
+    }
+
+    [Server]
+    private void UpdateDrainEffects(bool oldValue, bool newValue, bool asServer)
+    {
+        if (!asServer) return;
+        if (!questLocation.QuestCard.Drain) return;
+
+        foreach (Transform cardTransform in DropZone.transform)
+        {
+            Card card = cardTransform.GetComponent<Card>();
+
+            if (ClericProtection) card.ServerResetPower();
+            else
+            {
+                card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
+                card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+            }
+        }
+
+        //ServerUpdatePower();
     }
 
     //[Server]

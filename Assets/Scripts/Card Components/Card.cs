@@ -23,7 +23,10 @@ public class Card : NetworkBehaviour
     
     [SyncVar] public int draftCardIndex;
 
-    [SyncVar] private string Name;
+    [field: SerializeField]
+    [field: SyncVar]
+    public string Name { get; private set; }
+
     [SyncVar] private string Description;
 
     [field: SerializeField]
@@ -79,30 +82,39 @@ public class Card : NetworkBehaviour
     }
 
     [Server]
-    public void SetCardParent(Transform parent, bool worldPositionStays)
+    public void SetCardParent(Transform newParent, bool worldPositionStays)
     {
-        OberserversSetCardParent(parent, worldPositionStays);
-        this.Parent = parent;
+        OberserversSetCardParent(newParent, worldPositionStays);
+        this.Parent = newParent;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardParent(Transform parent, bool worldPositionStays)
+    public void ServerSetCardParent(Transform newParent, bool worldPositionStays)
     {
-        OberserversSetCardParent(parent, worldPositionStays);
-        this.transform.SetParent(parent, worldPositionStays);
-        this.Parent = parent;
+        OberserversSetCardParent(newParent, worldPositionStays);
+        this.transform.SetParent(newParent, worldPositionStays);
+
+        if (this.Parent.CompareTag("Hand") && newParent.CompareTag("Quest")) OnQuestDispatch(newParent);
+        else if (this.Parent.CompareTag("Quest") && newParent.CompareTag("Hand")) OnQuestReturn(this.Parent);
+        else if (this.Parent.CompareTag("Quest") && newParent.CompareTag("Quest"))
+        {
+            OnQuestReturn(this.Parent);
+            OnQuestDispatch(newParent);
+        }
+
+        this.Parent = newParent;
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    private void OberserversSetCardParent(Transform newParent, bool worldPositionStays)
     {
         Vector3 scale;
 
-        if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
+        if (newParent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
         else scale = new Vector3(1f, 1f, 1f);
 
         this.transform.localScale = scale;
-        this.transform.SetParent(parent, worldPositionStays);
+        this.transform.SetParent(newParent, worldPositionStays);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -162,6 +174,22 @@ public class Card : NetworkBehaviour
         }
     }
 
+    [Server]
+    public void ResetPower()
+    {
+        PhysicalPower = OriginalPhysicalPower;
+        MagicalPower = OriginalMagicalPower;
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerResetPower()
+    {
+        PhysicalPower = OriginalPhysicalPower;
+        MagicalPower = OriginalMagicalPower;
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+    }
+
     [ObserversRpc(BufferLast = true)]
     public void ObserversUpdatePowerText(int physicalPower, int magicalPower)
     {
@@ -199,6 +227,20 @@ public class Card : NetworkBehaviour
         nameText.text = cardData.cardName;
         descriptionText.text = cardData.cardDescription;
         costText.text = cardData.cost.ToString();
+    }
+
+    [Server]
+    private void OnQuestDispatch(Transform newParent)
+    {
+        QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
+        questLane.AddAdventurerToQuestLane(this);
+    }
+
+    [Server]
+    private void OnQuestReturn(Transform newParent)
+    {
+        QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
+        questLane.RemoveAdventurerFromQuestLane(this);
     }
 
 }

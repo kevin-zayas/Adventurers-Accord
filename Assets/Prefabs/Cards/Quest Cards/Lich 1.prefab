@@ -966,6 +966,9 @@ MonoBehaviour:
   <GoldReward>k__BackingField: 6
   <ReputationReward>k__BackingField: 4
   <LootReward>k__BackingField: 1
+  <Drain>k__BackingField: 1
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 1
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
   goldRewardText: {fileID: 3602657811630039641}
