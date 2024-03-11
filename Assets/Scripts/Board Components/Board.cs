@@ -25,6 +25,9 @@ public class Board : NetworkBehaviour
     private List<CardData> LootDeck { get; } = new List<CardData>();
 
     [field: SerializeField]
+    private List<CardData> QuestCardsDeck { get; } = new List<CardData>();
+
+    [field: SerializeField]
     private QuestLocation[] questLocations;
 
     private readonly int cardFrequency = 3;
@@ -84,12 +87,14 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawQuestCard()
     {
-        QuestCard randomQuestCard = CardDatabase.Instance.lichPrefab;     //questCards[Random.Range(0, CardDatabase.Instance.questCards.Count)];
-        QuestCard questCard = Instantiate(randomQuestCard, Vector2.zero, Quaternion.identity);
-        
+        CardData randomQuestData = QuestCardsDeck[Random.Range(0, QuestCardsDeck.Count)];
+        QuestCard questCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
         //questCard.questCardIndex = 0;
 
-        questLocations[0].AssignQuestCard(questCard);
+        Spawn(questCard.gameObject);
+        questCard.LoadCardData(randomQuestData);
+        questLocations[0].AssignQuestCard(questCard);  //set quest index here
+        QuestCardsDeck.Remove(randomQuestData);
     }
 
     [Server]
@@ -100,6 +105,7 @@ public class Board : NetworkBehaviour
             Deck.AddRange(CardDatabase.Instance.tierOneCards);
             LootDeck.AddRange(CardDatabase.Instance.lootCards);
         }
+        QuestCardsDeck.AddRange(CardDatabase.Instance.questCards);
     }
 
     [ServerRpc(RequireOwnership = false)]

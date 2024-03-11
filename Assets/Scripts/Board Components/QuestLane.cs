@@ -177,8 +177,8 @@ public class QuestLane : NetworkBehaviour
 
         if (questLocation.QuestCard.Drain && !ClericProtection)
         {
-            card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
-            card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+            card.ServerChangePhysicalPower(questLocation.QuestCard.PhysicalDrain);
+            card.ServerChangeMagicalPower(questLocation.QuestCard.MagicalDrain);
         }
 
         ServerUpdatePower();
@@ -219,8 +219,8 @@ public class QuestLane : NetworkBehaviour
             else
             {
                 print("Applying Drain");
-                card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
-                card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+                card.ServerChangePhysicalPower(questLocation.QuestCard.PhysicalDrain);
+                card.ServerChangeMagicalPower(questLocation.QuestCard.MagicalDrain);
             }
         }
 

@@ -59,7 +59,7 @@ public class QuestLocation : NetworkBehaviour
     {
         questCard.questCardIndex = 0;
 
-        Spawn(questCard.gameObject);
+        //Spawn(questCard.gameObject);
         questCard.SetCardParent(questCardSlot.transform, false);
         QuestCard = questCard;
     }

@@ -91,7 +91,6 @@ public class AdventurerDragDrop : NetworkBehaviour
         }
         else
         {
-            print("Handling owned card movement");
             HandleCardMovement();
         }
     }
@@ -116,8 +115,6 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void HandleCardMovement()
     {
-        //QuestLane questLane;
-
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch)
         {
             print("cant move card during this phase");
@@ -125,15 +122,6 @@ public class AdventurerDragDrop : NetworkBehaviour
             return;
         }
 
-        //if (dropZoneTag == "Quest")
-        //{
-        //    questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-        //}
-        //else
-        //{
-        //    questLane = startParentTransform.parent.GetComponent<QuestLane>();
-        //}
         card.ServerSetCardParent(dropZone.transform, false);
-        //questLane.ServerUpdatePower();
     }
 }

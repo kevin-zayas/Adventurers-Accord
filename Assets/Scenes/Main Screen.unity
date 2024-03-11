@@ -2527,18 +2527,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
   tierTwoCards: []
-  questCards: []
+  questCards:
+  - {fileID: 11400000, guid: 288055a8c421aab4999213648722eb97, type: 2}
   lootCards:
   - {fileID: 11400000, guid: 35040824ad8623247a1620731c46c538, type: 2}
   - {fileID: 11400000, guid: a5d3dfa2a824a024d9a183bcd497df06, type: 2}
   - {fileID: 11400000, guid: 61314a30bcc591a41aaf38ea7aa0e77a, type: 2}
   - {fileID: 11400000, guid: 0aadd65b8cc426d49842fa3dbddc45b9, type: 2}
+  - {fileID: 11400000, guid: bb868b344bfabba4cb01d47e8c15018c, type: 2}
+  - {fileID: 11400000, guid: 7744cb6c95314664dadaef10ad4b3c30, type: 2}
   adventurerCardPrefab: {fileID: 2375407051779204461, guid: 062de0dd0e54d8e4e976080acf875340, type: 3}
   itemCardPrefab: {fileID: 3478594553878486444, guid: d611220e5137274468b13454f2fa4969, type: 3}
   spellCardPrefab: {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
-  slimePrefab: {fileID: -5912677968188888225, guid: aae8549251d420b4f80db17e5679a9fa, type: 3}
-  lichPrefab: {fileID: -5912677968188888225, guid: e7701cdf11b86634ea9b4389cb544818, type: 3}
-  beholderPrefab: {fileID: -5912677968188888225, guid: 6c78bac00862339438252e1a928c78d9, type: 3}
+  questCardPrefab: {fileID: -5912677968188888225, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
 --- !u!1 &1827101433
 GameObject:
   m_ObjectHideFlags: 3

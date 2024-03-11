@@ -7,22 +7,18 @@ public class CardDatabase : NetworkBehaviour
     public static CardDatabase Instance { get; private set; }
 
     public List<CardData> tierOneCards = new();
-    public List<Card> tierTwoCards = new();
+    public List<CardData> tierTwoCards = new();
 
-    public List<QuestCard> questCards = new();
+    public List<CardData> questCards = new();
 
     public List<CardData> lootCards = new();
 
-
+    //make private set
     public Card adventurerCardPrefab;
     public ItemCard itemCardPrefab;
     public SpellCard spellCardPrefab;
+    public QuestCard questCardPrefab;
 
-    //QUEST CARDS
-
-    [SerializeField] private QuestCard slimePrefab;
-    [SerializeField] public QuestCard lichPrefab;
-    [SerializeField] private QuestCard beholderPrefab;
 
     private void Awake()
     {

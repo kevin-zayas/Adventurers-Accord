@@ -14,6 +14,12 @@ public class QuestCard : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public string Name { get; private set; }
+
+    [SyncVar] private string Description;
+
+    [field: SerializeField]
+    [field: SyncVar]
     public int PhysicalPower { get; private set; }
 
     [field: SerializeField]
@@ -51,6 +57,8 @@ public class QuestCard : NetworkBehaviour
     [SerializeField] private TMP_Text goldRewardText;
     [SerializeField] private TMP_Text reputationRewardText;
     [SerializeField] private TMP_Text lootRewardText;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text descriptionText;
 
 
     private void Start()
@@ -68,18 +76,39 @@ public class QuestCard : NetworkBehaviour
         OberserversSetCardParent(parent, worldPositionStays);
     }
 
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    OberserversSetCardParent(parent, worldPositionStays);
-    //    this.transform.SetParent(parent, worldPositionStays);
-    //    this.Parent = parent;
-    //}
-
     [ObserversRpc(BufferLast = true)]
     private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
     {
         this.transform.SetParent(parent, worldPositionStays);
+    }
+
+    [Server]
+    public void LoadCardData(CardData cardData)
+    {
+        PhysicalPower = cardData.physicalPower;
+        MagicalPower = cardData.magicalPower;
+        Name = cardData.cardName;
+        Description = cardData.cardDescription;
+        GoldReward = cardData.goldReward;
+        ReputationReward = cardData.reputationReward;
+        LootReward = cardData.lootReward;
+        Drain = cardData.drain;
+        PhysicalDrain = cardData.physicalDrain;
+        MagicalDrain = cardData.magicalDrain;
+
+        ObserversLoadCardData(cardData);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversLoadCardData(CardData cardData)
+    {
+        physicalPowerText.text = cardData.physicalPower.ToString();
+        magicalPowerText.text = cardData.magicalPower.ToString();
+        nameText.text = cardData.cardName;
+        descriptionText.text = cardData.cardDescription;
+        goldRewardText.text = $"{cardData.goldReward} GP";
+        reputationRewardText.text = $"{cardData.reputationReward} Rep.";
+        lootRewardText.text = $"{cardData.lootReward} Loot";
     }
 
 

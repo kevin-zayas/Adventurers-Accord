@@ -176,7 +176,7 @@ public class Card : NetworkBehaviour
     [Server]
     public void ResetPower()
     {
-        print($"{Name} Resetting Power");
+        //print($"{Name} Resetting Power");
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
@@ -230,7 +230,7 @@ public class Card : NetworkBehaviour
     [Server]
     private void OnQuestDispatch(Transform newParent)
     {
-        print($"{Name} Dispatching to quest");
+        //print($"{Name} Dispatching to quest");
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.AddAdventurerToQuestLane(this);
     }
@@ -238,7 +238,7 @@ public class Card : NetworkBehaviour
     [Server]
     private void OnQuestReturn(Transform newParent)
     {
-        print($"{Name} Returning to hand");
+        //print($"{Name} Returning to hand");
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
         ResetPower();
