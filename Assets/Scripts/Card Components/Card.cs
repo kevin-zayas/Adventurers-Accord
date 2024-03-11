@@ -82,6 +82,7 @@ public class Card : NetworkBehaviour
     public void SetCardParent(Transform parent, bool worldPositionStays)
     {
         OberserversSetCardParent(parent, worldPositionStays);
+        this.Parent = parent;
     }
 
     [ServerRpc(RequireOwnership = false)]

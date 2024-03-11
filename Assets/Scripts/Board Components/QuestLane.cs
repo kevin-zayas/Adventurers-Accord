@@ -74,6 +74,7 @@ public class QuestLane : NetworkBehaviour
     {
         SpellPhysicalPower = 0;
         SpellMagicalPower = 0;
+        EffectiveTotalPower = 0;
 
         for (int i = 0; i < SpellDropZone.transform.childCount; i++)
         {

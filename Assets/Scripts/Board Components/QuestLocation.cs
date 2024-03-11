@@ -72,8 +72,8 @@ public class QuestLocation : NetworkBehaviour
 
         for (int i = 0; i < questLanes.Length; i++)
         {
-            TotalPhysicalPower += questLanes[i].PhysicalPower;
-            TotalMagicalPower += questLanes[i].MagicalPower;
+            TotalPhysicalPower += questLanes[i].PhysicalPower + questLanes[i].SpellPhysicalPower;
+            TotalMagicalPower += questLanes[i].MagicalPower + questLanes[i].SpellMagicalPower;
         }
 
         if (TotalPhysicalPower >= QuestCard.PhysicalPower && TotalMagicalPower >= QuestCard.MagicalPower)
@@ -100,7 +100,7 @@ public class QuestLocation : NetworkBehaviour
 
         foreach (QuestLane lane in laneList)
         {
-            if (lane.MagicalPower >= QuestCard.MagicalPower && lane.PhysicalPower >= QuestCard.PhysicalPower)       
+            if (lane.MagicalPower + lane.SpellMagicalPower >= QuestCard.MagicalPower && lane.PhysicalPower + lane.SpellPhysicalPower >= QuestCard.PhysicalPower)       
             {
                 primaryContributors.Add(lane);                                      //primary contributors are those who meet or exceed the quest requirements
             }

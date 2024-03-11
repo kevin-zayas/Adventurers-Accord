@@ -81,6 +81,13 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
+        if (card.Parent.CompareTag("Quest"))       // if card is on a quest, don't allow item to be equipped
+        {
+            print("Card is on a quest");
+            ResetCardPosition();
+            return;
+        }
+
         if (itemCard.MagicalPower > 0 && card.OriginalMagicalPower == 0 || itemCard.PhysicalPower > 0 && card.OriginalPhysicalPower == 0)
         { 
             print("Card does not have the required power type");
