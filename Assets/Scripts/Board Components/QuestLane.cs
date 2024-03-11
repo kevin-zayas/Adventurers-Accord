@@ -44,7 +44,7 @@ public class QuestLane : NetworkBehaviour
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
-    [field: SyncVar(OnChange = nameof(UpdateDrainEffects))]
+    [field: SyncVar]
     public bool ClericProtection { get; private set; }
 
     //[field: SerializeField]
@@ -168,6 +168,7 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Cleric":
                 ClericProtection = true;
+                if (adventurerEffects["Cleric"] == 1) UpdateDrainEffects();
                 break;
             case "Rogue":
                 //stickyFingers = true;
@@ -177,8 +178,8 @@ public class QuestLane : NetworkBehaviour
 
         if (questLocation.QuestCard.Drain && !ClericProtection)
         {
-            card.ServerChangePhysicalPower(questLocation.QuestCard.PhysicalDrain);
-            card.ServerChangeMagicalPower(questLocation.QuestCard.MagicalDrain);
+            card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
+            card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
         }
 
         ServerUpdatePower();
@@ -195,7 +196,11 @@ public class QuestLane : NetworkBehaviour
                 //bardInspiration = false;
                 break;
             case "Cleric":
-                if (adventurerEffects["Cleric"] == 0) ClericProtection = false;
+                if (adventurerEffects["Cleric"] == 0)
+                {
+                    ClericProtection = false;
+                    UpdateDrainEffects();
+                }
                 break;
             case "Rogue":
                 //stickyFingers = false;
@@ -206,25 +211,28 @@ public class QuestLane : NetworkBehaviour
         ServerUpdatePower();
     }
 
-    private void UpdateDrainEffects(bool oldValue, bool newValue, bool asServer)
+    [Server]
+    private void UpdateDrainEffects()
     {
-        if (!asServer) return;
         if (!questLocation.QuestCard.Drain) return;
 
         foreach (Transform cardTransform in DropZone.transform)
         {
             Card card = cardTransform.GetComponent<Card>();
+            if (card.Name == "Cleric") continue;
 
-            if (ClericProtection) card.ServerResetPower();
+            if (ClericProtection)
+            {
+                card.ServerChangePhysicalPower(questLocation.QuestCard.PhysicalDrain);      //reverse drain
+                card.ServerChangeMagicalPower(questLocation.QuestCard.MagicalDrain);    
+            }
             else
             {
                 print("Applying Drain");
-                card.ServerChangePhysicalPower(questLocation.QuestCard.PhysicalDrain);
-                card.ServerChangeMagicalPower(questLocation.QuestCard.MagicalDrain);
+                card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
+                card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
             }
         }
-
-        //ServerUpdatePower();
     }
 
     //[Server]

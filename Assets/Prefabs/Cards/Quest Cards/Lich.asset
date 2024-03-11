@@ -26,4 +26,4 @@ MonoBehaviour:
   lootReward: 1
   drain: 1
   physicalDrain: 0
-  magicalDrain: -1
+  magicalDrain: 1
