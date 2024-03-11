@@ -11,13 +11,6 @@ public class Board : NetworkBehaviour
     [field: SerializeField]
     public CardSlot[] CardSlots { get; private set; }
 
-    [SerializeField]
-    private Card[] draftCards = new Card[8];
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool[] AvailableCardSlots { get; private set; }
-
     [field: SerializeField]
     private List<CardData> T1Deck { get; } = new List<CardData>();
 
@@ -84,14 +77,11 @@ public class Board : NetworkBehaviour
         CardData randomCardData= deck[Random.Range(0, deck.Count)];
 
         Card card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
-        card.draftCardIndex = slotIndex;
 
         Spawn(card.gameObject);
         card.LoadCardData(randomCardData);
         card.SetCardParent(CardSlots[slotIndex].transform, false);
 
-        AvailableCardSlots[slotIndex] = false;
-        draftCards[slotIndex] = card;
         deck.Remove(randomCardData);
         ObserversUpdateDeckTrackers(T1Deck.Count, T2Deck.Count);
     }
@@ -131,8 +121,6 @@ public class Board : NetworkBehaviour
 
         if (deck.Count > 0)
         {
-            AvailableCardSlots[slotIndex] = true;
-            draftCards[slotIndex] = null;
             DrawCard(slotIndex);
         }
     }

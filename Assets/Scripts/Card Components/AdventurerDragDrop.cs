@@ -104,12 +104,13 @@ public class AdventurerDragDrop : NetworkBehaviour
     private void AssignDraftCardToPlayer()
     {
         Player player = GameManager.Instance.Players[LocalConnection.ClientId];
+        CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
 
         card.ServerSetCardParent(dropZone.transform, false);
         card.ServerSetCardOwner(player);
 
         player.ServerChangeGold(-card.Cost);
-        Board.Instance.ReplaceCard(card.draftCardIndex);
+        Board.Instance.ReplaceCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);
     }
 

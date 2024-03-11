@@ -883,6 +883,10 @@ PrefabInstance:
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 106827896}
+    - target: {fileID: 1835361397441460430, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2064796088428256381, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -899,9 +903,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2428440577820456601, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2575310756624265441, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_Name
-      value: Card Slot_8
+      value: Card Slot_7
       objectReference: {fileID: 0}
     - target: {fileID: 2940500315370259183, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: <SceneId>k__BackingField
@@ -971,6 +979,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4211887230837845594, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5174361198637871987, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -989,7 +1001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6619959495521683835, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_Name
-      value: Card Slot_5
+      value: Card Slot_4
       objectReference: {fileID: 0}
     - target: {fileID: 6633567850515262384, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1007,9 +1019,13 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6997193167072772436, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7139855462834161452, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_Name
-      value: Card Slot_6
+      value: Card Slot_5
       objectReference: {fileID: 0}
     - target: {fileID: 7260968567326008807, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1085,7 +1101,7 @@ PrefabInstance:
       objectReference: {fileID: 106827896}
     - target: {fileID: 8707129883830706159, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_Name
-      value: Card Slot_7
+      value: Card Slot_6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3713,6 +3729,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2428440577820456601, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2575310756624265441, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: m_Name
+      value: Card Slot_3
+      objectReference: {fileID: 0}
     - target: {fileID: 2940500315370259183, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: <SceneId>k__BackingField
       value: 2514987659405764141
@@ -3781,6 +3805,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4211887230837845594, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5174361198637871987, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3797,6 +3825,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6619959495521683835, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: m_Name
+      value: Card Slot_0
+      objectReference: {fileID: 0}
     - target: {fileID: 6633567850515262384, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3812,6 +3844,14 @@ PrefabInstance:
     - target: {fileID: 6633567850515262384, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6997193167072772436, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139855462834161452, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: m_Name
+      value: Card Slot_1
       objectReference: {fileID: 0}
     - target: {fileID: 7260968567326008807, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3885,6 +3925,10 @@ PrefabInstance:
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 106827896}
+    - target: {fileID: 8707129883830706159, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: m_Name
+      value: Card Slot_2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
