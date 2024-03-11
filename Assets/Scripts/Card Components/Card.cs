@@ -85,24 +85,21 @@ public class Card : NetworkBehaviour
     public void SetCardParent(Transform newParent, bool worldPositionStays)
     {
         OberserversSetCardParent(newParent, worldPositionStays);
+        this.transform.SetParent(newParent, worldPositionStays);        //need to set the parent on the server immediately instead of waiting for the observers to set it
+
+        if (this.Parent != null)
+        {
+            if (this.Parent.CompareTag("Quest")) OnQuestReturn(this.Parent);
+            if (newParent.CompareTag("Quest")) OnQuestDispatch(newParent);
+        }
+
         this.Parent = newParent;
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardParent(Transform newParent, bool worldPositionStays)
     {
-        OberserversSetCardParent(newParent, worldPositionStays);
-        this.transform.SetParent(newParent, worldPositionStays);
-
-        if (this.Parent.CompareTag("Hand") && newParent.CompareTag("Quest")) OnQuestDispatch(newParent);
-        else if (this.Parent.CompareTag("Quest") && newParent.CompareTag("Hand")) OnQuestReturn(this.Parent);
-        else if (this.Parent.CompareTag("Quest") && newParent.CompareTag("Quest"))
-        {
-            OnQuestReturn(this.Parent);
-            OnQuestDispatch(newParent);
-        }
-
-        this.Parent = newParent;
+        SetCardParent(newParent, worldPositionStays);
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -135,13 +132,13 @@ public class Card : NetworkBehaviour
         Spawn(itemCardHeader.gameObject);
 
         itemCardHeader.SetItemInfo(itemCard);
-        UpdateItemPower(itemCard.PhysicalPower, itemCard.MagicalPower);
+        SetItemPower(itemCard.PhysicalPower, itemCard.MagicalPower);
         
         ObserversAdjustCardSize(233);    // increase card size to adjust for item header
     }
 
     [Server]
-    private void UpdateItemPower(int physicalPower, int magicalPower)
+    private void SetItemPower(int physicalPower, int magicalPower)
     {
         ItemPhysicalPower = physicalPower;
         ItemMagicalPower = magicalPower;
@@ -157,6 +154,7 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangePhysicalPower(int power)
     {
+        if (!Parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower > 0 && power != 0)
         {
             PhysicalPower += power;
@@ -167,6 +165,7 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangeMagicalPower(int power)
     {
+        if (!Parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower > 0 && power != 0)
         {
             MagicalPower += power;
@@ -177,6 +176,7 @@ public class Card : NetworkBehaviour
     [Server]
     public void ResetPower()
     {
+        print($"{Name} Resetting Power");
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
@@ -185,9 +185,7 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerResetPower()
     {
-        PhysicalPower = OriginalPhysicalPower;
-        MagicalPower = OriginalMagicalPower;
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+        ResetPower();
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -232,6 +230,7 @@ public class Card : NetworkBehaviour
     [Server]
     private void OnQuestDispatch(Transform newParent)
     {
+        print($"{Name} Dispatching to quest");
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.AddAdventurerToQuestLane(this);
     }
@@ -239,8 +238,10 @@ public class Card : NetworkBehaviour
     [Server]
     private void OnQuestReturn(Transform newParent)
     {
+        print($"{Name} Returning to hand");
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
+        ResetPower();
     }
 
 }

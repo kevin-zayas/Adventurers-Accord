@@ -2,6 +2,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class QuestLane : NetworkBehaviour
@@ -130,14 +131,13 @@ public class QuestLane : NetworkBehaviour
         SpellMagicalPower = 0;
         EffectiveTotalPower = 0;
 
-        for (int i = 0; i < DropZone.transform.childCount; i++)
+        while (DropZone.transform.childCount > 0)
         {
-            Transform cardTransform = DropZone.transform.GetChild(i);
+            Transform cardTransform = DropZone.transform.GetChild(0);
             Card card = cardTransform.GetComponent<Card>();
 
-            card.ResetPower();
+            //card.ResetPower();
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
-            
         }
         ClearSpellEffects();
         //ClearAdventurerEffects();
@@ -202,12 +202,10 @@ public class QuestLane : NetworkBehaviour
                 break;
 
         }
-        card.ServerResetPower();
 
         ServerUpdatePower();
     }
 
-    [Server]
     private void UpdateDrainEffects(bool oldValue, bool newValue, bool asServer)
     {
         if (!asServer) return;
@@ -220,6 +218,7 @@ public class QuestLane : NetworkBehaviour
             if (ClericProtection) card.ServerResetPower();
             else
             {
+                print("Applying Drain");
                 card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
                 card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
             }
