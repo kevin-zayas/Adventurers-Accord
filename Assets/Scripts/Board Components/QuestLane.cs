@@ -44,8 +44,9 @@ public class QuestLane : NetworkBehaviour
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
-    [field: SyncVar]
-    public bool ClericProtection { get; private set; }
+    private bool ClericProtection;
+
+    private bool EnchanterBuff;
 
     //[field: SerializeField]
     //[field: SyncVar]
@@ -61,7 +62,7 @@ public class QuestLane : NetworkBehaviour
         adventurerEffects.Add("Rogue", 0);
 
         //adventurerEffects.Add("Assassin", 0);
-        //adventurerEffects.Add("Enchanter", 0);
+        adventurerEffects.Add("Enchanter", 0);
         //adventurerEffects.Add("Tinkerer", 0);
     }
 
@@ -159,6 +160,19 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AddAdventurerToQuestLane(Card card)
     {
+        if (questLocation.QuestCard.Drain && !ClericProtection)
+        {
+            card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
+            card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+        }
+
+        if (EnchanterBuff)
+        {
+            card.ServerChangePhysicalPower(adventurerEffects["Enchanter"]);
+            card.ServerChangeMagicalPower(adventurerEffects["Enchanter"]);
+        }
+
+
         if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]++;
 
         switch (card.Name)
@@ -173,13 +187,11 @@ public class QuestLane : NetworkBehaviour
             case "Rogue":
                 //stickyFingers = true;
                 break;
+            case "Enchanter":
+                if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
+                UpdateEnchanterBuff(1);     //check for card ID here so enchanter cant buff itself
+                break;
 
-        }
-
-        if (questLocation.QuestCard.Drain && !ClericProtection)
-        {
-            card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
-            card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
         }
 
         ServerUpdatePower();
@@ -205,6 +217,10 @@ public class QuestLane : NetworkBehaviour
             case "Rogue":
                 //stickyFingers = false;
                 break;
+            case "Enchanter":
+                if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
+                UpdateEnchanterBuff(-1);
+                break;
 
         }
 
@@ -219,7 +235,7 @@ public class QuestLane : NetworkBehaviour
         foreach (Transform cardTransform in DropZone.transform)
         {
             Card card = cardTransform.GetComponent<Card>();
-            if (card.Name == "Cleric") continue;
+            //if (card.Name == "Cleric") continue;
 
             if (ClericProtection)
             {
@@ -233,6 +249,20 @@ public class QuestLane : NetworkBehaviour
                 card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
             }
         }
+    }
+
+    [Server]
+    public void UpdateEnchanterBuff(int buffDelta) 
+    {
+        foreach (Transform cardTransform in DropZone.transform)
+        {
+            Card card = cardTransform.GetComponent<Card>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
+            if (card.Name == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
+
+            card.ServerChangePhysicalPower(buffDelta);
+            card.ServerChangeMagicalPower(buffDelta);
+        }
+        
     }
 
     //[Server]
