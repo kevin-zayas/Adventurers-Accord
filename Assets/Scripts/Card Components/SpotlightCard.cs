@@ -22,8 +22,16 @@ public class SpotlightCard : MonoBehaviour
 
     private void Update()
     {
-        //TODO: find out what is causing spotlight to be inactive
-        if (spotlightCard) spotlightCard.SetActive(true);
+        //TODO: find out what is causing spotlight to be inactive when initially spawned
+        if (spotlightCard)
+        {
+            spotlightCard.SetActive(true);
+
+            Card card = spotlightCard.GetComponent<Card>();
+
+            if (card && card.HasItem) card.Item.gameObject.SetActive(true);
+        }
+        
     }
 
     public void OnClick()
@@ -36,20 +44,7 @@ public class SpotlightCard : MonoBehaviour
             spotlightCard.transform.SetParent(canvas.transform, true);
             spotlightCard.layer = LayerMask.NameToLayer("Spotlight");
 
-            Card card = spotlightCard.GetComponent<Card>();
-            if (card && card.HasItem) 
-            {
-                //print(card.transform.GetChild(1));       // show item card
-                //card.transform.GetChild(1).gameObject.SetActive(true);
-                //print(card.transform.GetChild(1).gameObject.activeSelf);
-                //card.transform.GetChild(1).GetComponent<SpotlightCard>().OnClick();
-            }
-
             RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
-            //spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);   
-            //spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);       // set card to original size in case an item was equipped
-
-            
             spotlightRect.localScale = new Vector2(2f, 2f);
 
             CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
