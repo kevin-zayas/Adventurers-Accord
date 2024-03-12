@@ -45,10 +45,6 @@ public class ItemDragDrop : NetworkBehaviour
     public void BeginDrag()
     {
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking           
-        //if (item.IsEquipped) return;
-
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Dispatch && 
-            GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn when in dispatch phase
    
         startPosition = transform.position;
         startParentTransform = transform.parent;
