@@ -127,6 +127,8 @@ public class Card : NetworkBehaviour
 
         itemCardHeader.LoadCardData(itemCardData);
         Item = itemCardHeader;
+
+        if (Name == "Sorcerer") ResetPower();
         
         ObserversAdjustCardSize(233);    // increase card size to adjust for item header
     }
@@ -181,6 +183,9 @@ public class Card : NetworkBehaviour
         //print($"{Name} Resetting Power");
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
+
+        if (Name == "Sorcerer" && HasItem) MagicalPower += 3;
+
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
     }
 
