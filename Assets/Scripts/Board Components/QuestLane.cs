@@ -45,8 +45,8 @@ public class QuestLane : NetworkBehaviour
     private readonly Dictionary<string, int> adventurerEffects = new();
 
     private bool ClericProtection;
-
     private bool EnchanterBuff;
+    private bool TinkererBuff;
 
     //[field: SerializeField]
     //[field: SyncVar]
@@ -63,7 +63,7 @@ public class QuestLane : NetworkBehaviour
 
         //adventurerEffects.Add("Assassin", 0);
         adventurerEffects.Add("Enchanter", 0);
-        //adventurerEffects.Add("Tinkerer", 0);
+        adventurerEffects.Add("Tinkerer", 0);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -78,8 +78,14 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(i);
             Card card = cardTransform.GetComponent<Card>();
 
-            PhysicalPower += card.PhysicalPower + card.ItemPhysicalPower;
-            MagicalPower += card.MagicalPower + card.ItemMagicalPower;
+            PhysicalPower += card.PhysicalPower;
+            MagicalPower += card.MagicalPower;
+
+            if (card.HasItem)
+            {
+                PhysicalPower += card.Item.PhysicalPower;
+                MagicalPower += card.Item.MagicalPower;
+            }
         }
 
         if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
@@ -137,11 +143,9 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(0);
             Card card = cardTransform.GetComponent<Card>();
 
-            //card.ResetPower();
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
         }
         ClearSpellEffects();
-        //ClearAdventurerEffects();
         ObserversUpdatePower(PhysicalPower, MagicalPower);
     }
 
@@ -172,6 +176,12 @@ public class QuestLane : NetworkBehaviour
             card.ServerChangeMagicalPower(adventurerEffects["Enchanter"]);
         }
 
+        if (TinkererBuff && card.HasItem)
+        {
+            card.Item.ServerChangePhysicalPower(adventurerEffects["Tinkerer"]);
+            card.Item.ServerChangeMagicalPower(adventurerEffects["Tinkerer"]);
+        }
+
 
         if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]++;
 
@@ -191,7 +201,10 @@ public class QuestLane : NetworkBehaviour
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
                 UpdateEnchanterBuff(1);     //check for card ID here so enchanter cant buff itself
                 break;
-
+            case "Tinkerer":
+                if (adventurerEffects["Tinkerer"] == 1) TinkererBuff = true;
+                UpdateTinkererBuff(1);     
+                break;
         }
 
         ServerUpdatePower();
@@ -221,6 +234,10 @@ public class QuestLane : NetworkBehaviour
                 if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
                 UpdateEnchanterBuff(-1);
                 break;
+            case "Tinkerer":
+                if (adventurerEffects["Tinkerer"] == 0) TinkererBuff = true;
+                UpdateTinkererBuff(-1);
+                break;
 
         }
 
@@ -235,7 +252,7 @@ public class QuestLane : NetworkBehaviour
         foreach (Transform cardTransform in DropZone.transform)
         {
             Card card = cardTransform.GetComponent<Card>();
-            //if (card.Name == "Cleric") continue;
+            //if (card.Name == "Cleric") continue;          // only need this if applying drain after updating ClericProtection bool in AddAdventurerToQuestLane
 
             if (ClericProtection)
             {
@@ -261,8 +278,20 @@ public class QuestLane : NetworkBehaviour
 
             card.ServerChangePhysicalPower(buffDelta);
             card.ServerChangeMagicalPower(buffDelta);
+        } 
+    }
+
+    [Server]
+    public void UpdateTinkererBuff(int buffDelta)
+    {
+        foreach (Transform cardTransform in DropZone.transform)
+        {
+            Card card = cardTransform.GetComponent<Card>();
+            if (!card.HasItem) continue;
+            print($"{card.Name} changing item power by {buffDelta}");
+            card.Item.ServerChangePhysicalPower(buffDelta);
+            card.Item.ServerChangeMagicalPower(buffDelta);
         }
-        
     }
 
     //[Server]

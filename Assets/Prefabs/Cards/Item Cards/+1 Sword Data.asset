@@ -15,9 +15,15 @@ MonoBehaviour:
   cardName: +1 Sword
   physicalPower: 1
   magicalPower: 0
-  originalPhysicalPower: 0
+  originalPhysicalPower: 1
   originalMagicalPower: 0
   cost: 0
   cardDescription: '+1 Physical Power '
   cardSubDescription: when equipped
   cardType: Item
+  goldReward: 0
+  reputationReward: 0
+  lootReward: 0
+  drain: 0
+  physicalDrain: 0
+  magicalDrain: 0

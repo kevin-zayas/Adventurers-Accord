@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardData : ScriptableObject
 {
+    //TODO: make all public fields with private setters
+
     public string cardName;
     public int physicalPower;
     public int magicalPower;

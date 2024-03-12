@@ -20,8 +20,6 @@ public class Card : NetworkBehaviour
     [field: SerializeField]
     [field: SyncVar]
     public bool IsDraftCard { get; private set; }
-    
-    [SyncVar] public int draftCardIndex;
 
     [field: SerializeField]
     [field: SyncVar]
@@ -47,19 +45,15 @@ public class Card : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public int ItemPhysicalPower { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int ItemMagicalPower { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
     public int Cost { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
     public bool HasItem { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public ItemCardHeader Item { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -87,9 +81,9 @@ public class Card : NetworkBehaviour
         OberserversSetCardParent(newParent, worldPositionStays);
         this.transform.SetParent(newParent, worldPositionStays);        //need to set the parent on the server immediately instead of waiting for the observers to set it
 
-        if (this.Parent != null)
+        if (this.Parent != null && this.Parent != newParent)
         {
-            if (this.Parent.CompareTag("Quest")) OnQuestReturn(this.Parent);
+            if (this.Parent.CompareTag("Quest")) OnQuestReturn(this.Parent); //issue when dragging card since parent is set to canvas
             if (newParent.CompareTag("Quest")) OnQuestDispatch(newParent);
         }
 
@@ -124,24 +118,17 @@ public class Card : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerEquipItem(bool hasItem, ItemCard itemCard)
+    public void ServerEquipItem(bool hasItem, CardData itemCardData)
     {
         HasItem = hasItem;
 
         ItemCardHeader itemCardHeader = gameObject.transform.GetChild(1).GetComponent<ItemCardHeader>();
         Spawn(itemCardHeader.gameObject);
 
-        itemCardHeader.SetItemInfo(itemCard);
-        SetItemPower(itemCard.PhysicalPower, itemCard.MagicalPower);
+        itemCardHeader.LoadCardData(itemCardData);
+        Item = itemCardHeader;
         
         ObserversAdjustCardSize(233);    // increase card size to adjust for item header
-    }
-
-    [Server]
-    private void SetItemPower(int physicalPower, int magicalPower)
-    {
-        ItemPhysicalPower = physicalPower;
-        ItemMagicalPower = magicalPower;
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -155,9 +142,9 @@ public class Card : NetworkBehaviour
     public void ServerChangePhysicalPower(int power)
     {
         if (!Parent.CompareTag("Quest")) return;
-        if (OriginalPhysicalPower > 0 && power != 0)
+        if (OriginalPhysicalPower > 0)
         {
-            PhysicalPower += power;
+            PhysicalPower += power;                                 //TODO: clamp power so its not less than 0
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         }
     }
@@ -166,26 +153,11 @@ public class Card : NetworkBehaviour
     public void ServerChangeMagicalPower(int power)
     {
         if (!Parent.CompareTag("Quest")) return;
-        if (OriginalMagicalPower > 0 && power != 0)
+        if (OriginalMagicalPower > 0)
         {
             MagicalPower += power;
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         }
-    }
-
-    [Server]
-    public void ResetPower()
-    {
-        //print($"{Name} Resetting Power");
-        PhysicalPower = OriginalPhysicalPower;
-        MagicalPower = OriginalMagicalPower;
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerResetPower()
-    {
-        ResetPower();
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -201,6 +173,21 @@ public class Card : NetworkBehaviour
         if (magicalPower > OriginalMagicalPower) magicalPowerText.color = Color.green;
         else if (magicalPower < OriginalMagicalPower) magicalPowerText.color = Color.red;
         else magicalPowerText.color = Color.white;
+    }
+
+    [Server]
+    public void ResetPower()
+    {
+        //print($"{Name} Resetting Power");
+        PhysicalPower = OriginalPhysicalPower;
+        MagicalPower = OriginalMagicalPower;
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerResetPower()
+    {
+        ResetPower();
     }
 
     [Server]
@@ -242,6 +229,7 @@ public class Card : NetworkBehaviour
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
         ResetPower();
+        if (HasItem) Item.ResetPower();
     }
 
 }

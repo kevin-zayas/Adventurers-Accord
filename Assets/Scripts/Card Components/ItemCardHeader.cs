@@ -11,11 +11,11 @@ public class ItemCardHeader : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public Card AttachedCard { get; private set; }
+    public Transform Parent { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
-    public Transform Parent { get; private set; }
+    public string Name { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -27,36 +27,15 @@ public class ItemCardHeader : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public bool IsEquipped { get; private set; }
+    public int OriginalPhysicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
-    public Vector3 CurrentScale { get; private set; }
+    public int OriginalMagicalPower { get; private set; }
 
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
-
-    [Server]
-    public void SetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays, CurrentScale);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays, CurrentScale);
-        this.transform.SetParent(parent, worldPositionStays);
-        this.Parent = parent;
-    }
-
-    [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform parent, bool worldPositionStays, Vector3 scale)
-    {
-        this.transform.localScale = scale;
-        this.transform.SetParent(parent, worldPositionStays);
-    }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player owner)
@@ -65,33 +44,84 @@ public class ItemCardHeader : NetworkBehaviour
         //ControllingPlayerHand = owner.controlledHand;
     }
 
-    [Server]
-    public void SetCardScale(Vector3 scale)
-    {
-        this.CurrentScale = scale;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardScale(Vector3 scale)
-    {
-        this.CurrentScale = scale;
-    }
-
-    [Server]
-    public void SetItemInfo(ItemCard itemCard)
-    {
-        PhysicalPower = itemCard.PhysicalPower;
-        MagicalPower = itemCard.MagicalPower;
-
-        ObserversSetItemInfo(PhysicalPower,MagicalPower,itemCard.Name);
-    }
-
     [ObserversRpc(BufferLast = true)]
     public void ObserversSetItemInfo(int physicalPower, int magicalPower, string name)
     {
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
         nameText.text = name;
+    }
+
+    [Server]
+    public void LoadCardData(CardData cardData)
+    {
+        PhysicalPower = cardData.physicalPower;
+        MagicalPower = cardData.magicalPower;
+        OriginalPhysicalPower = cardData.originalPhysicalPower;
+        OriginalMagicalPower = cardData.originalMagicalPower;
+        Name = cardData.cardName;
+
+        ObserversLoadCardData(cardData);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversLoadCardData(CardData cardData)
+    {
+        physicalPowerText.text = cardData.physicalPower.ToString();
+        magicalPowerText.text = cardData.magicalPower.ToString();
+        nameText.text = cardData.cardName;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerChangePhysicalPower(int power)
+    {
+        if (!Parent.transform.parent.CompareTag("Quest")) return;
+        if (OriginalPhysicalPower > 0)
+        {
+            PhysicalPower += power;
+            ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerChangeMagicalPower(int power)
+    {
+        if(!Parent.transform.parent.CompareTag("Quest")) return;
+        if (OriginalMagicalPower > 0)
+        {
+            MagicalPower += power;
+            ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+        }
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    public void ObserversUpdatePowerText(int physicalPower, int magicalPower)
+    {
+        physicalPowerText.text = physicalPower.ToString();
+        magicalPowerText.text = magicalPower.ToString();
+
+        if (physicalPower > OriginalPhysicalPower) physicalPowerText.color = Color.green;
+        else if (physicalPower < OriginalPhysicalPower) physicalPowerText.color = Color.red;
+        else physicalPowerText.color = Color.white;
+
+        if (magicalPower > OriginalMagicalPower) magicalPowerText.color = Color.green;
+        else if (magicalPower < OriginalMagicalPower) magicalPowerText.color = Color.red;
+        else magicalPowerText.color = Color.white;
+    }
+
+    [Server]
+    public void ResetPower()
+    {
+        print($"{Name} Resetting Item Power");
+        PhysicalPower = OriginalPhysicalPower;
+        MagicalPower = OriginalMagicalPower;
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerResetPower()
+    {
+        ResetPower();
     }
 
     [Server]

@@ -30,7 +30,7 @@ public class ItemCard : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public bool IsEquipped { get; private set; }
+    public CardData CardData { get; private set; }
 
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
@@ -102,6 +102,7 @@ public class ItemCard : NetworkBehaviour
         Name = cardData.cardName;
         Description = cardData.cardDescription;
         SubDescription = cardData.cardSubDescription;
+        CardData = cardData;
 
         ObserversLoadCardData(cardData);
     }

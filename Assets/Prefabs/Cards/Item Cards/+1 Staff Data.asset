@@ -16,8 +16,14 @@ MonoBehaviour:
   physicalPower: 0
   magicalPower: 1
   originalPhysicalPower: 0
-  originalMagicalPower: 0
+  originalMagicalPower: 1
   cost: 0
   cardDescription: +1 Magical Power
   cardSubDescription: when equipped
   cardType: Item
+  goldReward: 0
+  reputationReward: 0
+  lootReward: 0
+  drain: 0
+  physicalDrain: 0
+  magicalDrain: 0
