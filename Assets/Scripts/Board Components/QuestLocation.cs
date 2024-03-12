@@ -82,6 +82,7 @@ public class QuestLocation : NetworkBehaviour
             print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
             print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
             CalculateQuestContributions();
+            DistributeBardBonus();
         }
         else
         {
@@ -188,6 +189,19 @@ public class QuestLocation : NetworkBehaviour
             print($"Player {player.PlayerID} recieves {secondaryGoldReward} GP and {secondaryReputationReward} Rep. for their contribution to the quest");
         }
         
+    }
+
+    [Server]
+    private void DistributeBardBonus()
+    {
+        foreach (QuestLane lane in questLanes)
+        {
+            if (lane.BardBonus > 0)
+            {
+                lane.Player.ServerChangeReputation(lane.BardBonus);
+                print($"Player {lane.Player.PlayerID} recieves {lane.BardBonus} bonus Rep. for their Bard's contribution");
+            }
+        }
     }
 
     [Server]

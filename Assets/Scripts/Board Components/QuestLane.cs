@@ -44,9 +44,14 @@ public class QuestLane : NetworkBehaviour
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public int BardBonus { get; private set; }
+
     private bool ClericProtection;
     private bool EnchanterBuff;
     private bool TinkererBuff;
+
 
     //[field: SerializeField]
     //[field: SyncVar]
@@ -57,7 +62,7 @@ public class QuestLane : NetworkBehaviour
 
     private void Start()
     {
-        adventurerEffects.Add("Bard", 0);
+        //adventurerEffects.Add("Bard", 0);
         adventurerEffects.Add("Cleric", 0);
         adventurerEffects.Add("Rogue", 0);
 
@@ -188,7 +193,7 @@ public class QuestLane : NetworkBehaviour
         switch (card.Name)
         {
             case "Bard":
-                //bardInspiration = true;
+                BardBonus++;
                 break;
             case "Cleric":
                 ClericProtection = true;
@@ -218,7 +223,7 @@ public class QuestLane : NetworkBehaviour
         switch (card.Name)
         {
             case "Bard":
-                //bardInspiration = false;
+                BardBonus--;
                 break;
             case "Cleric":
                 if (adventurerEffects["Cleric"] == 0)
