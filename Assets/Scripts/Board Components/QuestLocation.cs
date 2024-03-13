@@ -87,6 +87,7 @@ public class QuestLocation : NetworkBehaviour
         else
         {
             print("Quest Incomplete");
+            //TODO: Handle incomplete quest penalties
         }
     }
 
