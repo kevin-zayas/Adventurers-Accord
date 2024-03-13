@@ -206,6 +206,7 @@ public class QuestLane : NetworkBehaviour
             case "Rogue":
                 //stickyFingers = true;
                 //add rogue to quest location array of resolve phase effects. This will happen right before magic phase
+                questLocation.CardsToResolvePerLane[Player.PlayerID].Add(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
@@ -242,6 +243,7 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Rogue":
                 //stickyFingers = false;
+                questLocation.CardsToResolvePerLane[Player.PlayerID].Remove(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;

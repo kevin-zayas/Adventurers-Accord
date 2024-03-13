@@ -12,6 +12,9 @@ public class Board : NetworkBehaviour
     public CardSlot[] CardSlots { get; private set; }
 
     [field: SerializeField]
+    public QuestLocation[] QuestLocations { get; private set; }
+
+    [field: SerializeField]
     private List<CardData> T1Deck { get; } = new List<CardData>();
 
     [field: SerializeField]
@@ -22,9 +25,6 @@ public class Board : NetworkBehaviour
 
     [field: SerializeField]
     private List<CardData> QuestCardsDeck { get; } = new List<CardData>();
-
-    [field: SerializeField]
-    private QuestLocation[] questLocations;
 
     private readonly int cardFrequency = 3;
 
@@ -58,7 +58,7 @@ public class Board : NetworkBehaviour
         }
         DrawQuestCard();
 
-        questLocations[0].StartGame();
+        QuestLocations[0].StartGame();
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
         {
@@ -95,7 +95,7 @@ public class Board : NetworkBehaviour
 
         Spawn(questCard.gameObject);
         questCard.LoadCardData(randomQuestData);
-        questLocations[0].AssignQuestCard(questCard);  //set quest index here
+        QuestLocations[0].AssignQuestCard(questCard);  //set quest index here
         QuestCardsDeck.Remove(randomQuestData);
     }
 
@@ -141,13 +141,13 @@ public class Board : NetworkBehaviour
     [Server]
     public void CheckQuests()
     {
-        questLocations[0].CalculatePowerTotal();
+        QuestLocations[0].CalculatePowerTotal();
     }
 
     [Server]
     public void ResetQuests()
     {
-        foreach (QuestLocation location in questLocations)
+        foreach (QuestLocation location in QuestLocations)
         {
             location.ResetQuestLocation();
         }

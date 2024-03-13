@@ -434,7 +434,7 @@ MonoBehaviour:
   - {fileID: 135191046}
   - {fileID: 135191045}
   - {fileID: 135191044}
-  questLocations:
+  <QuestLocations>k__BackingField:
   - {fileID: 3194752889964937013}
   t1DeckTrackerText: {fileID: 920776766}
   t2DeckTrackerText: {fileID: 506087302}
@@ -2982,10 +2982,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1736932375}
   _networkObjectCache: {fileID: 1736932375}
   tierOneCards:
-  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
   - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
   - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
-  - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
   tierTwoCards:
   - {fileID: 11400000, guid: d0faf7741a01275479f4578619b694b8, type: 2}

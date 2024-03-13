@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public enum Phase { Draft, Dispatch, Magic, Resolve }
+    public enum Phase { Draft, Dispatch, Magic, Resolution }
 
     [field: SyncObject]
     [field: SerializeField]
@@ -117,11 +118,6 @@ public class GameManager : NetworkBehaviour
             Turn = (Turn + 1) % Players.Count;
         }
 
-        //if (attemptCount == Players.Count)
-        //{
-        //    EndPhase();
-        //    return;
-        //}
         BeginTurn();
     }
 
@@ -174,10 +170,16 @@ public class GameManager : NetworkBehaviour
                 BeginTurn();
                 break;
             case Phase.Dispatch:
+                CurrentPhase = Phase.Resolution;
+                Board.Instance.ObserversUpdatePhaseText("Resolution");
+                CheckForUnresolvedCards();
+                //Turn = StartingTurn;
+                //BeginEndRound();
+                break;
+            case Phase.Resolution:
                 CurrentPhase = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
-                //Turn = StartingTurn;
-                 BeginEndRound();
+                BeginEndRound();
                 break;
             case Phase.Magic:
                 Board.Instance.CheckQuests();
@@ -188,9 +190,23 @@ public class GameManager : NetworkBehaviour
                 Turn = StartingTurn;
                 BeginTurn();
                 break;
-            //case Phase.Resolve:
-            //    break;
         }
         //BeginTurn();
+    }
+
+    [Server]
+    public void CheckForUnresolvedCards()
+    {
+        print("checking for unresolved cards");
+        foreach (QuestLocation questLocation in Board.Instance.QuestLocations)
+        {
+            if (questLocation.HasUnresolvedCards())
+            {
+                CheckForUnresolvedCards();
+                return;
+            }
+        }
+
+        EndPhase();         // if no unresolved cards, end phase
     }
 }

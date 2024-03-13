@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,11 +24,19 @@ public class QuestLocation : NetworkBehaviour
     [field: SyncVar]
     public int TotalMagicalPower { get; private set; }
 
+    [field: SerializeField]
+    public List<List<Card>> CardsToResolvePerLane { get; private set; } = new List<List<Card>>();
+
 
     [Server]
     public void StartGame()
     {
         ObserversInitializeQuestLocation();
+        
+        foreach(Player player in GameManager.Instance.Players)
+        {
+            CardsToResolvePerLane.Add(new List<Card>());
+        }
 
     }
 
@@ -215,5 +224,36 @@ public class QuestLocation : NetworkBehaviour
         {
             questLanes[i].ResetQuestLane();
         }
+    }
+
+    [Server]
+    public bool HasUnresolvedCards()
+    {
+        foreach (List<Card> cardList in CardsToResolvePerLane)
+        {
+            if (cardList.Count > 0)
+            {
+                ResolveCard(cardList[0]);
+                cardList.RemoveAt(0);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    [Server]
+    private void ResolveCard(Card card)
+    {
+        print("Resolving card: " + card.Name);
+        switch (card.Name)
+        {
+            case "Rogue":
+                print("launch sticky fingers popup");
+
+                //call CheckForUnresolvedCards when popup is closed
+                break;
+        }
+
+        //GameManager.Instance.CheckForUnresolvedCards();
     }
 }

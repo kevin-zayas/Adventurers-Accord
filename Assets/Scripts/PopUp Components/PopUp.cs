@@ -33,4 +33,6 @@ public class PopUp : MonoBehaviour
 
         transform.SetParent(questLocation);
     }
+
+
 }
