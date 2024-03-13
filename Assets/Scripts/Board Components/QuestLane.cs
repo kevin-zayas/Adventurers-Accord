@@ -62,7 +62,6 @@ public class QuestLane : NetworkBehaviour
 
     private void Start()
     {
-        //adventurerEffects.Add("Bard", 0);
         adventurerEffects.Add("Cleric", 0);
         adventurerEffects.Add("Rogue", 0);
 
@@ -148,6 +147,11 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(0);
             Card card = cardTransform.GetComponent<Card>();
 
+            if (card.Name == "Wolf Companion")
+            {
+                SummonRangerCompanion(true);
+                continue;
+            }
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
         }
         ClearSpellEffects();
@@ -201,14 +205,18 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Rogue":
                 //stickyFingers = true;
+                //add rogue to quest location array of resolve phase effects. This will happen right before magic phase
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
-                UpdateEnchanterBuff(1);     //check for card ID here so enchanter cant buff itself
+                UpdateEnchanterBuff(1);     //check for card ID here so enchanter cant buff itself if changing Enchanter stats
                 break;
             case "Tinkerer":
                 if (adventurerEffects["Tinkerer"] == 1) TinkererBuff = true;
                 UpdateTinkererBuff(1);     
+                break;
+            case "Ranger":
+                SummonRangerCompanion(false);
                 break;
         }
 
@@ -243,6 +251,9 @@ public class QuestLane : NetworkBehaviour
                 if (adventurerEffects["Tinkerer"] == 0) TinkererBuff = true;
                 UpdateTinkererBuff(-1);
                 break;
+            case "Ranger":
+                SummonRangerCompanion(true);
+                break;
 
         }
 
@@ -274,7 +285,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    public void UpdateEnchanterBuff(int buffDelta) 
+    private void UpdateEnchanterBuff(int buffDelta) 
     {
         foreach (Transform cardTransform in DropZone.transform)
         {
@@ -287,7 +298,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    public void UpdateTinkererBuff(int buffDelta)
+    private void UpdateTinkererBuff(int buffDelta)
     {
         foreach (Transform cardTransform in DropZone.transform)
         {
@@ -297,6 +308,32 @@ public class QuestLane : NetworkBehaviour
             card.Item.ServerChangePhysicalPower(buffDelta);
             card.Item.ServerChangeMagicalPower(buffDelta);
         }
+    }
+
+    [Server]
+    private void SummonRangerCompanion(bool despawn)
+    {
+        if (despawn)
+        {
+            foreach (Transform cardTransform in DropZone.transform)
+            {
+                Card card = cardTransform.GetComponent<Card>();
+                if (card.Name == "Wolf Companion")
+                {
+                    card.transform.SetParent(null);
+                    card.Despawn();
+                    break;
+                }
+            }
+            return;
+        }
+
+        CardData wolfCardData = CardDatabase.Instance.wolfCardData;
+        Card wolfCard = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
+
+        Spawn(wolfCard.gameObject);
+        wolfCard.LoadCardData(wolfCardData);
+        wolfCard.SetCardParent(DropZone.transform, false);
     }
 
     //[Server]

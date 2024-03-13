@@ -2946,7 +2946,7 @@ MonoBehaviour:
   tierTwoCards:
   - {fileID: 11400000, guid: d0faf7741a01275479f4578619b694b8, type: 2}
   - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
-  - {fileID: 11400000, guid: a5a488f18a019da42864147ae2776293, type: 2}
+  - {fileID: 11400000, guid: 7bf5cf46159ffde4787ab1f32053c9d6, type: 2}
   questCards:
   - {fileID: 11400000, guid: 288055a8c421aab4999213648722eb97, type: 2}
   lootCards:
