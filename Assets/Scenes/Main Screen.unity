@@ -849,6 +849,13 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 302781916}
   _networkObjectCache: {fileID: 302781916}
+  <RogueTitleText>k__BackingField: Sticky Fingers
+  <RogueDefaultMessageText>k__BackingField: Please choose an Adventurer on this Quest
+    to "borrow" an item from.
+  <RogueConfirmSelectionText>k__BackingField: Are you sure you want to "borrow" this
+    {0}'s {1}?
+  <RogueConfirmCloseText>k__BackingField: Are you sure you don't want to "borrow"
+    an item this round?
   <CurrentPopUp>k__BackingField: {fileID: 0}
 --- !u!114 &302781916
 MonoBehaviour:

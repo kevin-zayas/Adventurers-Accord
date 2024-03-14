@@ -2,10 +2,16 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class PopUpManager : NetworkBehaviour
 {
+    [field: SerializeField] public string RogueTitleText { get; private set; }
+    [field: SerializeField] public string RogueDefaultMessageText { get; private set; }
+    [field: SerializeField] public string RogueConfirmSelectionText { get; private set; }
+    [field: SerializeField] public string RogueConfirmCloseText { get; private set; }
+
     public static PopUpManager Instance { get; private set; }
 
     [field: SerializeField]

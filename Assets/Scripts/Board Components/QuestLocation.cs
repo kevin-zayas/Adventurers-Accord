@@ -266,7 +266,7 @@ public class QuestLocation : NetworkBehaviour
     public void TargetResolveRogueCard(NetworkConnection networkConnection, PopUp popUp)
     {
         print("Sending popup to local client");
-        popUp.CreateRoguePopUp(this);
+        popUp.InitializePopUp(this);
     }
 
     [ServerRpc(RequireOwnership = false)]

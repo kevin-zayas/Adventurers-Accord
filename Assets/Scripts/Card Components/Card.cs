@@ -248,7 +248,7 @@ public class Card : NetworkBehaviour
 
         print($"Rogue Stealing {Name}'s {Item.Name}");
 
-        PopUpManager.Instance.CurrentPopUp.ConfirmRogueSelectionPopUp(this);
+        PopUpManager.Instance.CurrentPopUp.SetConfirmSelectionState(this);
     }
 
 }

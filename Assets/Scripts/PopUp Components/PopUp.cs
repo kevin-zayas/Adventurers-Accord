@@ -24,21 +24,27 @@ public class PopUp : NetworkBehaviour
     [SerializeField] QuestLocation QuestLocation;
     //[SerializeField] NetworkConnection networkConnection;
 
-    public void CreateRoguePopUp(QuestLocation questLocation)
+    string titleText;
+    string defaultMessageText;
+    string confirmSelectionText;
+    string confirmCloseText;
+
+    public void InitializePopUp(QuestLocation questLocation)
     {
         print("loading rogue popup info");
         closeButton.onClick.AddListener(() =>
         {
-            ConfirmClosePopUp();
+            SetConfirmClosePopupState();
         });
 
         transform.SetParent(questLocation.transform);
         transform.localPosition = new Vector3(0, -300f, 0);  //bottom center of quest location
-
         QuestLocation = questLocation;
-        InitializeRoguePopup();
+
+        SetRogueText();
+        SetDefaultPopUpSate();
     }
-    private void InitializeRoguePopup()
+    private void SetDefaultPopUpSate()
     {
         print("InitializeRoguePopup");
         QuestLocation.ServerSetCanRogueSteal(true);
@@ -51,11 +57,11 @@ public class PopUp : NetworkBehaviour
         leftButton.onClick.RemoveAllListeners();
         rightButton.onClick.RemoveAllListeners();
 
-        title.text = "Sticky Fingers";
-        message.text = "Please choose an Adventurer on this Quest to 'borrow' an item from.";
+        title.text = titleText;
+        message.text = defaultMessageText;
     }
 
-    public void ConfirmRogueSelectionPopUp(Card card)
+    public void SetConfirmSelectionState(Card card)
     {
         print("Setting up rogue selection popup");
         QuestLocation.ServerSetCanRogueSteal(false);
@@ -68,11 +74,12 @@ public class PopUp : NetworkBehaviour
         leftButtonText.text = "Cancel";
         rightButtonText.text = "'Borrow'";
 
-        message.text = $"Are you sure you want to 'borrow' this {card.Name}'s {card.Item.Name}?";
+        print(confirmSelectionText);
+        message.text = string.Format(confirmSelectionText, card.Name, card.Item.Name);
 
         leftButton.onClick.AddListener(() =>
         {
-            InitializeRoguePopup();
+            SetDefaultPopUpSate();
 
         });
 
@@ -87,7 +94,7 @@ public class PopUp : NetworkBehaviour
         });
     }
 
-    public void ConfirmClosePopUp()
+    public void SetConfirmClosePopupState()
     {
         print("Setting close confirmation popup");
         QuestLocation.ServerSetCanRogueSteal(false);
@@ -103,11 +110,11 @@ public class PopUp : NetworkBehaviour
         leftButtonText.text = "Cancel";
         rightButtonText.text = "Yes";
 
-        message.text = $"Are you sure you don't want to 'borrow' an item this round?";
+        message.text = confirmCloseText;
 
         leftButton.onClick.AddListener(() =>
         {
-            InitializeRoguePopup();
+            SetDefaultPopUpSate();
 
         });
 
@@ -116,6 +123,19 @@ public class PopUp : NetworkBehaviour
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnPopUp(this);
         });
+    }
+
+    private void SetRogueText()
+    {
+        titleText = PopUpManager.Instance.RogueTitleText;
+        defaultMessageText = PopUpManager.Instance.RogueDefaultMessageText;
+        confirmSelectionText = PopUpManager.Instance.RogueConfirmSelectionText;
+        confirmCloseText = PopUpManager.Instance.RogueConfirmCloseText;
+    }
+
+    private void SetAssassinText()
+    {
+
     }
 
 }
