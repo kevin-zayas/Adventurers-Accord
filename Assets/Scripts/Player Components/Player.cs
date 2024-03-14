@@ -12,6 +12,10 @@ public class Player : NetworkBehaviour
     [field: SyncVar]
     public int PlayerID { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool IsPlayerTurn { get; private set; }
+
     [field: SyncVar]
     public int Gold { get; private set; }
 
@@ -161,5 +165,17 @@ public class Player : NetworkBehaviour
     {
         if (!IsOwner) return;
         Board.Instance.reputationText.text = $"{reputation} Rep.";
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerSetIsPlayerTurn(bool value)
+    {
+        SetIsPlayerTurn(value);
+    }
+
+    [Server]
+    public void SetIsPlayerTurn(bool value)
+    {
+        IsPlayerTurn = value;
     }
 }

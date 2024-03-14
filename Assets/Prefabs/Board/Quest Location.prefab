@@ -59,6 +59,7 @@ MonoBehaviour:
   <QuestCard>k__BackingField: {fileID: 0}
   <TotalPhysicalPower>k__BackingField: 0
   <TotalMagicalPower>k__BackingField: 0
+  <CanRogueSteal>k__BackingField: 0
 --- !u!114 &289205687452111403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,8 +383,16 @@ PrefabInstance:
       propertyPath: questLocation
       value: 
       objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 1653833650406721792, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: <QuestLocation>k__BackingField
+      value: 
+      objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 2591677559977696035, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: questLocation
+      value: 
+      objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 2591677559977696035, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 4396490478198637166, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
@@ -418,6 +427,10 @@ PrefabInstance:
       propertyPath: questLocation
       value: 
       objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 5112845853146180800, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: <QuestLocation>k__BackingField
+      value: 
+      objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 6341209009900746125, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 8
@@ -440,6 +453,10 @@ PrefabInstance:
       objectReference: {fileID: 289205687452111403}
     - target: {fileID: 6810579544328012307, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: questLocation
+      value: 
+      objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 6810579544328012307, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 7928928352598811188, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}

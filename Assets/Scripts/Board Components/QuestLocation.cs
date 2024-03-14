@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
@@ -27,13 +28,16 @@ public class QuestLocation : NetworkBehaviour
     [field: SerializeField]
     public List<List<Card>> CardsToResolvePerLane { get; private set; } = new List<List<Card>>();
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool CanRogueSteal { get; private set; }
 
     [Server]
     public void StartGame()
     {
         ObserversInitializeQuestLocation();
-        
-        foreach(Player player in GameManager.Instance.Players)
+
+        foreach (Player player in GameManager.Instance.Players)
         {
             CardsToResolvePerLane.Add(new List<Card>());
         }
@@ -111,7 +115,7 @@ public class QuestLocation : NetworkBehaviour
 
         foreach (QuestLane lane in laneList)
         {
-            if (lane.MagicalPower + lane.SpellMagicalPower >= QuestCard.MagicalPower && lane.PhysicalPower + lane.SpellPhysicalPower >= QuestCard.PhysicalPower)       
+            if (lane.MagicalPower + lane.SpellMagicalPower >= QuestCard.MagicalPower && lane.PhysicalPower + lane.SpellPhysicalPower >= QuestCard.PhysicalPower)
             {
                 primaryContributors.Add(lane);                                      //primary contributors are those who meet or exceed the quest requirements
             }
@@ -198,7 +202,7 @@ public class QuestLocation : NetworkBehaviour
 
             print($"Player {player.PlayerID} recieves {secondaryGoldReward} GP and {secondaryReputationReward} Rep. for their contribution to the quest");
         }
-        
+
     }
 
     [Server]
@@ -249,11 +253,25 @@ public class QuestLocation : NetworkBehaviour
         {
             case "Rogue":
                 print("launch sticky fingers popup");
+                PopUp popUp = PopUpManager.Instance.CreatePopUp();
 
-                //call CheckForUnresolvedCards when popup is closed
+                Spawn(popUp.gameObject);
+                GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
+                TargetResolveRogueCard(card.Owner, popUp);
                 break;
         }
+    }
 
-        //GameManager.Instance.CheckForUnresolvedCards();
+    [TargetRpc]
+    public void TargetResolveRogueCard(NetworkConnection networkConnection, PopUp popUp)
+    {
+        print("Sending popup to local client");
+        popUp.CreateRoguePopUp(this);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerSetCanRogueSteal(bool value)
+    {
+        CanRogueSteal = value;
     }
 }

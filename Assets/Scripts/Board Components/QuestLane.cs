@@ -7,8 +7,9 @@ using UnityEngine;
 
 public class QuestLane : NetworkBehaviour
 {
-    [SerializeField]
-    private QuestLocation questLocation;
+    [field: SerializeField]
+    [field: SyncVar]
+    public QuestLocation QuestLocation { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -92,8 +93,8 @@ public class QuestLane : NetworkBehaviour
             }
         }
 
-        if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
-        if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
+        if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
+        if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
 
         ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }
@@ -114,8 +115,8 @@ public class QuestLane : NetworkBehaviour
             SpellMagicalPower += spellCard.MagicalPower;
         }
 
-        if (questLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
-        if (questLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
+        if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
+        if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
 
         ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }
@@ -173,10 +174,10 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AddAdventurerToQuestLane(Card card)
     {
-        if (questLocation.QuestCard.Drain && !ClericProtection)
+        if (QuestLocation.QuestCard.Drain && !ClericProtection)
         {
-            card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
-            card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+            card.ServerChangePhysicalPower(-QuestLocation.QuestCard.PhysicalDrain);
+            card.ServerChangeMagicalPower(-QuestLocation.QuestCard.MagicalDrain);
         }
 
         if (EnchanterBuff)
@@ -206,7 +207,7 @@ public class QuestLane : NetworkBehaviour
             case "Rogue":
                 //stickyFingers = true;
                 //add rogue to quest location array of resolve phase effects. This will happen right before magic phase
-                questLocation.CardsToResolvePerLane[Player.PlayerID].Add(card);
+                QuestLocation.CardsToResolvePerLane[Player.PlayerID].Add(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
@@ -243,7 +244,7 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Rogue":
                 //stickyFingers = false;
-                questLocation.CardsToResolvePerLane[Player.PlayerID].Remove(card);
+                QuestLocation.CardsToResolvePerLane[Player.PlayerID].Remove(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
@@ -265,7 +266,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void UpdateDrainEffects()
     {
-        if (!questLocation.QuestCard.Drain) return;
+        if (!QuestLocation.QuestCard.Drain) return;
 
         foreach (Transform cardTransform in DropZone.transform)
         {
@@ -274,14 +275,14 @@ public class QuestLane : NetworkBehaviour
 
             if (ClericProtection)
             {
-                card.ServerChangePhysicalPower(questLocation.QuestCard.PhysicalDrain);      //reverse drain
-                card.ServerChangeMagicalPower(questLocation.QuestCard.MagicalDrain);    
+                card.ServerChangePhysicalPower(QuestLocation.QuestCard.PhysicalDrain);      //reverse drain
+                card.ServerChangeMagicalPower(QuestLocation.QuestCard.MagicalDrain);    
             }
             else
             {
                 print("Applying Drain");
-                card.ServerChangePhysicalPower(-questLocation.QuestCard.PhysicalDrain);
-                card.ServerChangeMagicalPower(-questLocation.QuestCard.MagicalDrain);
+                card.ServerChangePhysicalPower(-QuestLocation.QuestCard.PhysicalDrain);
+                card.ServerChangeMagicalPower(-QuestLocation.QuestCard.MagicalDrain);
             }
         }
     }

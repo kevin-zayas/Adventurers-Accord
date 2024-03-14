@@ -202,11 +202,26 @@ public class GameManager : NetworkBehaviour
         {
             if (questLocation.HasUnresolvedCards())
             {
-                CheckForUnresolvedCards();
+                //CheckForUnresolvedCards();
                 return;
             }
         }
 
         EndPhase();         // if no unresolved cards, end phase
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerCheckForUnresolvedCards()
+    {
+        CheckForUnresolvedCards();
+    }
+
+    [Server]
+    public void SetPlayerTurn(Player currentPlayer)
+    {
+        foreach (Player player in Players)
+        {
+            player.SetIsPlayerTurn(player == currentPlayer);
+        }
     }
 }

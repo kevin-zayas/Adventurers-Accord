@@ -1,6 +1,7 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Card : NetworkBehaviour
@@ -235,6 +236,19 @@ public class Card : NetworkBehaviour
         questLane.RemoveAdventurerFromQuestLane(this);
         ResetPower();
         if (HasItem) Item.ResetPower();
+    }
+
+    public void OnRogueClick()
+    {
+        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Resolution) return;
+
+        if (!Parent.parent.GetComponent<QuestLane>().QuestLocation.CanRogueSteal) return;
+        if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
+        if (!HasItem) return;
+
+        print($"Rogue Stealing {Name}'s {Item.Name}");
+
+        PopUpManager.Instance.CurrentPopUp.ConfirmRogueSelectionPopUp(this);
     }
 
 }
