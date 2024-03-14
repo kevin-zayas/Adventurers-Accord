@@ -238,17 +238,29 @@ public class Card : NetworkBehaviour
         if (HasItem) Item.ResetPower();
     }
 
-    public void OnRogueClick()
+    public void OnResolutionClick()
     {
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Resolution) return;
-
-        if (!Parent.parent.GetComponent<QuestLane>().QuestLocation.CanRogueSteal) return;
+        if (!Parent.parent.GetComponent<QuestLane>().QuestLocation.AllowResolution) return;
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
-        if (!HasItem || Item.IsDisabled) return;
 
-        print($"Rogue Stealing {Name}'s {Item.Name}");
+        if (PopUpManager.Instance.CurrentPopUp.ResolutionType == "Rogue" && HasItem && !Item.IsDisabled)
+        {
+            PopUpManager.Instance.CurrentPopUp.SetConfirmSelectionState(this);
+        }
+        else if (PopUpManager.Instance.CurrentPopUp.ResolutionType == "Assassin" && (MagicalPower > 0 || PhysicalPower > 0))
+        {
+            PopUpManager.Instance.CurrentPopUp.SetConfirmSelectionState(this);
+        }
+        else
+        {
+            //add warning popup?
+            print("invalid target");
+        }
+        
 
-        PopUpManager.Instance.CurrentPopUp.SetConfirmSelectionState(this);
+
+        
     }
 
 }

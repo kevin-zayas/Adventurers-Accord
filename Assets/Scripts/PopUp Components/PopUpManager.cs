@@ -11,6 +11,16 @@ public class PopUpManager : NetworkBehaviour
     [field: SerializeField] public string RogueDefaultMessageText { get; private set; }
     [field: SerializeField] public string RogueConfirmSelectionText { get; private set; }
     [field: SerializeField] public string RogueConfirmCloseText { get; private set; }
+    [field: SerializeField] public string RogueButtonText { get; private set; }
+
+
+
+    [field: SerializeField] public string AssassinTitleText { get; private set; }
+    [field: SerializeField] public string AssassinDefaultMessageText { get; private set; }
+    [field: SerializeField] public string AssassinConfirmSelectionText { get; private set; }
+    [field: SerializeField] public string AssassinConfirmCloseText { get; private set; }
+    [field: SerializeField] public string AssassinButtonText { get; private set; }
+    [field: SerializeField] public string AssassinConfirmStatText { get; private set; }
 
     public static PopUpManager Instance { get; private set; }
 

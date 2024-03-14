@@ -30,7 +30,7 @@ public class QuestLocation : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public bool CanRogueSteal { get; private set; }
+    public bool AllowResolution { get; private set; }
 
     [Server]
     public void StartGame()
@@ -249,29 +249,35 @@ public class QuestLocation : NetworkBehaviour
     private void ResolveCard(Card card)
     {
         print("Resolving card: " + card.Name);
-        switch (card.Name)
-        {
-            case "Rogue":
-                print("launch sticky fingers popup");
-                PopUp popUp = PopUpManager.Instance.CreatePopUp();
+        PopUp popUp = PopUpManager.Instance.CreatePopUp();
 
-                Spawn(popUp.gameObject);
-                GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
-                TargetResolveRogueCard(card.Owner, popUp);
-                break;
-        }
+        Spawn(popUp.gameObject);
+        GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
+        TargetResolveCard(card.Owner, popUp, card.Name);
+        
+        //switch (card.Name)
+        //{
+        //    case "Rogue":
+        //        print("launch sticky fingers popup");
+        //        PopUp popUp = PopUpManager.Instance.CreatePopUp();
+
+        //        Spawn(popUp.gameObject);
+        //        GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
+        //        TargetResolveRogueCard(card.Owner, popUp, card.Name);
+        //        break;
+        //}
     }
 
     [TargetRpc]
-    public void TargetResolveRogueCard(NetworkConnection networkConnection, PopUp popUp)
+    public void TargetResolveCard(NetworkConnection networkConnection, PopUp popUp, string cardName)
     {
         print("Sending popup to local client");
-        popUp.InitializePopUp(this);
+        popUp.InitializePopUp(this, cardName);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCanRogueSteal(bool value)
+    public void ServerSetAllowResolution(bool value)
     {
-        CanRogueSteal = value;
+        AllowResolution = value;
     }
 }

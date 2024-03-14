@@ -205,8 +205,7 @@ public class QuestLane : NetworkBehaviour
                 if (adventurerEffects["Cleric"] == 1) UpdateDrainEffects();
                 break;
             case "Rogue":
-                //stickyFingers = true;
-                //add rogue to quest location array of resolve phase effects. This will happen right before magic phase
+            case "Assassin":
                 QuestLocation.CardsToResolvePerLane[Player.PlayerID].Add(card);
                 break;
             case "Enchanter":
@@ -220,6 +219,7 @@ public class QuestLane : NetworkBehaviour
             case "Ranger":
                 SummonRangerCompanion(false);
                 break;
+            
         }
 
         ServerUpdatePower();
@@ -243,7 +243,7 @@ public class QuestLane : NetworkBehaviour
                 }
                 break;
             case "Rogue":
-                //stickyFingers = false;
+            case "Assassin":
                 QuestLocation.CardsToResolvePerLane[Player.PlayerID].Remove(card);
                 break;
             case "Enchanter":

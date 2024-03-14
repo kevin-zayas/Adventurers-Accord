@@ -18,7 +18,7 @@ MonoBehaviour:
   originalPhysicalPower: 3
   originalMagicalPower: 0
   cost: 8
-  cardDescription: You may poison an Adventurer on this quest and decrease one of
+  cardDescription: You may poison an Adventurer on this Quest, decreasing one of
     their stats by 2
   cardSubDescription: 
   cardType: 
