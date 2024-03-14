@@ -33,6 +33,10 @@ public class ItemCardHeader : NetworkBehaviour
     [field: SyncVar]
     public int OriginalMagicalPower { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool IsDisabled { get; private set; }
+
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -73,23 +77,23 @@ public class ItemCardHeader : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerChangePhysicalPower(int power)
+    public void ServerChangePhysicalPower(int powerDelta)
     {
         if (!Parent.transform.parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower > 0)
         {
-            PhysicalPower += power;
+            PhysicalPower += powerDelta;
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerChangeMagicalPower(int power)
+    public void ServerChangeMagicalPower(int powerDelta)
     {
         if(!Parent.transform.parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower > 0)
         {
-            MagicalPower += power;
+            MagicalPower += powerDelta;
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         }
     }
@@ -116,6 +120,9 @@ public class ItemCardHeader : NetworkBehaviour
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+
+        IsDisabled = false;
+        ObserversSetDisable(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -135,5 +142,28 @@ public class ItemCardHeader : NetworkBehaviour
     private void ObserversSetActive(bool active)
     {
         gameObject.SetActive(active);
+    }
+
+    [Server]
+    public void DisableItem()
+    {
+        PhysicalPower = 0;
+        MagicalPower = 0;
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+
+        IsDisabled = true;
+        ObserversSetDisable(true);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerDisableItem()
+    {
+        DisableItem();
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversSetDisable(bool value)
+    {
+        gameObject.transform.GetChild(1).gameObject.SetActive(value);
     }
 }

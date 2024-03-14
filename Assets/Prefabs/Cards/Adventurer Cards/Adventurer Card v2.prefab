@@ -2399,7 +2399,7 @@ PrefabInstance:
       objectReference: {fileID: 8948479971837407625}
     - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
-      value: 116.5
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: 1298241252680445397, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_Name

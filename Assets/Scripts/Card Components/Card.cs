@@ -244,7 +244,7 @@ public class Card : NetworkBehaviour
 
         if (!Parent.parent.GetComponent<QuestLane>().QuestLocation.CanRogueSteal) return;
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
-        if (!HasItem) return;
+        if (!HasItem || Item.IsDisabled) return;
 
         print($"Rogue Stealing {Name}'s {Item.Name}");
 

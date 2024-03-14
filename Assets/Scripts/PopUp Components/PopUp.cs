@@ -75,8 +75,7 @@ public class PopUp : NetworkBehaviour
 
         rightButton.onClick.AddListener(() =>
         {
-            card.Item.ServerChangeMagicalPower(-1);         //make a Item.Disable() method to handle this that adds a gray cover
-            card.Item.ServerChangePhysicalPower(-1);
+            card.Item.ServerDisableItem();
             card.Parent.parent.GetComponent<QuestLane>().ServerUpdatePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
