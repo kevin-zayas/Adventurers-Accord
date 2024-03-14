@@ -16,7 +16,10 @@ public class PopUp : NetworkBehaviour
     [SerializeField] Button closeButton;
     [SerializeField] TMP_Text title;
     [SerializeField] TMP_Text message;
-    [SerializeField] Image noticeImage;
+    [SerializeField] Image alertImage;
+    [SerializeField] Sprite yellowAlert;
+    [SerializeField] Sprite redAlert;
+    //[SerializeField] Image noticeImage;
 
     [SerializeField] QuestLocation QuestLocation;
     //[SerializeField] NetworkConnection networkConnection;
@@ -26,8 +29,7 @@ public class PopUp : NetworkBehaviour
         print("loading rogue popup info");
         closeButton.onClick.AddListener(() =>
         {
-            //create popup to confirm not stealing this turn
-            Destroy(gameObject);
+            ConfirmClosePopUp();
         });
 
         transform.SetParent(questLocation.transform);
@@ -41,7 +43,7 @@ public class PopUp : NetworkBehaviour
         print("InitializeRoguePopup");
         QuestLocation.ServerSetCanRogueSteal(true);
 
-        noticeImage.gameObject.SetActive(false);
+        alertImage.gameObject.SetActive(false);
 
         leftButton.gameObject.SetActive(false);
         rightButton.gameObject.SetActive(false);
@@ -50,7 +52,7 @@ public class PopUp : NetworkBehaviour
         rightButton.onClick.RemoveAllListeners();
 
         title.text = "Sticky Fingers";
-        message.text = "Please choose an Adventurer to 'borrow' an item from.";
+        message.text = "Please choose an Adventurer on this Quest to 'borrow' an item from.";
     }
 
     public void ConfirmRogueSelectionPopUp(Card card)
@@ -58,7 +60,8 @@ public class PopUp : NetworkBehaviour
         print("Setting up rogue selection popup");
         QuestLocation.ServerSetCanRogueSteal(false);
 
-        noticeImage.gameObject.SetActive(true);
+        alertImage.gameObject.SetActive(true);
+        alertImage.sprite = yellowAlert;
         leftButton.gameObject.SetActive(true);
         rightButton.gameObject.SetActive(true);
 
@@ -84,11 +87,35 @@ public class PopUp : NetworkBehaviour
         });
     }
 
-    //[ServerRpc(RequireOwnership = false)]
-    //private void ServerDespawnPopUp()
-    //{
-    //    Despawn(this.gameObject);
-    //}
+    public void ConfirmClosePopUp()
+    {
+        print("Setting close confirmation popup");
+        QuestLocation.ServerSetCanRogueSteal(false);
 
+        alertImage.gameObject.SetActive(true);
+        alertImage.sprite = redAlert;
+        leftButton.gameObject.SetActive(true);
+        rightButton.gameObject.SetActive(true);
+
+        leftButton.onClick.RemoveAllListeners();
+        rightButton.onClick.RemoveAllListeners();
+
+        leftButtonText.text = "Cancel";
+        rightButtonText.text = "Yes";
+
+        message.text = $"Are you sure you don't want to 'borrow' an item this round?";
+
+        leftButton.onClick.AddListener(() =>
+        {
+            InitializeRoguePopup();
+
+        });
+
+        rightButton.onClick.AddListener(() =>
+        {
+            GameManager.Instance.ServerCheckForUnresolvedCards();
+            PopUpManager.Instance.ServerDespawnPopUp(this);
+        });
+    }
 
 }
