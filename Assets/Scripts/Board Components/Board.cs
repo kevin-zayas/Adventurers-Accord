@@ -145,9 +145,12 @@ public class Board : NetworkBehaviour
     }
 
     [Server]
-    public void CheckQuests()
+    public void CheckQuestsForCompletion()
     {
-        QuestLocations[0].CalculatePowerTotal();
+        foreach (QuestLocation questLocation in QuestLocations)
+        {
+            questLocation.CheckQuestCompletion();
+        }
     }
 
     [Server]

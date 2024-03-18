@@ -182,7 +182,7 @@ public class GameManager : NetworkBehaviour
                 BeginEndRound();
                 break;
             case Phase.Magic:
-                Board.Instance.CheckQuests();
+                Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
                 CurrentPhase = Phase.Draft;
                 Board.Instance.ObserversUpdatePhaseText("Draft");

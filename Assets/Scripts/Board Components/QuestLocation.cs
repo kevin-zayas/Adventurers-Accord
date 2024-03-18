@@ -78,7 +78,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public void CalculatePowerTotal()
+    public void CheckQuestCompletion()
     {
         TotalPhysicalPower = 0;
         TotalMagicalPower = 0;
@@ -100,7 +100,7 @@ public class QuestLocation : NetworkBehaviour
         else
         {
             print("Quest Incomplete");
-            //TODO: Handle incomplete quest penalties
+            CalculateFailedQuestPenalty();
         }
     }
 
@@ -214,6 +214,20 @@ public class QuestLocation : NetworkBehaviour
             {
                 lane.Player.ServerChangeReputation(lane.BardBonus);
                 print($"Player {lane.Player.PlayerID} recieves {lane.BardBonus} bonus Rep. for their Bard's contribution");
+            }
+        }
+    }
+
+    [Server]
+    private void CalculateFailedQuestPenalty()
+    {
+        foreach (QuestLane lane in questLanes)
+        {
+            int adventurerCount = lane.DropZone.transform.childCount;
+            if (adventurerCount > 0)
+            {
+                lane.Player.ServerChangeReputation(-adventurerCount);
+                print($"Player {lane.Player.PlayerID} loses {adventurerCount} Rep. for failing the quest");
             }
         }
     }
