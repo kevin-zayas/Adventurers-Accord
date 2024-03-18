@@ -56,15 +56,12 @@ public class Board : NetworkBehaviour
         {
             DrawCard(i);
         }
+
         foreach(QuestLocation questLocation in QuestLocations)
         {
-            print("initialize quest locations");
             DrawQuestCard(questLocation);
             questLocation.StartGame();
         }
-        //DrawQuestCard();
-
-        //QuestLocations[0].StartGame();
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
         {
@@ -119,7 +116,7 @@ public class Board : NetworkBehaviour
 
     [ServerRpc(RequireOwnership = false)]
     public void ReplaceCard(int slotIndex)
-    {   print("replacing card");
+    {
         List<CardData> deck;
 
         if (slotIndex < 4) deck = T1Deck;

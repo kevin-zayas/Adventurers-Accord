@@ -191,7 +191,6 @@ public class GameManager : NetworkBehaviour
                 BeginTurn();
                 break;
         }
-        //BeginTurn();
     }
 
     [Server]
@@ -202,7 +201,6 @@ public class GameManager : NetworkBehaviour
         {
             if (questLocation.HasUnresolvedCards())
             {
-                //CheckForUnresolvedCards();
                 return;
             }
         }

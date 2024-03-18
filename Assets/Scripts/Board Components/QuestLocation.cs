@@ -94,12 +94,14 @@ public class QuestLocation : NetworkBehaviour
             print("Quest Complete");
             print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
             print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
+            //QuestStatus = QuestStatus.Complete;
             CalculateQuestContributions();
             DistributeBardBonus();
         }
         else
         {
             print("Quest Incomplete");
+            //QuestStatus = QuestStatus.Failed;
             CalculateFailedQuestPenalty();
         }
     }
