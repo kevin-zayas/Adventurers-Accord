@@ -56,9 +56,15 @@ public class Board : NetworkBehaviour
         {
             DrawCard(i);
         }
-        DrawQuestCard();
+        foreach(QuestLocation questLocation in QuestLocations)
+        {
+            print("initialize quest locations");
+            DrawQuestCard(questLocation);
+            questLocation.StartGame();
+        }
+        //DrawQuestCard();
 
-        QuestLocations[0].StartGame();
+        //QuestLocations[0].StartGame();
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
         {
@@ -87,7 +93,7 @@ public class Board : NetworkBehaviour
     }
 
     [Server]
-    private void DrawQuestCard()
+    private void DrawQuestCard(QuestLocation questLocation)
     {
         CardData randomQuestData = QuestCardsDeck[Random.Range(0, QuestCardsDeck.Count)];
         QuestCard questCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
@@ -95,7 +101,7 @@ public class Board : NetworkBehaviour
 
         Spawn(questCard.gameObject);
         questCard.LoadCardData(randomQuestData);
-        QuestLocations[0].AssignQuestCard(questCard);  //set quest index here
+        questLocation.AssignQuestCard(questCard);  //set quest index here
         QuestCardsDeck.Remove(randomQuestData);
     }
 
