@@ -148,6 +148,7 @@ public class Board : NetworkBehaviour
         {
             questLocation.CheckQuestCompletion();
         }
+        //Launch quest summary
     }
 
     [Server]

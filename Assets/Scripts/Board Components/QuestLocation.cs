@@ -11,6 +11,8 @@ public class QuestLocation : NetworkBehaviour
     [SerializeField]
     private QuestLane[] questLanes;
 
+    public enum QuestStatus { Default, Complete, Failed }
+
     [field: SerializeField]
     private CardSlot questCardSlot;
 
