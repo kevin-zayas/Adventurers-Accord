@@ -1,4 +1,6 @@
+using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +10,12 @@ public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
 
-    [field: SerializeField] public QuestSummary QuestSummary1 { get; private set; }
-    [field: SerializeField] public QuestSummary QuestSummary2 { get; private set; }
-    [field: SerializeField] public QuestSummary QuestSummary3 { get; private set; }
+    [field: SerializeField]
+    [field: SyncVar]
+    public QuestSummary[] QuestSummaries { get; private set; }
+
+    [SyncVar] private int playerCount;
+    [SyncVar] private int totalPlayers;
 
 
 
@@ -19,8 +24,34 @@ public class RoundSummaryPopUp : NetworkBehaviour
     {
         closeButton.onClick.AddListener(() =>
         {
-            Destroy(gameObject);
+            ServerClosePopUp(LocalConnection);
         });
+        if (IsServer) totalPlayers = GameManager.Instance.Players.Count;
+    }
+
+    [ObserversRpc]
+    public void ObserversInitializeRoundSummaryPopUp()
+    {
+        print("initializing round summary pop up");
+        transform.SetParent(GameObject.Find("Canvas").transform);
+        transform.localPosition = new Vector3(0, 0, 0);  //center of screen
+    }
+
+    [TargetRpc]
+    public void TargetClosePopUp(NetworkConnection networkConnection)
+    {
+        if (IsServer) return;
+        gameObject.SetActive(false);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerClosePopUp(NetworkConnection networkConnection)
+    {
+        TargetClosePopUp(networkConnection);
+        playerCount++;
+        if (playerCount != totalPlayers) return;
+
+        Despawn(this.gameObject);
     }
 
 }

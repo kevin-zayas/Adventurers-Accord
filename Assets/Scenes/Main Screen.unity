@@ -1810,6 +1810,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 825
       objectReference: {fileID: 0}
+    - target: {fileID: 3505788448509835578, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4049049480626694494, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2352,6 +2356,10 @@ PrefabInstance:
     - target: {fileID: 3482264964415079632, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: m_SizeDelta.x
       value: 825
+      objectReference: {fileID: 0}
+    - target: {fileID: 3505788448509835578, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4049049480626694494, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: m_AnchorMax.y

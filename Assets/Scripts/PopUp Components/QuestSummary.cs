@@ -1,9 +1,10 @@
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class QuestSummary : MonoBehaviour
+public class QuestSummary : NetworkBehaviour
 {
     private string questName;
     private string questStatus;
@@ -14,33 +15,25 @@ public class QuestSummary : MonoBehaviour
 
     [SerializeField] private TMP_Text[] playerSummaries;
 
-    [SerializeField] private string completedText;
+    [SerializeField]
+    [TextArea]
+    private string completedText;
     [SerializeField] private string failedText;
 
-    public void SetQuestInfo(string name, string status, int playerCount)
+    [ObserversRpc]
+    public void ObserversSetQuestInfo(string name, string status)
     {
         questName = name;
         questStatus = status;
-        //this.playerCount = playerCount;
 
         questNameText.text = questName;
         questStatusText.text = questStatus;
-
-        //for (int i = 0; i < playerSummaries.Length; i++)
-        //{
-        //    if (i < playerCount)
-        //    {
-        //        playerSummaries[i].gameObject.SetActive(true);
-        //    }
-        //    else
-        //    {
-        //        playerSummaries[i].gameObject.SetActive(false);
-        //    }
-        //}
     }
 
-    public void SetPlayerSummary(int player, int physPower, int magPower, int gold, int reputation, int loot)
+    [ObserversRpc]
+    public void ObserversSetPlayerSummary(int player, int physPower, int magPower, int gold, int reputation, int loot)
     {
+        playerSummaries[playerCount].gameObject.SetActive(true);
         playerSummaries[playerCount].text = string.Format(completedText, player, physPower, magPower, gold, reputation, loot);
         playerCount++;
     }

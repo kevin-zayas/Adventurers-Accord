@@ -144,11 +144,17 @@ public class Board : NetworkBehaviour
     [Server]
     public void CheckQuestsForCompletion()
     {
-        foreach (QuestLocation questLocation in QuestLocations)
+        RoundSummaryPopUp popUp = PopUpManager.Instance.CreateRoundSummaryPopUp();
+        Spawn(popUp.gameObject);
+
+        for (int i = 0; i < QuestLocations.Length; i++)
         {
-            questLocation.CheckQuestCompletion();
+
+            QuestLocations[i].CheckQuestCompletion(popUp.QuestSummaries[i]);
         }
-        //Launch quest summary
+
+        
+        popUp.ObserversInitializeRoundSummaryPopUp();
     }
 
     [Server]

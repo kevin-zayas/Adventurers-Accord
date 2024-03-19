@@ -33,7 +33,7 @@ public class PopUpManager : NetworkBehaviour
     }
 
     [Server]
-    public PopUp CreatePopUp()
+    public PopUp CreateResolutionPopUp()
     {
         print("Creating PopUp");
         PopUp popUp = Instantiate(Resources.Load<PopUp>("UI/PopUp"));
@@ -46,5 +46,13 @@ public class PopUpManager : NetworkBehaviour
     {
         print("Despawning PopUp");
         Despawn(popUp.gameObject);
+    }
+
+    [Server]
+    public RoundSummaryPopUp CreateRoundSummaryPopUp()
+    {
+        print("Creating Round Summary PopUp");
+        RoundSummaryPopUp popUp = Instantiate(Resources.Load<RoundSummaryPopUp>("UI/RoundSummaryPopUp"));
+        return popUp;
     }
 }

@@ -14,6 +14,12 @@ public class QuestLocation : NetworkBehaviour
     public enum QuestStatus { Default, Complete, Failed }
 
     [field: SerializeField]
+    public QuestStatus Status { get; private set; }
+
+    [field: SerializeField]
+    public QuestSummary QuestSummary { get; private set; }
+
+    [field: SerializeField]
     private CardSlot questCardSlot;
 
     [field: SerializeField]
@@ -38,6 +44,8 @@ public class QuestLocation : NetworkBehaviour
     public void StartGame()
     {
         ObserversInitializeQuestLocation();
+
+        Status = QuestStatus.Default;
 
         foreach (Player player in GameManager.Instance.Players)
         {
@@ -80,8 +88,9 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public void CheckQuestCompletion()
+    public void CheckQuestCompletion(QuestSummary questSummary)
     {
+        QuestSummary = questSummary;
         TotalPhysicalPower = 0;
         TotalMagicalPower = 0;
 
@@ -96,15 +105,17 @@ public class QuestLocation : NetworkBehaviour
             print("Quest Complete");
             print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
             print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
-            //QuestStatus = QuestStatus.Complete;
+            //Status = QuestStatus.Complete;
+            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete");
             CalculateQuestContributions();
             DistributeBardBonus();
         }
         else
         {
             print("Quest Incomplete");
-            //QuestStatus = QuestStatus.Failed;
-            CalculateFailedQuestPenalty();
+            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed");
+            //Status = QuestStatus.Failed;
+            //CalculateFailedQuestPenalty();
         }
     }
 
@@ -138,13 +149,13 @@ public class QuestLocation : NetworkBehaviour
         {
             foreach (QuestLane lane in secondaryContributors)
             {
-                DistributeQuestRewards(lane.Player, false);
+                DistributeQuestRewards(lane, false);
             }
             return;
         }
         else if (primaryContributors.Count == 1)    //give all rewards to primary contributor, top secondary contributor(s) recieves half rewards
         {
-            DistributeQuestRewards(primaryContributors[0].Player, true);
+            DistributeQuestRewards(primaryContributors[0], true);
 
             if (secondaryContributors.Count == 0) return;
             int topSecondaryPower = secondaryContributors[0].EffectiveTotalPower;
@@ -153,7 +164,7 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.EffectiveTotalPower == topSecondaryPower)
                 {
-                    DistributeQuestRewards(lane.Player, false);
+                    DistributeQuestRewards(lane, false);
                 }
                 else break;
             }
@@ -168,16 +179,16 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.EffectiveTotalPower == topPower)
                 {
-                    DistributeQuestRewards(lane.Player, true);
+                    DistributeQuestRewards(lane, true);
                 }
                 else if (secondPower != 0 && lane.EffectiveTotalPower == secondPower)
                 {
-                    DistributeQuestRewards(lane.Player, false);
+                    DistributeQuestRewards(lane, false);
                 }
                 else if (secondPower == 0)
                 {
                     secondPower = lane.EffectiveTotalPower;
-                    DistributeQuestRewards(lane.Player, false);
+                    DistributeQuestRewards(lane, false);
                 }
                 else break;
             }
@@ -186,26 +197,32 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void DistributeQuestRewards(Player player, bool primaryContributor)
+    private void DistributeQuestRewards(QuestLane lane, bool primaryContributor)
     {
+        Player player = lane.Player;
+        int goldReward;
+        int reputationReward;
+        int lootReward;
+
         if (primaryContributor)
         {
-            player.ServerChangeGold(QuestCard.GoldReward);
-            player.ServerChangeReputation(QuestCard.ReputationReward);
-            Board.Instance.RewardLoot(player, QuestCard.LootReward);
-
-            print($"Player {player.PlayerID} recieves {QuestCard.GoldReward} GP, {QuestCard.ReputationReward} Rep. and {QuestCard.LootReward} Loot for their contribution to the quest");
+            goldReward = QuestCard.GoldReward;
+            reputationReward = QuestCard.ReputationReward;
+            lootReward = QuestCard.LootReward;
         }
         else
         {
-            int secondaryGoldReward = QuestCard.GoldReward / 2;
-            int secondaryReputationReward = QuestCard.ReputationReward / 2;
-
-            player.ServerChangeGold(secondaryGoldReward);
-            player.ServerChangeReputation(secondaryReputationReward);
-
-            print($"Player {player.PlayerID} recieves {secondaryGoldReward} GP and {secondaryReputationReward} Rep. for their contribution to the quest");
+            goldReward = QuestCard.GoldReward / 2;
+            reputationReward = QuestCard.ReputationReward / 2;
+            lootReward = 0;
         }
+
+        player.ServerChangeGold(goldReward);
+        player.ServerChangeReputation(reputationReward);
+        Board.Instance.RewardLoot(player, lootReward);
+
+        print($"Player {player.PlayerID} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
+        QuestSummary.ObserversSetPlayerSummary(player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, goldReward, reputationReward, lootReward);
 
     }
 
@@ -267,7 +284,7 @@ public class QuestLocation : NetworkBehaviour
     private void ResolveCard(Card card)
     {
         print("Resolving card: " + card.Name);
-        PopUp popUp = PopUpManager.Instance.CreatePopUp();
+        PopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
 
         Spawn(popUp.gameObject);
         GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
