@@ -22,11 +22,12 @@ public class RoundSummaryPopUp : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (IsServer) totalPlayers = GameManager.Instance.Players.Count;
+
         closeButton.onClick.AddListener(() =>
         {
             ServerClosePopUp(LocalConnection);
         });
-        if (IsServer) totalPlayers = GameManager.Instance.Players.Count;
     }
 
     [ObserversRpc]
@@ -34,24 +35,14 @@ public class RoundSummaryPopUp : NetworkBehaviour
     {
         print("initializing round summary pop up");
         transform.SetParent(GameObject.Find("Canvas").transform);
-        transform.localPosition = new Vector3(0, 0, 0);  //center of screen
-    }
-
-    [TargetRpc]
-    public void TargetClosePopUp(NetworkConnection networkConnection)
-    {
-        if (IsServer) return;
-        gameObject.SetActive(false);
+        transform.localPosition = Vector3.zero;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerClosePopUp(NetworkConnection networkConnection)
+    private void ServerClosePopUp(NetworkConnection connection)
     {
-        TargetClosePopUp(networkConnection);
         playerCount++;
-        if (playerCount != totalPlayers) return;
-
-        Despawn(this.gameObject);
+        PopUpManager.Instance.ServerCloseRoundSummaryPopUp(connection, this.gameObject, playerCount == totalPlayers);
     }
 
 }

@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopUp : NetworkBehaviour
+public class ResolutionPopUp : NetworkBehaviour
 {
     [SerializeField] Button leftButton;
     [SerializeField] Button rightButton;
@@ -23,7 +23,6 @@ public class PopUp : NetworkBehaviour
     //[SerializeField] Image noticeImage;
 
     [SerializeField] QuestLocation QuestLocation;
-    //[SerializeField] NetworkConnection networkConnection;
     
     [field:SerializeField]
     public string ResolutionType { get; private set; }
@@ -109,7 +108,7 @@ public class PopUp : NetworkBehaviour
             card.Parent.parent.GetComponent<QuestLane>().ServerUpdatePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
-            PopUpManager.Instance.ServerDespawnPopUp(this);
+            PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
 
         });
     }
@@ -141,7 +140,7 @@ public class PopUp : NetworkBehaviour
         rightButton.onClick.AddListener(() =>
         {
             GameManager.Instance.ServerCheckForUnresolvedCards();
-            PopUpManager.Instance.ServerDespawnPopUp(this);
+            PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
         });
     }
 
@@ -163,7 +162,7 @@ public class PopUp : NetworkBehaviour
             card.Parent.parent.GetComponent<QuestLane>().ServerUpdatePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
-            PopUpManager.Instance.ServerDespawnPopUp(this);
+            PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
 
         });
 
@@ -173,7 +172,7 @@ public class PopUp : NetworkBehaviour
             card.Parent.parent.GetComponent<QuestLane>().ServerUpdatePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
-            PopUpManager.Instance.ServerDespawnPopUp(this);
+            PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
         });
     }
 

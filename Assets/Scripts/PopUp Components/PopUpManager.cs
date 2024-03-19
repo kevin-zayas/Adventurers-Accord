@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
@@ -26,23 +27,23 @@ public class PopUpManager : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public PopUp CurrentPopUp { get; private set; }
+    public ResolutionPopUp CurrentPopUp { get; private set; }
     private void Awake()
     {
         Instance = this;
     }
 
     [Server]
-    public PopUp CreateResolutionPopUp()
+    public ResolutionPopUp CreateResolutionPopUp()
     {
         print("Creating PopUp");
-        PopUp popUp = Instantiate(Resources.Load<PopUp>("UI/PopUp"));
+        ResolutionPopUp popUp = Instantiate(Resources.Load<ResolutionPopUp>("UI/ResolutionPopUp"));
         CurrentPopUp = popUp;
         return popUp;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerDespawnPopUp(PopUp popUp)
+    public void ServerDespawnResolutionPopUp(ResolutionPopUp popUp)
     {
         print("Despawning PopUp");
         Despawn(popUp.gameObject);
@@ -54,5 +55,21 @@ public class PopUpManager : NetworkBehaviour
         print("Creating Round Summary PopUp");
         RoundSummaryPopUp popUp = Instantiate(Resources.Load<RoundSummaryPopUp>("UI/RoundSummaryPopUp"));
         return popUp;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerCloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp, bool despawn)
+    {
+        TargetCloseRoundSummaryPopUp(networkConnection, popUp);
+        
+        if (despawn) Despawn(popUp);
+    }
+
+    [TargetRpc]
+    public void TargetCloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp)
+    {
+        //if (IsServer) return;
+        print("closing round summary pop up");
+        popUp.SetActive(false);
     }
 }

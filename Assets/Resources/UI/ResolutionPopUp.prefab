@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8413646024599032626}
-  - component: {fileID: 6340513165625434462}
   - component: {fileID: -5392623682632982950}
+  - component: {fileID: 3331255966110448536}
   m_Layer: 5
-  m_Name: PopUp
+  m_Name: ResolutionPopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,37 +43,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -280}
   m_SizeDelta: {x: 721, y: 289}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &6340513165625434462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 893678014749151667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b03ecdabb2f8c6b4bbc8bcb5fa8ad846, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: -5392623682632982950}
-  _networkObjectCache: {fileID: -5392623682632982950}
-  leftButton: {fileID: 443817250330339932}
-  rightButton: {fileID: 1501258155154524636}
-  leftButtonText: {fileID: 4234356440387929551}
-  rightButtonText: {fileID: 6151203449380476659}
-  closeButton: {fileID: 3923601423583336690}
-  title: {fileID: 1448755657943087551}
-  message: {fileID: 4357399709333372666}
-  alertImage: {fileID: 8538529930505093852}
-  yellowAlert: {fileID: 21300000, guid: f26fa8880b3aeef4b8516c82dc12f2a5, type: 3}
-  redAlert: {fileID: 21300000, guid: e9d4143c19529834981ac6821a04aecd, type: 3}
-  QuestLocation: {fileID: 0}
-  rogueTitleText: Sticky Fingers
-  rogueDefaultMessageText: Please choose an Adventurer on this Quest to "borrow"
-    an item from.
-  rogueConfirmSelectionText: 
-  rogueConfirmCloseText: Are you sure you don't want to 'borrow' an item this round?
 --- !u!114 &-5392623682632982950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,8 +58,7 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
-  - {fileID: 6340513165625434462}
+  _networkBehaviours: []
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -106,7 +74,34 @@ MonoBehaviour:
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 2502768072416108112
+  <AssetPathHash>k__BackingField: 15539047167826307136
+--- !u!114 &3331255966110448536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893678014749151667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd439cf854c3324f97d9320655288a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: -5392623682632982950}
+  _networkObjectCache: {fileID: 0}
+  leftButton: {fileID: 443817250330339932}
+  rightButton: {fileID: 1501258155154524636}
+  leftButtonText: {fileID: 4234356440387929551}
+  rightButtonText: {fileID: 6151203449380476659}
+  closeButton: {fileID: 3923601423583336690}
+  title: {fileID: 1448755657943087551}
+  message: {fileID: 4357399709333372666}
+  alertImage: {fileID: 8538529930505093852}
+  yellowAlert: {fileID: 21300000, guid: f26fa8880b3aeef4b8516c82dc12f2a5, type: 3}
+  redAlert: {fileID: 21300000, guid: e9d4143c19529834981ac6821a04aecd, type: 3}
+  QuestLocation: {fileID: 0}
+  <ResolutionType>k__BackingField: 
 --- !u!1 &1233999991587265898
 GameObject:
   m_ObjectHideFlags: 0

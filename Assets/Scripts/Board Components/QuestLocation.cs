@@ -284,27 +284,16 @@ public class QuestLocation : NetworkBehaviour
     private void ResolveCard(Card card)
     {
         print("Resolving card: " + card.Name);
-        PopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
+        ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
 
         Spawn(popUp.gameObject);
         GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
         TargetResolveCard(card.Owner, popUp, card.Name);
         
-        //switch (card.Name)
-        //{
-        //    case "Rogue":
-        //        print("launch sticky fingers popup");
-        //        PopUp popUp = PopUpManager.Instance.CreatePopUp();
-
-        //        Spawn(popUp.gameObject);
-        //        GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
-        //        TargetResolveRogueCard(card.Owner, popUp, card.Name);
-        //        break;
-        //}
     }
 
     [TargetRpc]
-    public void TargetResolveCard(NetworkConnection networkConnection, PopUp popUp, string cardName)
+    public void TargetResolveCard(NetworkConnection networkConnection, ResolutionPopUp popUp, string cardName)
     {
         print("Sending popup to local client");
         popUp.InitializePopUp(this, cardName);
