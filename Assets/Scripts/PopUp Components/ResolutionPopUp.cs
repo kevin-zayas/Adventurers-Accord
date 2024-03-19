@@ -36,10 +36,11 @@ public class ResolutionPopUp : NetworkBehaviour
     public void InitializePopUp(QuestLocation questLocation, string cardName)
     {
         print("initializing pop up");
-        closeButton.onClick.AddListener(() =>
-        {
-            SetConfirmClosePopupState();
-        });
+        //closeButton.onClick.AddListener(() =>
+        //{
+        //    print("close button clicked");
+        //    SetConfirmClosePopupState();
+        //});
 
         transform.SetParent(questLocation.transform);
         transform.localPosition = new Vector3(0, -300f, 0);  //bottom center of quest location
@@ -111,6 +112,11 @@ public class ResolutionPopUp : NetworkBehaviour
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
 
         });
+    }
+
+    public void Test()
+    {
+        print("clicked");
     }
 
     public void SetConfirmClosePopupState()

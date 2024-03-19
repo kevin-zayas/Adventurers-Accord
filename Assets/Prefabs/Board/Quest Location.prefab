@@ -55,11 +55,13 @@ MonoBehaviour:
   - {fileID: 1181161786480540330}
   - {fileID: 8459822060510186825}
   - {fileID: 7860790585283896218}
+  <Status>k__BackingField: 0
+  <QuestSummary>k__BackingField: {fileID: 0}
   questCardSlot: {fileID: 3505788448509835578}
   <QuestCard>k__BackingField: {fileID: 0}
   <TotalPhysicalPower>k__BackingField: 0
   <TotalMagicalPower>k__BackingField: 0
-  <CanRogueSteal>k__BackingField: 0
+  <AllowResolution>k__BackingField: 0
 --- !u!114 &289205687452111403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,20 +106,8 @@ PrefabInstance:
     m_TransformParent: {fileID: 815096004030474899}
     m_Modifications:
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
-      propertyPath: _scenePathHash
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
-      propertyPath: <SceneId>k__BackingField
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
@@ -431,6 +421,10 @@ PrefabInstance:
       propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 5129242096562268243, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6341209009900746125, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 8

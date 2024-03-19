@@ -270,7 +270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -628,7 +628,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5648548999079657597}
   _networkObjectCache: {fileID: 5648548999079657597}
-  questLocation: {fileID: 0}
+  <QuestLocation>k__BackingField: {fileID: 0}
   <Player>k__BackingField: {fileID: 0}
   <DropZone>k__BackingField: {fileID: 9205107535061240866}
   <SpellDropZone>k__BackingField: {fileID: 3799721727428252521}
@@ -637,6 +637,7 @@ MonoBehaviour:
   <SpellPhysicalPower>k__BackingField: 0
   <SpellMagicalPower>k__BackingField: 0
   <EffectiveTotalPower>k__BackingField: 0
+  <BardBonus>k__BackingField: 0
   physicalPowerText: {fileID: 4129425861735006748}
   magicalPowerText: {fileID: 3172343994968927532}
 --- !u!114 &5648548999079657597
@@ -771,21 +772,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8939698410116029984, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8939698410116029984, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 5648548999079657597}
-    - target: {fileID: 8939698410116029984, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
-      propertyPath: SerializedTransformProperties.Position.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8939698410116029984, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
-      propertyPath: SerializedTransformProperties.Position.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -825,17 +814,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 5648548999079657597}
-    - target: {fileID: 1252298133602613372, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
-      propertyPath: SerializedTransformProperties.Position.y
-      value: -225
-      objectReference: {fileID: 0}
     - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -914,14 +895,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4758708042949357012, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6261802738609176185, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
-      propertyPath: m_Size.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6261802738609176185, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}
-      propertyPath: m_Offset.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6769825860021199324, guid: 1c5be9ef29db83246a1c6d2662bc3fa7, type: 3}

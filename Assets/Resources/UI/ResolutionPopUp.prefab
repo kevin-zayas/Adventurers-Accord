@@ -58,7 +58,8 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: 3331255966110448536}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -87,9 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdd439cf854c3324f97d9320655288a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: -5392623682632982950}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: -5392623682632982950}
   leftButton: {fileID: 443817250330339932}
   rightButton: {fileID: 1501258155154524636}
   leftButtonText: {fileID: 4234356440387929551}
@@ -1149,7 +1150,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6703754425223997585}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3331255966110448536}
+        m_TargetAssemblyTypeName: ResolutionPopUp, Assembly-CSharp
+        m_MethodName: Test
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3331255966110448536}
+        m_TargetAssemblyTypeName: ResolutionPopUp, Assembly-CSharp
+        m_MethodName: SetConfirmClosePopupState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9069801882718879368
 GameObject:
   m_ObjectHideFlags: 0

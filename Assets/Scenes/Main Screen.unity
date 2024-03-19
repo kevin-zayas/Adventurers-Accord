@@ -3775,15 +3775,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
   - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
-  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
-  - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
   tierTwoCards:
-  - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
   - {fileID: 11400000, guid: 7bf5cf46159ffde4787ab1f32053c9d6, type: 2}
   - {fileID: 11400000, guid: e5a6e37d13df22d4fa71b3be31d11f16, type: 2}
-  - {fileID: 11400000, guid: d0faf7741a01275479f4578619b694b8, type: 2}
   - {fileID: 11400000, guid: a5a488f18a019da42864147ae2776293, type: 2}
-  - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
   questCards:
   - {fileID: 11400000, guid: 288055a8c421aab4999213648722eb97, type: 2}
   - {fileID: 11400000, guid: 7801ecc3274fe82458a209cd1375b4c6, type: 2}
