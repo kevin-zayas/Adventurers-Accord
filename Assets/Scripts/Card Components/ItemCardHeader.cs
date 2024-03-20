@@ -149,16 +149,10 @@ public class ItemCardHeader : NetworkBehaviour
     {
         PhysicalPower = 0;
         MagicalPower = 0;
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
-
         IsDisabled = true;
-        ObserversSetDisable(true);
-    }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerDisableItem()
-    {
-        DisableItem();
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);        
+        ObserversSetDisable(true);
     }
 
     [ObserversRpc(BufferLast = true)]

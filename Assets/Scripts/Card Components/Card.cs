@@ -185,7 +185,7 @@ public class Card : NetworkBehaviour
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
 
-        if (Name == "Sorcerer" && HasItem) MagicalPower += 3;
+        if (Name == "Sorcerer" && HasItem && !Item.IsDisabled) MagicalPower += 3;
 
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
     }
@@ -195,6 +195,22 @@ public class Card : NetworkBehaviour
     {
         ResetPower();
     }
+
+    [Server]
+    public void DisableItem()
+    {
+        if (!HasItem) return;
+        Item.DisableItem();
+
+        if (Name == "Sorcerer") ResetPower();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerDisableItem()
+    {
+        DisableItem();
+    }
+
 
     [Server]
     public void LoadCardData(CardData cardData)
@@ -234,8 +250,8 @@ public class Card : NetworkBehaviour
         //print($"{Name} Returning to hand");
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
-        ResetPower();
         if (HasItem) Item.ResetPower();
+        ResetPower();
     }
 
     public void OnResolutionClick()
@@ -257,10 +273,7 @@ public class Card : NetworkBehaviour
             //add warning popup?
             print("invalid target");
         }
-        
 
-
-        
     }
 
 }
