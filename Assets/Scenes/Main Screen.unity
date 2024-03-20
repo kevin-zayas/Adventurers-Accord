@@ -3772,9 +3772,9 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1736932375}
   _networkObjectCache: {fileID: 1736932375}
   tierOneCards:
-  - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
   - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
+  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
   tierTwoCards:
   - {fileID: 11400000, guid: 7bf5cf46159ffde4787ab1f32053c9d6, type: 2}
   - {fileID: 11400000, guid: e5a6e37d13df22d4fa71b3be31d11f16, type: 2}

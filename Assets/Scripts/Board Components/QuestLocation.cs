@@ -93,6 +93,7 @@ public class QuestLocation : NetworkBehaviour
         QuestSummary = questSummary;
         TotalPhysicalPower = 0;
         TotalMagicalPower = 0;
+        bool adventurersPresent = false;
 
         for (int i = 0; i < questLanes.Length; i++)
         {
@@ -102,20 +103,37 @@ public class QuestLocation : NetworkBehaviour
 
         if (TotalPhysicalPower >= QuestCard.PhysicalPower && TotalMagicalPower >= QuestCard.MagicalPower)
         {
-            print("Quest Complete");
-            print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
-            print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
+            //print("Quest Complete");
+            //print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
+            //print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
+
             //Status = QuestStatus.Complete;
-            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete");
+            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
             CalculateQuestContributions();
             DistributeBardBonus();
         }
         else
         {
-            print("Quest Incomplete");
-            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed");
-            //Status = QuestStatus.Failed;
-            //CalculateFailedQuestPenalty();
+            foreach (QuestLane lane in questLanes)
+            {
+                if (lane.DropZone.transform.childCount > 0)
+                {
+                    adventurersPresent = true;
+                    break;
+                }
+            }
+
+            if (adventurersPresent)
+            {
+                //print("Quest Failed");
+                QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+                CalculateFailedQuestPenalty();
+                return;
+            }
+
+            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Unchallenged", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+            return;
+
         }
     }
 
@@ -209,6 +227,7 @@ public class QuestLocation : NetworkBehaviour
             goldReward = QuestCard.GoldReward;
             reputationReward = QuestCard.ReputationReward;
             lootReward = QuestCard.LootReward;
+            //could set bool here to indicate player is primary contributor, which can be used to add a gold metal vs silver metal to the player's summary
         }
         else
         {
@@ -234,7 +253,8 @@ public class QuestLocation : NetworkBehaviour
             if (lane.BardBonus > 0)
             {
                 lane.Player.ServerChangeReputation(lane.BardBonus);
-                print($"Player {lane.Player.PlayerID} recieves {lane.BardBonus} bonus Rep. for their Bard's contribution");
+                lane.Player.ServerChangeGold(lane.BardBonus);
+                QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, lane.BardBonus);
             }
         }
     }
@@ -248,6 +268,7 @@ public class QuestLocation : NetworkBehaviour
             if (adventurerCount > 0)
             {
                 lane.Player.ServerChangeReputation(-adventurerCount);
+                QuestSummary.ObserversSetPlayerSummary(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, -adventurerCount);
                 print($"Player {lane.Player.PlayerID} loses {adventurerCount} Rep. for failing the quest");
             }
         }
