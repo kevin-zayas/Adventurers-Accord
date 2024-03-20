@@ -169,6 +169,7 @@ public class GameManager : NetworkBehaviour
                 Turn = StartingTurn;
                 BeginTurn();
                 break;
+
             case Phase.Dispatch:
                 CurrentPhase = Phase.Resolution;
                 Board.Instance.ObserversUpdatePhaseText("Resolution");
@@ -176,11 +177,13 @@ public class GameManager : NetworkBehaviour
                 //Turn = StartingTurn;
                 //BeginEndRound();
                 break;
+
             case Phase.Resolution:
                 CurrentPhase = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
                 BeginEndRound();
                 break;
+
             case Phase.Magic:
                 Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
@@ -197,11 +200,16 @@ public class GameManager : NetworkBehaviour
     public void CheckForUnresolvedCards()
     {
         print("checking for unresolved cards");
-        foreach (QuestLocation questLocation in Board.Instance.QuestLocations)
+        
+        for (int i = 0; i < Players.Count; i++)
         {
-            if (questLocation.HasUnresolvedCards())
+            int laneIndex = (i + GameManager.Instance.StartingTurn) % Players.Count;
+            foreach (QuestLocation questLocation in Board.Instance.QuestLocations)
             {
-                return;
+                if (questLocation.HasUnresolvedCards(laneIndex))
+                {
+                    return;
+                }
             }
         }
 

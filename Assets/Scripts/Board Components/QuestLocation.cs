@@ -287,17 +287,18 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public bool HasUnresolvedCards()
+    public bool HasUnresolvedCards(int laneIndex)
     {
-        foreach (List<Card> cardList in CardsToResolvePerLane)
+        List<Card> cardList;
+
+        cardList = CardsToResolvePerLane[laneIndex];
+        if (cardList.Count > 0)
         {
-            if (cardList.Count > 0)
-            {
-                ResolveCard(cardList[0]);
-                cardList.RemoveAt(0);
-                return true;
-            }
+            ResolveCard(cardList[0]);
+            cardList.RemoveAt(0);
+            return true;
         }
+        
         return false;
     }
 
