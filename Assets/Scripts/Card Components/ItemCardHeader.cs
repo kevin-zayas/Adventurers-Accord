@@ -40,6 +40,7 @@ public class ItemCardHeader : NetworkBehaviour
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
+    [SerializeField] private TMP_Text disableTypeText;
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player owner)
@@ -145,19 +146,28 @@ public class ItemCardHeader : NetworkBehaviour
     }
 
     [Server]
-    public void DisableItem()
+    public void DisableItem(string disableType)
     {
+        if (IsDisabled) return;
+
         PhysicalPower = 0;
         MagicalPower = 0;
         IsDisabled = true;
 
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);        
+        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         ObserversSetDisable(true);
+        ObserversSetDisableText(disableType);
     }
 
     [ObserversRpc(BufferLast = true)]
     private void ObserversSetDisable(bool value)
     {
         gameObject.transform.GetChild(1).gameObject.SetActive(value);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversSetDisableText(string disableType)
+    {
+        disableTypeText.text = disableType;
     }
 }

@@ -651,9 +651,11 @@ MonoBehaviour:
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
+  <IsDisabled>k__BackingField: 0
   nameText: {fileID: 2029664163792765779}
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
+  disableTypeText: {fileID: 57985734275845160}
 --- !u!1 &1649686517057891831
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,7 +802,7 @@ GameObject:
   - component: {fileID: 5428110197864846061}
   - component: {fileID: 6149733927081940912}
   m_Layer: 7
-  m_Name: Name
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -818,7 +820,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2771192546036495193}
+  m_Father: {fileID: 8963331489999025613}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -846,7 +848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4943396, g: 0.4943396, b: 0.4943396, a: 1}
+  m_Color: {r: 0.6301887, g: 0.6301887, b: 0.6301887, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1084,7 +1086,7 @@ GameObject:
   - component: {fileID: 4691492990259747319}
   - component: {fileID: 1356841406541249770}
   m_Layer: 7
-  m_Name: Name Border
+  m_Name: Disable Type Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1101,9 +1103,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7034814562479757216}
-  - {fileID: 487789752654242765}
+  m_Children: []
   m_Father: {fileID: 8963331489999025613}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1541,6 +1541,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2771192546036495193}
+  - {fileID: 7034814562479757216}
+  - {fileID: 487789752654242765}
   m_Father: {fileID: 7184070916402621257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -2096,7 +2098,7 @@ GameObject:
   - component: {fileID: 7755624748498451136}
   - component: {fileID: 57985734275845160}
   m_Layer: 7
-  m_Name: Name Text
+  m_Name: Disable Type Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2114,7 +2116,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2771192546036495193}
+  m_Father: {fileID: 8963331489999025613}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2149,7 +2151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stolen
+  m_text: Disabled
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}
   m_sharedMaterial: {fileID: 2147374, guid: 0161d805a3764c089bef00bfe00793f5, type: 2}

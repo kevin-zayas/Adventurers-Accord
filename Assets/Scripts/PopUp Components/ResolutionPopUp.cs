@@ -89,7 +89,7 @@ public class ResolutionPopUp : NetworkBehaviour
 
         rightButton.onClick.AddListener(() =>
         {
-            if (ResolutionType == "Rogue") card.ServerDisableItem();
+            if (ResolutionType == "Rogue") card.ServerDisableItem("Stolen");
             else if (ResolutionType == "Assassin")
             {
                 if (card.PhysicalPower > 0 && card.MagicalPower == 0) card.ServerChangePhysicalPower(-2);

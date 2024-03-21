@@ -197,18 +197,19 @@ public class Card : NetworkBehaviour
     }
 
     [Server]
-    public void DisableItem()
+    public void DisableItem(string disableType)
     {
-        if (!HasItem) return;
-        Item.DisableItem();
+        if (!HasItem || Item.IsDisabled) return;
+
+        Item.DisableItem(disableType);
 
         if (Name == "Sorcerer") ResetPower();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerDisableItem()
+    public void ServerDisableItem(string disableType)
     {
-        DisableItem();
+        DisableItem(disableType);
     }
 
 

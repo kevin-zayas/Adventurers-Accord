@@ -28,6 +28,10 @@ public class SpellCard : NetworkBehaviour
     [field: SyncVar]
     public int MagicalPower { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool IsGreaseSpell { get; private set; }
+
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
@@ -90,6 +94,7 @@ public class SpellCard : NetworkBehaviour
         MagicalPower = cardData.magicalPower;
         Name = cardData.cardName;
         Description = cardData.cardDescription;
+        IsGreaseSpell = cardData.isGreaseSpell;
 
         ObserversLoadCardData(cardData);
     }

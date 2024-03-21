@@ -65,7 +65,7 @@ public class Board : NetworkBehaviour
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
         {
-            RewardLoot(player, 2);
+            RewardLoot(player, 3);
         }
     }
 

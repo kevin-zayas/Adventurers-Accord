@@ -43,6 +43,10 @@ public class QuestLane : NetworkBehaviour
     [field: SyncVar]
     public int EffectiveTotalPower { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool IsGreased { get; private set; }
+
     private readonly Dictionary<string, int> adventurerEffects = new();
 
     [field: SerializeField]
@@ -83,10 +87,12 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(i);
             Card card = cardTransform.GetComponent<Card>();
 
+            if (IsGreased && card.HasItem) card.DisableItem("Greased");
+
             PhysicalPower += card.PhysicalPower;
             MagicalPower += card.MagicalPower;
 
-            if (card.HasItem)
+            if (!IsGreased && card.HasItem)
             {
                 PhysicalPower += card.Item.PhysicalPower;
                 MagicalPower += card.Item.MagicalPower;
@@ -113,12 +119,15 @@ public class QuestLane : NetworkBehaviour
 
             SpellPhysicalPower += spellCard.PhysicalPower;
             SpellMagicalPower += spellCard.MagicalPower;
+
+            if (spellCard.IsGreaseSpell) IsGreased = true;
         }
 
-        if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
-        if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
+        ServerUpdatePower();
+        //if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
+        //if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
 
-        ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
+        //ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -162,6 +171,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void ClearSpellEffects()
     {
+        IsGreased = false;
         for (int i = 0; i < SpellDropZone.transform.childCount; i++)
         {
             Transform spellCardTransform = SpellDropZone.transform.GetChild(i);

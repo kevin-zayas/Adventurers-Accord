@@ -17,11 +17,15 @@ public class CardData : ScriptableObject
     public string cardType;
     //public Sprite spriteImage;
 
+    //Quests
     public int goldReward;
     public int reputationReward;
     public int lootReward;
     public bool drain;
     public int physicalDrain;
     public int magicalDrain;
+    
+    //Spells
+    public bool isGreaseSpell;
 
 }
