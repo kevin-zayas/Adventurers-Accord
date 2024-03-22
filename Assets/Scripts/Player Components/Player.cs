@@ -42,7 +42,7 @@ public class Player : NetworkBehaviour
         base.OnStartServer();
 
         GameManager.Instance.Players.Add(this);
-        Gold = 25;
+        Gold = GameManager.Instance.StartingGold;
     }
 
     public override void OnStopServer()
@@ -86,39 +86,15 @@ public class Player : NetworkBehaviour
     }
 
     [Server]
-    public void BeginTurn()
-    {   
-        //if (GameManager.Instance.CurrentPhase == GameManager.Phase.Magic) TargetBeginTurn(Owner, true);
-        //else TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
-
-        TargetBeginTurn(Owner, GameManager.Instance.Turn == GameManager.Instance.Players.IndexOf(this));
+    public void SetIsPlayerTurn(bool value)
+    {
+        IsPlayerTurn = value;
     }
 
     [Server]
-    public void BeginEndRound()
+    public void UpdatePlayerView()
     {
-        TargetBeginEndRound(Owner);
-    }
-
-    [TargetRpc]
-    public void TargetBeginEndRound(NetworkConnection networkConnection)
-    {
-
-        ViewManager.Instance.Show<EndRoundView>();
-        GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = LocalConnection.ClientId;
-    }
-
-    [TargetRpc]
-    private void TargetBeginTurn(NetworkConnection networkConnection, bool canPlay)
-    {
-        if (canPlay)
-        {
-            ViewManager.Instance.Show<MainView>();
-        }
-        else
-        {
-            ViewManager.Instance.Show<WaitView>();
-        }
+        TargetUpdatePlayerView(Owner, IsPlayerTurn);
     }
 
     [TargetRpc]
@@ -143,7 +119,6 @@ public class Player : NetworkBehaviour
                 ViewManager.Instance.Show<EndRoundView>();
                 GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = PlayerID;
                 break;
-
         }
     }
 
@@ -193,23 +168,5 @@ public class Player : NetworkBehaviour
     {
         if (!IsOwner) return;
         Board.Instance.reputationText.text = $"{reputation} Rep.";
-    }
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetIsPlayerTurn(bool value)
-    //{
-    //    SetIsPlayerTurn(value);
-    //}
-
-    [Server]
-    public void SetIsPlayerTurn(bool value)
-    {
-        IsPlayerTurn = value;
-    }
-
-    [Server]
-    public void UpdatePlayerView()
-    {
-        TargetUpdatePlayerView(Owner, IsPlayerTurn);
     }
 }

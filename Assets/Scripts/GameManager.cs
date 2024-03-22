@@ -36,13 +36,11 @@ public class GameManager : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public Player CurrentTurnPlayer { get; private set; }
+    public int StartingTurn { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
-    public int StartingTurn { get; private set; }
-
-    [SerializeField] private int startingGold;
+    public int StartingGold { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -78,12 +76,11 @@ public class GameManager : NetworkBehaviour
         }
         
         Board.Instance.StartGame();
-        Scoreboard.StartGame(startingGold);
+        Scoreboard.StartGame(StartingGold);
         DidStart = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
 
-        //BeginTurn();
         SetPlayerTurn(Players[Turn]);
     }
 
@@ -95,18 +92,6 @@ public class GameManager : NetworkBehaviour
             Players[i].StopGame();
         }
         DidStart = false;
-    }
-
-    [Server]
-    public void BeginTurn()
-    {
-        //for (int i = 0; i < Players.Count; i++)
-        //{
-        //    Players[i].BeginTurn();
-        //}
-        //CurrentTurnPlayer = Players[Turn];
-        SetPlayerTurn(Players[Turn]);
-
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -127,7 +112,6 @@ public class GameManager : NetworkBehaviour
             Turn = (Turn + 1) % Players.Count;
         }
 
-        //BeginTurn();
         SetPlayerTurn(Players[Turn]);
     }
 
@@ -163,7 +147,6 @@ public class GameManager : NetworkBehaviour
         PlayerEndRoundStatus = new bool[Players.Count];
         foreach (Player player in Players)
         {
-            //player.BeginEndRound();
             player.UpdatePlayerView();
         }
     }
@@ -178,7 +161,6 @@ public class GameManager : NetworkBehaviour
                 CurrentPhase = Phase.Dispatch;
                 Board.Instance.ObserversUpdatePhaseText("Dispatch");
                 Turn = StartingTurn;
-                //BeginTurn();
                 SetPlayerTurn(Players[Turn]);
                 break;
 
@@ -186,8 +168,6 @@ public class GameManager : NetworkBehaviour
                 CurrentPhase = Phase.Resolution;
                 Board.Instance.ObserversUpdatePhaseText("Resolution");
                 CheckForUnresolvedCards();
-                //Turn = StartingTurn;
-                //BeginEndRound();
                 break;
 
             case Phase.Resolution:
@@ -199,11 +179,12 @@ public class GameManager : NetworkBehaviour
             case Phase.Magic:
                 Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
+
                 CurrentPhase = Phase.Draft;
                 Board.Instance.ObserversUpdatePhaseText("Draft");
+
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
-                //BeginTurn();
                 SetPlayerTurn(Players[Turn]);
                 break;
         }
