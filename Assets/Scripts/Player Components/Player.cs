@@ -76,10 +76,6 @@ public class Player : NetworkBehaviour
         handInstance.playerID = PlayerID;
         Spawn(handInstance.gameObject, Owner);
 
-        //Scorboard Instance or store in GameManager? Board?
-        //Scoreboard.AddPlayer(PlayerID) -> Index into array of player scores and set active
-        // in Observers Update Gold/Reputation Text, pass in playerID. If not owner, update stats from Scoreboard.
-        // will need a Server call and then ObserverRPC, to set the property, and then the text? or just pass in gold/reputation everytime from player
         ObserversUpdateGoldText(this.Gold);
     }
 
@@ -122,6 +118,32 @@ public class Player : NetworkBehaviour
         else
         {
             ViewManager.Instance.Show<WaitView>();
+        }
+    }
+
+    [TargetRpc]
+    private void TargetUpdatePlayerView(NetworkConnection networkConnection, bool isPlayerTurn)
+    {
+        switch (GameManager.Instance.CurrentPhase) 
+        {
+            case GameManager.Phase.Draft:
+            case GameManager.Phase.Dispatch:
+
+                if (isPlayerTurn) ViewManager.Instance.Show<MainView>();
+                else ViewManager.Instance.Show<WaitView>();
+
+                break;
+
+            case GameManager.Phase.Resolution:
+                if (isPlayerTurn) ViewManager.Instance.Show<ResolutionView>();
+                else ViewManager.Instance.Show<WaitView>();
+                break;
+
+            case GameManager.Phase.Magic:
+                ViewManager.Instance.Show<EndRoundView>();
+                GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = PlayerID;
+                break;
+
         }
     }
 
@@ -173,15 +195,21 @@ public class Player : NetworkBehaviour
         Board.Instance.reputationText.text = $"{reputation} Rep.";
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetIsPlayerTurn(bool value)
-    {
-        SetIsPlayerTurn(value);
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerSetIsPlayerTurn(bool value)
+    //{
+    //    SetIsPlayerTurn(value);
+    //}
 
     [Server]
     public void SetIsPlayerTurn(bool value)
     {
         IsPlayerTurn = value;
+    }
+
+    [Server]
+    public void UpdatePlayerView()
+    {
+        TargetUpdatePlayerView(Owner, IsPlayerTurn);
     }
 }

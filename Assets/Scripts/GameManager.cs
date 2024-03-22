@@ -83,7 +83,8 @@ public class GameManager : NetworkBehaviour
 
         PlayerSkipTurnStatus = new bool[Players.Count];
 
-        BeginTurn();
+        //BeginTurn();
+        SetPlayerTurn(Players[Turn]);
     }
 
     [Server]
@@ -99,11 +100,13 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void BeginTurn()
     {
-        for (int i = 0; i < Players.Count; i++)
-        {
-            Players[i].BeginTurn();
-        }
-        CurrentTurnPlayer = Players[Turn];
+        //for (int i = 0; i < Players.Count; i++)
+        //{
+        //    Players[i].BeginTurn();
+        //}
+        //CurrentTurnPlayer = Players[Turn];
+        SetPlayerTurn(Players[Turn]);
+
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -113,7 +116,7 @@ public class GameManager : NetworkBehaviour
 
         Turn = (Turn + 1) % Players.Count;
 
-        if (PlayerSkipTurnStatus.All(status => status))
+        if (PlayerSkipTurnStatus.All(status => status))     // if all players have ended turn, move onto next phase
         {
             EndPhase();
             return;
@@ -124,7 +127,8 @@ public class GameManager : NetworkBehaviour
             Turn = (Turn + 1) % Players.Count;
         }
 
-        BeginTurn();
+        //BeginTurn();
+        SetPlayerTurn(Players[Turn]);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -159,7 +163,8 @@ public class GameManager : NetworkBehaviour
         PlayerEndRoundStatus = new bool[Players.Count];
         foreach (Player player in Players)
         {
-            player.BeginEndRound();
+            //player.BeginEndRound();
+            player.UpdatePlayerView();
         }
     }
 
@@ -173,7 +178,8 @@ public class GameManager : NetworkBehaviour
                 CurrentPhase = Phase.Dispatch;
                 Board.Instance.ObserversUpdatePhaseText("Dispatch");
                 Turn = StartingTurn;
-                BeginTurn();
+                //BeginTurn();
+                SetPlayerTurn(Players[Turn]);
                 break;
 
             case Phase.Dispatch:
@@ -197,7 +203,8 @@ public class GameManager : NetworkBehaviour
                 Board.Instance.ObserversUpdatePhaseText("Draft");
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
-                BeginTurn();
+                //BeginTurn();
+                SetPlayerTurn(Players[Turn]);
                 break;
         }
     }
@@ -234,6 +241,8 @@ public class GameManager : NetworkBehaviour
         foreach (Player player in Players)
         {
             player.SetIsPlayerTurn(player == currentPlayer);
+            player.UpdatePlayerView();
         }
+
     }
 }
