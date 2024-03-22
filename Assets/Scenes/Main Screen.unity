@@ -3832,10 +3832,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
   - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
   - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
+  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
+  - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
   tierTwoCards:
   - {fileID: 11400000, guid: 7bf5cf46159ffde4787ab1f32053c9d6, type: 2}
   - {fileID: 11400000, guid: e5a6e37d13df22d4fa71b3be31d11f16, type: 2}
   - {fileID: 11400000, guid: a5a488f18a019da42864147ae2776293, type: 2}
+  - {fileID: 11400000, guid: d0faf7741a01275479f4578619b694b8, type: 2}
+  - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
+  - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
   questCards:
   - {fileID: 11400000, guid: 288055a8c421aab4999213648722eb97, type: 2}
   - {fileID: 11400000, guid: 7801ecc3274fe82458a209cd1375b4c6, type: 2}
@@ -3843,6 +3848,11 @@ MonoBehaviour:
   lootCards:
   - {fileID: 11400000, guid: 61314a30bcc591a41aaf38ea7aa0e77a, type: 2}
   - {fileID: 11400000, guid: 961ff6ee2e1b27c479653bb3c38f6b46, type: 2}
+  - {fileID: 11400000, guid: 0aadd65b8cc426d49842fa3dbddc45b9, type: 2}
+  - {fileID: 11400000, guid: 35040824ad8623247a1620731c46c538, type: 2}
+  - {fileID: 11400000, guid: a5d3dfa2a824a024d9a183bcd497df06, type: 2}
+  - {fileID: 11400000, guid: bb868b344bfabba4cb01d47e8c15018c, type: 2}
+  - {fileID: 11400000, guid: 7744cb6c95314664dadaef10ad4b3c30, type: 2}
   adventurerCardPrefab: {fileID: 2375407051779204461, guid: 062de0dd0e54d8e4e976080acf875340, type: 3}
   itemCardPrefab: {fileID: 3478594553878486444, guid: d611220e5137274468b13454f2fa4969, type: 3}
   spellCardPrefab: {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
