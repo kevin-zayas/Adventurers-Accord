@@ -9,6 +9,9 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [field: SerializeField]
+    public ScoreBoard Scoreboard { get; private set; }
+
     public enum Phase { Draft, Dispatch, Magic, Resolution }
 
     [field: SyncObject]
@@ -38,6 +41,8 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField]
     [field: SyncVar]
     public int StartingTurn { get; private set; }
+
+    [SerializeField] private int startingGold;
 
     [field: SerializeField]
     [field: SyncVar]
@@ -73,6 +78,7 @@ public class GameManager : NetworkBehaviour
         }
         
         Board.Instance.StartGame();
+        Scoreboard.StartGame(startingGold);
         DidStart = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];

@@ -76,6 +76,10 @@ public class Player : NetworkBehaviour
         handInstance.playerID = PlayerID;
         Spawn(handInstance.gameObject, Owner);
 
+        //Scorboard Instance or store in GameManager? Board?
+        //Scoreboard.AddPlayer(PlayerID) -> Index into array of player scores and set active
+        // in Observers Update Gold/Reputation Text, pass in playerID. If not owner, update stats from Scoreboard.
+        // will need a Server call and then ObserverRPC, to set the property, and then the text? or just pass in gold/reputation everytime from player
         ObserversUpdateGoldText(this.Gold);
     }
 
@@ -143,6 +147,7 @@ public class Player : NetworkBehaviour
     public void ServerChangeGold(int value)
     {
         this.Gold += value;
+        GameManager.Instance.Scoreboard.UpdatePlayerGold(PlayerID, this.Gold);
         ObserversUpdateGoldText(this.Gold);
     }
 
@@ -150,6 +155,7 @@ public class Player : NetworkBehaviour
     public void ServerChangeReputation(int value)
     {
         this.Reputation += value;
+        GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID, this.Reputation);
         ObserversUpdateReputationText(this.Reputation);
     }
 
