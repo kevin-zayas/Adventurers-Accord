@@ -65,7 +65,7 @@ public class QuestSummary : NetworkBehaviour
     public void ObserversSetPlayerSummary(int player, int physPower, int magPower, int gold, int reputation, int loot)
     {
         playerSummaries[playerCount].gameObject.SetActive(true);
-        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player, physPower, magPower));
+        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
         playerSummaries[playerCount].text += Regex.Unescape(string.Format(rewardText, gold, reputation, loot));
         playerCount++;
     }
@@ -74,7 +74,7 @@ public class QuestSummary : NetworkBehaviour
     public void ObserversSetPlayerSummary(int player, int physPower, int magPower, int reputation)
     {
         playerSummaries[playerCount].gameObject.SetActive(true);
-        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player, physPower, magPower));
+        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
         playerSummaries[playerCount].text += Regex.Unescape(string.Format(penaltyText, reputation));
         playerCount++;
     }
@@ -84,7 +84,7 @@ public class QuestSummary : NetworkBehaviour
     {
         for (int i = 0; i < playerSummaries.Length; i++)
         {
-            if (playerSummaries[i].text.Contains($"Player {player}"))
+            if (playerSummaries[i].text.Contains($"Player {player+1}"))
             {
                 playerSummaries[i].text += Regex.Unescape(string.Format(bardBonusText, bardBonus));
                 return;
@@ -92,7 +92,7 @@ public class QuestSummary : NetworkBehaviour
         }
 
         playerSummaries[playerCount].gameObject.SetActive(true);
-        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player, physPower, magPower));
+        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
         playerSummaries[playerCount].text += Regex.Unescape(string.Format("Rewards:"+bardBonusText, bardBonus));
         playerCount++;
     }

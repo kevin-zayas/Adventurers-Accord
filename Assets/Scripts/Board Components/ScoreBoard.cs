@@ -20,44 +20,25 @@ public class ScoreBoard : NetworkBehaviour
     [Server]
     public void StartGame(int startingGold)
     {
-        //scoreboardPanel = Instantiate(scoreboardPanelPrefab, Vector2.zero, Quaternion.identity);
-        //Spawn(scoreboardPanel);
         playerCount = GameManager.Instance.Players.Count;
-        ObserversInitializeScoreboard(playerCount, startingGold);
+        ObserversInitializeScoreboard(playerCount);
 
         for (int i = 0; i < playerCount; i++)
         {
-            //PlayerScores[i] = scoreboardPanel.transform.GetChild(i).GetComponent<PlayerScore>();
             Spawn(PlayerScores[i].gameObject);
             PlayerScores[i].InitializeScore(i, startingGold);
-            //PlayerScores[i].ObserversInitializeScore(i + 1, startingGold, 0);
         }
-
-        
-
-        //for (int i = 0; i < playerCount; i++)
-        //{
-        //    PlayerScores[i].ObserversInitializeScore(i, startingGold, 0);
-        //}
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversInitializeScoreboard(int playerCount, int startingGold)
+    private void ObserversInitializeScoreboard(int playerCount)
     {
         scoreboardPanel.GetComponent<Image>().enabled = true;
-        GameObject canvas = GameObject.Find("Scoreboard");
-        scoreboardPanel.transform.SetParent(canvas.transform, false);
 
-        int scoreboardHeight = 25 + (125 * playerCount);
+        int scoreboardHeight = 25 + (115 * playerCount);
 
-        RectTransform rectTransform = transform.GetChild(0).GetComponent<RectTransform>();
+        RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
-
-        //for (int i = 0; i < playerCount; i++)
-        //{
-            //PlayerScores[i].gameObject.SetActive(true);
-            //PlayerScores[i].ObserversInitializeScore(i + 1, startingGold, 0);
-        //}
     }
 
     [Server]
