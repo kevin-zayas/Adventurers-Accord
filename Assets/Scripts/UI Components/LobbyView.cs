@@ -21,9 +21,10 @@ public class LobbyView : View
     {
         readyButton.onClick.AddListener(() => Player.Instance.IsReady = !Player.Instance.IsReady);
 
-        if (InstanceFinder.IsServer)
+        //if (InstanceFinder.IsServer)
+        if (Player.Instance.IsStartingPlayer) // could just check is player 1
         {
-            startButton.onClick.AddListener(() => GameManager.Instance.StartGame());
+            startButton.onClick.AddListener(() => GameManager.Instance.ServerStartGame());
         }
         else
         {

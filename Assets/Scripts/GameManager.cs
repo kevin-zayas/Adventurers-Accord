@@ -62,6 +62,12 @@ public class GameManager : NetworkBehaviour
         CanStart = Players.All(player => player.IsReady);
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerStartGame()
+    {
+        StartGame();
+    }
+
     [Server]
     public void StartGame()
     {
@@ -69,12 +75,12 @@ public class GameManager : NetworkBehaviour
         Board.Instance.ObserversUpdatePhaseText("Draft");
 
         StartingTurn = 0;
-        
+
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].StartGame();
         }
-        
+
         Board.Instance.StartGame();
         Scoreboard.StartGame(StartingGold);
         DidStart = true;
@@ -141,7 +147,7 @@ public class GameManager : NetworkBehaviour
         GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundButton();
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Server]
     private void BeginEndRound()
     {
         PlayerEndRoundStatus = new bool[Players.Count];

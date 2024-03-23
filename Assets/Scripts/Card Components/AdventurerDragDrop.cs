@@ -109,7 +109,7 @@ public class AdventurerDragDrop : NetworkBehaviour
         card.ServerSetCardParent(dropZone.transform, false);
         card.ServerSetCardOwner(player);
 
-        player.ServerChangeGold(-card.Cost);
+        player.ServerChangePlayerGold(-card.Cost);
         Board.Instance.ReplaceCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);
     }

@@ -75,8 +75,8 @@ public class QuestLane : NetworkBehaviour
         adventurerEffects.Add("Tinkerer", 0);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerUpdatePower()
+    [Server]
+    public void UpdateQuestLanePower()
     {
         PhysicalPower = 0;
         MagicalPower = 0;
@@ -106,6 +106,12 @@ public class QuestLane : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
+    public void ServerUpdateQuestLanePower()
+    {
+        UpdateQuestLanePower();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     public void ServerUpdateSpellEffects()
     {
         SpellPhysicalPower = 0;
@@ -123,7 +129,7 @@ public class QuestLane : NetworkBehaviour
             if (spellCard.IsGreaseSpell) IsGreased = true;
         }
 
-        ServerUpdatePower();
+        UpdateQuestLanePower();
         //if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
         //if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
 
@@ -186,14 +192,15 @@ public class QuestLane : NetworkBehaviour
     {
         if (QuestLocation.QuestCard.Drain && !ClericProtection)
         {
-            card.ServerChangePhysicalPower(-QuestLocation.QuestCard.PhysicalDrain);
-            card.ServerChangeMagicalPower(-QuestLocation.QuestCard.MagicalDrain);
+            print("Applying drain");
+            card.ChangePhysicalPower(-QuestLocation.QuestCard.PhysicalDrain);
+            card.ChangeMagicalPower(-QuestLocation.QuestCard.MagicalDrain);
         }
 
         if (EnchanterBuff)
         {
-            card.ServerChangePhysicalPower(adventurerEffects["Enchanter"]);
-            card.ServerChangeMagicalPower(adventurerEffects["Enchanter"]);
+            card.ChangePhysicalPower(adventurerEffects["Enchanter"]);
+            card.ChangeMagicalPower(adventurerEffects["Enchanter"]);
         }
 
         if (TinkererBuff && card.HasItem)
@@ -232,7 +239,7 @@ public class QuestLane : NetworkBehaviour
             
         }
 
-        ServerUpdatePower();
+        UpdateQuestLanePower();
     }
 
     [Server]
@@ -270,7 +277,7 @@ public class QuestLane : NetworkBehaviour
 
         }
 
-        ServerUpdatePower();
+        UpdateQuestLanePower();
     }
 
     [Server]
@@ -285,14 +292,14 @@ public class QuestLane : NetworkBehaviour
 
             if (ClericProtection)
             {
-                card.ServerChangePhysicalPower(QuestLocation.QuestCard.PhysicalDrain);      //reverse drain
-                card.ServerChangeMagicalPower(QuestLocation.QuestCard.MagicalDrain);    
+                card.ChangePhysicalPower(QuestLocation.QuestCard.PhysicalDrain);      //reverse drain
+                card.ChangeMagicalPower(QuestLocation.QuestCard.MagicalDrain);    
             }
             else
             {
                 print("Applying Drain");
-                card.ServerChangePhysicalPower(-QuestLocation.QuestCard.PhysicalDrain);
-                card.ServerChangeMagicalPower(-QuestLocation.QuestCard.MagicalDrain);
+                card.ChangePhysicalPower(-QuestLocation.QuestCard.PhysicalDrain);
+                card.ChangeMagicalPower(-QuestLocation.QuestCard.MagicalDrain);
             }
         }
     }
@@ -305,8 +312,8 @@ public class QuestLane : NetworkBehaviour
             Card card = cardTransform.GetComponent<Card>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
             if (card.Name == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
 
-            card.ServerChangePhysicalPower(buffDelta);
-            card.ServerChangeMagicalPower(buffDelta);
+            card.ChangePhysicalPower(buffDelta);
+            card.ChangeMagicalPower(buffDelta);
         } 
     }
 

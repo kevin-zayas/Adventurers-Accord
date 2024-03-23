@@ -16,6 +16,10 @@ public class Player : NetworkBehaviour
     [field: SyncVar]
     public bool IsPlayerTurn { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool IsStartingPlayer { get; private set; }
+
     [field: SyncVar]
     public int Gold { get; private set; }
 
@@ -40,6 +44,7 @@ public class Player : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
+        IsStartingPlayer = GameManager.Instance.Players.Count == 0;
 
         GameManager.Instance.Players.Add(this);
         Gold = GameManager.Instance.StartingGold;
@@ -94,14 +99,15 @@ public class Player : NetworkBehaviour
     [Server]
     public void UpdatePlayerView()
     {
-        TargetUpdatePlayerView(Owner, IsPlayerTurn);
+        print("UpdatePlayerView");
+        TargetUpdatePlayerView(Owner, IsPlayerTurn, GameManager.Instance.CurrentPhase);
     }
 
     [TargetRpc]
-    private void TargetUpdatePlayerView(NetworkConnection networkConnection, bool isPlayerTurn)
+    private void TargetUpdatePlayerView(NetworkConnection networkConnection, bool isPlayerTurn, GameManager.Phase currentPhase)
     {
-        switch (GameManager.Instance.CurrentPhase) 
-        {
+        switch (currentPhase) 
+        {            
             case GameManager.Phase.Draft:
             case GameManager.Phase.Dispatch:
 
@@ -140,8 +146,8 @@ public class Player : NetworkBehaviour
         controlledHand.transform.SetParent(canvas.transform, false);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerChangeGold(int value)
+    [Server]
+    public void ChangePlayerGold(int value)
     {
         this.Gold += value;
         GameManager.Instance.Scoreboard.UpdatePlayerGold(PlayerID, this.Gold);
@@ -149,11 +155,23 @@ public class Player : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerChangeReputation(int value)
+    public void ServerChangePlayerGold(int value)
+    {
+        ChangePlayerGold(value);
+    }
+
+    [Server]
+    public void ChangePlayerReputation(int value)
     {
         this.Reputation += value;
         GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID, this.Reputation);
         ObserversUpdateReputationText(this.Reputation);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerChangePlayerReputation(int value)
+    {
+        ChangePlayerReputation(value);
     }
 
     [ObserversRpc(BufferLast = true)]

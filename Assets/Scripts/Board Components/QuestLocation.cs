@@ -236,8 +236,8 @@ public class QuestLocation : NetworkBehaviour
             lootReward = 0;
         }
 
-        player.ServerChangeGold(goldReward);
-        player.ServerChangeReputation(reputationReward);
+        player.ChangePlayerGold(goldReward);
+        player.ChangePlayerReputation(reputationReward);
         Board.Instance.RewardLoot(player, lootReward);
 
         print($"Player {player.PlayerID} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
@@ -252,8 +252,8 @@ public class QuestLocation : NetworkBehaviour
         {
             if (lane.BardBonus > 0)
             {
-                lane.Player.ServerChangeReputation(lane.BardBonus);
-                lane.Player.ServerChangeGold(lane.BardBonus);
+                lane.Player.ChangePlayerReputation(lane.BardBonus);
+                lane.Player.ChangePlayerGold(lane.BardBonus);
                 QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, lane.BardBonus);
             }
         }
@@ -267,7 +267,7 @@ public class QuestLocation : NetworkBehaviour
             int adventurerCount = lane.DropZone.transform.childCount;
             if (adventurerCount > 0)
             {
-                lane.Player.ServerChangeReputation(-adventurerCount);
+                lane.Player.ChangePlayerReputation(-adventurerCount);
                 QuestSummary.ObserversSetPlayerSummary(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, -adventurerCount);
                 print($"Player {lane.Player.PlayerID} loses {adventurerCount} Rep. for failing the quest");
             }

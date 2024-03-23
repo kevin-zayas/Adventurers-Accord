@@ -42,7 +42,7 @@ public class RoundSummaryPopUp : NetworkBehaviour
     private void ServerClosePopUp(NetworkConnection connection)
     {
         playerCount++;
-        PopUpManager.Instance.ServerCloseRoundSummaryPopUp(connection, this.gameObject, playerCount == totalPlayers);
+        PopUpManager.Instance.CloseRoundSummaryPopUp(connection, this.gameObject, playerCount == totalPlayers);
     }
 
 }

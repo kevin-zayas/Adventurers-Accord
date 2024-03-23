@@ -85,10 +85,11 @@ public class Card : NetworkBehaviour
         if (this.Parent != null && this.Parent != newParent)
         {
             if (this.Parent.CompareTag("Quest")) OnQuestReturn(this.Parent); //issue when dragging card since parent is set to canvas
+            this.Parent = newParent;
             if (newParent.CompareTag("Quest")) OnQuestDispatch(newParent);
         }
+        else { this.Parent = newParent; }
 
-        this.Parent = newParent;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -144,6 +145,12 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangePhysicalPower(int power)
     {
+        ChangePhysicalPower(power);
+    }
+
+    [Server]
+    public void ChangePhysicalPower(int power)
+    {
         if (!Parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower > 0)
         {
@@ -155,9 +162,17 @@ public class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangeMagicalPower(int power)
     {
+        ChangeMagicalPower(power);
+    }
+
+    [Server]
+    public void ChangeMagicalPower(int power)
+    {
+        print(Parent.tag);
         if (!Parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower > 0)
         {
+            print(power);
             MagicalPower += power;
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         }

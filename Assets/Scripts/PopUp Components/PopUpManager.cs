@@ -57,8 +57,8 @@ public class PopUpManager : NetworkBehaviour
         return popUp;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerCloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp, bool despawn)
+    [Server]
+    public void CloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp, bool despawn)
     {
         TargetCloseRoundSummaryPopUp(networkConnection, popUp);
         
