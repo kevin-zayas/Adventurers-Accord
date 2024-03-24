@@ -29,7 +29,7 @@ public class ConnectionStarter : MonoBehaviour
             else
             {
                 _tugboat.StartConnection(true);
-                _tugboat.StartConnection(false);
+                //_tugboat.StartConnection(false);
             }
 
             return;

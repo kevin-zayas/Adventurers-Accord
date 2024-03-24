@@ -65,6 +65,7 @@ namespace FishNet.Managing.Scened
         /// <param name="sceneName">Scene name to load.</param>
         public override void BeginLoadAsync(string sceneName, UnityEngine.SceneManagement.LoadSceneParameters parameters)
         {
+            print($"Scene Name: {sceneName}");
             AsyncOperation ao = UnitySceneManager.LoadSceneAsync(sceneName, parameters);
             LoadingAsyncOperations.Add(ao);
             
