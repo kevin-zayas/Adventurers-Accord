@@ -24,6 +24,8 @@ public class CardData : ScriptableObject
     public bool drain;
     public int physicalDrain;
     public int magicalDrain;
+    public bool disableItems;
+    public bool blockSpells;
     
     //Spells
     public bool isGreaseSpell;

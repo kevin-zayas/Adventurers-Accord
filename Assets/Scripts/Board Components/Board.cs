@@ -24,7 +24,13 @@ public class Board : NetworkBehaviour
     private List<CardData> LootDeck { get; } = new List<CardData>();
 
     [field: SerializeField]
-    private List<CardData> QuestCardsDeck { get; } = new List<CardData>();
+    private List<CardData> L1QuestCardDeck { get; } = new List<CardData>();
+
+    [field: SerializeField]
+    private List<CardData> L2QuestCardDeck { get; } = new List<CardData>();
+
+    [field: SerializeField]
+    private List<CardData> L3QuestCardDeck { get; } = new List<CardData>();
 
     private readonly int cardFrequency = 3;
 
@@ -57,10 +63,11 @@ public class Board : NetworkBehaviour
             DrawCard(i);
         }
 
-        foreach(QuestLocation questLocation in QuestLocations)
+        //foreach(QuestLocation questLocation in QuestLocations)
+        for(int i = 0; i < QuestLocations.Length; i++)
         {
-            DrawQuestCard(questLocation);
-            questLocation.StartGame();
+            DrawQuestCard(i);
+            QuestLocations[i].StartGame();
         }
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells
@@ -90,16 +97,24 @@ public class Board : NetworkBehaviour
     }
 
     [Server]
-    private void DrawQuestCard(QuestLocation questLocation)
+    public void DrawQuestCard(int questSlotIndex)
     {
-        CardData randomQuestData = QuestCardsDeck[Random.Range(0, QuestCardsDeck.Count)];
+        List<CardData> questCardDeck;
+
+        if (L1QuestCardDeck.Count > 0) questCardDeck = L1QuestCardDeck;
+        else if (L2QuestCardDeck.Count > 0) questCardDeck = L2QuestCardDeck;
+        else if (L3QuestCardDeck.Count > 0) questCardDeck = L3QuestCardDeck;
+        else return;
+
+        QuestLocation questLocation = QuestLocations[questSlotIndex];
+        CardData randomQuestData = questCardDeck[Random.Range(0, questCardDeck.Count)];
         QuestCard questCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
         //questCard.questCardIndex = 0;
 
         Spawn(questCard.gameObject);
         questCard.LoadCardData(randomQuestData);
         questLocation.AssignQuestCard(questCard);  //set quest index here
-        QuestCardsDeck.Remove(randomQuestData);
+        questCardDeck.Remove(randomQuestData);
     }
 
     [Server]
@@ -111,11 +126,13 @@ public class Board : NetworkBehaviour
             T2Deck.AddRange(CardDatabase.Instance.tierTwoCards);
             LootDeck.AddRange(CardDatabase.Instance.lootCards);
         }
-        QuestCardsDeck.AddRange(CardDatabase.Instance.questCards);
+        L1QuestCardDeck.AddRange(CardDatabase.Instance.levelOneQuestCards);
+        L2QuestCardDeck.AddRange(CardDatabase.Instance.levelTwoQuestCards);
+        L3QuestCardDeck.AddRange(CardDatabase.Instance.levelThreeQuestCards);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ReplaceCard(int slotIndex)
+    public void ReplaceDraftCard(int slotIndex)
     {
         List<CardData> deck;
 

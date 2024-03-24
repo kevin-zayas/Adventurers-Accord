@@ -111,6 +111,9 @@ public class QuestLocation : NetworkBehaviour
             QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
             CalculateQuestContributions();
             DistributeBardBonus();
+
+            Despawn(QuestCard.gameObject);
+            Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
         }
         else
         {

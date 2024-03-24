@@ -50,6 +50,14 @@ public class QuestCard : NetworkBehaviour
     [field: SyncVar]
     public int MagicalDrain { get; private set; }
 
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool DisableItems { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool BlockSpells { get; private set; }
+
 
 
     [SerializeField] private TMP_Text physicalPowerText;
@@ -95,6 +103,8 @@ public class QuestCard : NetworkBehaviour
         Drain = cardData.drain;
         PhysicalDrain = cardData.physicalDrain;
         MagicalDrain = cardData.magicalDrain;
+        DisableItems = cardData.disableItems;
+        BlockSpells = cardData.blockSpells;
 
         ObserversLoadCardData(cardData);
     }

@@ -18,7 +18,7 @@ MonoBehaviour:
   originalPhysicalPower: 0
   originalMagicalPower: 0
   cost: 0
-  cardDescription: 
+  cardDescription: 'Magic Items cannot be used on this quest '
   cardSubDescription: 
   cardType: 
   goldReward: 12
@@ -27,4 +27,6 @@ MonoBehaviour:
   drain: 0
   physicalDrain: 0
   magicalDrain: 0
+  disableItems: 1
+  blockSpells: 0
   isGreaseSpell: 0

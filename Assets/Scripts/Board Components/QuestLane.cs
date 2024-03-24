@@ -88,6 +88,7 @@ public class QuestLane : NetworkBehaviour
             Card card = cardTransform.GetComponent<Card>();
 
             if (IsGreased && card.HasItem) card.DisableItem("Greased");
+            if (QuestLocation.QuestCard.DisableItems && card.HasItem) card.DisableItem("Nullified");
 
             PhysicalPower += card.PhysicalPower;
             MagicalPower += card.MagicalPower;

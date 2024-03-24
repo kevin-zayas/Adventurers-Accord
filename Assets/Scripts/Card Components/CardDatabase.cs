@@ -9,7 +9,9 @@ public class CardDatabase : NetworkBehaviour
     public List<CardData> tierOneCards = new();
     public List<CardData> tierTwoCards = new();
 
-    public List<CardData> questCards = new();
+    public List<CardData> levelOneQuestCards = new();
+    public List<CardData> levelTwoQuestCards = new();
+    public List<CardData> levelThreeQuestCards = new();
 
     public List<CardData> lootCards = new();
 
