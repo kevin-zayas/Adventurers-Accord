@@ -9,14 +9,9 @@ public class QuestCard : NetworkBehaviour
     [field: SyncVar]
     public Transform Parent { get; private set; }
 
-    [SyncVar]
-    public int questCardIndex;
-
     [field: SerializeField]
     [field: SyncVar]
     public string Name { get; private set; }
-
-    [SyncVar] private string Description;
 
     [field: SerializeField]
     [field: SyncVar]
@@ -96,7 +91,6 @@ public class QuestCard : NetworkBehaviour
         PhysicalPower = cardData.physicalPower;
         MagicalPower = cardData.magicalPower;
         Name = cardData.cardName;
-        Description = cardData.cardDescription;
         GoldReward = cardData.goldReward;
         ReputationReward = cardData.reputationReward;
         LootReward = cardData.lootReward;

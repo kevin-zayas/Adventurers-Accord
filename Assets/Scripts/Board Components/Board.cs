@@ -63,7 +63,6 @@ public class Board : NetworkBehaviour
             DrawCard(i);
         }
 
-        //foreach(QuestLocation questLocation in QuestLocations)
         for(int i = 0; i < QuestLocations.Length; i++)
         {
             DrawQuestCard(i);
@@ -109,11 +108,10 @@ public class Board : NetworkBehaviour
         QuestLocation questLocation = QuestLocations[questSlotIndex];
         CardData randomQuestData = questCardDeck[Random.Range(0, questCardDeck.Count)];
         QuestCard questCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
-        //questCard.questCardIndex = 0;
 
         Spawn(questCard.gameObject);
         questCard.LoadCardData(randomQuestData);
-        questLocation.AssignQuestCard(questCard);  //set quest index here
+        questLocation.AssignQuestCard(questCard);
         questCardDeck.Remove(randomQuestData);
     }
 

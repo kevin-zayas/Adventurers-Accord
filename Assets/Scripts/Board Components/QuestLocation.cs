@@ -80,9 +80,6 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public void AssignQuestCard(QuestCard questCard)
     {
-        questCard.questCardIndex = 0;
-
-        //Spawn(questCard.gameObject);
         questCard.SetCardParent(questCardSlot.transform, false);
         QuestCard = questCard;
     }
@@ -103,11 +100,6 @@ public class QuestLocation : NetworkBehaviour
 
         if (TotalPhysicalPower >= QuestCard.PhysicalPower && TotalMagicalPower >= QuestCard.MagicalPower)
         {
-            //print("Quest Complete");
-            //print($"Physical Power: {TotalPhysicalPower} / {QuestCard.PhysicalPower}");
-            //print($"Magical Power: {TotalMagicalPower} / {QuestCard.MagicalPower}");
-
-            //Status = QuestStatus.Complete;
             QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
             CalculateQuestContributions();
             DistributeBardBonus();

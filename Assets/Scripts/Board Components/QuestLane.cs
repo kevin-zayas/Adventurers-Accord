@@ -57,7 +57,6 @@ public class QuestLane : NetworkBehaviour
     private bool EnchanterBuff;
     private bool TinkererBuff;
 
-
     //[field: SerializeField]
     //[field: SyncVar]
     //public QuestCard QuestCard { get; private set; }
@@ -68,9 +67,6 @@ public class QuestLane : NetworkBehaviour
     private void Start()
     {
         adventurerEffects.Add("Cleric", 0);
-        adventurerEffects.Add("Rogue", 0);
-
-        //adventurerEffects.Add("Assassin", 0);
         adventurerEffects.Add("Enchanter", 0);
         adventurerEffects.Add("Tinkerer", 0);
     }
@@ -131,10 +127,6 @@ public class QuestLane : NetworkBehaviour
         }
 
         UpdateQuestLanePower();
-        //if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
-        //if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
-
-        //ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }
 
     [ObserversRpc(BufferLast = true)]
