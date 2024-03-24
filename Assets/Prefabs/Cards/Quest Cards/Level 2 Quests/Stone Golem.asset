@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
-  m_Name: Lich
+  m_Name: Stone Golem
   m_EditorClassIdentifier: 
-  cardName: Lich
-  physicalPower: 3
-  magicalPower: 6
+  cardName: Stone Golem
+  physicalPower: 9
+  magicalPower: 0
   originalPhysicalPower: 0
   originalMagicalPower: 0
   cost: 0
-  cardDescription: All Adventurer cards on this quest receive a -1 to Magical power
+  cardDescription: 
   cardSubDescription: 
   cardType: 
-  goldReward: 6
+  goldReward: 8
   reputationReward: 4
   lootReward: 1
-  drain: 1
+  drain: 0
   physicalDrain: 0
-  magicalDrain: 1
+  magicalDrain: 0
+  isGreaseSpell: 0

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
+  m_Name: Arcane Guardian
+  m_EditorClassIdentifier: 
+  cardName: Arcane Guardian
+  physicalPower: 8
+  magicalPower: 8
+  originalPhysicalPower: 0
+  originalMagicalPower: 0
+  cost: 0
+  cardDescription: 
+  cardSubDescription: 
+  cardType: 
+  goldReward: 12
+  reputationReward: 6
+  lootReward: 2
+  drain: 0
+  physicalDrain: 0
+  magicalDrain: 0
+  isGreaseSpell: 0

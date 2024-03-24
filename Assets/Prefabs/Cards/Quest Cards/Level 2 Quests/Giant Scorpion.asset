@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
-  m_Name: Slime
+  m_Name: Giant Scorpion
   m_EditorClassIdentifier: 
-  cardName: Slime
-  physicalPower: 3
-  magicalPower: 3
+  cardName: Giant Scorpion
+  physicalPower: 7
+  magicalPower: 5
   originalPhysicalPower: 0
   originalMagicalPower: 0
   cost: 0
-  cardDescription: 
+  cardDescription: All Adventurer cards on this quest receive a -1 to Physical power
   cardSubDescription: 
   cardType: 
-  goldReward: 3
-  reputationReward: 2
-  lootReward: 1
-  drain: 0
-  physicalDrain: 0
+  goldReward: 8
+  reputationReward: 4
+  lootReward: 2
+  drain: 1
+  physicalDrain: 1
   magicalDrain: 0
+  isGreaseSpell: 0
