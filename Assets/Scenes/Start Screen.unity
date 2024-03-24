@@ -482,6 +482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkHudCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4393252310969058995, guid: 0570b6f7f713dc44a90463654bbcd8d0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4393252311501663115, guid: 0570b6f7f713dc44a90463654bbcd8d0, type: 3}
       propertyPath: m_SizeDelta.x
       value: 128
@@ -1387,6 +1391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2084902070}
+  - component: {fileID: 2084902074}
   - component: {fileID: 2084902071}
   - component: {fileID: 2084902072}
   - component: {fileID: 2084902073}
@@ -1465,6 +1470,18 @@ MonoBehaviour:
   _playerPrefab: {fileID: 7497081857176530316, guid: c53262c3cfd308e46b2f1615b98d717f, type: 3}
   _addToDefaultScene: 1
   Spawns: []
+--- !u!114 &2084902074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084902069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe141f963be96d4091dc44d2dbc9e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
