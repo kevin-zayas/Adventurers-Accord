@@ -23,6 +23,7 @@ public class QuestLocation : NetworkBehaviour
     private CardSlot questCardSlot;
 
     [field: SerializeField]
+    [field: SyncVar]
     public QuestCard QuestCard { get; private set; }
 
     [field: SerializeField]
