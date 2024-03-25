@@ -562,8 +562,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278195755
+  m_fontColor: {r: 0.16981131, g: 0.084905654, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -648,7 +648,7 @@ PrefabInstance:
       objectReference: {fileID: 2116103978768093714}
     - target: {fileID: -446183644572633041, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: 645
+      value: 630
       objectReference: {fileID: 0}
     - target: {fileID: -446183644572633041, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
@@ -899,9 +899,21 @@ PrefabInstance:
       value: 6897317419958969868
       objectReference: {fileID: 0}
     - target: {fileID: -446183644572633041, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -446183644572633041, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 2116103978768093714}
+    - target: {fileID: -446183644572633041, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
+      propertyPath: SerializedTransformProperties.Position.x
+      value: -630
+      objectReference: {fileID: 0}
+    - target: {fileID: -446183644572633041, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
+      propertyPath: SerializedTransformProperties.Position.y
+      value: 472
+      objectReference: {fileID: 0}
     - target: {fileID: 2311746790996157323, guid: 4654e976616814b4b8d6461b5d7a0f7d, type: 3}
       propertyPath: m_Name
       value: QuestSummary
