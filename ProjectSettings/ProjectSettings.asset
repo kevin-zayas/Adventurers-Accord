@@ -610,7 +610,7 @@ PlayerSettings:
     Stadia: DOTWEEN
     Standalone: FISHNET;FISHNET_V3;DOTWEEN
     VisionOS: DOTWEEN
-    WebGL: DOTWEEN
+    WebGL: DOTWEEN;FISHNET;FISHNET_V3
     Windows Store Apps: DOTWEEN
     XboxOne: DOTWEEN
     iPhone: DOTWEEN

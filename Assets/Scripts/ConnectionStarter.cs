@@ -1,5 +1,6 @@
 using FishNet;
 using FishNet.Transporting;
+using FishNet.Transporting.Bayou;
 using FishNet.Transporting.Tugboat;
 using UnityEditor;
 using UnityEngine;
@@ -8,15 +9,23 @@ public class ConnectionStarter : MonoBehaviour
 {
     [SerializeField] private ConnectionType _connectionType;
 
-    private Tugboat _tugboat;
+    //private Tugboat _tugboat;
+    private Bayou _bayou;
 
     private void Awake()
     {
-        if (TryGetComponent(out Tugboat tug))
-            _tugboat = tug;
+        //if (TryGetComponent(out Tugboat tug))
+        //    _tugboat = tug;
+        //else
+        //{
+        //    Debug.LogError("Tugboat not found", gameObject);
+        //    return;
+        //}
+        if (TryGetComponent(out Bayou bayou))
+            _bayou = bayou;
         else
         {
-            Debug.LogError("Tugboat not found", gameObject);
+            Debug.LogError("Bayou not found", gameObject);
             return;
         }
 #if UNITY_EDITOR
@@ -24,22 +33,25 @@ public class ConnectionStarter : MonoBehaviour
         {
             if (ParrelSync.ClonesManager.IsClone())
             {
-                _tugboat.StartConnection(false);
+                //_tugboat.StartConnection(false);
+                _bayou.StartConnection(false);
             }
             else
             {
-                _tugboat.StartConnection(true);
+                //_tugboat.StartConnection(true);
                 //_tugboat.StartConnection(false);
+                _bayou.StartConnection(true);
             }
 
             return;
         }
 
-        _tugboat.StartConnection(false);
+        _bayou.StartConnection(false);
 
 #endif
 #if !UNITY_EDITOR
-        _tugboat.StartConnection(true);
+        _bayou.StartConnection(true);
+        //_tugboat.StartConnection(true);
 #endif
     }
 
