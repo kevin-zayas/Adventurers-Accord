@@ -151,8 +151,13 @@ public class Board : NetworkBehaviour
     }
 
     [ObserversRpc(BufferLast = true)]
-    public void ObserversUpdatePhaseText(string phase)
+    public void ObserversUpdatePhaseText(string phase, bool gameOver = false)
     {
+        if (gameOver)
+        {
+            phaseText.text = "Game Over!";
+            return;
+        }
         phaseText.text = $"Phase : {phase}";
     }
 

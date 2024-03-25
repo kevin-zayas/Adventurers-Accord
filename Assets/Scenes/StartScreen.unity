@@ -1391,7 +1391,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2084902070}
-  - component: {fileID: 2084902074}
+  - component: {fileID: 2084902076}
   - component: {fileID: 2084902071}
   - component: {fileID: 2084902072}
   - component: {fileID: 2084902073}
@@ -1471,19 +1471,6 @@ MonoBehaviour:
   _playerPrefab: {fileID: 7497081857176530316, guid: c53262c3cfd308e46b2f1615b98d717f, type: 3}
   _addToDefaultScene: 1
   Spawns: []
---- !u!114 &2084902074
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084902069}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afe141f963be96d4091dc44d2dbc9e69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _connectionType: 1
 --- !u!114 &2084902075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,16 +1483,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362dfd7e6009fb44c90beec3df0ad853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _useWss: 1
+  _useWss: 0
   _sslConfiguration:
     Enabled: 0
     CertificatePath: 
     CertificatePassword: 
     SslProtocol: 0
   _mtu: 1023
-  _port: 443
+  _port: 7770
   _maximumClients: 2000
-  _clientAddress: 6971a385c5ee442f9c8d96df827f4116-studio-us-east.playflow.dev
+  _clientAddress: localhost
+--- !u!114 &2084902076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084902069}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe141f963be96d4091dc44d2dbc9e69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _connectionType: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

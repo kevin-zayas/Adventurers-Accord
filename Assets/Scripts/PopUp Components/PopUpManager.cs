@@ -37,7 +37,7 @@ public class PopUpManager : NetworkBehaviour
     public ResolutionPopUp CreateResolutionPopUp()
     {
         print("Creating PopUp");
-        ResolutionPopUp popUp = Instantiate(Resources.Load<ResolutionPopUp>("UI/ResolutionPopUp"));
+        ResolutionPopUp popUp = Instantiate(Resources.Load<ResolutionPopUp>("PopUps/ResolutionPopUp"));
         CurrentPopUp = popUp;
         return popUp;
     }
@@ -53,7 +53,7 @@ public class PopUpManager : NetworkBehaviour
     public RoundSummaryPopUp CreateRoundSummaryPopUp()
     {
         print("Creating Round Summary PopUp");
-        RoundSummaryPopUp popUp = Instantiate(Resources.Load<RoundSummaryPopUp>("UI/RoundSummaryPopUp"));
+        RoundSummaryPopUp popUp = Instantiate(Resources.Load<RoundSummaryPopUp>("PopUps/RoundSummaryPopUp"));
         return popUp;
     }
 
@@ -71,5 +71,13 @@ public class PopUpManager : NetworkBehaviour
         //if (IsServer) return;
         print("closing round summary pop up");
         popUp.SetActive(false);
+    }
+
+    [Server]
+    public GameOverPopUp CreateGameOverPopUp()
+    {
+        print("Creating GameOver PopUp");
+        GameOverPopUp popUp = Instantiate(Resources.Load<GameOverPopUp>("PopUps/GameOverPopUp"));
+        return popUp;
     }
 }

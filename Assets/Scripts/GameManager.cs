@@ -12,7 +12,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField]
     public ScoreBoard Scoreboard { get; private set; }
 
-    public enum Phase { Draft, Dispatch, Magic, Resolution }
+    public enum Phase { Draft, Dispatch, Magic, Resolution, GameOver}
 
     [field: SyncObject]
     [field: SerializeField]
@@ -44,11 +44,16 @@ public class GameManager : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public int ReputationGoal { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public bool[] PlayerSkipTurnStatus { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
     public bool[] PlayerEndRoundStatus { get; private set; }
+
 
     private void Awake()
     {
@@ -186,8 +191,8 @@ public class GameManager : NetworkBehaviour
                 Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
 
-                CurrentPhase = Phase.Draft;
-                Board.Instance.ObserversUpdatePhaseText("Draft");
+                if (CurrentPhase != Phase.GameOver) CurrentPhase = Phase.Draft;
+                Board.Instance.ObserversUpdatePhaseText("Draft", CurrentPhase == Phase.GameOver);
 
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
@@ -231,5 +236,16 @@ public class GameManager : NetworkBehaviour
             player.UpdatePlayerView();
         }
 
+    }
+
+    [Server]
+    public void EndGame()
+    {
+        GameOverPopUp popUp = PopUpManager.Instance.CreateGameOverPopUp();
+        Spawn(popUp.gameObject);
+
+        popUp.CalculateRankings();
+
+        CurrentPhase = Phase.GameOver;
     }
 }

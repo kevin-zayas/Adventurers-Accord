@@ -14,13 +14,6 @@ public class ConnectionStarter : MonoBehaviour
 
     private void Awake()
     {
-        //if (TryGetComponent(out Tugboat tug))
-        //    _tugboat = tug;
-        //else
-        //{
-        //    Debug.LogError("Tugboat not found", gameObject);
-        //    return;
-        //}
         if (TryGetComponent(out Bayou bayou))
             _bayou = bayou;
         else
@@ -33,20 +26,20 @@ public class ConnectionStarter : MonoBehaviour
         {
             if (ParrelSync.ClonesManager.IsClone())
             {
-                //_tugboat.StartConnection(false);
-                _bayou.StartConnection(false);
+                print("Clone Detected, starting client");
+                //_bayou.StartConnection(false);   //dont auto start for client
             }
             else
             {
-                //_tugboat.StartConnection(true);
-                //_tugboat.StartConnection(false);
-                _bayou.StartConnection(true);
+                print("Host: starting server only");
+                //_bayou.StartConnection(true);
+                //_bayou.StartConnection(false);
             }
 
             return;
         }
-
-        _bayou.StartConnection(false);
+        print("Not a Host: Starting Client");
+        //_bayou.StartConnection(false);  //dont auto start
 
 #endif
 #if !UNITY_EDITOR

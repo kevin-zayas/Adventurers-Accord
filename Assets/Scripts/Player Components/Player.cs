@@ -100,6 +100,7 @@ public class Player : NetworkBehaviour
     public void UpdatePlayerView()
     {
         print("UpdatePlayerView");
+        print(GameManager.Instance.CurrentPhase);
         TargetUpdatePlayerView(Owner, IsPlayerTurn, GameManager.Instance.CurrentPhase);
     }
 
@@ -124,6 +125,10 @@ public class Player : NetworkBehaviour
             case GameManager.Phase.Magic:
                 ViewManager.Instance.Show<EndRoundView>();
                 GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = PlayerID;
+                break;
+
+            case GameManager.Phase.GameOver:
+                ViewManager.Instance.Show<ResolutionView>();        //blank view with no buttons
                 break;
         }
     }
@@ -166,6 +171,8 @@ public class Player : NetworkBehaviour
         this.Reputation += value;
         GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID, this.Reputation);
         ObserversUpdateReputationText(this.Reputation);
+
+        if (Reputation >= GameManager.Instance.ReputationGoal) GameManager.Instance.EndGame();
     }
 
     [ServerRpc(RequireOwnership = false)]

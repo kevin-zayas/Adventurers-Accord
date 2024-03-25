@@ -2177,7 +2177,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -4027,6 +4027,7 @@ MonoBehaviour:
   <CurrentPhase>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
   <StartingGold>k__BackingField: 25
+  <ReputationGoal>k__BackingField: 2
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 
 --- !u!114 &1927639718
