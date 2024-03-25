@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1. Player 1 - 20 Reputation
+  m_text: 1. Player 1 - <color=#137E06>20 Reputation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1. Player 1 - 20 Reputation
+  m_text: 1. Player 1 - <color=#137E06>20 Reputation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -801,7 +801,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1. Player 1 - 20 Reputation
+  m_text: 1. Player 1 - <color=#137E06>20 Reputation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -1000,7 +1000,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2116103978768093714}
   _networkObjectCache: {fileID: 2116103978768093714}
   titleText: {fileID: 949549222698086480}
-  rankingText: '{0}. Player {1} - {2} Reputation'
+  rankingText: '{0}. Player {1} - <color=#137E06>{2} Reputation'
   <GuildRankings>k__BackingField:
   - {fileID: 5685314134729450893}
   - {fileID: 2918044131982605113}
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1. Player 1 - 20 Reputation
+  m_text: 1. Player 1 - <color=#137E06>20 Reputation
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}

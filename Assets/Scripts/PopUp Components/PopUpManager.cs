@@ -61,8 +61,12 @@ public class PopUpManager : NetworkBehaviour
     public void CloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp, bool despawn)
     {
         TargetCloseRoundSummaryPopUp(networkConnection, popUp);
-        
-        if (despawn) Despawn(popUp);
+
+        if (despawn)
+        {
+            Despawn(popUp);
+            GameManager.Instance.LaunchGameOverPopUp();
+        }
     }
 
     [TargetRpc]

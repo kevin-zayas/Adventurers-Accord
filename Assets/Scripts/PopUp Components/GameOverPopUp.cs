@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
@@ -16,10 +17,11 @@ public class GameOverPopUp : NetworkBehaviour
     [Server]
     public void CalculateRankings()
     {
+        int maxReputation = 0;
         List<Player> playerList = new(GameManager.Instance.Players);
         playerList.Sort((a, b) => b.Reputation.CompareTo(a.Reputation));
-
-        print(playerList);
+        maxReputation = playerList[0].Reputation;
+        print(maxReputation);
 
         List<string> rankingTextList = new();
         int prevRanking = 0;
@@ -32,10 +34,15 @@ public class GameOverPopUp : NetworkBehaviour
                 prevRanking++;
                 prevReputation = player.Reputation;
             }
-            rankingTextList.Add(string.Format(rankingText, prevRanking, player.PlayerID, player.Reputation));
+            rankingTextList.Add(string.Format(rankingText, prevRanking, player.PlayerID+1, player.Reputation));
         }
 
-        ObserversInitializeGameOverPopUp(rankingTextList);
+        foreach(Player player in playerList)
+        {
+            
+            TargetInitializeGameOverPopUp(player.Owner, rankingTextList, player.Reputation == maxReputation);
+        }
+        //ObserversInitializeGameOverPopUp(rankingTextList);
     }
 
     [ObserversRpc]
@@ -50,5 +57,21 @@ public class GameOverPopUp : NetworkBehaviour
             GuildRankings[i].gameObject.SetActive(true);
             GuildRankings[i].text = rankings[i];
         }
+    }
+
+    [TargetRpc]
+    public void TargetInitializeGameOverPopUp(NetworkConnection network, List<string> rankings, bool victory)
+    {
+        print("initializing game over pop up");
+        transform.SetParent(GameObject.Find("Canvas").transform);
+        transform.localPosition = Vector3.zero;
+
+        for (int i = 0; i < rankings.Count; i++)
+        {
+            GuildRankings[i].gameObject.SetActive(true);
+            GuildRankings[i].text = rankings[i];
+        }
+
+        if (victory) titleText.text = "Victory!";
     }
 }

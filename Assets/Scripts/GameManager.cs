@@ -241,11 +241,17 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void EndGame()
     {
+        CurrentPhase = Phase.GameOver;
+    }
+
+    [Server]
+    public void LaunchGameOverPopUp()
+    {
+        if (CurrentPhase != Phase.GameOver) return;
+
         GameOverPopUp popUp = PopUpManager.Instance.CreateGameOverPopUp();
         Spawn(popUp.gameObject);
 
         popUp.CalculateRankings();
-
-        CurrentPhase = Phase.GameOver;
     }
 }
