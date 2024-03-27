@@ -3999,12 +3999,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7801ecc3274fe82458a209cd1375b4c6, type: 2}
   - {fileID: 11400000, guid: 4a3856edc06240541a4c3929720b5748, type: 2}
   - {fileID: 11400000, guid: 3e8fd8c8d1cb6c1458ac8d76c03cdbe9, type: 2}
+  - {fileID: 11400000, guid: bab5dff3694024f44959917321bd7b08, type: 2}
+  - {fileID: 11400000, guid: b72acab4728516e4c805dc168d05d483, type: 2}
   levelTwoQuestCards:
   - {fileID: 11400000, guid: 50c3b99cc643ced4ba01d3d4eba8d5fd, type: 2}
   - {fileID: 11400000, guid: a2fac884343fcaf4fb6cc20a3fb61f29, type: 2}
+  - {fileID: 11400000, guid: 27916a66a017a60409049cf7dc52afb5, type: 2}
+  - {fileID: 11400000, guid: 288055a8c421aab4999213648722eb97, type: 2}
+  - {fileID: 11400000, guid: a397144b90585964eaefc883a4d04f91, type: 2}
+  - {fileID: 11400000, guid: 54c26d0709a378246913c967792c42a1, type: 2}
   levelThreeQuestCards:
   - {fileID: 11400000, guid: 9748513db1a8dda479eb2980e86090e6, type: 2}
   - {fileID: 11400000, guid: a6a0429864df8414d898a2267bfd05e4, type: 2}
+  - {fileID: 11400000, guid: a4bc626b8a07c0046bb65f9134ae143b, type: 2}
+  - {fileID: 11400000, guid: 023e6fa9c6a7980428c8644eac036027, type: 2}
+  - {fileID: 11400000, guid: 1d90061528ed12448815c926e3458f44, type: 2}
   lootCards:
   - {fileID: 11400000, guid: 61314a30bcc591a41aaf38ea7aa0e77a, type: 2}
   - {fileID: 11400000, guid: 961ff6ee2e1b27c479653bb3c38f6b46, type: 2}
@@ -4160,8 +4169,8 @@ MonoBehaviour:
   <Turn>k__BackingField: 0
   <CurrentPhase>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 25
-  <ReputationGoal>k__BackingField: 2
+  <StartingGold>k__BackingField: 10
+  <ReputationGoal>k__BackingField: 30
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 
 --- !u!114 &1927639718

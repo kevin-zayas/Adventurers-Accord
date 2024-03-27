@@ -270,6 +270,7 @@ MonoBehaviour:
   hostButton: {fileID: 1658238227}
   connectButton: {fileID: 336555266}
   exitButton: {fileID: 1594816352}
+  creditsButton: {fileID: 1583678167}
 --- !u!1 &336555264
 GameObject:
   m_ObjectHideFlags: 0
@@ -1972,7 +1973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe141f963be96d4091dc44d2dbc9e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _connectionType: 0
+  _connectionType: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
