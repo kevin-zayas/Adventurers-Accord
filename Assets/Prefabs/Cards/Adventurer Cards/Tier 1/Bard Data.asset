@@ -18,4 +18,15 @@ MonoBehaviour:
   originalPhysicalPower: 1
   originalMagicalPower: 1
   cost: 5
-  cardDescription: Description
+  cardDescription: Gain +1 GP and +1 Rep when on a successful quest
+  cardSubDescription: Bardsong
+  cardType: 
+  goldReward: 0
+  reputationReward: 0
+  lootReward: 0
+  drain: 0
+  physicalDrain: 0
+  magicalDrain: 0
+  disableItems: 0
+  blockSpells: 0
+  isGreaseSpell: 0

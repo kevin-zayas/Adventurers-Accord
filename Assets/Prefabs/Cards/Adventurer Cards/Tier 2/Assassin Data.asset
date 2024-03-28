@@ -20,7 +20,7 @@ MonoBehaviour:
   cost: 8
   cardDescription: You may poison an Adventurer on this Quest, decreasing one of
     their stats by 2
-  cardSubDescription: 
+  cardSubDescription: Poisonous Blade
   cardType: 
   goldReward: 0
   reputationReward: 0
@@ -28,3 +28,6 @@ MonoBehaviour:
   drain: 0
   physicalDrain: 0
   magicalDrain: 0
+  disableItems: 0
+  blockSpells: 0
+  isGreaseSpell: 0

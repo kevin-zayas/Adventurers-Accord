@@ -18,7 +18,7 @@ MonoBehaviour:
   originalPhysicalPower: 3
   originalMagicalPower: 3
   cost: 8
-  cardDescription: Description
+  cardDescription: None
   cardSubDescription: 
   cardType: 
   goldReward: 0
@@ -27,3 +27,6 @@ MonoBehaviour:
   drain: 0
   physicalDrain: 0
   magicalDrain: 0
+  disableItems: 0
+  blockSpells: 0
+  isGreaseSpell: 0

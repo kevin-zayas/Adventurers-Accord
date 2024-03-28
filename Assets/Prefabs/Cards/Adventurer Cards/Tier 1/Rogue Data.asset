@@ -18,4 +18,16 @@ MonoBehaviour:
   originalPhysicalPower: 2
   originalMagicalPower: 0
   cost: 5
-  cardDescription: Sticky Fingers
+  cardDescription: Temporarily steal a magic Item equipped by another Adventurer
+    on this quest
+  cardSubDescription: Sticky Fingers
+  cardType: 
+  goldReward: 0
+  reputationReward: 0
+  lootReward: 0
+  drain: 0
+  physicalDrain: 0
+  magicalDrain: 0
+  disableItems: 0
+  blockSpells: 0
+  isGreaseSpell: 0
