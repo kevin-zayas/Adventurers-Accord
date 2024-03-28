@@ -84,4 +84,10 @@ public class PopUpManager : NetworkBehaviour
         GameOverPopUp popUp = Instantiate(Resources.Load<GameOverPopUp>("PopUps/GameOverPopUp"));
         return popUp;
     }
+
+    public  EndTurnPopUp CreateEndTurnPopUp()
+    {
+        EndTurnPopUp popUp = Instantiate(Resources.Load<EndTurnPopUp>("PopUps/EndTurnPopUp"));
+        return popUp;
+    }
 }

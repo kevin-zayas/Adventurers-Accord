@@ -560,11 +560,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 31
+  <PrefabId>k__BackingField: 2
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 1446902562011272839
+  <AssetPathHash>k__BackingField: 1612643712949953413
 --- !u!114 &-7842671299078475954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,20 +584,20 @@ MonoBehaviour:
   <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <Parent>k__BackingField: {fileID: 0}
   <IsDraftCard>k__BackingField: 0
-  draftCardIndex: 0
+  <Name>k__BackingField: 
+  Description: 
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
-  <ItemPhysicalPower>k__BackingField: 0
-  <ItemMagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
   <HasItem>k__BackingField: 0
-  <CurrentScale>k__BackingField: {x: 1, y: 1, z: 1}
+  <Item>k__BackingField: {fileID: 0}
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
-  costText: {fileID: 3602657811630039641}
   nameText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  costText: {fileID: 3602657811630039641}
 --- !u!114 &1878602808420565040
 MonoBehaviour:
   m_ObjectHideFlags: 0
