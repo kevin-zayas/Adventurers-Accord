@@ -5350,8 +5350,9 @@ MonoBehaviour:
   - {fileID: 2081225638}
   - {fileID: 2081225637}
   - {fileID: 2081225635}
-  scoreboardPanelPrefab: {fileID: 4139819529468121215, guid: 5c3d070f2ef987644ab0052ba5395b6a, type: 3}
+  turnMarkerPrefab: {fileID: 5014001748736941400, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
   scoreboardPanel: {fileID: 4139819530205588445}
+  turnMarker: {fileID: 0}
   playerCount: 0
 --- !u!114 &3194752889964937013 stripped
 MonoBehaviour:

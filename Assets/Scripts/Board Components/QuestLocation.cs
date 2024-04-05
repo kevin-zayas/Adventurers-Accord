@@ -229,7 +229,7 @@ public class QuestLocation : NetworkBehaviour
         {
             goldReward = QuestCard.GoldReward / 2;
             reputationReward = QuestCard.ReputationReward / 2;
-            lootReward = 0;
+            lootReward = (int)Mathf.Floor(QuestCard.LootReward / 2);
         }
 
         player.ChangePlayerGold(goldReward);

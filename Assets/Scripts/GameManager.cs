@@ -235,6 +235,7 @@ public class GameManager : NetworkBehaviour
             player.SetIsPlayerTurn(player == currentPlayer);
             player.UpdatePlayerView();
         }
+        Scoreboard.ObserversUpdateTurnMarker(currentPlayer.PlayerID);
 
     }
 
