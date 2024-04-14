@@ -130,6 +130,7 @@ public class GameManager : NetworkBehaviour
     public void ConfirmEndRound(int playerID)
     {
         PlayerEndRoundStatus[playerID] = true;
+        Scoreboard.ObserversToggleTurnMarker(playerID,false);
 
         if (PlayerEndRoundStatus.All(status => status))     // if all players have confirmed end round
         {
@@ -144,6 +145,7 @@ public class GameManager : NetworkBehaviour
         // reset end round status
         PlayerEndRoundStatus = new bool[Players.Count];
         ObserversEnableEndRoundButton();
+        Scoreboard.ObserversEnableAllTurnMarkers();
     }
 
     [ObserversRpc]
@@ -185,6 +187,7 @@ public class GameManager : NetworkBehaviour
                 CurrentPhase = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
                 BeginEndRound();
+                Scoreboard.ObserversEnableAllTurnMarkers();
                 break;
 
             case Phase.Magic:

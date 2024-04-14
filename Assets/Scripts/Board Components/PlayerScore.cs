@@ -11,6 +11,9 @@ public class PlayerScore : NetworkBehaviour
     [SerializeField] private TMP_Text goldText;
     [SerializeField] private TMP_Text reputationText;
 
+    [field: SerializeField] 
+    public GameObject TurnMarker { get; private set; }
+
     [Server]
     public void InitializeScore(int playerID, int startingGold)
     {

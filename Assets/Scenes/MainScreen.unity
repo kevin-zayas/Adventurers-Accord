@@ -4169,8 +4169,8 @@ MonoBehaviour:
   <Turn>k__BackingField: 0
   <CurrentPhase>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 10
-  <ReputationGoal>k__BackingField: 30
+  <StartingGold>k__BackingField: 15
+  <ReputationGoal>k__BackingField: 2
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 
 --- !u!114 &1927639718
@@ -4673,6 +4673,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1934674140343796190}
     m_Modifications:
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: _scenePathHash
+      value: 325775391
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 1399194652384267079
+      objectReference: {fileID: 0}
     - target: {fileID: 3204417926219592785, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_Name
       value: PlayerScore_2
@@ -5373,6 +5381,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1934674140343796190}
     m_Modifications:
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: _scenePathHash
+      value: 325775391
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 1399194650555623718
+      objectReference: {fileID: 0}
     - target: {fileID: 3204417926219592785, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_Name
       value: PlayerScore_1
@@ -5652,6 +5668,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1934674140343796190}
     m_Modifications:
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: _scenePathHash
+      value: 325775391
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 1399194652475382112
+      objectReference: {fileID: 0}
     - target: {fileID: 3204417926219592785, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_Name
       value: PlayerScore
@@ -6213,6 +6237,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1934674140343796190}
     m_Modifications:
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: _scenePathHash
+      value: 325775391
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 1399194652710963004
+      objectReference: {fileID: 0}
     - target: {fileID: 3204417926219592785, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_Name
       value: PlayerScore_3

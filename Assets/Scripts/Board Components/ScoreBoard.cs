@@ -2,7 +2,9 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
@@ -16,7 +18,6 @@ public class ScoreBoard : NetworkBehaviour
     [SerializeField] private GameObject scoreboardPanel;
 
     [SerializeField]
-    [SyncVar]
     private GameObject turnMarker;
 
     [SyncVar]
@@ -26,21 +27,19 @@ public class ScoreBoard : NetworkBehaviour
     public void StartGame(int startingGold)
     {
         playerCount = GameManager.Instance.Players.Count;
-
-        turnMarker = Instantiate(turnMarkerPrefab, new Vector2(-45f, 0f), Quaternion.identity);
-        Spawn(turnMarker);
-
-        ObserversInitializeScoreboard(playerCount, turnMarker);
-
+        ObserversInitializeScoreboard(playerCount);
+        
         for (int i = 0; i < playerCount; i++)
         {
             Spawn(PlayerScores[i].gameObject);
             PlayerScores[i].InitializeScore(i, startingGold);
         }
+
+        ObserversUpdateTurnMarker(0);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversInitializeScoreboard(int playerCount, GameObject marker)
+    private void ObserversInitializeScoreboard(int playerCount)
     {
         scoreboardPanel.GetComponent<Image>().enabled = true;
 
@@ -48,9 +47,6 @@ public class ScoreBoard : NetworkBehaviour
 
         RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
-
-        turnMarker = marker;
-        ObserversUpdateTurnMarker(0);
     }
 
     [Server]
@@ -68,8 +64,24 @@ public class ScoreBoard : NetworkBehaviour
     [ObserversRpc]
     public void ObserversUpdateTurnMarker(int playerID)
     {
-        print(PlayerScores[playerID]);
-        turnMarker.transform.SetParent(PlayerScores[playerID].transform, false);
-        turnMarker.transform.localPosition = new Vector3(-387.5f, 0, 0);
+        for (int i = 0; i < PlayerScores.Length; i++)
+        {
+            PlayerScores[i].TurnMarker.SetActive(i == playerID);
+        }
+    }
+
+    [ObserversRpc]
+    public void ObserversEnableAllTurnMarkers()
+    {
+        for (int i = 0; i < PlayerScores.Length; i++)
+        {
+            PlayerScores[i].TurnMarker.SetActive(true);
+        }
+    }
+
+    [ObserversRpc]
+    public void ObserversToggleTurnMarker(int playerID, bool value)
+    {
+        PlayerScores[playerID].TurnMarker.SetActive(value);
     }
 }
