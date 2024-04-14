@@ -140,7 +140,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1. Player 1 - <color=#137E06>20 Reputation
+  m_text: 1. Player 1 - <color=#137E06>20 Reputation</color> | <color=#B0902E>10
+    Gold
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -149,7 +150,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
+    rgba: 4278195755
   m_fontColor: {r: 0.16981131, g: 0.084905654, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -167,7 +168,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65
+  m_fontSize: 49.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1000,7 +1001,8 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 2116103978768093714}
   _networkObjectCache: {fileID: 2116103978768093714}
   titleText: {fileID: 949549222698086480}
-  rankingText: '{0}. Player {1} - <color=#137E06>{2} Reputation'
+  rankingText: '{0}. Player {1} - <color=#137E06>{2} Reputation</color> | <color=#B0902E>{3}
+    Gold'
   <GuildRankings>k__BackingField:
   - {fileID: 5685314134729450893}
   - {fileID: 2918044131982605113}
