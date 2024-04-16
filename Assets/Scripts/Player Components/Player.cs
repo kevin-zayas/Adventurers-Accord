@@ -172,7 +172,7 @@ public class Player : NetworkBehaviour
         GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID, this.Reputation);
         ObserversUpdateReputationText(this.Reputation);
 
-        if (Reputation >= GameManager.Instance.ReputationGoal) GameManager.Instance.EndGame();
+        if (Reputation >= GameManager.Instance.ReputationGoal) GameManager.Instance.SetPhaseGameOver();
     }
 
     [ServerRpc(RequireOwnership = false)]

@@ -194,8 +194,14 @@ public class GameManager : NetworkBehaviour
                 Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
 
-                if (CurrentPhase != Phase.GameOver) CurrentPhase = Phase.Draft;
-                Board.Instance.ObserversUpdatePhaseText("Draft", CurrentPhase == Phase.GameOver);
+                if (CurrentPhase == Phase.GameOver)
+                {
+                    EndGame();
+                    break;
+                }
+
+                CurrentPhase = Phase.Draft;
+                Board.Instance.ObserversUpdatePhaseText("Draft");
 
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
@@ -243,9 +249,16 @@ public class GameManager : NetworkBehaviour
     }
 
     [Server]
-    public void EndGame()
+    public void SetPhaseGameOver()
     {
         CurrentPhase = Phase.GameOver;
+    }
+
+    [Server]
+    public void EndGame()
+    {
+        Board.Instance.ObserversUpdatePhaseText("", true);
+        LaunchGameOverPopUp();
     }
 
     [Server]
