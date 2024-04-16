@@ -14,8 +14,6 @@ public class PopUpManager : NetworkBehaviour
     [field: SerializeField] public string RogueConfirmCloseText { get; private set; }
     [field: SerializeField] public string RogueButtonText { get; private set; }
 
-
-
     [field: SerializeField] public string AssassinTitleText { get; private set; }
     [field: SerializeField] public string AssassinDefaultMessageText { get; private set; }
     [field: SerializeField] public string AssassinConfirmSelectionText { get; private set; }
@@ -27,7 +25,7 @@ public class PopUpManager : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public ResolutionPopUp CurrentPopUp { get; private set; }
+    public ResolutionPopUp CurrentResolutionPopUp { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -43,7 +41,7 @@ public class PopUpManager : NetworkBehaviour
     {
         print("Creating PopUp");
         ResolutionPopUp popUp = Instantiate(Resources.Load<ResolutionPopUp>("PopUps/ResolutionPopUp"));
-        CurrentPopUp = popUp;
+        CurrentResolutionPopUp = popUp;
         return popUp;
     }
 

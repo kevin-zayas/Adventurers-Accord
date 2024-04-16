@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreditsPopUp : MonoBehaviour
+public class CreditsPopUp : PopUp
 {
     [SerializeField] Button closeButton;
 

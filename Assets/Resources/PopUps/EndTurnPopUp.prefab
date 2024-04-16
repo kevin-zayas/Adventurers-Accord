@@ -53,6 +53,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cbe167e7071ac44eb04cd952f42e459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   cancelButton: {fileID: 443817250330339932}
   confirmButton: {fileID: 1501258155154524636}
   messageText: {fileID: 4357399709333372666}

@@ -276,13 +276,13 @@ public class Card : NetworkBehaviour
         if (!Parent.parent.GetComponent<QuestLane>().QuestLocation.AllowResolution) return;
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
 
-        if (PopUpManager.Instance.CurrentPopUp.ResolutionType == "Rogue" && HasItem && !Item.IsDisabled)
+        if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Rogue" && HasItem && !Item.IsDisabled)
         {
-            PopUpManager.Instance.CurrentPopUp.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentPopUp.ResolutionType == "Assassin" && (MagicalPower > 0 || PhysicalPower > 0))
+        else if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Assassin" && (MagicalPower > 0 || PhysicalPower > 0))
         {
-            PopUpManager.Instance.CurrentPopUp.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
         else
         {
