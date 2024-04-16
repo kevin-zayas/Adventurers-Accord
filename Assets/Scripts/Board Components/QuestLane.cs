@@ -346,6 +346,7 @@ public class QuestLane : NetworkBehaviour
 
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
+        wolfCard.SetCardParent(Player.controlledHand.transform,false);
         wolfCard.SetCardParent(DropZone.transform, false);
     }
 
