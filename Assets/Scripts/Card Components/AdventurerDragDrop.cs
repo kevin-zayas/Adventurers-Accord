@@ -49,6 +49,7 @@ public class AdventurerDragDrop : NetworkBehaviour
     {
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
         if (!card.IsDraftCard && !IsOwner) return;
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
 
         if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
         if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Draft) return;   

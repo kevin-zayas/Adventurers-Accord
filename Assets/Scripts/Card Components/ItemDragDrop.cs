@@ -44,8 +44,9 @@ public class ItemDragDrop : NetworkBehaviour
 
     public void BeginDrag()
     {
-        if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking           
-   
+        if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
+
         startPosition = transform.position;
         startParentTransform = transform.parent;
         isDragging = true;

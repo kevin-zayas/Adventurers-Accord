@@ -55,7 +55,8 @@ public class SpellDragDrop : NetworkBehaviour
         if (transform.parent.CompareTag("Quest")) return;      // prevent dragging if card is already in a quest lane
 
         //only allow player to drag cards during dispatch or magic phase
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Draft)       // Should spells be used during Resolution phase?
+        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch &&
+            GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
         {
             print("cant move spells during this phase");
             return;
