@@ -18,7 +18,6 @@ public class GameOverPopUp : NetworkBehaviour
     [Server]
     public void CalculateRankings()
     {
-        int maxReputation = 0;
         List<Player> playerList = new(GameManager.Instance.Players);
         playerList = playerList.OrderByDescending(x => x.Reputation).ThenByDescending(x => x.Gold).ToList();
 
@@ -26,7 +25,8 @@ public class GameOverPopUp : NetworkBehaviour
         int prevRanking = 0;
         int prevReputation = 0;
         int prevGold = 0;
-        maxReputation = playerList[0].Reputation;
+        int maxReputation = playerList[0].Reputation;
+        int maxGold = playerList[0].Gold;
 
         foreach (Player player in playerList)
         {
@@ -42,7 +42,7 @@ public class GameOverPopUp : NetworkBehaviour
         foreach (Player player in playerList)
         {
 
-            TargetInitializeGameOverPopUp(player.Owner, rankingTextList, player.Reputation == maxReputation);
+            TargetInitializeGameOverPopUp(player.Owner, rankingTextList, player.Reputation == maxReputation && player.Gold == maxGold);
         }
     }
 
