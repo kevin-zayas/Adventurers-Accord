@@ -24,11 +24,30 @@ public class MenuPopUp : MonoBehaviour
             CloseMenu();
         });
 
+        howToPlayButton.onClick.AddListener(() =>
+        {
+            HowToPlayPopUp howToPlayPopUp = Instantiate(Resources.Load<HowToPlayPopUp>("PopUps/HowToPlayPopUp"));
+            howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            howToPlayPopUp.transform.localPosition = Vector3.zero;
+
+            RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();
+            rt.offsetMax = Vector2.zero;
+            rt.offsetMin = Vector2.zero;
+
+            popUp = howToPlayPopUp;
+            CloseMenu();
+        });
+
         creditsButton.onClick.AddListener(() =>
         {
             CreditsPopUp creditsPopUp = Instantiate(Resources.Load<CreditsPopUp>("PopUps/CreditsPopUp"));
             creditsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
             creditsPopUp.transform.localPosition = Vector3.zero;
+
+            RectTransform rt = creditsPopUp.GetComponent<RectTransform>();
+            rt.offsetMax = Vector2.zero;
+            rt.offsetMin = Vector2.zero;
+
             popUp = creditsPopUp;
             CloseMenu();
         });
