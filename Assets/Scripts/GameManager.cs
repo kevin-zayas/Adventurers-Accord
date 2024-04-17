@@ -77,7 +77,7 @@ public class GameManager : NetworkBehaviour
     public void StartGame()
     {
         CurrentPhase = Phase.Recruit;
-        Board.Instance.ObserversUpdatePhaseText("Draft");
+        Board.Instance.ObserversUpdatePhaseText("Recruit");
 
         StartingTurn = 0;
 
@@ -201,7 +201,7 @@ public class GameManager : NetworkBehaviour
                 }
 
                 CurrentPhase = Phase.Recruit;
-                Board.Instance.ObserversUpdatePhaseText("Draft");
+                Board.Instance.ObserversUpdatePhaseText("Recruit");
 
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
