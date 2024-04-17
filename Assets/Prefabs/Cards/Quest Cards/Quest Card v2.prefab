@@ -959,9 +959,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
   <Parent>k__BackingField: {fileID: 0}
-  questCardIndex: 0
   <Name>k__BackingField: 
-  Description: 
   <PhysicalPower>k__BackingField: 3
   <MagicalPower>k__BackingField: 6
   <GoldReward>k__BackingField: 6
@@ -970,6 +968,8 @@ MonoBehaviour:
   <Drain>k__BackingField: 1
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 1
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
   physicalPowerText: {fileID: 8026055629125033657}
   magicalPowerText: {fileID: 3313565800043067953}
   goldRewardText: {fileID: 3602657811630039641}
@@ -1453,7 +1453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.066835135, g: 0.5622641, b: 0.120687924, a: 1}
+  m_Color: {r: 0.07515259, g: 0.4943396, b: 0.025183298, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
