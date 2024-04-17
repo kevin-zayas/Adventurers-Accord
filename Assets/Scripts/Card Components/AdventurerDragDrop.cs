@@ -52,7 +52,7 @@ public class AdventurerDragDrop : NetworkBehaviour
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
 
         if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
-        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Draft) return;   
+        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return;   
 
         Player player = GameManager.Instance.Players[LocalConnection.ClientId];
 

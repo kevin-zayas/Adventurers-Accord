@@ -1008,6 +1008,9 @@ MonoBehaviour:
   - {fileID: 2918044131982605113}
   - {fileID: 3855696933568892446}
   - {fileID: 3078076983311858896}
+  <RankingTextList>k__BackingField: []
+  <MaxReputation>k__BackingField: 0
+  <MaxGold>k__BackingField: 0
 --- !u!1 &8058781995914162482
 GameObject:
   m_ObjectHideFlags: 0

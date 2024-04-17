@@ -109,7 +109,7 @@ public class Player : NetworkBehaviour
     {
         switch (currentPhase) 
         {            
-            case GameManager.Phase.Draft:
+            case GameManager.Phase.Recruit:
             case GameManager.Phase.Dispatch:
 
                 if (isPlayerTurn) ViewManager.Instance.Show<MainView>();

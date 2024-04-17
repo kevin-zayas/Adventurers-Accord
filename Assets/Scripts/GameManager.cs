@@ -12,7 +12,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField]
     public ScoreBoard Scoreboard { get; private set; }
 
-    public enum Phase { Draft, Dispatch, Magic, Resolution, GameOver}
+    public enum Phase { Recruit, Dispatch, Magic, Resolution, GameOver}
 
     [field: SyncObject]
     [field: SerializeField]
@@ -76,7 +76,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        CurrentPhase = Phase.Draft;
+        CurrentPhase = Phase.Recruit;
         Board.Instance.ObserversUpdatePhaseText("Draft");
 
         StartingTurn = 0;
@@ -170,7 +170,7 @@ public class GameManager : NetworkBehaviour
         PlayerSkipTurnStatus = new bool[Players.Count];
         switch (CurrentPhase)
         {
-            case Phase.Draft:
+            case Phase.Recruit:
                 CurrentPhase = Phase.Dispatch;
                 Board.Instance.ObserversUpdatePhaseText("Dispatch");
                 Turn = StartingTurn;
@@ -200,7 +200,7 @@ public class GameManager : NetworkBehaviour
                     break;
                 }
 
-                CurrentPhase = Phase.Draft;
+                CurrentPhase = Phase.Recruit;
                 Board.Instance.ObserversUpdatePhaseText("Draft");
 
                 StartingTurn = (StartingTurn + 1) % Players.Count;
