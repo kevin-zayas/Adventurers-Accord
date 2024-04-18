@@ -99,8 +99,6 @@ public class Player : NetworkBehaviour
     [Server]
     public void UpdatePlayerView()
     {
-        print("UpdatePlayerView");
-        print(GameManager.Instance.CurrentPhase);
         TargetUpdatePlayerView(Owner, IsPlayerTurn, GameManager.Instance.CurrentPhase);
     }
 

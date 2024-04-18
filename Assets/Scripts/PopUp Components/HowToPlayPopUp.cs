@@ -46,7 +46,6 @@ public class HowToPlayPopUp : PopUp
     {
         Destroy(currentPage);
         pageIndex = (pageIndex + changeIndex) % pages.Count;
-        print(pageIndex);
 
         currentPage = Instantiate(pages[pageIndex], Vector2.zero, Quaternion.identity);
         currentPage.transform.SetParent(this.transform, false);
