@@ -96,8 +96,8 @@ public class QuestLane : NetworkBehaviour
             }
         }
 
-        if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellPhysicalPower;
-        if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellMagicalPower;
+        if (QuestLocation.QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellMagicalPower;
+        if (QuestLocation.QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellPhysicalPower;
 
         ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }

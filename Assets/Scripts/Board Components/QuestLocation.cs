@@ -167,9 +167,12 @@ public class QuestLocation : NetworkBehaviour
             }
             return;
         }
-        else if (primaryContributors.Count == 1)    //give all rewards to primary contributor, top secondary contributor(s) recieves half rewards
+        else                                      //give all rewards to primary contributors, top secondary contributor(s) recieves half rewards
         {
-            DistributeQuestRewards(primaryContributors[0], true);
+            foreach (QuestLane lane in primaryContributors)
+            {
+                DistributeQuestRewards(lane, true);
+            }
 
             if (secondaryContributors.Count == 0) return;
             int topSecondaryPower = secondaryContributors[0].EffectiveTotalPower;
@@ -178,30 +181,6 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.EffectiveTotalPower == topSecondaryPower)
                 {
-                    DistributeQuestRewards(lane, false);
-                }
-                else break;
-            }
-            return;
-        }
-        else if (primaryContributors.Count > 1)         //top primary contributors recieve full rewards, next highest primary contributor(s) recieves half rewards
-        {
-            int topPower = primaryContributors[0].EffectiveTotalPower;
-            int secondPower = 0;
-
-            foreach (QuestLane lane in primaryContributors)
-            {
-                if (lane.EffectiveTotalPower == topPower)
-                {
-                    DistributeQuestRewards(lane, true);
-                }
-                else if (secondPower != 0 && lane.EffectiveTotalPower == secondPower)
-                {
-                    DistributeQuestRewards(lane, false);
-                }
-                else if (secondPower == 0)
-                {
-                    secondPower = lane.EffectiveTotalPower;
                     DistributeQuestRewards(lane, false);
                 }
                 else break;
