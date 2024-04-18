@@ -30,7 +30,7 @@ public class MenuPopUp : MonoBehaviour
             howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
             howToPlayPopUp.transform.localPosition = Vector3.zero;
 
-            RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();
+            RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();        // modify transform so raycast blocker can stretch across the screen
             rt.offsetMax = Vector2.zero;
             rt.offsetMin = Vector2.zero;
 
@@ -44,7 +44,7 @@ public class MenuPopUp : MonoBehaviour
             creditsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
             creditsPopUp.transform.localPosition = Vector3.zero;
 
-            RectTransform rt = creditsPopUp.GetComponent<RectTransform>();
+            RectTransform rt = creditsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
             rt.offsetMax = Vector2.zero;
             rt.offsetMin = Vector2.zero;
 

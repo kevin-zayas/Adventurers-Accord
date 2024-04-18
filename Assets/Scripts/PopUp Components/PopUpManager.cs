@@ -100,4 +100,10 @@ public class PopUpManager : NetworkBehaviour
         EndTurnPopUp popUp = Instantiate(Resources.Load<EndTurnPopUp>("PopUps/EndTurnPopUp"));
         return popUp;
     }
+
+    public EquipItemPopUp CreateEquipItemPopUp()
+    {
+        EquipItemPopUp popUp = Instantiate(Resources.Load<EquipItemPopUp>("PopUps/EquipItemPopUp"));
+        return popUp;
+    }
 }

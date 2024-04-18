@@ -92,8 +92,9 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        card.ServerEquipItem(true,this.GetComponent<ItemCard>().CardData);
-        this.GetComponent<ItemCard>().ServerDespawnItem();
+        EquipItemPopUp popUp = PopUpManager.Instance.CreateEquipItemPopUp();
+        popUp.InitializeEquipItemPopUp(card,this.gameObject);
+        //transform.position = startPosition;
     }
 
     private void ResetCardPosition()
