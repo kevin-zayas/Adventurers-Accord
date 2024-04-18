@@ -306,7 +306,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 1080
+  orthographic size: 1200
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Follow: {fileID: 518994277}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 1080
+    OrthographicSize: 1200
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -1410,9 +1410,9 @@ MonoBehaviour:
   useEdgeScrolling: 0
   useDragPanning: 1
   isPanning: 0
-  orthographicSize: 1080
+  orthographicSize: 1200
   minOrthographicSize: 200
-  maxOrthographicSize: 1080
+  maxOrthographicSize: 1200
   zoomSpeed: 10
   cameraCollider: {fileID: 518994279}
   rb: {fileID: 518994280}
@@ -1459,7 +1459,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3840, y: 2160}
+  m_Size: {x: 3840, y: 2400}
   m_EdgeRadius: 0
 --- !u!50 &518994280
 Rigidbody2D:
@@ -1598,7 +1598,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 3}
-  m_SizeDelta: {x: 3840, y: 2160}
+  m_SizeDelta: {x: 3840, y: 2400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &592086893
 MonoBehaviour:
@@ -3318,11 +3318,11 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 1
   m_Points:
-  - {x: -1930, y: 1090}
-  - {x: -1930, y: -1090}
-  - {x: 1930, y: -1090}
-  - {x: 1930, y: 1090}
-  - {x: -1930, y: 1090}
+  - {x: -1930, y: 1210}
+  - {x: -1930, y: -1210}
+  - {x: 1930, y: -1210}
+  - {x: 1930, y: 1210}
+  - {x: -1930, y: 1210}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
