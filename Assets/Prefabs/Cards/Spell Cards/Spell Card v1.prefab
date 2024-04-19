@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 6669853012309926568}
   - component: {fileID: 3577841985777620674}
   m_Layer: 6
-  m_Name: Spell Card
+  m_Name: Spell Card v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,7 +564,7 @@ MonoBehaviour:
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 9889871837137260437
+  <AssetPathHash>k__BackingField: 5167709217047883069
 --- !u!114 &-4959033644106127066
 MonoBehaviour:
   m_ObjectHideFlags: 0
