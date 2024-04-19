@@ -74,7 +74,7 @@ public class Player : NetworkBehaviour
         print("Player ID: " + PlayerID);
         print("Client ID: " + Owner.ClientId);
 
-        Hand handInstance = Instantiate(handPrefab, Vector3.zero, Quaternion.identity);
+        Hand handInstance = Instantiate(handPrefab, new Vector2(0f, 120f), Quaternion.identity);
 
         controlledHand = handInstance;
         handInstance.controllingPlayer = this;
