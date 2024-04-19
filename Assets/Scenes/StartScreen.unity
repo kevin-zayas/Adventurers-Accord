@@ -2744,16 +2744,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362dfd7e6009fb44c90beec3df0ad853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _useWss: 1
+  _useWss: 0
   _sslConfiguration:
     Enabled: 0
     CertificatePath: 
     CertificatePassword: 
     SslProtocol: 0
   _mtu: 1023
-  _port: 443
+  _port: 7770
   _maximumClients: 2000
-  _clientAddress: 6b1a76142bbb4d3ead2733e43c81e77c-studio-us-east.playflow.dev
+  _clientAddress: localhost
 --- !u!114 &2084902076
 MonoBehaviour:
   m_ObjectHideFlags: 0
