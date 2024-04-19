@@ -379,7 +379,7 @@ GameObject:
   - component: {fileID: -5630888917086196066}
   - component: {fileID: -6448425254066891952}
   m_Layer: 7
-  m_Name: Item Card Header
+  m_Name: Item Card Header v1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 9619889672414268468
+  <AssetPathHash>k__BackingField: 16518541451546198980
 --- !u!114 &-4959033644106127066
 MonoBehaviour:
   m_ObjectHideFlags: 0

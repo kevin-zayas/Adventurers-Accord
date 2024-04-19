@@ -134,7 +134,7 @@ public class Card : NetworkBehaviour
 
         if (Name == "Sorcerer") ResetPower();
         
-        ObserversAdjustCardSize(233);    // increase card size to adjust for item header
+        ObserversAdjustCardSize(220);    // increase card size to adjust for item header
     }
 
     [ObserversRpc(BufferLast = true)]
