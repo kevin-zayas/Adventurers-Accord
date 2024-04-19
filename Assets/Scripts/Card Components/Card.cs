@@ -254,7 +254,6 @@ public class Card : NetworkBehaviour
         costText.text = cardData.cost.ToString();
 
         //cardSprite.GetComponent<Image>().sprite = Resources.Load<Sprite>("NPC_characters/NPC_characters/07");
-        print(cardData.cardName);
         cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.cardName);
     }
 

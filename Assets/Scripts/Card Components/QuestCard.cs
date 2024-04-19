@@ -2,6 +2,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestCard : NetworkBehaviour
 {
@@ -62,6 +63,7 @@ public class QuestCard : NetworkBehaviour
     [SerializeField] private TMP_Text lootRewardText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private Image cardImage;
 
 
     private void Start()
@@ -113,6 +115,8 @@ public class QuestCard : NetworkBehaviour
         goldRewardText.text = $"{cardData.goldReward} GP";
         reputationRewardText.text = $"{cardData.reputationReward} Rep.";
         lootRewardText.text = $"{cardData.lootReward} Loot";
+
+        cardImage.sprite = Resources.Load<Sprite>("Quest_Sprites/" + cardData.cardName);
     }
 
 
