@@ -53,7 +53,10 @@ public class QuestLane : NetworkBehaviour
     [field: SyncVar]
     public int BardBonus { get; private set; }
 
-    private bool ClericProtection;
+    [field: SerializeField]
+    [field: SyncVar]
+    public bool ClericProtection { get; private set; }
+
     private bool EnchanterBuff;
     private bool TinkererBuff;
 
