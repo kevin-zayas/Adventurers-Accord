@@ -158,7 +158,7 @@ public class QuestLane : NetworkBehaviour
 
             if (card.Name == "Wolf Companion")
             {
-                SummonRangerCompanion(true);
+                SummonWolfCompanion(true);
                 continue;
             }
             card.SetCardParent(card.ControllingPlayerHand.transform, false);
@@ -227,7 +227,7 @@ public class QuestLane : NetworkBehaviour
                 UpdateTinkererBuff(1);     
                 break;
             case "Ranger":
-                SummonRangerCompanion(false);
+                SummonWolfCompanion(false);
                 break;
             
         }
@@ -265,7 +265,7 @@ public class QuestLane : NetworkBehaviour
                 UpdateTinkererBuff(-1);
                 break;
             case "Ranger":
-                SummonRangerCompanion(true);
+                SummonWolfCompanion(true);
                 break;
 
         }
@@ -324,14 +324,14 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void SummonRangerCompanion(bool despawn)
+    private void SummonWolfCompanion(bool despawn)
     {
         if (despawn)
         {
             foreach (Transform cardTransform in DropZone.transform)
             {
                 Card card = cardTransform.GetComponent<Card>();
-                if (card.Name == "Wolf Companion")
+                if (card.Name == "Wolf")
                 {
                     card.transform.SetParent(null);
                     card.Despawn();
