@@ -15,7 +15,6 @@ public class CardData : ScriptableObject
     public string cardDescription;
     public string cardSubDescription;
     public string cardType;
-    //public Sprite spriteImage;
 
     //Quests
     public int goldReward;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: WolfCompanion Data
   m_EditorClassIdentifier: 
-  cardName: Wolf Companion
+  cardName: Wolf
   physicalPower: 2
   magicalPower: 0
   originalPhysicalPower: 2
@@ -27,3 +27,6 @@ MonoBehaviour:
   drain: 0
   physicalDrain: 0
   magicalDrain: 0
+  disableItems: 0
+  blockSpells: 0
+  isGreaseSpell: 0

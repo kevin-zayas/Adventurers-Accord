@@ -21,6 +21,7 @@ MonoBehaviour:
   cardDescription: None
   cardSubDescription: 
   cardType: 
+  <SpriteImagePath>k__BackingField: NPC_characters/NPC_characters/07
   goldReward: 0
   reputationReward: 0
   lootReward: 0

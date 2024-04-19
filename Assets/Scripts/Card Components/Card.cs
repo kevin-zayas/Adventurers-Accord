@@ -3,6 +3,7 @@ using FishNet.Object.Synchronizing;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Card : NetworkBehaviour
 {
@@ -61,6 +62,7 @@ public class Card : NetworkBehaviour
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text costText;
+    [SerializeField] private Image cardImage;
     
     private void Start()
     {
@@ -250,12 +252,15 @@ public class Card : NetworkBehaviour
         nameText.text = cardData.cardName;
         descriptionText.text = cardData.cardDescription;
         costText.text = cardData.cost.ToString();
+
+        //cardSprite.GetComponent<Image>().sprite = Resources.Load<Sprite>("NPC_characters/NPC_characters/07");
+        print(cardData.cardName);
+        cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.cardName);
     }
 
     [Server]
     private void OnQuestDispatch(Transform newParent)
     {
-        //print($"{Name} Dispatching to quest");
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.AddAdventurerToQuestLane(this);
     }
