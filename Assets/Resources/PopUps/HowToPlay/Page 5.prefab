@@ -1205,6 +1205,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 2 Loot
       objectReference: {fileID: 0}
+    - target: {fileID: 6958857792175851566, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3895fde0cac343544b6c23c1f9f366a3, type: 3}
     - target: {fileID: 7136576047852920583, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
       propertyPath: m_text
       value: All Adventurer cards on this quest receive a -1 to Magical power
