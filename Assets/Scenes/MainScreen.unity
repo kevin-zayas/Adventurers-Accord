@@ -4176,7 +4176,7 @@ MonoBehaviour:
   rareItemCards:
   - {fileID: 11400000, guid: 91d71f636d88a4241ae10df222b41ad0, type: 2}
   - {fileID: 11400000, guid: c500df85dafcef347b39c6d2bf104cf4, type: 2}
-  adventurerCardPrefab: {fileID: 2375407051779204461, guid: 062de0dd0e54d8e4e976080acf875340, type: 3}
+  adventurerCardPrefab: {fileID: 2375407051779204461, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
   itemCardPrefab: {fileID: 3478594553878486444, guid: d611220e5137274468b13454f2fa4969, type: 3}
   spellCardPrefab: {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
   questCardPrefab: {fileID: -5912677968188888225, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
