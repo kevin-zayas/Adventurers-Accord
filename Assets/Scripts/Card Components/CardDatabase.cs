@@ -13,7 +13,10 @@ public class CardDatabase : NetworkBehaviour
     public List<CardData> levelTwoQuestCards = new();
     public List<CardData> levelThreeQuestCards = new();
 
-    public List<CardData> lootCards = new();
+    public List<CardData> spellCards = new();
+    public List<CardData> itemCards = new();
+
+    public List<CardData> rareItemCards = new();
 
     //make private set
     public Card adventurerCardPrefab;

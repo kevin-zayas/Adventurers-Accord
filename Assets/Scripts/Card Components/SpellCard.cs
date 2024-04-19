@@ -2,6 +2,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpellCard : NetworkBehaviour
 {
@@ -36,6 +37,7 @@ public class SpellCard : NetworkBehaviour
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private Image cardImage;
 
     private void Start()
     {
@@ -106,5 +108,8 @@ public class SpellCard : NetworkBehaviour
         magicalPowerText.text = cardData.magicalPower.ToString();
         nameText.text = cardData.cardName;
         descriptionText.text = cardData.cardDescription;
+
+        if (cardData.physicalPower > 0 || cardData.magicalPower > 0) cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/PositiveSpell");
+        else cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/NegativeSpell");
     }
 }

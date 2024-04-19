@@ -2,6 +2,7 @@ using FishNet.Object.Synchronizing;
 using FishNet.Object;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemCard : NetworkBehaviour
 {
@@ -37,6 +38,7 @@ public class ItemCard : NetworkBehaviour
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text subDescriptionText;
+    [SerializeField] private Image cardImage;
 
     private void Start()
     {
@@ -115,6 +117,8 @@ public class ItemCard : NetworkBehaviour
         nameText.text = cardData.cardName;
         descriptionText.text = cardData.cardDescription;
         subDescriptionText.text = cardData.cardSubDescription;
+
+        cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.cardName);
     }
 
 }

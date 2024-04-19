@@ -33,6 +33,7 @@ public class Board : NetworkBehaviour
     private List<CardData> L3QuestCardDeck { get; } = new List<CardData>();
 
     private readonly int cardFrequency = 3;
+    private readonly int spellCardFrequency = 2;
 
     [SerializeField]
     private TMP_Text t1DeckTrackerText;
@@ -122,8 +123,16 @@ public class Board : NetworkBehaviour
         {
             T1Deck.AddRange(CardDatabase.Instance.tierOneCards);
             T2Deck.AddRange(CardDatabase.Instance.tierTwoCards);
-            LootDeck.AddRange(CardDatabase.Instance.lootCards);
+            LootDeck.AddRange(CardDatabase.Instance.itemCards);
         }
+
+        for (int i = 0; i < spellCardFrequency; i++)
+        {
+            LootDeck.AddRange(CardDatabase.Instance.spellCards);
+        }
+
+        LootDeck.AddRange(CardDatabase.Instance.rareItemCards);
+
         L1QuestCardDeck.AddRange(CardDatabase.Instance.levelOneQuestCards);
         L2QuestCardDeck.AddRange(CardDatabase.Instance.levelTwoQuestCards);
         L3QuestCardDeck.AddRange(CardDatabase.Instance.levelThreeQuestCards);
