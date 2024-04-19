@@ -63,6 +63,7 @@ public class QuestCard : NetworkBehaviour
     [SerializeField] private TMP_Text lootRewardText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private GameObject descriptionObject;
     [SerializeField] private Image cardImage;
 
 
@@ -115,6 +116,8 @@ public class QuestCard : NetworkBehaviour
         goldRewardText.text = $"{cardData.goldReward} GP";
         reputationRewardText.text = $"{cardData.reputationReward} Rep.";
         lootRewardText.text = $"{cardData.lootReward} Loot";
+
+        if (cardData.cardDescription == "") descriptionObject.SetActive(false);
 
         cardImage.sprite = Resources.Load<Sprite>("Quest_Sprites/" + cardData.cardName);
     }

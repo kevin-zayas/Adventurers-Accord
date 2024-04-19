@@ -62,6 +62,7 @@ public class Card : NetworkBehaviour
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text costText;
+    [SerializeField] private GameObject descriptionObject;
     [SerializeField] private Image cardImage;
     
     private void Start()
@@ -253,7 +254,8 @@ public class Card : NetworkBehaviour
         descriptionText.text = cardData.cardDescription;
         costText.text = cardData.cost.ToString();
 
-        //cardSprite.GetComponent<Image>().sprite = Resources.Load<Sprite>("NPC_characters/NPC_characters/07");
+        if (cardData.cardDescription == "") descriptionObject.SetActive(false);
+
         cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.cardName);
     }
 

@@ -1478,6 +1478,7 @@ MonoBehaviour:
   nameText: {fileID: 2728476821446806872}
   descriptionText: {fileID: 4004057442462621200}
   costText: {fileID: 1356007084095882162}
+  descriptionObject: {fileID: 800517241531852951}
   cardImage: {fileID: 1177701720125259711}
 --- !u!114 &2922969160115862960
 MonoBehaviour:
@@ -1825,7 +1826,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d3c7f534678f0447a839aebd698e47b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

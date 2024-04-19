@@ -121,9 +121,12 @@ public class QuestLocation : NetworkBehaviour
 
             if (adventurersPresent)
             {
-                //print("Quest Failed");
                 QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
                 CalculateFailedQuestPenalty();
+
+                Despawn(QuestCard.gameObject);
+                Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
+
                 return;
             }
 

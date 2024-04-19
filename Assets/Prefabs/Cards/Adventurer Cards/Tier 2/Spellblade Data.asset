@@ -18,7 +18,7 @@ MonoBehaviour:
   originalPhysicalPower: 3
   originalMagicalPower: 3
   cost: 8
-  cardDescription: None
+  cardDescription: 
   cardSubDescription: 
   cardType: 
   goldReward: 0
