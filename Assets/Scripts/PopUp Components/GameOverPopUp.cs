@@ -6,11 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameOverPopUp : NetworkBehaviour
 {
     [SerializeField] TMP_Text titleText;
     [SerializeField] string rankingText;
+    [SerializeField] Button restartServerButton;
 
     [field: SerializeField]
     public TMP_Text[] GuildRankings { get; private set; }
@@ -24,6 +26,16 @@ public class GameOverPopUp : NetworkBehaviour
 
     [field: SerializeField]
     public int MaxGold { get; private set; }
+
+    private void Start()
+    {
+        restartServerButton.onClick.AddListener(() =>
+        {
+            RestartServerPopUp restartServerPopUp = Instantiate(Resources.Load<RestartServerPopUp>("PopUps/RestartServerPopUp"));
+            restartServerPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            restartServerPopUp.transform.localPosition = Vector3.zero;
+        });
+    }
 
     [Server]
     public void CalculateRankings()

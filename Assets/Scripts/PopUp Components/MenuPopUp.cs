@@ -9,6 +9,7 @@ public class MenuPopUp : MonoBehaviour
     [SerializeField] Button howToPlayButton;
     [SerializeField] Button creditsButton;
     [SerializeField] Button exitGameButton;
+    [SerializeField] Button restartServerButton;
     [SerializeField] Image rayCastBlocker;
     [SerializeField] GameObject menu;
     [SerializeField] Canvas canvas;
@@ -53,6 +54,13 @@ public class MenuPopUp : MonoBehaviour
         });
 
         exitGameButton.onClick.AddListener(() => Quit());
+
+        restartServerButton.onClick.AddListener(() =>
+        {
+            RestartServerPopUp restartServerPopUp = Instantiate(Resources.Load<RestartServerPopUp>("PopUps/RestartServerPopUp"));
+            restartServerPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            restartServerPopUp.transform.localPosition = Vector3.zero;
+        });
     }
 
     private void Update()

@@ -43,52 +43,10 @@ public class MultiplayerMenuView : View
 
         restartServerButton.onClick.AddListener(() =>
         {
-            
-
-            SendPostRequest();
+            ApiManager.Instance.RestartGameServer();
         });
 
         base.Initialize();
-    }
-
-    public void SendPostRequest()
-    {
-        StartCoroutine(PostRequest());
-    }
-
-    private IEnumerator PostRequest()
-    {
-        print("Restarting Server");
-        string token = "efe81a97a8bd587f5b1172d7c025796b";
-        string matchId = "6b1a76142bbb4d3ead2733e43c81e77c-studio-us-east.playflow.dev";
-        string url = "https://api.cloud.playflow.app/restart_game_server";
-
-        // Create a new UnityWebRequest
-        UnityWebRequest request = new UnityWebRequest(url, "POST");
-
-        // Set headers
-        request.SetRequestHeader("accept", "application/json");
-        request.SetRequestHeader("match-id", matchId);
-        request.SetRequestHeader("token", token);
-
-        // Set the POST body (empty in this case)
-        byte[] bodyRaw = new byte[0];
-        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-
-        // Send the request
-        yield return request.SendWebRequest();
-
-        // Check for errors
-        if (request.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError("Error: " + request.error);
-        }
-        else
-        {
-            Debug.Log("POST request successful!");
-            Debug.Log("Response: " + request.downloadHandler.text);
-        }
     }
 
     public void Quit()
