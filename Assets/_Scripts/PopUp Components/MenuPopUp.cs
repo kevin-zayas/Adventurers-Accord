@@ -59,7 +59,7 @@ public class MenuPopUp : MonoBehaviour
 
         restartServerButton.onClick.AddListener(() =>
         {
-            RestartServerPopUp restartServerPopUp = Instantiate(Resources.Load<RestartServerPopUp>("PopUps/RestartServerPopUp"));
+            RestartServerPopUp restartServerPopUp = PopUpManager.Instance.CreateRestartServerPopUp();
             restartServerPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
             restartServerPopUp.transform.localPosition = Vector3.zero;
         });

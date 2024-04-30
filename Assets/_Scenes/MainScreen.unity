@@ -858,9 +858,11 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 302781916}
   _networkObjectCache: {fileID: 302781916}
+  CreditsPopUpPrefab: {fileID: 5221712264653024010, guid: 92696417085daf043bc8375e0b57866c, type: 3}
   EndTurnPopUpPrefab: {fileID: 308837814752384581, guid: 2bc7b319dc687e249b043a45728a8b41, type: 3}
   EquipItemPopUpPrefab: {fileID: 8865595992951579516, guid: 0fc00e19275aa27438ec15db2a303ed4, type: 3}
   GameOverPopUpPrefab: {fileID: 8985390549625102856, guid: 87a4316bf590e8d4e9618b3395f946bb, type: 3}
+  HowToPlayPopUpPrefab: {fileID: 6818122820550205959, guid: ff8fa282c8eddb1488254a0faf70974c, type: 3}
   ResolutionPopUpPrefab: {fileID: 3331255966110448536, guid: dbb268a91053b6d42a8bf17669005278, type: 3}
   RestartServerPopUpPrefab: {fileID: 2429552542617741192, guid: 96cd7fef9ecfbda4a95ef9c38ac64861, type: 3}
   RoundSummaryPopUpPrefab: {fileID: 8194588465754188569, guid: 4575ed1502623bd4db2c70c8e9db0cc6, type: 3}

@@ -11,7 +11,7 @@ public class MultiplayerMenuView : View
     private Button hostButton;
 
     [SerializeField]
-    private Button connectButton;
+    private Button startGameButton;
 
     [SerializeField]
     private Button exitButton;
@@ -32,7 +32,7 @@ public class MultiplayerMenuView : View
             InstanceFinder.ClientManager.StartConnection();
         });
 
-        connectButton.onClick.AddListener(() => InstanceFinder.ClientManager.StartConnection());
+        startGameButton.onClick.AddListener(() => InstanceFinder.ClientManager.StartConnection());
 
         exitButton.onClick.AddListener(() => Quit());
 

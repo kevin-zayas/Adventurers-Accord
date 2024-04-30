@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hostButton: {fileID: 1658238227}
-  connectButton: {fileID: 336555266}
+  startGameButton: {fileID: 336555266}
   exitButton: {fileID: 1594816352}
   creditsButton: {fileID: 1583678167}
   restartServerButton: {fileID: 771582458}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 336555267}
   - component: {fileID: 336555266}
   m_Layer: 5
-  m_Name: ConnectButton
+  m_Name: StartGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

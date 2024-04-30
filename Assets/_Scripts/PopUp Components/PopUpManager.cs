@@ -10,12 +10,15 @@ public class PopUpManager : NetworkBehaviour
 {
     public static PopUpManager Instance { get; private set; }
 
-    [SerializeField] private EndTurnPopUp EndTurnPopUpPrefab;
-    [SerializeField] private EquipItemPopUp EquipItemPopUpPrefab;
-    [SerializeField] private GameOverPopUp GameOverPopUpPrefab;
-    [SerializeField] private ResolutionPopUp ResolutionPopUpPrefab;
-    [SerializeField] private RestartServerPopUp RestartServerPopUpPrefab;
-    [SerializeField] private RoundSummaryPopUp RoundSummaryPopUpPrefab;
+    
+    [SerializeField] CreditsPopUp CreditsPopUpPrefab;
+    [SerializeField] EndTurnPopUp EndTurnPopUpPrefab;
+    [SerializeField] EquipItemPopUp EquipItemPopUpPrefab;
+    [SerializeField] GameOverPopUp GameOverPopUpPrefab;
+    [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
+    [SerializeField] ResolutionPopUp ResolutionPopUpPrefab;
+    [SerializeField] RestartServerPopUp RestartServerPopUpPrefab;
+    [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
     
     //public PopUp Prefab { get; private set; }
 

@@ -46,7 +46,7 @@ public class LobbyView : View
         {
             Player player = GameManager.Instance.Players[i];
 
-            playerListText += $"Player {player.OwnerId} (Is Ready: {player.IsReady})";
+            playerListText += $"Player {player.OwnerId+1} (Is Ready: {player.IsReady})";
 
             if (i < playerCount - 1) playerListText += "\r\n";
         }
