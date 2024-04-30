@@ -92,11 +92,11 @@ public class SpellCard : NetworkBehaviour
     [Server]
     public void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.physicalPower;
-        MagicalPower = cardData.magicalPower;
-        Name = cardData.cardName;
-        Description = cardData.cardDescription;
-        IsGreaseSpell = cardData.isGreaseSpell;
+        PhysicalPower = cardData.PhysicalPower;
+        MagicalPower = cardData.MagicalPower;
+        Name = cardData.CardName;
+        Description = cardData.CardDescription;
+        IsGreaseSpell = cardData.IsGreaseSpell;
 
         ObserversLoadCardData(cardData);
     }
@@ -104,12 +104,12 @@ public class SpellCard : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversLoadCardData(CardData cardData)
     {
-        physicalPowerText.text = cardData.physicalPower.ToString();
-        magicalPowerText.text = cardData.magicalPower.ToString();
-        nameText.text = cardData.cardName;
-        descriptionText.text = cardData.cardDescription;
+        physicalPowerText.text = cardData.PhysicalPower.ToString();
+        magicalPowerText.text = cardData.MagicalPower.ToString();
+        nameText.text = cardData.CardName;
+        descriptionText.text = cardData.CardDescription;
 
-        if (cardData.physicalPower > 0 || cardData.magicalPower > 0) cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/PositiveSpell");
+        if (cardData.PhysicalPower > 0 || cardData.MagicalPower > 0) cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/PositiveSpell");
         else cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/NegativeSpell");
     }
 }

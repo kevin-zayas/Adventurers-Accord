@@ -91,17 +91,17 @@ public class QuestCard : NetworkBehaviour
     [Server]
     public void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.physicalPower;
-        MagicalPower = cardData.magicalPower;
-        Name = cardData.cardName;
-        GoldReward = cardData.goldReward;
-        ReputationReward = cardData.reputationReward;
-        LootReward = cardData.lootReward;
-        Drain = cardData.drain;
-        PhysicalDrain = cardData.physicalDrain;
-        MagicalDrain = cardData.magicalDrain;
-        DisableItems = cardData.disableItems;
-        BlockSpells = cardData.blockSpells;
+        PhysicalPower = cardData.PhysicalPower;
+        MagicalPower = cardData.MagicalPower;
+        Name = cardData.CardName;
+        GoldReward = cardData.GoldReward;
+        ReputationReward = cardData.ReputationReward;
+        LootReward = cardData.LootReward;
+        Drain = cardData.Drain;
+        PhysicalDrain = cardData.PhysicalDrain;
+        MagicalDrain = cardData.MagicalDrain;
+        DisableItems = cardData.DisableItems;
+        BlockSpells = cardData.BlockSpells;
 
         ObserversLoadCardData(cardData);
     }
@@ -109,17 +109,17 @@ public class QuestCard : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversLoadCardData(CardData cardData)
     {
-        physicalPowerText.text = cardData.physicalPower.ToString();
-        magicalPowerText.text = cardData.magicalPower.ToString();
-        nameText.text = cardData.cardName;
-        descriptionText.text = cardData.cardDescription;
-        goldRewardText.text = $"{cardData.goldReward} GP";
-        reputationRewardText.text = $"{cardData.reputationReward} Rep.";
-        lootRewardText.text = $"{cardData.lootReward} Loot";
+        physicalPowerText.text = cardData.PhysicalPower.ToString();
+        magicalPowerText.text = cardData.MagicalPower.ToString();
+        nameText.text = cardData.CardName;
+        descriptionText.text = cardData.CardDescription;
+        goldRewardText.text = $"{cardData.GoldReward} GP";
+        reputationRewardText.text = $"{cardData.ReputationReward} Rep.";
+        lootRewardText.text = $"{cardData.LootReward} Loot";
 
-        if (cardData.cardDescription == "") descriptionObject.SetActive(false);
+        if (cardData.CardDescription == "") descriptionObject.SetActive(false);
 
-        cardImage.sprite = Resources.Load<Sprite>("Quest_Sprites/" + cardData.cardName);
+        cardImage.sprite = Resources.Load<Sprite>("Quest_Sprites/" + cardData.CardName);
     }
 
 

@@ -99,11 +99,11 @@ public class ItemCard : NetworkBehaviour
     [Server]
     public void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.physicalPower;
-        MagicalPower = cardData.magicalPower;
-        Name = cardData.cardName;
-        Description = cardData.cardDescription;
-        SubDescription = cardData.cardSubDescription;
+        PhysicalPower = cardData.PhysicalPower;
+        MagicalPower = cardData.MagicalPower;
+        Name = cardData.CardName;
+        Description = cardData.CardDescription;
+        SubDescription = cardData.CardSubDescription;
         CardData = cardData;
 
         ObserversLoadCardData(cardData);
@@ -112,13 +112,13 @@ public class ItemCard : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversLoadCardData(CardData cardData)
     {
-        physicalPowerText.text = cardData.physicalPower.ToString();
-        magicalPowerText.text = cardData.magicalPower.ToString();
-        nameText.text = cardData.cardName;
-        descriptionText.text = cardData.cardDescription;
-        subDescriptionText.text = cardData.cardSubDescription;
+        physicalPowerText.text = cardData.PhysicalPower.ToString();
+        magicalPowerText.text = cardData.MagicalPower.ToString();
+        nameText.text = cardData.CardName;
+        descriptionText.text = cardData.CardDescription;
+        subDescriptionText.text = cardData.CardSubDescription;
 
-        cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.cardName);
+        cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.CardName);
     }
 
 }

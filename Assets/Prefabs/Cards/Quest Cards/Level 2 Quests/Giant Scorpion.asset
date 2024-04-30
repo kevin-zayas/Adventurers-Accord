@@ -12,19 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Giant Scorpion
   m_EditorClassIdentifier: 
-  cardName: Giant Scorpion
-  physicalPower: 7
-  magicalPower: 5
-  originalPhysicalPower: 0
-  originalMagicalPower: 0
-  cost: 0
-  cardDescription: All Adventurer cards on this quest receive a -1 to Physical power
-  cardSubDescription: 
-  cardType: 
-  goldReward: 8
-  reputationReward: 4
-  lootReward: 2
-  drain: 1
-  physicalDrain: 1
-  magicalDrain: 0
-  isGreaseSpell: 0
+  <CardName>k__BackingField: Giant Scorpion
+  <PhysicalPower>k__BackingField: 7
+  <MagicalPower>k__BackingField: 5
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 0
+  <CardDescription>k__BackingField: All Adventurers on this Quest recieve a -1 to
+    Physical Power
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 8
+  <ReputationReward>k__BackingField: 4
+  <LootReward>k__BackingField: 2
+  <Drain>k__BackingField: 1
+  <PhysicalDrain>k__BackingField: 1
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

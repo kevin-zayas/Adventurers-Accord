@@ -234,13 +234,13 @@ public class Card : NetworkBehaviour
     [Server]
     public void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.physicalPower;
-        MagicalPower = cardData.magicalPower;
-        OriginalPhysicalPower = cardData.originalPhysicalPower;
-        OriginalMagicalPower = cardData.originalMagicalPower;
-        Name = cardData.cardName;
-        Description = cardData.cardDescription;
-        Cost = cardData.cost;
+        PhysicalPower = cardData.PhysicalPower;
+        MagicalPower = cardData.MagicalPower;
+        OriginalPhysicalPower = cardData.OriginalPhysicalPower;
+        OriginalMagicalPower = cardData.OriginalMagicalPower;
+        Name = cardData.CardName;
+        Description = cardData.CardDescription;
+        Cost = cardData.Cost;
 
         ObserversLoadCardData(cardData);
     }
@@ -248,15 +248,15 @@ public class Card : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversLoadCardData(CardData cardData)
     {
-        physicalPowerText.text = cardData.physicalPower.ToString();
-        magicalPowerText.text = cardData.magicalPower.ToString();
-        nameText.text = cardData.cardName;
-        descriptionText.text = cardData.cardDescription;
-        costText.text = cardData.cost.ToString();
+        physicalPowerText.text = cardData.PhysicalPower.ToString();
+        magicalPowerText.text = cardData.MagicalPower.ToString();
+        nameText.text = cardData.CardName;
+        descriptionText.text = cardData.CardDescription;
+        costText.text = cardData.Cost.ToString();
 
-        if (cardData.cardDescription == "") descriptionObject.SetActive(false);
+        if (cardData.CardDescription == "") descriptionObject.SetActive(false);
 
-        cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.cardName);
+        cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.CardName);
     }
 
     [Server]

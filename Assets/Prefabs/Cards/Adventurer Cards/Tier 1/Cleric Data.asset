@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Cleric Data
   m_EditorClassIdentifier: 
-  cardName: Cleric
-  physicalPower: 0
-  magicalPower: 2
-  originalPhysicalPower: 0
-  originalMagicalPower: 2
-  cost: 5
-  cardDescription: Your Adventurers on this quest cannot be debuffed
-  cardSubDescription: Divine Protection
-  cardType: 
-  goldReward: 0
-  reputationReward: 0
-  lootReward: 0
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
-  disableItems: 0
-  blockSpells: 0
-  isGreaseSpell: 0
+  <CardName>k__BackingField: Cleric
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 2
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 2
+  <Cost>k__BackingField: 5
+  <CardDescription>k__BackingField: Your Adventurers on this Quest cannot be debuffed
+  <CardSubDescription>k__BackingField: Divine Protection
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

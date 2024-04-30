@@ -205,7 +205,7 @@ public class Board : NetworkBehaviour
         {
             CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
 
-            if (randomLootData.cardType == "Item")
+            if (randomLootData.CardType == "Magic Item")
             {
                 ItemCard itemCard = Instantiate(CardDatabase.Instance.itemCardPrefab, Vector2.zero, Quaternion.identity);
 

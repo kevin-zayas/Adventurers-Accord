@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class ApiManager : MonoBehaviour
 {
-    [SerializeField] string matchId;
+    //[SerializeField] string matchId;
     public static ApiManager Instance { get; private set; }
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class ApiManager : MonoBehaviour
     {
         print("Restarting Server");
         string token = "efe81a97a8bd587f5b1172d7c025796b";
-        //string matchId = "6b1a76142bbb4d3ead2733e43c81e77c-studio-us-east.playflow.dev";
+        string matchId = "cbb7a6acd06643c4a12e631864ed0b35-studio-us-east.playflow.dev";
         string url = "https://api.cloud.playflow.app/restart_game_server";
 
         // Create a new UnityWebRequest

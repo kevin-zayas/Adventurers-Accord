@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Enchanter Data
   m_EditorClassIdentifier: 
-  cardName: Enchanter
-  physicalPower: 0
-  magicalPower: 0
-  originalPhysicalPower: 0
-  originalMagicalPower: 0
-  cost: 8
-  cardDescription: Your other Adventurers on this quest gain +1,+1
-  cardSubDescription: 
-  cardType: 
-  goldReward: 0
-  reputationReward: 0
-  lootReward: 0
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
+  <CardName>k__BackingField: Enchanter
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 0
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 8
+  <CardDescription>k__BackingField: Your other Adventurers on this Quest gain +1
+    Power
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

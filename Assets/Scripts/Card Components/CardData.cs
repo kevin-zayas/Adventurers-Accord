@@ -5,28 +5,28 @@ public class CardData : ScriptableObject
 {
     //TODO: make all public fields with private setters
 
-    public string cardName;
-    public int physicalPower;
-    public int magicalPower;
-    public int originalPhysicalPower;
-    public int originalMagicalPower;
-    public int cost;
+    [field: SerializeField] public string CardName { get; set; }
+    [field: SerializeField] public int PhysicalPower { get; set; }
+    [field: SerializeField] public int MagicalPower { get; set; }
+    [field: SerializeField] public int OriginalPhysicalPower { get; set; }
+    [field: SerializeField] public int OriginalMagicalPower { get; set; }
+    [field: SerializeField] public int Cost { get; set; }
 
-    public string cardDescription;
-    public string cardSubDescription;
-    public string cardType;
+    [field: SerializeField] public string CardDescription { get; set; }
+    [field: SerializeField] public string CardSubDescription { get; set; }
+    [field: SerializeField] public string CardType { get; set; }
 
     //Quests
-    public int goldReward;
-    public int reputationReward;
-    public int lootReward;
-    public bool drain;
-    public int physicalDrain;
-    public int magicalDrain;
-    public bool disableItems;
-    public bool blockSpells;
-    
+    [field: SerializeField] public int GoldReward { get; set; }
+    [field: SerializeField] public int ReputationReward { get; set; }
+    [field: SerializeField] public int LootReward { get; set; }
+    [field: SerializeField] public bool Drain { get; set; }
+    [field: SerializeField] public int PhysicalDrain { get; set; }
+    [field: SerializeField] public int MagicalDrain { get; set; }
+    [field: SerializeField] public bool DisableItems { get; set; }
+    [field: SerializeField] public bool BlockSpells { get; set; }
+
     //Spells
-    public bool isGreaseSpell;
+    [field: SerializeField] public bool IsGreaseSpell { get; set; }
 
 }

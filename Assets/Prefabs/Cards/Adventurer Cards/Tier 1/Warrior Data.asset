@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Warrior Data
   m_EditorClassIdentifier: 
-  cardName: Warrior
-  physicalPower: 3
-  magicalPower: 0
-  originalPhysicalPower: 3
-  originalMagicalPower: 0
-  cost: 5
-  cardDescription: 
-  cardSubDescription: 
-  cardType: 
-  goldReward: 0
-  reputationReward: 0
-  lootReward: 0
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
-  disableItems: 0
-  blockSpells: 0
-  isGreaseSpell: 0
+  <CardName>k__BackingField: Warrior
+  <PhysicalPower>k__BackingField: 3
+  <MagicalPower>k__BackingField: 0
+  <OriginalPhysicalPower>k__BackingField: 3
+  <OriginalMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 5
+  <CardDescription>k__BackingField: 
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

@@ -12,18 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: +1 Sword Data
   m_EditorClassIdentifier: 
-  cardName: +1 Sword
-  physicalPower: 1
-  magicalPower: 0
-  originalPhysicalPower: 1
-  originalMagicalPower: 0
-  cost: 0
-  cardDescription: '+1 Physical Power '
-  cardSubDescription: when equipped
-  cardType: Item
-  goldReward: 0
-  reputationReward: 0
-  lootReward: 0
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
+  <CardName>k__BackingField: +1 Sword
+  <PhysicalPower>k__BackingField: 1
+  <MagicalPower>k__BackingField: 0
+  <OriginalPhysicalPower>k__BackingField: 1
+  <OriginalMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 0
+  <CardDescription>k__BackingField: +1 Physical Power
+  <CardSubDescription>k__BackingField: when equipped
+  <CardType>k__BackingField: Magic Item
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

@@ -60,11 +60,11 @@ public class ItemCardHeader : NetworkBehaviour
     [Server]
     public void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.physicalPower;
-        MagicalPower = cardData.magicalPower;
-        OriginalPhysicalPower = cardData.originalPhysicalPower;
-        OriginalMagicalPower = cardData.originalMagicalPower;
-        Name = cardData.cardName;
+        PhysicalPower = cardData.PhysicalPower;
+        MagicalPower = cardData.MagicalPower;
+        OriginalPhysicalPower = cardData.OriginalPhysicalPower;
+        OriginalMagicalPower = cardData.OriginalMagicalPower;
+        Name = cardData.CardName;
 
         ObserversLoadCardData(cardData);
     }
@@ -72,9 +72,9 @@ public class ItemCardHeader : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversLoadCardData(CardData cardData)
     {
-        physicalPowerText.text = cardData.physicalPower.ToString();
-        magicalPowerText.text = cardData.magicalPower.ToString();
-        nameText.text = cardData.cardName;
+        physicalPowerText.text = cardData.PhysicalPower.ToString();
+        magicalPowerText.text = cardData.MagicalPower.ToString();
+        nameText.text = cardData.CardName;
     }
 
     [ServerRpc(RequireOwnership = false)]

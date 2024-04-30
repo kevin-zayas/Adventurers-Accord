@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Sorcerer Data
   m_EditorClassIdentifier: 
-  cardName: Sorcerer
-  physicalPower: 0
-  magicalPower: 3
-  originalPhysicalPower: 0
-  originalMagicalPower: 3
-  cost: 8
-  cardDescription: Gain +3 Magic Power if this card has a Magic Item equipped
-  cardSubDescription: 
-  cardType: 
-  goldReward: 0
-  reputationReward: 0
-  lootReward: 0
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
+  <CardName>k__BackingField: Sorcerer
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 3
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 3
+  <Cost>k__BackingField: 8
+  <CardDescription>k__BackingField: Gain +3 Magic Power if this card has a Magic
+    Item equipped
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

@@ -12,18 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Tinkerer Data
   m_EditorClassIdentifier: 
-  cardName: Tinkerer
-  physicalPower: 2
-  magicalPower: 2
-  originalPhysicalPower: 2
-  originalMagicalPower: 2
-  cost: 8
-  cardDescription: Your Magic Items at this location gain an additional +1 power
-  cardSubDescription: 
-  cardType: 
-  goldReward: 0
-  reputationReward: 0
-  lootReward: 0
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
+  <CardName>k__BackingField: Tinkerer
+  <PhysicalPower>k__BackingField: 2
+  <MagicalPower>k__BackingField: 2
+  <OriginalPhysicalPower>k__BackingField: 2
+  <OriginalMagicalPower>k__BackingField: 2
+  <Cost>k__BackingField: 8
+  <CardDescription>k__BackingField: Your Magic Items at this Quest gain an additional
+    +1 Power
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0

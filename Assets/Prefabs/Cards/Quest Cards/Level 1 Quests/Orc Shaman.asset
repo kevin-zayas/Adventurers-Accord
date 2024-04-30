@@ -12,19 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: Orc Shaman
   m_EditorClassIdentifier: 
-  cardName: Orc Shaman
-  physicalPower: 0
-  magicalPower: 6
-  originalPhysicalPower: 0
-  originalMagicalPower: 0
-  cost: 0
-  cardDescription: 
-  cardSubDescription: 
-  cardType: 
-  goldReward: 4
-  reputationReward: 2
-  lootReward: 1
-  drain: 0
-  physicalDrain: 0
-  magicalDrain: 0
-  isGreaseSpell: 0
+  <CardName>k__BackingField: Orc Shaman
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 6
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 0
+  <CardDescription>k__BackingField: 
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: 
+  <GoldReward>k__BackingField: 4
+  <ReputationReward>k__BackingField: 2
+  <LootReward>k__BackingField: 1
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsGreaseSpell>k__BackingField: 0
