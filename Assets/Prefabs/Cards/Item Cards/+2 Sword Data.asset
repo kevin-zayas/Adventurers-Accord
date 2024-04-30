@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
   m_Name: +2 Sword Data
   m_EditorClassIdentifier: 
-  <CardName>k__BackingField: 
+  <CardName>k__BackingField: +2 Sword
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
