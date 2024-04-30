@@ -22,6 +22,8 @@ public class MultiplayerMenuView : View
     [SerializeField]
     private Button restartServerButton;
 
+    [SerializeField] CreditsPopUp CreditsPopUpPrefab;
+
     public override void Initialize()
     {
         hostButton.onClick.AddListener(() =>
@@ -36,7 +38,7 @@ public class MultiplayerMenuView : View
 
         creditsButton.onClick.AddListener(() =>
         {
-            CreditsPopUp popUp = Instantiate(Resources.Load<CreditsPopUp>("PopUps/CreditsPopUp"));
+            CreditsPopUp popUp = Instantiate(CreditsPopUpPrefab);
             popUp.transform.SetParent(GameObject.Find("Canvas").transform);
             popUp.transform.localPosition = Vector3.zero;
         });

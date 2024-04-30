@@ -9,6 +9,19 @@ using UnityEngine.UI;
 
 public class ResolutionPopUp : NetworkBehaviour
 {
+    private const string RogueTitleText = "Sticky Fingers";
+    private const string RogueDefaultMessageText = "Please choose an Adventurer on this Quest to \"borrow\" an item from.";
+    private const string RogueConfirmSelectionText = "Are you sure you want to \"borrow\" this {0}'s {1}?";
+    private const string RogueConfirmCloseText = "Are you sure you don't want to \"borrow\" an item this round?";
+    private const string RogueButtonText = "\"Borrow\"";
+
+    private const string AssassinTitleText = "Poisonous Blade";
+    private const string AssassinDefaultMessageText = "Please choose an Adventurer on this Quest to poison.";
+    private const string AssassinConfirmSelectionText = "Are you sure you want to poison this {0}?";
+    private const string AssassinConfirmCloseText = "Are you sure you don't want to poison an Adventurer this round?";
+    private const string AssassinButtonText = "Poison";
+    private const string AssassinConfirmStatText = "Would you like to target this {0}'s Physical or Magical Power?";
+
     [SerializeField] Button leftButton;
     [SerializeField] Button rightButton;
     [SerializeField] TMP_Text leftButtonText;
@@ -150,7 +163,7 @@ public class ResolutionPopUp : NetworkBehaviour
         leftButtonText.text = "Physical";
         rightButtonText.text = "Magical";
 
-        message.text = string.Format(PopUpManager.Instance.AssassinConfirmStatText,card.Name);
+        message.text = string.Format(AssassinConfirmStatText,card.Name);
 
         leftButton.onClick.AddListener(() =>
         {
@@ -174,20 +187,20 @@ public class ResolutionPopUp : NetworkBehaviour
 
     private void SetRogueText()
     {
-        titleText = PopUpManager.Instance.RogueTitleText;
-        defaultMessageText = PopUpManager.Instance.RogueDefaultMessageText;
-        confirmSelectionText = PopUpManager.Instance.RogueConfirmSelectionText;
-        confirmCloseText = PopUpManager.Instance.RogueConfirmCloseText;
-        buttonText = PopUpManager.Instance.RogueButtonText;
+        titleText = RogueTitleText;
+        defaultMessageText = RogueDefaultMessageText;
+        confirmSelectionText = RogueConfirmSelectionText;
+        confirmCloseText = RogueConfirmCloseText;
+        buttonText = RogueButtonText;
     }
 
     private void SetAssassinText()
     {
-        titleText = PopUpManager.Instance.AssassinTitleText;
-        defaultMessageText = PopUpManager.Instance.AssassinDefaultMessageText;
-        confirmSelectionText = PopUpManager.Instance.AssassinConfirmSelectionText;
-        confirmCloseText = PopUpManager.Instance.AssassinConfirmCloseText;
-        buttonText = PopUpManager.Instance.AssassinButtonText;
+        titleText = AssassinTitleText;
+        defaultMessageText = AssassinDefaultMessageText;
+        confirmSelectionText = AssassinConfirmSelectionText;
+        confirmCloseText = AssassinConfirmCloseText;
+        buttonText = AssassinButtonText;
     }
 
 }

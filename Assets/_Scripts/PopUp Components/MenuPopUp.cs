@@ -14,6 +14,8 @@ public class MenuPopUp : MonoBehaviour
     [SerializeField] GameObject menu;
     [SerializeField] Canvas canvas;
 
+    [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
+    [SerializeField] CreditsPopUp CreditsPopUpPrefab;
 
     private bool isMenuActive = false;
     private PopUp popUp;
@@ -27,7 +29,7 @@ public class MenuPopUp : MonoBehaviour
 
         howToPlayButton.onClick.AddListener(() =>
         {
-            HowToPlayPopUp howToPlayPopUp = Instantiate(Resources.Load<HowToPlayPopUp>("PopUps/HowToPlayPopUp"));
+            HowToPlayPopUp howToPlayPopUp = Instantiate(HowToPlayPopUpPrefab);
             howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
             howToPlayPopUp.transform.localPosition = Vector3.zero;
 
@@ -41,7 +43,7 @@ public class MenuPopUp : MonoBehaviour
 
         creditsButton.onClick.AddListener(() =>
         {
-            CreditsPopUp creditsPopUp = Instantiate(Resources.Load<CreditsPopUp>("PopUps/CreditsPopUp"));
+            CreditsPopUp creditsPopUp = Instantiate(CreditsPopUpPrefab);
             creditsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
             creditsPopUp.transform.localPosition = Vector3.zero;
 

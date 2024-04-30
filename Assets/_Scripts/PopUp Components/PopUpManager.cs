@@ -8,20 +8,16 @@ using UnityEngine;
 
 public class PopUpManager : NetworkBehaviour
 {
-    [field: SerializeField] public string RogueTitleText { get; private set; }
-    [field: SerializeField] public string RogueDefaultMessageText { get; private set; }
-    [field: SerializeField] public string RogueConfirmSelectionText { get; private set; }
-    [field: SerializeField] public string RogueConfirmCloseText { get; private set; }
-    [field: SerializeField] public string RogueButtonText { get; private set; }
-
-    [field: SerializeField] public string AssassinTitleText { get; private set; }
-    [field: SerializeField] public string AssassinDefaultMessageText { get; private set; }
-    [field: SerializeField] public string AssassinConfirmSelectionText { get; private set; }
-    [field: SerializeField] public string AssassinConfirmCloseText { get; private set; }
-    [field: SerializeField] public string AssassinButtonText { get; private set; }
-    [field: SerializeField] public string AssassinConfirmStatText { get; private set; }
-
     public static PopUpManager Instance { get; private set; }
+
+    [SerializeField] private EndTurnPopUp EndTurnPopUpPrefab;
+    [SerializeField] private EquipItemPopUp EquipItemPopUpPrefab;
+    [SerializeField] private GameOverPopUp GameOverPopUpPrefab;
+    [SerializeField] private ResolutionPopUp ResolutionPopUpPrefab;
+    [SerializeField] private RestartServerPopUp RestartServerPopUpPrefab;
+    [SerializeField] private RoundSummaryPopUp RoundSummaryPopUpPrefab;
+    
+    //public PopUp Prefab { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -29,7 +25,7 @@ public class PopUpManager : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
-    public GameOverPopUp GameOverPopUp { get; private set; }
+    public GameOverPopUp GameOverPopUpInstance { get; private set; }
 
     private void Awake()
     {
@@ -40,7 +36,7 @@ public class PopUpManager : NetworkBehaviour
     public ResolutionPopUp CreateResolutionPopUp()
     {
         print("Creating PopUp");
-        ResolutionPopUp popUp = Instantiate(Resources.Load<ResolutionPopUp>("PopUps/ResolutionPopUp"));
+        ResolutionPopUp popUp = Instantiate(ResolutionPopUpPrefab);
         CurrentResolutionPopUp = popUp;
         return popUp;
     }
@@ -56,7 +52,7 @@ public class PopUpManager : NetworkBehaviour
     public RoundSummaryPopUp CreateRoundSummaryPopUp()
     {
         print("Creating Round Summary PopUp");
-        RoundSummaryPopUp popUp = Instantiate(Resources.Load<RoundSummaryPopUp>("PopUps/RoundSummaryPopUp"));
+        RoundSummaryPopUp popUp = Instantiate(RoundSummaryPopUpPrefab);
         return popUp;
     }
 
@@ -81,7 +77,7 @@ public class PopUpManager : NetworkBehaviour
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver)
         {
             Player player = GameManager.Instance.Players[LocalConnection.ClientId];
-            this.GameOverPopUp.ServerInitializeGameOverPopup(networkConnection, player);
+            this.GameOverPopUpInstance.ServerInitializeGameOverPopup(networkConnection, player);
         }
 
     }
@@ -90,26 +86,26 @@ public class PopUpManager : NetworkBehaviour
     public GameOverPopUp CreateGameOverPopUp()
     {
         print("Creating GameOver PopUp");
-        GameOverPopUp popUp = Instantiate(Resources.Load<GameOverPopUp>("PopUps/GameOverPopUp"));
-        GameOverPopUp = popUp;
+        GameOverPopUp popUp = Instantiate(GameOverPopUpPrefab);
+        GameOverPopUpInstance = popUp;
         return popUp;
     }
 
     public  EndTurnPopUp CreateEndTurnPopUp()
     {
-        EndTurnPopUp popUp = Instantiate(Resources.Load<EndTurnPopUp>("PopUps/EndTurnPopUp"));
+        EndTurnPopUp popUp = Instantiate(EndTurnPopUpPrefab);
         return popUp;
     }
 
     public EquipItemPopUp CreateEquipItemPopUp()
     {
-        EquipItemPopUp popUp = Instantiate(Resources.Load<EquipItemPopUp>("PopUps/EquipItemPopUp"));
+        EquipItemPopUp popUp = Instantiate(EquipItemPopUpPrefab);
         return popUp;
     }
 
-    public EndTurnPopUp CreateRestartServerPopUp()
+    public RestartServerPopUp CreateRestartServerPopUp()
     {
-        EndTurnPopUp popUp = Instantiate(Resources.Load<EndTurnPopUp>("PopUps/EndTurnPopUp"));
+        RestartServerPopUp popUp = Instantiate(RestartServerPopUpPrefab);
         return popUp;
     }
 }

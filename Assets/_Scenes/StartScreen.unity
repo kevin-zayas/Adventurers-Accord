@@ -273,6 +273,7 @@ MonoBehaviour:
   exitButton: {fileID: 1594816352}
   creditsButton: {fileID: 1583678167}
   restartServerButton: {fileID: 771582458}
+  CreditsPopUpPrefab: {fileID: 5221712264653024010, guid: 92696417085daf043bc8375e0b57866c, type: 3}
 --- !u!1 &294784623
 GameObject:
   m_ObjectHideFlags: 0
