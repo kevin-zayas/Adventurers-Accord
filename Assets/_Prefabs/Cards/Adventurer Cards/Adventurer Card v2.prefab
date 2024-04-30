@@ -1435,6 +1435,7 @@ MonoBehaviour:
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 3856054117792817582}
+  - {fileID: 6241586477172481604}
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1444,11 +1445,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 36
+  <PrefabId>k__BackingField: 24
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 11922744563441794815
+  <AssetPathHash>k__BackingField: 3518962731241838774
 --- !u!114 &2375407051779204461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2385,6 +2386,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -3672523780777450086, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: -3672523780777450086, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3672523780777450086, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
+      propertyPath: <ParentNetworkObject>k__BackingField
+      value: 
+      objectReference: {fileID: 8948479971837407625}
+    - target: {fileID: -3672523780777450086, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
       value: 270
       objectReference: {fileID: 0}
@@ -2477,6 +2490,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
+--- !u!114 &6241586477172481604 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3672523780777450086, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}
+  m_PrefabInstance: {fileID: 1987779312126442462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8657309018832638103 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7184070916402621257, guid: 36f9c1b289707fe4985e9f76c55e4049, type: 3}

@@ -399,11 +399,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 3175071128042345378
+  <AssetPathHash>k__BackingField: 10697965716857445081
 --- !u!1 &4009904735466527670
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,6 +901,10 @@ PrefabInstance:
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ComponentIndex>k__BackingField

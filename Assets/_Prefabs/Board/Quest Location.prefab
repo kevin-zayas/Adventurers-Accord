@@ -98,11 +98,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 23
+  <PrefabId>k__BackingField: 11
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 7891017828605434832
+  <AssetPathHash>k__BackingField: 9466612393880293615
 --- !u!222 &740671431717126914
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -152,6 +152,10 @@ PrefabInstance:
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
@@ -492,6 +496,10 @@ PrefabInstance:
     - target: {fileID: 6584115546150539593, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6584115546150539593, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 6584115546150539593, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
