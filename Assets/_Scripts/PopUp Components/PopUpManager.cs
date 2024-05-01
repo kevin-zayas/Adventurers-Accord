@@ -12,15 +12,11 @@ public class PopUpManager : NetworkBehaviour
 
     
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
-    [SerializeField] EndTurnPopUp EndTurnPopUpPrefab;
-    [SerializeField] EquipItemPopUp EquipItemPopUpPrefab;
     [SerializeField] GameOverPopUp GameOverPopUpPrefab;
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
     [SerializeField] ResolutionPopUp ResolutionPopUpPrefab;
-    [SerializeField] RestartServerPopUp RestartServerPopUpPrefab;
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
-    
-    //public PopUp Prefab { get; private set; }
+    [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
 
     [field: SerializeField]
     [field: SyncVar]
@@ -94,21 +90,9 @@ public class PopUpManager : NetworkBehaviour
         return popUp;
     }
 
-    public  EndTurnPopUp CreateEndTurnPopUp()
+    public ConfirmationPopUp CreateConfirmationPopUp()
     {
-        EndTurnPopUp popUp = Instantiate(EndTurnPopUpPrefab);
-        return popUp;
-    }
-
-    public EquipItemPopUp CreateEquipItemPopUp()
-    {
-        EquipItemPopUp popUp = Instantiate(EquipItemPopUpPrefab);
-        return popUp;
-    }
-
-    public RestartServerPopUp CreateRestartServerPopUp()
-    {
-        RestartServerPopUp popUp = Instantiate(RestartServerPopUpPrefab);
+        ConfirmationPopUp popUp = Instantiate(ConfirmationPopUpPrefab);
         return popUp;
     }
 }

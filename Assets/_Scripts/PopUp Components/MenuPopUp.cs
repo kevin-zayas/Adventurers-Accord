@@ -19,6 +19,7 @@ public class MenuPopUp : MonoBehaviour
 
     private bool isMenuActive = false;
     private PopUp popUp;
+    private ConfirmationPopUp confirmationPopUp;
 
     private void Start()
     {
@@ -59,9 +60,10 @@ public class MenuPopUp : MonoBehaviour
 
         restartServerButton.onClick.AddListener(() =>
         {
-            RestartServerPopUp restartServerPopUp = PopUpManager.Instance.CreateRestartServerPopUp();
-            restartServerPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            restartServerPopUp.transform.localPosition = Vector3.zero;
+            confirmationPopUp = PopUpManager.Instance.CreateConfirmationPopUp();
+            confirmationPopUp.InitializeRestartServerPopUp();
+
+            CloseMenu();
         });
     }
 
@@ -73,6 +75,12 @@ public class MenuPopUp : MonoBehaviour
             { 
                 Destroy(popUp.gameObject);
                 popUp = null;
+                return;
+            }
+            else if (confirmationPopUp != null)
+            {
+                Destroy(confirmationPopUp.gameObject);
+                confirmationPopUp = null;
                 return;
             }
 

@@ -30,7 +30,6 @@ public class EquipItemPopUp : MonoBehaviour
             itemCardObject.GetComponent<ItemCard>().ServerDespawnItem();
             Destroy(gameObject);
         });
-
     }
 
     public void InitializeEquipItemPopUp(Card card, GameObject item)

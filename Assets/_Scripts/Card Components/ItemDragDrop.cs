@@ -92,7 +92,7 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        EquipItemPopUp popUp = PopUpManager.Instance.CreateEquipItemPopUp();
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeEquipItemPopUp(card,this.gameObject);
         //transform.position = startPosition;
     }

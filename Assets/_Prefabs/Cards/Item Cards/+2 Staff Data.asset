@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: +2 Staff Data
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: +2 Staff
-  <PhysicalPower>k__BackingField: 2
-  <MagicalPower>k__BackingField: 0
-  <OriginalPhysicalPower>k__BackingField: 2
-  <OriginalMagicalPower>k__BackingField: 0
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 2
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 0
   <CardDescription>k__BackingField: +2 Magical Power
   <CardSubDescription>k__BackingField: when equipped

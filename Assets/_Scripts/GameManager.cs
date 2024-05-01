@@ -44,6 +44,10 @@ public class GameManager : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public int StartingLoot { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public int ReputationGoal { get; private set; }
 
     [field: SerializeField]

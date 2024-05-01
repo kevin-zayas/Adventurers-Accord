@@ -866,6 +866,7 @@ MonoBehaviour:
   ResolutionPopUpPrefab: {fileID: 3331255966110448536, guid: dbb268a91053b6d42a8bf17669005278, type: 3}
   RestartServerPopUpPrefab: {fileID: 2429552542617741192, guid: 96cd7fef9ecfbda4a95ef9c38ac64861, type: 3}
   RoundSummaryPopUpPrefab: {fileID: 8194588465754188569, guid: 4575ed1502623bd4db2c70c8e9db0cc6, type: 3}
+  ConfirmationPopUpPrefab: {fileID: 5565733294639535862, guid: a83f728f0329d5c42a393a6b53d24ce7, type: 3}
   <CurrentResolutionPopUp>k__BackingField: {fileID: 0}
   <GameOverPopUpInstance>k__BackingField: {fileID: 0}
 --- !u!114 &302781916
@@ -4249,9 +4250,6 @@ MonoBehaviour:
   spellCards:
   - {fileID: 11400000, guid: 35040824ad8623247a1620731c46c538, type: 2}
   - {fileID: 11400000, guid: a5d3dfa2a824a024d9a183bcd497df06, type: 2}
-  - {fileID: 11400000, guid: 961ff6ee2e1b27c479653bb3c38f6b46, type: 2}
-  - {fileID: 11400000, guid: bb868b344bfabba4cb01d47e8c15018c, type: 2}
-  - {fileID: 11400000, guid: 7744cb6c95314664dadaef10ad4b3c30, type: 2}
   itemCards:
   - {fileID: 11400000, guid: 61314a30bcc591a41aaf38ea7aa0e77a, type: 2}
   - {fileID: 11400000, guid: 0aadd65b8cc426d49842fa3dbddc45b9, type: 2}
@@ -4406,6 +4404,7 @@ MonoBehaviour:
   <CurrentPhase>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
   <StartingGold>k__BackingField: 30
+  <StartingLoot>k__BackingField: 3
   <ReputationGoal>k__BackingField: 25
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 

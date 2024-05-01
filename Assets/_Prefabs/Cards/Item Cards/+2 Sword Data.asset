@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: +2 Sword Data
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: +2 Sword
-  <PhysicalPower>k__BackingField: 0
+  <PhysicalPower>k__BackingField: 2
   <MagicalPower>k__BackingField: 0
-  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalPhysicalPower>k__BackingField: 2
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
   <CardDescription>k__BackingField: +2 Physical Power

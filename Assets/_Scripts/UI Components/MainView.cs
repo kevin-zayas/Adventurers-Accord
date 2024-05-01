@@ -21,9 +21,8 @@ public class MainView : View
             //could keep a tracker of Adventurer card count on each player and increment/decrement whenever dispatching or returning.
             //then could check if Adventurer count is > 0 during dispatch phase
 
-            EndTurnPopUp popUp = PopUpManager.Instance.CreateEndTurnPopUp();
+            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
             popUp.InitializeEndTurnPopUp();
-            GameObject.Find("MainView").GetComponent<MainView>().SetEndTurnButtonActive(false);
         });
 
         base.Initialize();
