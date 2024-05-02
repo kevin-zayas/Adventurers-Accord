@@ -101,8 +101,8 @@ public class QuestLane : NetworkBehaviour
             }
         }
 
-        if (QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellMagicalPower;
         if (QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellPhysicalPower;
+        if (QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellMagicalPower;
 
         ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
     }
@@ -118,7 +118,6 @@ public class QuestLane : NetworkBehaviour
     {
         SpellPhysicalPower = 0;
         SpellMagicalPower = 0;
-        EffectiveTotalPower = 0;
 
         for (int i = 0; i < SpellDropZone.transform.childCount; i++)
         {
