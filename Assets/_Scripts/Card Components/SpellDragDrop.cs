@@ -86,7 +86,7 @@ public class SpellDragDrop : NetworkBehaviour
         }
 
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-        if (questLane.QuestLocation.QuestCard.BlockSpells)
+        if (questLane.QuestCard.BlockSpells)
         {
             print("Spells cant be used on this Quest");
             ResetCardPosition();

@@ -83,6 +83,8 @@ public class QuestLocation : NetworkBehaviour
     {
         questCard.SetCardParent(questCardSlot.transform, false);
         QuestCard = questCard;
+
+        foreach (QuestLane lane in questLanes) lane.AssignQuestCard(questCard);
     }
 
     [Server]
