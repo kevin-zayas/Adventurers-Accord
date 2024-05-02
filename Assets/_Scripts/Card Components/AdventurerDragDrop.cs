@@ -3,20 +3,23 @@ using UnityEngine;
 
 public class AdventurerDragDrop : NetworkBehaviour
 {
-    [SerializeField] private bool isDragging = false;
+    [SerializeField] bool isDragging = false;
 
-    [SerializeField] private Card card;
-    [SerializeField] private GameObject canvas;
-    [SerializeField] private GameObject dropZone;
-    [SerializeField] private string dropZoneTag;
+    [SerializeField] Card card;
+    [SerializeField] GameObject canvas;
+    [SerializeField] Player player;
 
-    [SerializeField] private Transform startParentTransform;
-    [SerializeField] private Vector2 startPosition;
+    [SerializeField] GameObject dropZone;
+    [SerializeField] string dropZoneTag;
+    [SerializeField] Transform startParentTransform;
+    [SerializeField] Vector2 startPosition;
 
-    private void Awake()
+    private void Start()
     {
         card = this.GetComponent<Card>();
         canvas = GameObject.Find("Canvas");
+        
+        if (IsServer) player = GameManager.Instance.Players[LocalConnection.ClientId];
     }
 
     private void Update()
@@ -30,7 +33,7 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Quest") && !collision.gameObject.CompareTag("Hand")) return;
+        if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch) return;
 
         dropZone = collision.gameObject;
         dropZoneTag = collision.gameObject.tag;
@@ -51,10 +54,8 @@ public class AdventurerDragDrop : NetworkBehaviour
         if (!card.IsDraftCard && !IsOwner) return;
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
 
-        if (GameManager.Instance.Turn != LocalConnection.ClientId) return;      //only allow player to drag cards on their turn
+        if (!player.IsPlayerTurn) return;      //only allow player to drag cards on their turn
         if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return;   
-
-        Player player = GameManager.Instance.Players[LocalConnection.ClientId];
 
         if (!card.IsDraftCard || player.Gold >= card.Cost)         // only check for player gold if trying to drag a DraftCard
         {
@@ -69,26 +70,21 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     public void EndDrag()
     {
-        // set as first/last sibling? may  help if player wants to reorder cards
+        // set as first/last sibling? may help if player wants to reorder cards
         if (!isDragging) return;
 
         isDragging = false;
 
         if (dropZone == null || startParentTransform == dropZone.transform)          // dont update parent if dragging and dropping into same zone
         {
-            print("not over drop zone or same zone");
+            print("not over valid drop zone or still in starting zone");
             ResetCardPosition();
             return;
         }
 
         if (card.IsDraftCard)
         {
-            if (dropZoneTag == "Quest")                // prevent card moving from draft to quest location
-            {
-                print("cant move draft card to quest");
-                ResetCardPosition();
-            }
-            else if (dropZoneTag == "Hand") AssignDraftCardToPlayer();
+            AssignDraftCardToPlayer();
         }
         else
         {
@@ -104,7 +100,6 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void AssignDraftCardToPlayer()
     {
-        Player player = GameManager.Instance.Players[LocalConnection.ClientId];
         CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
 
         card.ServerSetCardParent(dropZone.transform, false);
@@ -117,13 +112,6 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void HandleCardMovement()
     {
-        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch)
-        {
-            print("cant move card during this phase");
-            ResetCardPosition();
-            return;
-        }
-
         card.ServerSetCardParent(dropZone.transform, false);
     }
 }

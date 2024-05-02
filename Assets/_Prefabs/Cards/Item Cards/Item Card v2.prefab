@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2504231823006971229}
   - component: {fileID: 5902683942916845234}
   - component: {fileID: 1341507225892689765}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Description Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -5630888917086196066}
   - component: {fileID: 3478594553878486444}
   - component: {fileID: -6916078920136669456}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Item Card v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,7 +275,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 22
+  <PrefabId>k__BackingField: 35
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -454,7 +454,7 @@ GameObject:
   - component: {fileID: 6335118759540969356}
   - component: {fileID: 6406293880635271081}
   - component: {fileID: 3101418111192428437}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Description Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -740,7 +740,7 @@ GameObject:
   - component: {fileID: 982228379713246214}
   - component: {fileID: 1844625145404964473}
   - component: {fileID: 7395197083250917862}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Card Type Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 5060433045479373600}
   - component: {fileID: 8791540378486234846}
   - component: {fileID: 2029664163792765779}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Name Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 4051037938474727732}
   - component: {fileID: 2446420104124946549}
   - component: {fileID: 293013481501250714}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Gold Cost Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1237,7 +1237,7 @@ GameObject:
   - component: {fileID: 8932638312122843732}
   - component: {fileID: 5661959828193369505}
   - component: {fileID: 6958857792175851566}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Item Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1312,7 +1312,7 @@ GameObject:
   - component: {fileID: 6160614096576153424}
   - component: {fileID: 2875005347532937308}
   - component: {fileID: 3602657811630039641}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Gold Cost Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1446,7 +1446,7 @@ GameObject:
   - component: {fileID: 2932935207392851190}
   - component: {fileID: 571192696851427119}
   - component: {fileID: 8479290471914451717}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Divider_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1521,7 +1521,7 @@ GameObject:
   - component: {fileID: 4189795759241908719}
   - component: {fileID: 2255547476038080562}
   - component: {fileID: 3519910744472064497}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Divider_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1596,7 +1596,7 @@ GameObject:
   - component: {fileID: 8993565562841899314}
   - component: {fileID: 526045230316988219}
   - component: {fileID: 1160586593837932891}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Card Type Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1939,7 +1939,7 @@ GameObject:
   - component: {fileID: 7094693074974678113}
   - component: {fileID: 2368179131995242543}
   - component: {fileID: 6801447536217702086}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Dividers_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2017,7 +2017,7 @@ GameObject:
   - component: {fileID: 3673143889955055743}
   - component: {fileID: 6781831462038199985}
   - component: {fileID: 746416744205395510}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Divider_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2092,7 +2092,7 @@ GameObject:
   - component: {fileID: 7761235991776374320}
   - component: {fileID: 7232435306114364955}
   - component: {fileID: 4728181806062659936}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Name Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2169,7 +2169,7 @@ GameObject:
   - component: {fileID: 1697372021174204799}
   - component: {fileID: 8327477866517080513}
   - component: {fileID: 5327936678973351918}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Gold Cost Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2245,7 +2245,7 @@ GameObject:
   - component: {fileID: 6966553098590769342}
   - component: {fileID: 3218495559807428805}
   - component: {fileID: 6348006093116403189}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: SubDescription Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2379,7 +2379,7 @@ GameObject:
   - component: {fileID: 2807776106187691063}
   - component: {fileID: 558423533190786510}
   - component: {fileID: 3867973295702762390}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Front Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2464,7 +2464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1099626951572417499, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1099626951572417499, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_IsActive
@@ -2472,7 +2472,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1956391607716598439, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6564929055347162224, guid: 4693b15148411443ea6e58ea85eac5de, type: 3}
       propertyPath: m_Pivot.x

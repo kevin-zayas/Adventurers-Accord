@@ -47,6 +47,9 @@ public class ItemDragDrop : NetworkBehaviour
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
 
+        
+        gameObject.layer = LayerMask.NameToLayer("Magic Items");
+
         startPosition = transform.position;
         startParentTransform = transform.parent;
         isDragging = true;
@@ -58,10 +61,11 @@ public class ItemDragDrop : NetworkBehaviour
 
     public void EndDrag()
     {
-        // set as first/last sibling? may  help if player wants to reorder cards
+        // set as first/last sibling? may help if player wants to reorder cards
         if (!isDragging) return;
 
         isDragging = false;
+        gameObject.layer = LayerMask.NameToLayer("Cards");
 
         if (adventurerCard == null)
         {

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5402091116136265045}
   - component: {fileID: 7094362613940595149}
   - component: {fileID: -4189799564275192412}
-  m_Layer: 5
+  m_Layer: 13
   m_Name: Hand
   m_TagString: Hand
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 5
+  <PrefabId>k__BackingField: 30
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
