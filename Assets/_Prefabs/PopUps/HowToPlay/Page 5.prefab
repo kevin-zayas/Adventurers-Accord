@@ -647,7 +647,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: '    If one or more guilds challenge a Quest and do not meet its requirements,
     the Quest Fails. On a failed Quest, all participating guilds lose 1 Reputation
-    for every Adventurer on the Quest.'
+    for every Adventurer they dispatched.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}

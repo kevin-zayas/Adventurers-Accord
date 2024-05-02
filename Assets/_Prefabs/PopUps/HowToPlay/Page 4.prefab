@@ -365,7 +365,7 @@ MonoBehaviour:
 
 
     Magic
-    Spells can be played at any time during Dipatch or Magic Phase.
+    Spells can be played at any time during Dispatch or Magic Phase.
 
 
 '
@@ -765,9 +765,21 @@ PrefabInstance:
       propertyPath: SerializedTransformProperties.LocalScale.y
       value: 2.3
       objectReference: {fileID: 0}
+    - target: {fileID: 350960116417268844, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 350960116417268844, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_fontSize
+      value: 14.55
+      objectReference: {fileID: 0}
     - target: {fileID: 1298241252680445397, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_Name
       value: Spell Card
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304799766812483540, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2029664163792765779, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text

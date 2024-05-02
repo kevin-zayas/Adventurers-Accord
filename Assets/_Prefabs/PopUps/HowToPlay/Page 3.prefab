@@ -815,7 +815,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3672523780777450086, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -3672523780777450086, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
@@ -840,6 +840,14 @@ PrefabInstance:
     - target: {fileID: 2029664163792765779, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_text
       value: +1 Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664241663241787588, guid: d611220e5137274468b13454f2fa4969, type: 3}
+      propertyPath: m_text
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2664241663241787588, guid: d611220e5137274468b13454f2fa4969, type: 3}
+      propertyPath: m_fontSize
+      value: 14.55
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_text

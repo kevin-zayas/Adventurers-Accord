@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <u>Recruit Phase</u> - Players take turn purchasing Adventurer Cards until
+  m_text: <u>Recruit Phase</u> - Players take turns purchasing Adventurer Cards until
     they are out of <color=#B0902E>Gold</color>, or they pass. Whenever a card is
     purchased, a card from that corresponding deck is drawn to replace it.
   m_isRightToLeft: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 56
+  m_fontSize: 55.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -489,7 +489,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 53.8
+  m_fontSize: 52.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
