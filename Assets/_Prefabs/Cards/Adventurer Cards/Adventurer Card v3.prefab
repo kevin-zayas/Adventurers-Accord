@@ -1466,6 +1466,7 @@ MonoBehaviour:
   <IsDraftCard>k__BackingField: 0
   <Name>k__BackingField: 
   Description: 
+  CardType: 
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
@@ -1477,6 +1478,7 @@ MonoBehaviour:
   magicalPowerText: {fileID: 2611186758615107600}
   nameText: {fileID: 2728476821446806872}
   descriptionText: {fileID: 4004057442462621200}
+  cardTypeText: {fileID: 1412657023948964493}
   costText: {fileID: 1356007084095882162}
   descriptionObject: {fileID: 800517241531852951}
   cardImage: {fileID: 1177701720125259711}
@@ -1498,6 +1500,7 @@ MonoBehaviour:
   isDragging: 0
   card: {fileID: 0}
   canvas: {fileID: 0}
+  player: {fileID: 0}
   dropZone: {fileID: 0}
   dropZoneTag: 
   startParentTransform: {fileID: 0}

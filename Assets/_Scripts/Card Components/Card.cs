@@ -28,6 +28,7 @@ public class Card : NetworkBehaviour
     public string Name { get; private set; }
 
     [SyncVar] private string Description;
+    [SyncVar] private string CardType;
 
     [field: SerializeField]
     [field: SyncVar] 
@@ -61,6 +62,7 @@ public class Card : NetworkBehaviour
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private GameObject descriptionObject;
     [SerializeField] private Image cardImage;
@@ -69,6 +71,7 @@ public class Card : NetworkBehaviour
     {
         nameText.text = Name;
         descriptionText.text = Description;
+        cardTypeText.text = CardType;
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
         costText.text = Cost.ToString();
@@ -240,6 +243,7 @@ public class Card : NetworkBehaviour
         OriginalMagicalPower = cardData.OriginalMagicalPower;
         Name = cardData.CardName;
         Description = cardData.CardDescription;
+        CardType = cardData.CardType;
         Cost = cardData.Cost;
 
         ObserversLoadCardData(cardData);
@@ -252,6 +256,7 @@ public class Card : NetworkBehaviour
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
         descriptionText.text = cardData.CardDescription;
+        cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
 
         if (cardData.CardDescription == "") descriptionObject.SetActive(false);
