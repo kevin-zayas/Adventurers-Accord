@@ -12,8 +12,6 @@ public class ItemDragDrop : NetworkBehaviour
     [SerializeField] private Transform startParentTransform;
     [SerializeField] private Vector2 startPosition;
 
-    private Vector3 enlargedScale = new(2f, 2f, 1);
-
     private void Awake()
     {
         itemCard = this.GetComponent<ItemCard>();
@@ -55,7 +53,7 @@ public class ItemDragDrop : NetworkBehaviour
         isDragging = true;
 
         transform.SetParent(canvas.transform, true);
-        transform.localScale = enlargedScale;
+        //transform.localScale = new Vector3(2f, 2f, 1f);
 
     }
 

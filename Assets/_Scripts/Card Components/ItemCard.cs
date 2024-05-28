@@ -67,8 +67,8 @@ public class ItemCard : NetworkBehaviour
     {
         Vector3 scale;
 
-        if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
-        else scale = new Vector3(1f, 1f, 1f);
+        //if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
+        scale = new Vector3(1f, 1f, 1f);
 
         this.transform.localScale = scale;
         this.transform.SetParent(parent, worldPositionStays);

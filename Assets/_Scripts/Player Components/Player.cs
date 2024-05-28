@@ -74,7 +74,7 @@ public class Player : NetworkBehaviour
         print("Player ID: " + PlayerID);
         print("Client ID: " + Owner.ClientId);
 
-        Hand handInstance = Instantiate(handPrefab, new Vector2(0f, 120f), Quaternion.identity);
+        Hand handInstance = Instantiate(handPrefab, new Vector2(0f, 0f), Quaternion.identity);
 
         controlledHand = handInstance;
         handInstance.controllingPlayer = this;
@@ -112,6 +112,9 @@ public class Player : NetworkBehaviour
 
                 if (isPlayerTurn) ViewManager.Instance.Show<MainView>();
                 else ViewManager.Instance.Show<WaitView>();
+
+                if (currentPhase == GameManager.Phase.Recruit) ViewManager.Instance.EnableRecruitUI();
+                else ViewManager.Instance.EnableQuestUI();
 
                 break;
 

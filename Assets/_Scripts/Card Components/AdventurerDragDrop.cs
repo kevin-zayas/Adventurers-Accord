@@ -64,7 +64,7 @@ public class AdventurerDragDrop : NetworkBehaviour
             isDragging = true;
 
             transform.SetParent(canvas.transform, true);
-            transform.localScale = new Vector3(2f, 2f, 1f);
+            //transform.localScale = new Vector3(2f, 2f, 1f);
         }
     }
 

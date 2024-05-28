@@ -43,7 +43,7 @@ public class ScoreBoard : NetworkBehaviour
     {
         scoreboardPanel.GetComponent<Image>().enabled = true;
 
-        int scoreboardHeight = 25 + (115 * playerCount);
+        int scoreboardHeight = 60 * playerCount;
 
         RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);

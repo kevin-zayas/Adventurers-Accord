@@ -6,16 +6,16 @@ public class ViewManager : MonoBehaviour
 {
     public static ViewManager Instance { get; private set; }
 
-    [SerializeField]
-    private View[] views;
+    [SerializeField] private View[] views;
 
-    [SerializeField]
-    private View defaultView;
+    [SerializeField] private View defaultView;
 
     private View currentView;
 
-    [SerializeField]
-    private bool autoInitialize;
+    [SerializeField] private bool autoInitialize;
+
+    [SerializeField] private GameObject recruitUI;
+    [SerializeField] private GameObject questUI;
 
     private void Awake()
     {
@@ -59,5 +59,17 @@ public class ViewManager : MonoBehaviour
 
         view.Show(args);
         currentView = view;
+    }
+
+    public void EnableRecruitUI()
+    {
+        recruitUI.SetActive(true);
+        questUI.SetActive(false);
+    }
+
+    public void EnableQuestUI()
+    {
+        questUI.SetActive(true);
+        recruitUI.SetActive(false);
     }
 }
