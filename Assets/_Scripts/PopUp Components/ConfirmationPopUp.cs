@@ -80,10 +80,10 @@ public class ConfirmationPopUp : MonoBehaviour
         messageText.text = equipItemMessage;
 
         RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
-        titleRect.position = new Vector2(0f, 30f);
+        titleRect.position = new Vector2(0f, 15f);
 
         RectTransform messageRect = messageText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
-        messageRect.position = new Vector2(0f, -50f);
+        messageRect.position = new Vector2(0f, -25f);
 
 
     }

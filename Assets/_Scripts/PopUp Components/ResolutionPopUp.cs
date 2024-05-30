@@ -51,7 +51,7 @@ public class ResolutionPopUp : NetworkBehaviour
         print("initializing pop up");
 
         transform.SetParent(questLocation.transform);
-        transform.localPosition = new Vector3(0, -300f, 0);  //bottom center of quest location
+        transform.localPosition = new Vector3(0, -150f, 0);  //bottom center of quest location
         QuestLocation = questLocation;
         ResolutionType = cardName;
 
