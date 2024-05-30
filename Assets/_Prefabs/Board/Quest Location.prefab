@@ -171,7 +171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
-      value: 290
+      value: 440
       objectReference: {fileID: 0}
     - target: {fileID: 6714051032548695215, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_Name
@@ -203,11 +203,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 97.5
+      value: 195
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 135
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,7 +243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 150
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -327,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 270309334764594521, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 412.5
+      value: 420
       objectReference: {fileID: 0}
     - target: {fileID: 270309334764594521, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -387,7 +387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 578603944870940749, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: -148.95
+      value: -151.7625
       objectReference: {fileID: 0}
     - target: {fileID: 578603944870940749, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
@@ -467,7 +467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4396490478198637166, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: -49.649994
+      value: -50.587494
       objectReference: {fileID: 0}
     - target: {fileID: 4396490478198637166, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
@@ -503,7 +503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4643228581505145694, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: 148.95001
+      value: 151.76251
       objectReference: {fileID: 0}
     - target: {fileID: 4643228581505145694, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
@@ -547,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6341209009900746125, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: 49.65001
+      value: 50.587524
       objectReference: {fileID: 0}
     - target: {fileID: 6341209009900746125, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Position.y

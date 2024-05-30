@@ -1078,6 +1078,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2241293805446848207, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 2428440577820456601, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: <SlotIndex>k__BackingField
       value: 5
@@ -1226,6 +1230,10 @@ PrefabInstance:
       propertyPath: <SlotIndex>k__BackingField
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4932017553507578305, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5174361198637871987, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1286,6 +1294,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6895616986139158786, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6997193167072772436, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: <SlotIndex>k__BackingField
       value: 7
@@ -1333,6 +1345,10 @@ PrefabInstance:
     - target: {fileID: 7260968567326008807, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7456036545690003285, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7849010289838963864, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5968,6 +5984,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2241293805446848207, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2454039703934039083, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6060,6 +6080,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4932017553507578305, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5552735440496166327, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: <SceneId>k__BackingField
       value: 4205054925652775276
@@ -6074,6 +6098,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6255336873867681140, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: <IsNested>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6895616986139158786, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
+      propertyPath: <SlotIndex>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7108382057393898470, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
