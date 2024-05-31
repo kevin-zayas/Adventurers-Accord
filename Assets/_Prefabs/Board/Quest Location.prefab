@@ -367,7 +367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 270309334764594521, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 270309334764594521, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -573,6 +573,10 @@ PrefabInstance:
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 289205687452111403}
+    - target: {fileID: 6584115546150539593, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: SerializedTransformProperties.Position.y
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6584115546150539593, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: SerializedTransformProperties.Rotation.x
       value: -0
