@@ -686,6 +686,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 410274817210553332}
     m_Modifications:
+    - target: {fileID: 870667033155912254, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
+      propertyPath: m_Padding.m_Top
+      value: -40
+      objectReference: {fileID: 0}
     - target: {fileID: 2217687626750751269, guid: 2fc5e683aa297dc4783ec7dbda0fe70f, type: 3}
       propertyPath: m_Name
       value: Quest Drop Zone
