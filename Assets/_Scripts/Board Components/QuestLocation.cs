@@ -20,6 +20,9 @@ public class QuestLocation : NetworkBehaviour
     public QuestSummary QuestSummary { get; private set; }
 
     [field: SerializeField]
+    private CardSlot questPreviewSlot;
+
+    [field: SerializeField]
     private CardSlot questCardSlot;
 
     [field: SerializeField]
@@ -81,11 +84,30 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public void AssignQuestCard(QuestCard questCard)
     {
+        GameObject previewCard = Instantiate(questCard.gameObject, Vector3.zero, Quaternion.identity);
+        Spawn(previewCard);
+        previewCard.GetComponent<QuestCard>().SetCardParent(questPreviewSlot.transform, false);
+
+        RectTransform previewRect = previewCard.GetComponent<RectTransform>();
+        previewRect.localScale = new Vector2(.85f, .85f);
+
+        //ObserversUpdateQuestPreview(questCard);
+
         questCard.SetCardParent(questCardSlot.transform, false);
         QuestCard = questCard;
 
         foreach (QuestLane lane in questLanes) lane.AssignQuestCard(questCard);
     }
+
+    //[ObserversRpc]
+    //private void ObserversUpdateQuestPreview(QuestCard questCard)
+    //{
+    //    GameObject previewCard = Instantiate(questCard.gameObject, Vector3.zero, Quaternion.identity);
+    //    previewCard.transform.SetParent(questPreviewSlot.transform, false);
+
+    //    RectTransform previewRect = previewCard.GetComponent<RectTransform>();
+    //    previewRect.localScale = new Vector2(.85f, .85f);
+    //}
 
     [Server]
     public void CheckQuestCompletion(QuestSummary questSummary)
