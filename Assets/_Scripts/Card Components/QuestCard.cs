@@ -16,6 +16,10 @@ public class QuestCard : NetworkBehaviour
 
     [field: SerializeField]
     [field: SyncVar]
+    public CardData Data { get; private set; }
+
+    [field: SerializeField]
+    [field: SyncVar]
     public int PhysicalPower { get; private set; }
 
     [field: SerializeField]
@@ -102,6 +106,7 @@ public class QuestCard : NetworkBehaviour
         MagicalDrain = cardData.MagicalDrain;
         DisableItems = cardData.DisableItems;
         BlockSpells = cardData.BlockSpells;
+        Data = cardData;
 
         ObserversLoadCardData(cardData);
     }

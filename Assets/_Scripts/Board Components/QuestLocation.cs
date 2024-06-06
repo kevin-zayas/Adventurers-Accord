@@ -22,6 +22,8 @@ public class QuestLocation : NetworkBehaviour
     [field: SerializeField]
     private CardSlot questPreviewSlot;
 
+    private QuestCard previewQuestCard;
+
     [field: SerializeField]
     private CardSlot questCardSlot;
 
@@ -84,14 +86,8 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public void AssignQuestCard(QuestCard questCard)
     {
-        GameObject previewCard = Instantiate(questCard.gameObject, Vector3.zero, Quaternion.identity);
-        Spawn(previewCard);
-        previewCard.GetComponent<QuestCard>().SetCardParent(questPreviewSlot.transform, false);
-
-        RectTransform previewRect = previewCard.GetComponent<RectTransform>();
-        previewRect.localScale = new Vector2(.85f, .85f);
-
-        //ObserversUpdateQuestPreview(questCard);
+        
+        CreatePreviewCard(questCard);
 
         questCard.SetCardParent(questCardSlot.transform, false);
         QuestCard = questCard;
@@ -99,15 +95,28 @@ public class QuestLocation : NetworkBehaviour
         foreach (QuestLane lane in questLanes) lane.AssignQuestCard(questCard);
     }
 
-    //[ObserversRpc]
-    //private void ObserversUpdateQuestPreview(QuestCard questCard)
-    //{
-    //    GameObject previewCard = Instantiate(questCard.gameObject, Vector3.zero, Quaternion.identity);
-    //    previewCard.transform.SetParent(questPreviewSlot.transform, false);
+    [Server]
+    private void CreatePreviewCard(QuestCard questCard)
+    {
+        QuestCard previewCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
+        Spawn(previewCard.gameObject);
+        previewCard.LoadCardData(questCard.Data);
+        previewCard.SetCardParent(questPreviewSlot.transform, false);
 
-    //    RectTransform previewRect = previewCard.GetComponent<RectTransform>();
-    //    previewRect.localScale = new Vector2(.85f, .85f);
-    //}
+        RectTransform previewRect = previewCard.GetComponent<RectTransform>();
+        previewRect.localScale = new Vector2(.85f, .85f);
+
+        previewQuestCard = previewCard;
+    }
+
+    [Server]
+    private void ReplaceQuestCard()
+    {
+        Despawn(previewQuestCard.gameObject);
+
+        Despawn(QuestCard.gameObject);
+        Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
+    }
 
     [Server]
     public void CheckQuestCompletion(QuestSummary questSummary)
@@ -129,8 +138,7 @@ public class QuestLocation : NetworkBehaviour
             CalculateQuestContributions();
             DistributeBardBonus();
 
-            Despawn(QuestCard.gameObject);
-            Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
+            ReplaceQuestCard();
         }
         else
         {
@@ -148,8 +156,7 @@ public class QuestLocation : NetworkBehaviour
                 QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
                 CalculateFailedQuestPenalty();
 
-                Despawn(QuestCard.gameObject);
-                Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
+                ReplaceQuestCard();
 
                 return;
             }
