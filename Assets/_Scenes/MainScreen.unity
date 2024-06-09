@@ -5266,8 +5266,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 023e6fa9c6a7980428c8644eac036027, type: 2}
   - {fileID: 11400000, guid: 1d90061528ed12448815c926e3458f44, type: 2}
   spellCards:
-  - {fileID: 11400000, guid: 35040824ad8623247a1620731c46c538, type: 2}
-  - {fileID: 11400000, guid: a5d3dfa2a824a024d9a183bcd497df06, type: 2}
+  - {fileID: 11400000, guid: bb868b344bfabba4cb01d47e8c15018c, type: 2}
+  - {fileID: 11400000, guid: 7744cb6c95314664dadaef10ad4b3c30, type: 2}
   itemCards:
   - {fileID: 11400000, guid: 61314a30bcc591a41aaf38ea7aa0e77a, type: 2}
   - {fileID: 11400000, guid: 0aadd65b8cc426d49842fa3dbddc45b9, type: 2}

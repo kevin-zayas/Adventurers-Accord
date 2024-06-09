@@ -67,7 +67,7 @@ public class Board : NetworkBehaviour
         for(int i = 0; i < QuestLocations.Length; i++)
         {
             DrawQuestCard(i);
-            QuestLocations[i].StartGame();
+            QuestLocations[i].OnStartGame();
         }
 
         foreach (Player player in GameManager.Instance.Players)         //for testing item/spells

@@ -47,7 +47,7 @@ public class QuestLocation : NetworkBehaviour
     public bool AllowResolution { get; private set; }
 
     [Server]
-    public void StartGame()
+    public void OnStartGame()
     {
         ObserversInitializeQuestLocation();
 
@@ -128,8 +128,9 @@ public class QuestLocation : NetworkBehaviour
 
         for (int i = 0; i < questLanes.Length; i++)
         {
-            TotalPhysicalPower += questLanes[i].PhysicalPower + questLanes[i].SpellPhysicalPower;
-            TotalMagicalPower += questLanes[i].MagicalPower + questLanes[i].SpellMagicalPower;
+            // prevent negative power from failing a Quest with 0 power required
+            if (QuestCard.PhysicalPower > 0) TotalPhysicalPower += questLanes[i].PhysicalPower + questLanes[i].SpellPhysicalPower;
+            if (QuestCard.MagicalPower > 0) TotalMagicalPower += questLanes[i].MagicalPower + questLanes[i].SpellMagicalPower;
         }
 
         if (TotalPhysicalPower >= QuestCard.PhysicalPower && TotalMagicalPower >= QuestCard.MagicalPower)
@@ -178,7 +179,7 @@ public class QuestLocation : NetworkBehaviour
 
         foreach (QuestLane lane in laneList)
         {
-            if (lane.MagicalPower + lane.SpellMagicalPower >= QuestCard.MagicalPower && lane.PhysicalPower + lane.SpellPhysicalPower >= QuestCard.PhysicalPower)
+            if (CheckPrimaryContributor(lane))
             {
                 primaryContributors.Add(lane);                                      //primary contributors are those who meet or exceed the quest requirements
             }
@@ -188,6 +189,15 @@ public class QuestLocation : NetworkBehaviour
             }
         }
         CalculateQuestRwards(primaryContributors, secondaryContributors);
+    }
+
+    [Server]
+    private bool CheckPrimaryContributor(QuestLane lane)
+    {
+        if (QuestCard.PhysicalPower > 0 && lane.PhysicalPower + lane.SpellPhysicalPower < QuestCard.PhysicalPower) return false;
+        if (QuestCard.MagicalPower > 0 && lane.MagicalPower + lane.SpellMagicalPower < QuestCard.MagicalPower) return false;
+ 
+        return true;
     }
 
     [Server]
