@@ -5,25 +5,9 @@ using TMPro;
 
 public class ItemCardHeader : Card
 {
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public Player ControllingPlayer { get; private set; }
-
     [field: SerializeField]
     [field: SyncVar]
     public Transform Parent { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public string Name { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int PhysicalPower { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int MagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -42,20 +26,17 @@ public class ItemCardHeader : Card
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text disableTypeText;
 
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardOwner(Player owner)
+    //[ObserversRpc(BufferLast = true)]
+    //public void ObserversSetItemInfo(int physicalPower, int magicalPower, string name)
     //{
-    //    ControllingPlayer = owner;
-    //    //ControllingPlayerHand = owner.controlledHand;
+    //    physicalPowerText.text = physicalPower.ToString();
+    //    magicalPowerText.text = magicalPower.ToString();
+    //    nameText.text = name;
     //}
 
-    [ObserversRpc(BufferLast = true)]
-    public void ObserversSetItemInfo(int physicalPower, int magicalPower, string name)
-    {
-        physicalPowerText.text = physicalPower.ToString();
-        magicalPowerText.text = magicalPower.ToString();
-        nameText.text = name;
-    }
+    public override void SetCardParent(Transform newParent, bool worldPositionStays) { }
+    public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
+    protected override void OberserversSetCardParent(Transform parent, bool worldPositionStays) { }
 
     [Server]
     public void LoadCardData(CardData cardData)
@@ -80,6 +61,7 @@ public class ItemCardHeader : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangePhysicalPower(int powerDelta)
     {
+        print(Parent);
         if (!Parent.transform.parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower > 0)
         {
@@ -91,7 +73,8 @@ public class ItemCardHeader : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangeMagicalPower(int powerDelta)
     {
-        if(!Parent.transform.parent.CompareTag("Quest")) return;
+        print(Parent);
+        if (!Parent.transform.parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower > 0)
         {
             MagicalPower += powerDelta;
@@ -126,11 +109,11 @@ public class ItemCardHeader : Card
         ObserversSetDisable(false);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerResetPower()
-    {
-        ResetPower();
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerResetPower()
+    //{
+    //    ResetPower();
+    //}
 
     [Server]
     public void SetActive(bool active)

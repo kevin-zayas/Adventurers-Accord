@@ -6,28 +6,7 @@ using UnityEngine.UI;
 
 public class ItemCard : Card
 {
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public Player ControllingPlayer { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public Hand ControllingPlayerHand { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public string Name { get; private set; }
-
-    //[SyncVar] private string Description;
     [SyncVar] private string SubDescription;
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int PhysicalPower { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int MagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -49,45 +28,29 @@ public class ItemCard : Card
         magicalPowerText.text = MagicalPower.ToString();
     }
 
-    [Server]
-    public void SetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays);
-        this.transform.SetParent(parent, worldPositionStays);
-    }
-
-    [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
-    {
-        Vector3 scale;
-
-        //if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
-        scale = new Vector3(1f, 1f, 1f);
-
-        this.transform.localScale = scale;
-        this.transform.SetParent(parent, worldPositionStays);
-    }
-
     //[Server]
-    //public void SetCardOwner(Player player)
+    //public void SetCardParent(Transform parent, bool worldPositionStays)
     //{
-    //    ControllingPlayer = player;
-    //    ControllingPlayerHand = player.controlledHand;
-    //    GiveOwnership(player.Owner);
+    //    OberserversSetCardParent(parent, worldPositionStays);
     //}
 
     //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardOwner(Player player)
+    //public void ServerSetCardParent(Transform parent, bool worldPositionStays)
     //{
-    //    ControllingPlayer = player;
-    //    ControllingPlayerHand = player.controlledHand;
-    //    GiveOwnership(player.Owner);
+    //    OberserversSetCardParent(parent, worldPositionStays);
+    //    this.transform.SetParent(parent, worldPositionStays);
+    //}
+
+    //[ObserversRpc(BufferLast = true)]
+    //private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    //{
+    //    Vector3 scale;
+
+    //    //if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
+    //    scale = new Vector3(1f, 1f, 1f);
+
+    //    this.transform.localScale = scale;
+    //    this.transform.SetParent(parent, worldPositionStays);
     //}
 
     [ServerRpc(RequireOwnership = false)]

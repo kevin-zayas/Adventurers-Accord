@@ -7,28 +7,11 @@ using UnityEngine.UI;
 
 public class AdventurerCard : Card
 {
-    //[field: SyncVar]
-    //public Player ControllingPlayer { get; private set; }
-
-    //[field: SyncVar]
-    //public Hand ControllingPlayerHand { get; private set; }
-
     [field: SyncVar] public Transform Parent { get; private set; }
 
     [field: SyncVar] public bool IsDraftCard { get; private set; }
 
-    //[field: SyncVar]
-    //public string Name { get; private set; }
-
-    //[SyncVar] private string Description;
     [SyncVar] private string CardType;
-
-
-    //[field: SyncVar] 
-    //public int PhysicalPower { get; private set; }
-
-    //[field: SyncVar]
-    //public int MagicalPower { get; private set; }
 
     [field: SyncVar]
     public int OriginalPhysicalPower { get; private set; }
@@ -70,7 +53,7 @@ public class AdventurerCard : Card
     }
 
     [Server]
-    public void SetCardParent(Transform newParent, bool worldPositionStays)
+    public override void SetCardParent(Transform newParent, bool worldPositionStays)
     {
         OberserversSetCardParent(newParent, worldPositionStays);
         this.transform.SetParent(newParent, worldPositionStays);        //need to set the parent on the server immediately instead of waiting for the observers to set it
@@ -86,13 +69,13 @@ public class AdventurerCard : Card
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardParent(Transform newParent, bool worldPositionStays)
+    public override void ServerSetCardParent(Transform newParent, bool worldPositionStays)
     {
         SetCardParent(newParent, worldPositionStays);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform newParent, bool worldPositionStays)
+    protected override void OberserversSetCardParent(Transform newParent, bool worldPositionStays)
     {
         Vector3 scale;
 
@@ -197,11 +180,11 @@ public class AdventurerCard : Card
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerResetPower()
-    {
-        ResetPower();
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerResetPower()
+    //{
+    //    ResetPower();
+    //}
 
     [Server]
     public void DisableItem(string disableType)

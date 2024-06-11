@@ -10,21 +10,9 @@ public class QuestCard : Card
     [field: SyncVar]
     public Transform Parent { get; private set; }
 
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public string Name { get; private set; }
-
     [field: SerializeField]
     [field: SyncVar]
     public CardData Data { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int PhysicalPower { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int MagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -80,17 +68,20 @@ public class QuestCard : Card
         lootRewardText.text = $"{LootReward} Loot";
     }
 
-    [Server]
-    public void SetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays);
-    }
+    //[Server]
+    //public void SetCardParent(Transform parent, bool worldPositionStays)
+    //{
+    //    OberserversSetCardParent(parent, worldPositionStays);
+    //}
 
-    [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
-    {
-        this.transform.SetParent(parent, worldPositionStays);
-    }
+    [ServerRpc(RequireOwnership = false)]
+    public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
+
+    //[ObserversRpc(BufferLast = true)]
+    //private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    //{
+    //    this.transform.SetParent(parent, worldPositionStays);
+    //}
 
     [Server]
     public void LoadCardData(CardData cardData)

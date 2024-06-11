@@ -5245,7 +5245,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bf5cf46159ffde4787ab1f32053c9d6, type: 2}
   - {fileID: 11400000, guid: a5a488f18a019da42864147ae2776293, type: 2}
   - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
-  - {fileID: 11400000, guid: e5a6e37d13df22d4fa71b3be31d11f16, type: 2}
+  - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
   levelOneQuestCards:
   - {fileID: 11400000, guid: 7801ecc3274fe82458a209cd1375b4c6, type: 2}
   - {fileID: 11400000, guid: 4a3856edc06240541a4c3929720b5748, type: 2}

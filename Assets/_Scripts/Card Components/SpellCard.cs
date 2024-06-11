@@ -6,25 +6,6 @@ using UnityEngine.UI;
 
 public class SpellCard : Card
 {
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public Player ControllingPlayer { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public Hand ControllingPlayerHand { get; private set; }
-
-    //[SyncVar] private string Name;
-    //[SyncVar] private string Description;
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int PhysicalPower { get; private set; }
-
-    //[field: SerializeField]
-    //[field: SyncVar]
-    //public int MagicalPower { get; private set; }
-
     [field: SerializeField]
     [field: SyncVar]
     public bool IsGreaseSpell { get; private set; }
@@ -43,46 +24,28 @@ public class SpellCard : Card
         magicalPowerText.text = MagicalPower.ToString();
     }
 
-    [Server]
-    public void SetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardParent(Transform parent, bool worldPositionStays)
-    {
-        OberserversSetCardParent(parent, worldPositionStays);
-        this.transform.SetParent(parent, worldPositionStays);
-    }
-
-    [ObserversRpc(BufferLast = true)]
-    private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
-    {
-        Vector3 scale;
-
-        if (parent.CompareTag("Quest")) scale = new Vector3(.5f, .5f, 1f);
-        else scale = new Vector3(1f, 1f, 1f);
-
-        this.transform.localScale = scale;
-        this.transform.SetParent(parent, worldPositionStays);
-    }
-
     //[Server]
-    //public void SetCardOwner(Player player)
+    //public void SetCardParent(Transform parent, bool worldPositionStays)
     //{
-    //    ControllingPlayer = player;
-    //    ControllingPlayerHand = player.controlledHand;
-    //    GiveOwnership(player.Owner);
+    //    OberserversSetCardParent(parent, worldPositionStays);
     //}
 
     //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardOwner(Player player)
+    //public void ServerSetCardParent(Transform parent, bool worldPositionStays)
     //{
-    //    ControllingPlayer = player;
-    //    ControllingPlayerHand = player.controlledHand;
-    //    GiveOwnership(player.Owner);
+    //    OberserversSetCardParent(parent, worldPositionStays);
+    //    this.transform.SetParent(parent, worldPositionStays);
     //}
+
+    [ObserversRpc(BufferLast = true)]
+    protected override void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    {
+        if (parent.CompareTag("Quest"))
+        {
+            this.transform.localScale = new Vector3(.5f, .5f, 1f);
+        }
+        this.transform.SetParent(parent, worldPositionStays);
+    }
 
     [Server]
     public void LoadCardData(CardData cardData)
