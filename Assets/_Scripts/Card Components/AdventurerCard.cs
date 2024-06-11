@@ -8,25 +8,14 @@ using UnityEngine.UI;
 public class AdventurerCard : Card
 {
     [field: SyncVar] public Transform Parent { get; private set; }
-
     [field: SyncVar] public bool IsDraftCard { get; private set; }
+    [field: SyncVar] public int OriginalPhysicalPower { get; private set; }
+    [field: SyncVar] public int OriginalMagicalPower { get; private set; }
+    [field: SyncVar] public int Cost { get; private set; }
+    [field: SyncVar] public bool HasItem { get; private set; }
+    [field: SyncVar] public ItemCardHeader Item { get; private set; }
 
     [SyncVar] private string CardType;
-
-    [field: SyncVar]
-    public int OriginalPhysicalPower { get; private set; }
-
-    [field: SyncVar]
-    public int OriginalMagicalPower { get; private set; }
-
-    [field: SyncVar]
-    public int Cost { get; private set; }
-
-    [field: SyncVar]
-    public bool HasItem { get; private set; }
-
-    [field: SyncVar]
-    public ItemCardHeader Item { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -180,12 +169,6 @@ public class AdventurerCard : Card
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
     }
 
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerResetPower()
-    //{
-    //    ResetPower();
-    //}
-
     [Server]
     public void DisableItem(string disableType)
     {
@@ -201,7 +184,6 @@ public class AdventurerCard : Card
     {
         DisableItem(disableType);
     }
-
 
     [Server]
     public void LoadCardData(CardData cardData)

@@ -6,11 +6,9 @@ using UnityEngine.UI;
 
 public class ItemCard : Card
 {
-    [SyncVar] private string SubDescription;
+    [field: SyncVar] public CardData CardData { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public CardData CardData { get; private set; }
+    [SyncVar] private string SubDescription;
 
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
@@ -27,31 +25,6 @@ public class ItemCard : Card
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
     }
-
-    //[Server]
-    //public void SetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    OberserversSetCardParent(parent, worldPositionStays);
-    //}
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    OberserversSetCardParent(parent, worldPositionStays);
-    //    this.transform.SetParent(parent, worldPositionStays);
-    //}
-
-    //[ObserversRpc(BufferLast = true)]
-    //private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    Vector3 scale;
-
-    //    //if (parent.CompareTag("Hand")) scale = new Vector3(2f, 2f, 1f);
-    //    scale = new Vector3(1f, 1f, 1f);
-
-    //    this.transform.localScale = scale;
-    //    this.transform.SetParent(parent, worldPositionStays);
-    //}
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerDespawnItem()

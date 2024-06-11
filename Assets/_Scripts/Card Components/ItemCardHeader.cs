@@ -5,34 +5,15 @@ using TMPro;
 
 public class ItemCardHeader : Card
 {
-    [field: SerializeField]
-    [field: SyncVar]
-    public Transform Parent { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int OriginalPhysicalPower { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int OriginalMagicalPower { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool IsDisabled { get; private set; }
+    [field: SyncVar] public Transform Parent { get; private set; }
+    [field: SyncVar] public int OriginalPhysicalPower { get; private set; }
+    [field: SyncVar] public int OriginalMagicalPower { get; private set; }
+    [field: SyncVar] public bool IsDisabled { get; private set; }
 
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text disableTypeText;
-
-    //[ObserversRpc(BufferLast = true)]
-    //public void ObserversSetItemInfo(int physicalPower, int magicalPower, string name)
-    //{
-    //    physicalPowerText.text = physicalPower.ToString();
-    //    magicalPowerText.text = magicalPower.ToString();
-    //    nameText.text = name;
-    //}
 
     public override void SetCardParent(Transform newParent, bool worldPositionStays) { }
     public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
@@ -108,12 +89,6 @@ public class ItemCardHeader : Card
         IsDisabled = false;
         ObserversSetDisable(false);
     }
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerResetPower()
-    //{
-    //    ResetPower();
-    //}
 
     [Server]
     public void SetActive(bool active)

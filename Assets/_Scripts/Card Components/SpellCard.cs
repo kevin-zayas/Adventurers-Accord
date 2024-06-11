@@ -6,9 +6,7 @@ using UnityEngine.UI;
 
 public class SpellCard : Card
 {
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool IsGreaseSpell { get; private set; }
+    [field: SyncVar] public bool IsGreaseSpell { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -23,19 +21,6 @@ public class SpellCard : Card
         physicalPowerText.text = PhysicalPower.ToString();
         magicalPowerText.text = MagicalPower.ToString();
     }
-
-    //[Server]
-    //public void SetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    OberserversSetCardParent(parent, worldPositionStays);
-    //}
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    OberserversSetCardParent(parent, worldPositionStays);
-    //    this.transform.SetParent(parent, worldPositionStays);
-    //}
 
     [ObserversRpc(BufferLast = true)]
     protected override void OberserversSetCardParent(Transform parent, bool worldPositionStays)

@@ -6,47 +6,16 @@ using UnityEngine.UI;
 
 public class QuestCard : Card
 {
-    [field: SerializeField]
-    [field: SyncVar]
-    public Transform Parent { get; private set; }
+    [field: SyncVar] public CardData Data { get; private set; }
+    [field: SyncVar] public int GoldReward { get; private set; }
+    [field: SyncVar] public int ReputationReward { get; private set; }
+    [field: SyncVar] public int LootReward { get; private set; }
+    [field: SyncVar] public bool Drain { get; private set; }
+    [field: SyncVar] public int PhysicalDrain { get; private set; }
+    [field: SyncVar] public int MagicalDrain { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public CardData Data { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int GoldReward { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int ReputationReward { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int LootReward { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool Drain { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int PhysicalDrain { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int MagicalDrain { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool DisableItems { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool BlockSpells { get; private set; }
-
-
+    [field: SyncVar] public bool DisableItems { get; private set; }
+    [field: SyncVar] public bool BlockSpells { get; private set; }
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -68,20 +37,8 @@ public class QuestCard : Card
         lootRewardText.text = $"{LootReward} Loot";
     }
 
-    //[Server]
-    //public void SetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    OberserversSetCardParent(parent, worldPositionStays);
-    //}
-
     [ServerRpc(RequireOwnership = false)]
     public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
-
-    //[ObserversRpc(BufferLast = true)]
-    //private void OberserversSetCardParent(Transform parent, bool worldPositionStays)
-    //{
-    //    this.transform.SetParent(parent, worldPositionStays);
-    //}
 
     [Server]
     public void LoadCardData(CardData cardData)
@@ -117,6 +74,4 @@ public class QuestCard : Card
 
         cardImage.sprite = Resources.Load<Sprite>("Quest_Sprites/" + cardData.CardName);
     }
-
-
 }
