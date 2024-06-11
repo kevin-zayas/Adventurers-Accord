@@ -19,7 +19,7 @@ public class ConfirmationPopUp : MonoBehaviour
     // Equip Item Confirmation
     const string equipItemTitle = "Are you sure you want to equip this {0} on this {1}?";
     const string equipItemMessage = "You will not be able unequip this Item.";
-    private Card adventurerCard;
+    private AdventurerCard adventurerCard;
     private GameObject itemCardObject;
 
     // Restart Server Confirmation
@@ -57,7 +57,7 @@ public class ConfirmationPopUp : MonoBehaviour
         else messageText.text = dispatchEndTurnMessage;
     }
 
-    public void InitializeEquipItemPopUp(Card card, GameObject item)
+    public void InitializeEquipItemPopUp(AdventurerCard card, GameObject item)
     {
         adventurerCard = card;
         itemCardObject = item;

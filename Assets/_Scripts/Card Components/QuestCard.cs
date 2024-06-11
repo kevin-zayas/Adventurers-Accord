@@ -4,27 +4,27 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestCard : NetworkBehaviour
+public class QuestCard : Card
 {
     [field: SerializeField]
     [field: SyncVar]
     public Transform Parent { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public string Name { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public string Name { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
     public CardData Data { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public int PhysicalPower { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public int PhysicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public int MagicalPower { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public int MagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]

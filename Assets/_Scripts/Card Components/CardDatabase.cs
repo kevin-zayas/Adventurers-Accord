@@ -19,7 +19,7 @@ public class CardDatabase : NetworkBehaviour
     public List<CardData> rareItemCards = new();
 
     //make private set
-    public Card adventurerCardPrefab;
+    public AdventurerCard adventurerCardPrefab;
     public ItemCard itemCardPrefab;
     public SpellCard spellCardPrefab;
     public QuestCard questCardPrefab;

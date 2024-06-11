@@ -4,30 +4,26 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SpellCard : NetworkBehaviour
+public class SpellCard : Card
 {
-    [field: SerializeField]
-    [field: SyncVar]
-    public Player ControllingPlayer { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public Player ControllingPlayer { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public Hand ControllingPlayerHand { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public Hand ControllingPlayerHand { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public Transform Parent { get; private set; }
+    //[SyncVar] private string Name;
+    //[SyncVar] private string Description;
 
-    [SyncVar] private string Name;
-    [SyncVar] private string Description;
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public int PhysicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public int PhysicalPower { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int MagicalPower { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public int MagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -58,7 +54,6 @@ public class SpellCard : NetworkBehaviour
     {
         OberserversSetCardParent(parent, worldPositionStays);
         this.transform.SetParent(parent, worldPositionStays);
-        this.Parent = parent;
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -73,21 +68,21 @@ public class SpellCard : NetworkBehaviour
         this.transform.SetParent(parent, worldPositionStays);
     }
 
-    [Server]
-    public void SetCardOwner(Player player)
-    {
-        ControllingPlayer = player;
-        ControllingPlayerHand = player.controlledHand;
-        GiveOwnership(player.Owner);
-    }
+    //[Server]
+    //public void SetCardOwner(Player player)
+    //{
+    //    ControllingPlayer = player;
+    //    ControllingPlayerHand = player.controlledHand;
+    //    GiveOwnership(player.Owner);
+    //}
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardOwner(Player player)
-    {
-        ControllingPlayer = player;
-        ControllingPlayerHand = player.controlledHand;
-        GiveOwnership(player.Owner);
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerSetCardOwner(Player player)
+    //{
+    //    ControllingPlayer = player;
+    //    ControllingPlayerHand = player.controlledHand;
+    //    GiveOwnership(player.Owner);
+    //}
 
     [Server]
     public void LoadCardData(CardData cardData)

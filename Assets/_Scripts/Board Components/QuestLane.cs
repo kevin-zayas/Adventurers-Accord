@@ -86,7 +86,7 @@ public class QuestLane : NetworkBehaviour
         for (int i = 0; i < DropZone.transform.childCount; i++)
         {
             Transform cardTransform = DropZone.transform.GetChild(i);
-            Card card = cardTransform.GetComponent<Card>();
+            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
             if (IsGreased && card.HasItem) card.DisableItem("Greased");
             if (QuestCard.DisableItems && card.HasItem) card.DisableItem("Nullified");
@@ -158,7 +158,7 @@ public class QuestLane : NetworkBehaviour
         while (DropZone.transform.childCount > 0)
         {
             Transform cardTransform = DropZone.transform.GetChild(0);
-            Card card = cardTransform.GetComponent<Card>();
+            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
             if (card.Name == "Wolf Companion")
             {
@@ -185,7 +185,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    public void AddAdventurerToQuestLane(Card card)
+    public void AddAdventurerToQuestLane(AdventurerCard card)
     {
         if (QuestCard.Drain && !ClericProtection)
         {
@@ -240,7 +240,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    public void RemoveAdventurerFromQuestLane(Card card)
+    public void RemoveAdventurerFromQuestLane(AdventurerCard card)
     {
         if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]--;
 
@@ -284,7 +284,7 @@ public class QuestLane : NetworkBehaviour
 
         foreach (Transform cardTransform in DropZone.transform)
         {
-            Card card = cardTransform.GetComponent<Card>();
+            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             //if (card.Name == "Cleric") continue;          // only need this if applying drain after updating ClericProtection bool in AddAdventurerToQuestLane
 
             if (ClericProtection)
@@ -306,7 +306,7 @@ public class QuestLane : NetworkBehaviour
     {
         foreach (Transform cardTransform in DropZone.transform)
         {
-            Card card = cardTransform.GetComponent<Card>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
+            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
             if (card.Name == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
 
             card.ChangePhysicalPower(buffDelta);
@@ -319,7 +319,7 @@ public class QuestLane : NetworkBehaviour
     {
         foreach (Transform cardTransform in DropZone.transform)
         {
-            Card card = cardTransform.GetComponent<Card>();
+            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem) continue;
             print($"{card.Name} changing item power by {buffDelta}");
             card.Item.ServerChangePhysicalPower(buffDelta);
@@ -334,7 +334,7 @@ public class QuestLane : NetworkBehaviour
         {
             foreach (Transform cardTransform in DropZone.transform)
             {
-                Card card = cardTransform.GetComponent<Card>();
+                AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
                 if (card.Name == "Wolf")
                 {
                     card.transform.SetParent(null);
@@ -346,7 +346,7 @@ public class QuestLane : NetworkBehaviour
         }
 
         CardData wolfCardData = CardDatabase.Instance.wolfCardData;
-        Card wolfCard = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
+        AdventurerCard wolfCard = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
 
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);

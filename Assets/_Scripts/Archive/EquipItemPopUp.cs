@@ -12,7 +12,7 @@ public class EquipItemPopUp : MonoBehaviour
     [SerializeField] private TMP_Text titleText;
     [SerializeField] string titleTextString;
 
-    private Card adventurerCard;
+    private AdventurerCard adventurerCard;
     public GameObject itemCardObject;
 
     void Start()
@@ -32,7 +32,7 @@ public class EquipItemPopUp : MonoBehaviour
         });
     }
 
-    public void InitializeEquipItemPopUp(Card card, GameObject item)
+    public void InitializeEquipItemPopUp(AdventurerCard card, GameObject item)
     {
         adventurerCard = card;
         itemCardObject = item;

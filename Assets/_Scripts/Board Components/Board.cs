@@ -86,7 +86,7 @@ public class Board : NetworkBehaviour
 
         CardData randomCardData= deck[Random.Range(0, deck.Count)];
 
-        Card card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
+        AdventurerCard card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
 
         Spawn(card.gameObject);
         card.LoadCardData(randomCardData);

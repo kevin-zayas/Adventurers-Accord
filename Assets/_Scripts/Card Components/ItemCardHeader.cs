@@ -3,27 +3,27 @@ using FishNet.Object;
 using UnityEngine;
 using TMPro;
 
-public class ItemCardHeader : NetworkBehaviour
+public class ItemCardHeader : Card
 {
-    [field: SerializeField]
-    [field: SyncVar]
-    public Player ControllingPlayer { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public Player ControllingPlayer { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
     public Transform Parent { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public string Name { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public string Name { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public int PhysicalPower { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public int PhysicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public int MagicalPower { get; private set; }
+    //[field: SerializeField]
+    //[field: SyncVar]
+    //public int MagicalPower { get; private set; }
 
     [field: SerializeField]
     [field: SyncVar]
@@ -42,12 +42,12 @@ public class ItemCardHeader : NetworkBehaviour
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text disableTypeText;
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardOwner(Player owner)
-    {
-        ControllingPlayer = owner;
-        //ControllingPlayerHand = owner.controlledHand;
-    }
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerSetCardOwner(Player owner)
+    //{
+    //    ControllingPlayer = owner;
+    //    //ControllingPlayerHand = owner.controlledHand;
+    //}
 
     [ObserversRpc(BufferLast = true)]
     public void ObserversSetItemInfo(int physicalPower, int magicalPower, string name)

@@ -77,7 +77,7 @@ public class ResolutionPopUp : NetworkBehaviour
         message.text = defaultMessageText;
     }
 
-    public void SetConfirmSelectionState(Card card)
+    public void SetConfirmSelectionState(AdventurerCard card)
     {
         print("setting confirm selection state");
         QuestLocation.ServerSetAllowResolution(false);
@@ -153,7 +153,7 @@ public class ResolutionPopUp : NetworkBehaviour
         });
     }
 
-    public void SetAssassinConfirmStatPopupState(Card card)
+    public void SetAssassinConfirmStatPopupState(AdventurerCard card)
     {
         print("Setting assassin confirm stat popup state");
 

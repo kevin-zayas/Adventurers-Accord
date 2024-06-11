@@ -71,7 +71,7 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        Card card = adventurerCard.GetComponent<Card>();
+        AdventurerCard card = adventurerCard.GetComponent<AdventurerCard>();
 
         if (card.IsDraftCard || card.HasItem || !card.IsOwner)
         {

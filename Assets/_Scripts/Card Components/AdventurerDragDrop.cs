@@ -5,7 +5,7 @@ public class AdventurerDragDrop : NetworkBehaviour
 {
     [SerializeField] bool isDragging = false;
 
-    [SerializeField] Card card;
+    [SerializeField] AdventurerCard card;
     [SerializeField] GameObject canvas;
     [SerializeField] Player player;
 
@@ -16,7 +16,7 @@ public class AdventurerDragDrop : NetworkBehaviour
 
     private void Start()
     {
-        card = this.GetComponent<Card>();
+        card = this.GetComponent<AdventurerCard>();
         canvas = GameObject.Find("Canvas");
         
         if (IsServer) player = GameManager.Instance.Players[LocalConnection.ClientId];

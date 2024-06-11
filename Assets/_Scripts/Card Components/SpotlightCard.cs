@@ -27,7 +27,7 @@ public class SpotlightCard : MonoBehaviour
         {
             spotlightCard.SetActive(true);
 
-            Card card = spotlightCard.GetComponent<Card>();
+            AdventurerCard card = spotlightCard.GetComponent<AdventurerCard>();
 
             if (card && card.HasItem) card.Item.gameObject.SetActive(true);
         }

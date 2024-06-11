@@ -40,7 +40,7 @@ public class QuestLocation : NetworkBehaviour
     public int TotalMagicalPower { get; private set; }
 
     [field: SerializeField]
-    public List<List<Card>> CardsToResolvePerLane { get; private set; } = new List<List<Card>>();
+    public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
 
     [field: SerializeField]
     [field: SyncVar]
@@ -55,7 +55,7 @@ public class QuestLocation : NetworkBehaviour
 
         foreach (Player player in GameManager.Instance.Players)
         {
-            CardsToResolvePerLane.Add(new List<Card>());
+            CardsToResolvePerLane.Add(new List<AdventurerCard>());
         }
 
     }
@@ -308,7 +308,7 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public bool HasUnresolvedCards(int laneIndex)
     {
-        List<Card> cardList;
+        List<AdventurerCard> cardList;
 
         cardList = CardsToResolvePerLane[laneIndex];
         if (cardList.Count > 0)
@@ -322,7 +322,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void ResolveCard(Card card)
+    private void ResolveCard(AdventurerCard card)
     {
         print("Resolving card: " + card.Name);
         ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
