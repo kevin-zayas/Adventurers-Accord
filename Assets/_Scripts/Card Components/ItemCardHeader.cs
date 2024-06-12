@@ -20,19 +20,17 @@ public class ItemCardHeader : Card
     protected override void OberserversSetCardParent(Transform parent, bool worldPositionStays) { }
 
     [Server]
-    public void LoadCardData(CardData cardData)
+    public override void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.PhysicalPower;
-        MagicalPower = cardData.MagicalPower;
         OriginalPhysicalPower = cardData.OriginalPhysicalPower;
         OriginalMagicalPower = cardData.OriginalMagicalPower;
-        Name = cardData.CardName;
-
-        ObserversLoadCardData(cardData);
+        
+        base.LoadCardData(cardData);
+        //ObserversLoadCardData(cardData);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversLoadCardData(CardData cardData)
+    protected override void ObserversLoadCardData(CardData cardData)
     {
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();

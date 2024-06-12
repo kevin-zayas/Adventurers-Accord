@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ItemCard : Card
 {
-    [field: SyncVar] public CardData CardData { get; private set; }
+    [field: SyncVar] public CardData Data { get; private set; }
 
     [SyncVar] private string SubDescription;
 
@@ -33,20 +33,17 @@ public class ItemCard : Card
     }
 
     [Server]
-    public void LoadCardData(CardData cardData)
+    public override void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.PhysicalPower;
-        MagicalPower = cardData.MagicalPower;
-        Name = cardData.CardName;
-        Description = cardData.CardDescription;
         SubDescription = cardData.CardSubDescription;
-        CardData = cardData;
+        Data = cardData;
 
-        ObserversLoadCardData(cardData);
+        base.LoadCardData(cardData);
+        //ObserversLoadCardData(cardData);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversLoadCardData(CardData cardData)
+    protected override void ObserversLoadCardData(CardData cardData)
     {
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();

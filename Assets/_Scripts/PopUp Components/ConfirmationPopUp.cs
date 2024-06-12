@@ -71,7 +71,7 @@ public class ConfirmationPopUp : MonoBehaviour
 
         confirmButton.onClick.AddListener(() =>
         {
-            adventurerCard.ServerEquipItem(true, itemCardObject.GetComponent<ItemCard>().CardData);
+            adventurerCard.ServerEquipItem(true, itemCardObject.GetComponent<ItemCard>().Data);
             itemCardObject.GetComponent<ItemCard>().ServerDespawnItem();
             Destroy(gameObject);
         });

@@ -41,4 +41,19 @@ public abstract class Card : NetworkBehaviour
     {
         this.transform.SetParent(parent, worldPositionStays);
     }
+
+    [Server]
+    public virtual void LoadCardData(CardData cardData)
+    {
+        PhysicalPower = cardData.PhysicalPower;
+        MagicalPower = cardData.MagicalPower;
+        Name = cardData.CardName;
+        Description = cardData.CardDescription;
+        //Data = cardData;
+
+        ObserversLoadCardData(cardData);
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    protected virtual void ObserversLoadCardData(CardData cardData) { }
 }

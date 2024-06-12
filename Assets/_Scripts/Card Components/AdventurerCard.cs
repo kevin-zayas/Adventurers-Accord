@@ -186,22 +186,20 @@ public class AdventurerCard : Card
     }
 
     [Server]
-    public void LoadCardData(CardData cardData)
+    public override void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.PhysicalPower;
-        MagicalPower = cardData.MagicalPower;
         OriginalPhysicalPower = cardData.OriginalPhysicalPower;
         OriginalMagicalPower = cardData.OriginalMagicalPower;
-        Name = cardData.CardName;
-        Description = cardData.CardDescription;
         CardType = cardData.CardType;
         Cost = cardData.Cost;
 
-        ObserversLoadCardData(cardData);
+        base.LoadCardData(cardData);
+
+        //ObserversLoadCardData(cardData);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversLoadCardData(CardData cardData)
+    protected override void ObserversLoadCardData(CardData cardData)
     {
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();

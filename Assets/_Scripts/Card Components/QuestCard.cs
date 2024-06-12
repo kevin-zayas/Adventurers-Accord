@@ -41,11 +41,8 @@ public class QuestCard : Card
     public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
 
     [Server]
-    public void LoadCardData(CardData cardData)
+    public override void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.PhysicalPower;
-        MagicalPower = cardData.MagicalPower;
-        Name = cardData.CardName;
         GoldReward = cardData.GoldReward;
         ReputationReward = cardData.ReputationReward;
         LootReward = cardData.LootReward;
@@ -56,11 +53,13 @@ public class QuestCard : Card
         BlockSpells = cardData.BlockSpells;
         Data = cardData;
 
-        ObserversLoadCardData(cardData);
+        base.LoadCardData(cardData);
+
+        //ObserversLoadCardData(cardData);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversLoadCardData(CardData cardData)
+    protected override void ObserversLoadCardData(CardData cardData)
     {
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
