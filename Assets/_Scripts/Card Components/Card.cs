@@ -10,6 +10,7 @@ public abstract class Card : NetworkBehaviour
     [field: SyncVar] public string Description { get; protected set; }
     [field: SyncVar] public int PhysicalPower { get; protected set; }
     [field: SyncVar] public int MagicalPower { get; protected set; }
+    [field: SyncVar] public CardData Data { get; protected set; }
 
     [field: SyncVar] public Player ControllingPlayer { get; protected set; }
     [field: SyncVar] public Hand ControllingPlayerHand { get; protected set; }
@@ -49,7 +50,7 @@ public abstract class Card : NetworkBehaviour
         MagicalPower = cardData.MagicalPower;
         Name = cardData.CardName;
         Description = cardData.CardDescription;
-        //Data = cardData;
+        Data = cardData;
 
         ObserversLoadCardData(cardData);
     }

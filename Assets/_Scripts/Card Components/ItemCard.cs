@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class ItemCard : Card
 {
-    [field: SyncVar] public CardData Data { get; private set; }
-
     [SyncVar] private string SubDescription;
 
     [SerializeField] private TMP_Text nameText;
@@ -19,11 +17,11 @@ public class ItemCard : Card
 
     private void Start()
     {
-        nameText.text = Name;
-        descriptionText.text = Description;
-        subDescriptionText.text = SubDescription;
-        physicalPowerText.text = PhysicalPower.ToString();
-        magicalPowerText.text = MagicalPower.ToString();
+        //nameText.text = Name;
+        //descriptionText.text = Description;
+        //subDescriptionText.text = SubDescription;
+        //physicalPowerText.text = PhysicalPower.ToString();
+        //magicalPowerText.text = MagicalPower.ToString();
     }
 
     [ServerRpc(RequireOwnership = false)]

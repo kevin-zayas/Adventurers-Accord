@@ -16,10 +16,10 @@ public class SpellCard : Card
 
     private void Start()
     {
-        nameText.text = Name;
-        descriptionText.text = Description;
-        physicalPowerText.text = PhysicalPower.ToString();
-        magicalPowerText.text = MagicalPower.ToString();
+        //nameText.text = Name;
+        //descriptionText.text = Description;
+        //physicalPowerText.text = PhysicalPower.ToString();
+        //magicalPowerText.text = MagicalPower.ToString();
     }
 
     [ObserversRpc(BufferLast = true)]

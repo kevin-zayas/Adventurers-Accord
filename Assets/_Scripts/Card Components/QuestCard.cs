@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class QuestCard : Card
 {
-    [field: SyncVar] public CardData Data { get; private set; }
     [field: SyncVar] public int GoldReward { get; private set; }
     [field: SyncVar] public int ReputationReward { get; private set; }
     [field: SyncVar] public int LootReward { get; private set; }
@@ -30,11 +29,11 @@ public class QuestCard : Card
 
     private void Start()
     {
-        physicalPowerText.text = PhysicalPower.ToString();
-        magicalPowerText.text = MagicalPower.ToString();
-        goldRewardText.text = $"{GoldReward} GP";
-        reputationRewardText.text = $"{ReputationReward} Rep.";
-        lootRewardText.text = $"{LootReward} Loot";
+        //physicalPowerText.text = PhysicalPower.ToString();
+        //magicalPowerText.text = MagicalPower.ToString();
+        //goldRewardText.text = $"{GoldReward} GP";
+        //reputationRewardText.text = $"{ReputationReward} Rep.";
+        //lootRewardText.text = $"{LootReward} Loot";
     }
 
     [ServerRpc(RequireOwnership = false)]

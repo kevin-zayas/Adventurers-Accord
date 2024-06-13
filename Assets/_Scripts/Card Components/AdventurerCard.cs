@@ -28,12 +28,12 @@ public class AdventurerCard : Card
     
     private void Start()
     {
-        nameText.text = Name;
-        descriptionText.text = Description;
-        cardTypeText.text = CardType;
-        physicalPowerText.text = PhysicalPower.ToString();
-        magicalPowerText.text = MagicalPower.ToString();
-        costText.text = Cost.ToString();
+        //nameText.text = Name;
+        //descriptionText.text = Description;
+        //cardTypeText.text = CardType;
+        //physicalPowerText.text = PhysicalPower.ToString();
+        //magicalPowerText.text = MagicalPower.ToString();
+        //costText.text = Cost.ToString();
 
         if (IsServer)
         {
@@ -75,6 +75,7 @@ public class AdventurerCard : Card
         this.transform.SetParent(newParent, worldPositionStays);
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player player)
     {
         ControllingPlayer = player;
