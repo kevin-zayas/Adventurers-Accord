@@ -193,7 +193,8 @@ public class AdventurerCard : Card
         OriginalMagicalPower = cardData.OriginalMagicalPower;
         CardType = cardData.CardType;
         Cost = cardData.Cost;
-
+        //cardImage.sprite = cardData.CardSprite;
+        //print(cardData.CardSprite);
         base.LoadCardData(cardData);
 
         //ObserversLoadCardData(cardData);
@@ -202,6 +203,8 @@ public class AdventurerCard : Card
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversLoadCardData(CardData cardData)
     {
+        cardImage.sprite = CardDatabase.Instance.dict[cardData.CardName];
+
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
@@ -211,7 +214,9 @@ public class AdventurerCard : Card
 
         if (cardData.CardDescription == "") descriptionObject.SetActive(false);
 
-        cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.CardName);
+        //cardImage.sprite = Resources.Load<Sprite>("Card_Sprites/"+cardData.CardName);
+        //print(cardData.CardSprite);
+        //cardImage.sprite = cardData.CardSprite;
     }
 
     [Server]

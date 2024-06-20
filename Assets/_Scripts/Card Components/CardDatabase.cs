@@ -26,6 +26,8 @@ public class CardDatabase : NetworkBehaviour
 
     public CardData wolfCardData;
 
+    public Dictionary<string,Sprite> dict = new Dictionary<string,Sprite>();
+
 
     private void Awake()
     {
@@ -35,6 +37,23 @@ public class CardDatabase : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SaveSprites(tierOneCards, "Card_Sprites/");
+        SaveSprites(tierTwoCards, "Card_Sprites/");
+
+        SaveSprites(itemCards, "ItemSpell_Sprites/");
+        SaveSprites(spellCards, "ItemSpell_Sprites/");
+        SaveSprites(rareItemCards, "ItemSpell_Sprites/");
+
+        SaveSprites(levelOneQuestCards, "Quest_Sprites/");
+        SaveSprites(levelTwoQuestCards, "Quest_Sprites/");
+        SaveSprites(levelThreeQuestCards, "Quest_Sprites/");
+    }
+
+    private void SaveSprites(List<CardData> cardList, string path)
+    {
+        foreach (CardData card in cardList)
+        {
+            dict.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
+        }
     }
 }

@@ -15,6 +15,8 @@ public class CardData : ScriptableObject
     [field: SerializeField] public string CardDescription { get; set; }
     [field: SerializeField] public string CardSubDescription { get; set; }
     [field: SerializeField] public string CardType { get; set; }
+    [field: SerializeField] public Sprite CardSprite { get; private set; }
+
 
     //Quests
     [field: SerializeField] public int GoldReward { get; set; }
