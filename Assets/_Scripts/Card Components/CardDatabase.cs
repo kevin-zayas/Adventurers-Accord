@@ -26,12 +26,13 @@ public class CardDatabase : NetworkBehaviour
 
     public CardData wolfCardData;
 
-    public Dictionary<string,Sprite> dict = new Dictionary<string,Sprite>();
+    public Dictionary<string,Sprite> SpriteMap { get; private set; }
 
 
     private void Awake()
     {
         Instance = this;
+        SpriteMap = new Dictionary<string,Sprite>();
     }
 
     // Start is called before the first frame update
@@ -53,7 +54,7 @@ public class CardDatabase : NetworkBehaviour
     {
         foreach (CardData card in cardList)
         {
-            dict.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
+            SpriteMap.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
         }
     }
 }
