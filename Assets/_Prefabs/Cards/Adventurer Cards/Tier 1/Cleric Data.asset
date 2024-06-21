@@ -19,9 +19,9 @@ MonoBehaviour:
   <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 5
   <CardDescription>k__BackingField: Your Adventurers on this Quest cannot be debuffed
-  <CardSubDescription>k__BackingField: Divine Protection
+  <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
-  <CardSprite>k__BackingField: {fileID: 21300000, guid: be40f9b3c12e0b44fac854fb1c28b1cc, type: 3}
+  <AbilityName>k__BackingField: Divine Protection
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0

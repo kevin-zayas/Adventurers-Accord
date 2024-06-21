@@ -471,7 +471,7 @@ GameObject:
   - component: {fileID: 2161329156752206820}
   - component: {fileID: 4004057442462621200}
   m_Layer: 8
-  m_Name: Description Text
+  m_Name: Ability Name Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,24 +1460,26 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
+  <Name>k__BackingField: 
+  <Description>k__BackingField: 
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 0
+  <Data>k__BackingField: {fileID: 0}
   <ControllingPlayer>k__BackingField: {fileID: 0}
   <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <Parent>k__BackingField: {fileID: 0}
   <IsDraftCard>k__BackingField: 0
-  <Name>k__BackingField: 
-  Description: 
-  CardType: 
-  <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
   <HasItem>k__BackingField: 0
   <Item>k__BackingField: {fileID: 0}
+  <AbilityName>k__BackingField: 
+  CardType: 
   physicalPowerText: {fileID: 6897460745711348589}
   magicalPowerText: {fileID: 2611186758615107600}
   nameText: {fileID: 2728476821446806872}
-  descriptionText: {fileID: 4004057442462621200}
+  abilityNameText: {fileID: 4004057442462621200}
   cardTypeText: {fileID: 1412657023948964493}
   costText: {fileID: 1356007084095882162}
   descriptionObject: {fileID: 800517241531852951}

@@ -14,13 +14,14 @@ public class AdventurerCard : Card
     [field: SyncVar] public int Cost { get; private set; }
     [field: SyncVar] public bool HasItem { get; private set; }
     [field: SyncVar] public ItemCardHeader Item { get; private set; }
+    [field: SyncVar] public string AbilityName { get; private set; }
 
     [SyncVar] private string CardType;
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text abilityNameText;
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private GameObject descriptionObject;
@@ -193,6 +194,7 @@ public class AdventurerCard : Card
         OriginalMagicalPower = cardData.OriginalMagicalPower;
         CardType = cardData.CardType;
         Cost = cardData.Cost;
+        AbilityName = cardData.AbilityName;
 
         base.LoadCardData(cardData);
     }
@@ -206,11 +208,13 @@ public class AdventurerCard : Card
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
-        descriptionText.text = cardData.CardDescription;
+        abilityNameText.text = cardData.AbilityName;
+        print(cardData.AbilityName);
+        print(abilityNameText.text);
         cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
 
-        if (cardData.CardDescription == "") descriptionObject.SetActive(false);
+        if (cardData.AbilityName == "") descriptionObject.SetActive(false);
     }
 
     [Server]
