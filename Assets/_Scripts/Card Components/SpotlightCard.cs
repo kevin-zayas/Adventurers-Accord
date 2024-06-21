@@ -34,7 +34,7 @@ public class SpotlightCard : MonoBehaviour
         
     }
 
-    public void OnClick()
+    public void OnHover()
     {
         if (!spotlightCard)
         {
