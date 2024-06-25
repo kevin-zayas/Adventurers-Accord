@@ -262,6 +262,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
+  - {fileID: -4959033644106127066}
   - {fileID: 3478594553878486444}
   - {fileID: -6916078920136669456}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
@@ -275,7 +276,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 35
+  <PrefabId>k__BackingField: 36
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -292,6 +293,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  cardData: {fileID: 0}
+  cardPrefab: {fileID: 3478594553878486444}
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +389,23 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -4959033644106127066}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnClick
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 0
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -4959033644106127066}
+          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
+          m_MethodName: OnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -405,17 +427,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e9c879183fa5f47b196f46a2dd2819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  <ControllingPlayer>k__BackingField: {fileID: 0}
-  <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <Name>k__BackingField: +1 Sword
-  Description: 
-  SubDescription: 
+  <Description>k__BackingField: 
   <PhysicalPower>k__BackingField: 1
   <MagicalPower>k__BackingField: 0
-  <CardData>k__BackingField: {fileID: 0}
+  <Data>k__BackingField: {fileID: 0}
+  <ControllingPlayer>k__BackingField: {fileID: 0}
+  <ControllingPlayerHand>k__BackingField: {fileID: 0}
+  SubDescription: 
   nameText: {fileID: 2029664163792765779}
   physicalPowerText: {fileID: 2664241663241787588}
   magicalPowerText: {fileID: 3503292238363221274}
@@ -434,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1000182653399494a98739478dabe3c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 1
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
   isDragging: 0

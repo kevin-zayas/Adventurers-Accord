@@ -543,23 +543,27 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
+  <Name>k__BackingField: 
+  <Description>k__BackingField: 
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 0
+  <Data>k__BackingField: {fileID: 0}
   <ControllingPlayer>k__BackingField: {fileID: 0}
   <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <Parent>k__BackingField: {fileID: 0}
   <IsDraftCard>k__BackingField: 0
-  <Name>k__BackingField: 
-  Description: 
-  <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
   <HasItem>k__BackingField: 0
   <Item>k__BackingField: {fileID: 0}
+  <AbilityName>k__BackingField: 
+  CardType: 
   physicalPowerText: {fileID: 0}
   magicalPowerText: {fileID: 0}
   nameText: {fileID: 0}
-  descriptionText: {fileID: 0}
+  abilityNameText: {fileID: 0}
+  cardTypeText: {fileID: 0}
   costText: {fileID: 0}
   descriptionObject: {fileID: 0}
   cardImage: {fileID: 0}
@@ -591,11 +595,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 33
+  <PrefabId>k__BackingField: 26
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 10392584153350441693
+  <AssetPathHash>k__BackingField: 509053060710566091
 --- !u!1 &1649686517057891831
 GameObject:
   m_ObjectHideFlags: 0

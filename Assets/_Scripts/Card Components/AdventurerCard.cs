@@ -209,8 +209,6 @@ public class AdventurerCard : Card
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
         abilityNameText.text = cardData.AbilityName;
-        print(cardData.AbilityName);
-        print(abilityNameText.text);
         cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
 

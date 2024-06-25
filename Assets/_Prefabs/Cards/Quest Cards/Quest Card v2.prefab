@@ -813,6 +813,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
+  - {fileID: -4959033644106127066}
   - {fileID: -5912677968188888225}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
@@ -825,7 +826,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 23
+  <PrefabId>k__BackingField: 19
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -921,7 +922,23 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -4959033644106127066}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnClick
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 0
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: -4959033644106127066}
+          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
+          m_MethodName: OnHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -943,6 +960,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  cardData: {fileID: 0}
+  cardPrefab: {fileID: -5912677968188888225}
 --- !u!114 &-5912677968188888225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,13 +977,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a5d6fd08e91fc48984f4a33d7cf145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  <Parent>k__BackingField: {fileID: 0}
   <Name>k__BackingField: 
+  <Description>k__BackingField: 
   <PhysicalPower>k__BackingField: 3
   <MagicalPower>k__BackingField: 6
+  <Data>k__BackingField: {fileID: 0}
+  <ControllingPlayer>k__BackingField: {fileID: 0}
+  <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <GoldReward>k__BackingField: 6
   <ReputationReward>k__BackingField: 4
   <LootReward>k__BackingField: 1

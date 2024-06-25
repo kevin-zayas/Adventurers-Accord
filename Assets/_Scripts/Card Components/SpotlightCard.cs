@@ -1,67 +1,75 @@
+using FishNet.Connection;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpotlightCard : MonoBehaviour
+public class SpotlightCard : NetworkBehaviour
 {
     private GameObject canvas;
-    private GameObject spotlightCard;
-    private RectTransform cardRect;
-    private float width;
-    private float height;
+    private Card enlargedCard;
+    private bool isSpotlighting;
+
+    [SyncVar] private CardData cardData;
+    [SyncVar] private Card cardPrefab;
 
 
-    private void Awake()
+    private void Start()
     {
         canvas = GameObject.Find("Canvas");
-        cardRect = gameObject.GetComponent<RectTransform>();
-        width = cardRect.rect.width;
-        height = cardRect.rect.height;
-        
-    }
-
-    private void Update()
-    {
-        //TODO: find out what is causing spotlight to be inactive when initially spawned
-        if (spotlightCard)
-        {
-            spotlightCard.SetActive(true);
-
-            AdventurerCard card = spotlightCard.GetComponent<AdventurerCard>();
-
-            if (card && card.HasItem) card.Item.gameObject.SetActive(true);
-        }
-        
     }
 
     public void OnHover()
     {
-        if (!spotlightCard)
-        {
-            Vector2 spawnPosition = gameObject.transform.position;
+        if (isSpotlighting) return;
+        isSpotlighting = true;
 
-            spotlightCard = Instantiate(gameObject, spawnPosition, Quaternion.identity);
-            spotlightCard.transform.SetParent(canvas.transform, true);
-            spotlightCard.layer = LayerMask.NameToLayer("Spotlight");
+        Vector2 spawnPosition = gameObject.transform.position;
+        ServerSpawnCard(LocalConnection, spawnPosition);
+    }
 
-            RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
-            spotlightRect.localScale = new Vector2(2f, 2f);
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerSpawnCard(NetworkConnection connection, Vector2 spawnPosition)
+    {
+        if (cardData == null) cardData = gameObject.GetComponent<Card>().Data;
 
-            CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
-            canvasGroup.blocksRaycasts = false;     // turn off to allow player to click on card to hide spotlight
-        }
-        else
-        {
-            DestroySpotlightCard();
-        }
+        
 
+        enlargedCard = Instantiate(cardPrefab, spawnPosition, Quaternion.identity);
+        Spawn(enlargedCard.gameObject);
+
+        enlargedCard.LoadCardData(cardData);
+
+        TargetRenderSpotlightCard(connection, enlargedCard);
+    }
+
+    [TargetRpc]
+    private void TargetRenderSpotlightCard(NetworkConnection connection, Card enlargedCard)
+    {
+        CanvasGroup canvasGroup = enlargedCard.GetComponent<CanvasGroup>();
+        canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
+
+        RectTransform spotlightRect = enlargedCard.GetComponent<RectTransform>();
+        spotlightRect.localScale = new Vector2(2f, 2f);
+
+        enlargedCard.gameObject.transform.SetParent(canvas.transform, true);
+        enlargedCard.gameObject.layer = LayerMask.NameToLayer("Spotlight");
     }
 
     public void DestroySpotlightCard()
     {
-        if (spotlightCard)
+        if (!isSpotlighting) return;
+        ServerDespawnCard();
+        isSpotlighting = false;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerDespawnCard()
+    {
+        if (enlargedCard)
         {
-            Destroy(spotlightCard);
+            Despawn(enlargedCard.gameObject);
         }
     }
 }
