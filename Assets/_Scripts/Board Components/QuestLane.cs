@@ -160,7 +160,7 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(0);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-            if (card.Name == "Wolf Companion")
+            if (card.Name == "Wolf")
             {
                 SummonWolfCompanion(true);
                 continue;

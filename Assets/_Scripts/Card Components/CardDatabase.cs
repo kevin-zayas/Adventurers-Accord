@@ -40,6 +40,7 @@ public class CardDatabase : NetworkBehaviour
     {
         SaveSprites(tierOneCards, "Card_Sprites/");
         SaveSprites(tierTwoCards, "Card_Sprites/");
+        SpriteMap.Add("Wolf", Resources.Load<Sprite>("Card_Sprites/Wolf"));
 
         SaveSprites(itemCards, "ItemSpell_Sprites/");
         SaveSprites(spellCards, "ItemSpell_Sprites/");
