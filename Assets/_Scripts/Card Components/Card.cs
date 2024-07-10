@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections;
@@ -57,4 +58,7 @@ public abstract class Card : NetworkBehaviour
 
     [ObserversRpc(BufferLast = true)]
     protected virtual void ObserversLoadCardData(CardData cardData) { }
+
+    [TargetRpc]
+    public virtual void TargetCopyCardData(NetworkConnection connection, Card originalCard) { }
 }

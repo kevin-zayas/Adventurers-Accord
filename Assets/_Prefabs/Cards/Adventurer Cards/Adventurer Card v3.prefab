@@ -1474,7 +1474,7 @@ MonoBehaviour:
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
   <HasItem>k__BackingField: 0
-  <Item>k__BackingField: {fileID: 0}
+  <Item>k__BackingField: {fileID: 6776071066952636260}
   <AbilityName>k__BackingField: 
   CardType: 
   physicalPowerText: {fileID: 6897460745711348589}
@@ -1523,7 +1523,6 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
-  cardPrefab: {fileID: 2375407051779204461}
 --- !u!114 &4105403660370424556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1599,7 +1598,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 5300939677924261238}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
+          m_MethodName: DestroyEnlargedCard
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1613,18 +1612,6 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 5300939677924261238}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 0
         - m_Target: {fileID: 2375407051779204461}
           m_TargetAssemblyTypeName: Card, Assembly-CSharp
           m_MethodName: OnResolutionClick
@@ -1640,19 +1627,7 @@ MonoBehaviour:
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 5300939677924261238}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 0
+        m_Calls: []
 --- !u!1 &4467558574701747771
 GameObject:
   m_ObjectHideFlags: 0

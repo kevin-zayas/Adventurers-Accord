@@ -2,6 +2,7 @@ using FishNet.Object.Synchronizing;
 using FishNet.Object;
 using UnityEngine;
 using TMPro;
+using FishNet.Connection;
 
 public class ItemCardHeader : Card
 {
@@ -125,5 +126,15 @@ public class ItemCardHeader : Card
     private void ObserversSetDisableText(string disableType)
     {
         disableTypeText.text = disableType;
+    }
+
+    [TargetRpc]
+    public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
+    {
+        ItemCardHeader card = originalCard as ItemCardHeader;
+
+        physicalPowerText.text = card.PhysicalPower.ToString();
+        magicalPowerText.text = card.MagicalPower.ToString();
+        nameText.text = card.Name;
     }
 }

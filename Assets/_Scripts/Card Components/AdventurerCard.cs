@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
@@ -213,6 +214,29 @@ public class AdventurerCard : Card
         costText.text = cardData.Cost.ToString();
 
         if (cardData.AbilityName == "") descriptionObject.SetActive(false);
+    }
+
+    [TargetRpc]
+    public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
+    {
+        AdventurerCard card = originalCard as AdventurerCard;
+
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+
+
+        physicalPowerText.text = card.PhysicalPower.ToString();
+        magicalPowerText.text = card.MagicalPower.ToString();
+        nameText.text = card.Name;
+        abilityNameText.text = card.AbilityName;
+        cardTypeText.text = card.CardType;
+        costText.text = card.Cost.ToString();
+
+        if (card.AbilityName == "") descriptionObject.SetActive(false);
+
+        if (card.HasItem)
+        {
+            //Item.TargetCopyCardData(connection, card.Item);
+        }
     }
 
     [Server]

@@ -10,16 +10,18 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 {
     private GameObject canvas;
     private CardData cardData;
-    //private bool isSpotlighting;
-    private bool isEnlarged;
+    
     private Vector2 originalSize;
     private Transform originalParent;
     private int originalLayer;
     private RectTransform cardRectTransform;
+
+    private bool isEnlarged;
+    private GameObject enlargedCard;
+
     private bool isSpotlighting;
     private GameObject spotlight;
 
-    [SyncVar] private Card cardPrefab;
 
 
     private void Start()
@@ -38,48 +40,83 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         if (eventData.pointerId == -1)
         {
             // LEFT CLICK
-            EnlargeCard();
+            if (isEnlarged)
+            {
+                DestroyEnlargedCard();
+                return;
+            }
+
+            if (isSpotlighting) return;
+
+            Vector2 spawnPosition = gameObject.transform.position;
+            ServerSpawnCard(LocalConnection, gameObject, spawnPosition, false);
         }
         else if (eventData.pointerId == -2)
         {
             // RIGHT CLICK
-            // shrink card here
-            Vector2 spawnPosition = gameObject.transform.position;
-            ServerSpawnCard(LocalConnection, gameObject, spawnPosition);
+
+            if (isEnlarged) DestroyEnlargedCard();
+
+            if (isSpotlighting)
+            {
+                DestroySpotlightCard();
+                return;
+            }
+
+            Vector2 spawnPosition = new Vector2(Screen.width/2, Screen.height/2);
+            ServerSpawnCard(LocalConnection, gameObject, spawnPosition,true);
         }
     }
 
-    public void EnlargeCard()
-    {
-        if (isEnlarged) return;
-        isEnlarged = true;
+    //public void EnlargeCard()
+    //{
+    //    if (isEnlarged) return;
+    //    isEnlarged = true;
 
-        //Vector2 spawnPosition = gameObject.transform.position + new Vector3(0f, 300f);
+    //    //Vector2 spawnPosition = gameObject.transform.position + new Vector3(0f, 300f);
 
-        originalSize = cardRectTransform.localScale;
-        originalParent = gameObject.transform.parent;
-        originalLayer = gameObject.layer;
+    //    originalSize = cardRectTransform.localScale;
+    //    originalParent = gameObject.transform.parent;
+    //    originalLayer = gameObject.layer;
 
-        cardRectTransform.localScale = new Vector2(2f, 2f);
-        gameObject.transform.SetParent(canvas.transform, true);
-        gameObject.layer = LayerMask.NameToLayer("Spotlight");
-    }
+    //    cardRectTransform.localScale = new Vector2(2f, 2f);
+    //    gameObject.transform.SetParent(canvas.transform, true);
+    //    gameObject.layer = LayerMask.NameToLayer("Spotlight");
+    //}
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerSpawnCard(NetworkConnection connection, GameObject card, Vector2 spawnPosition)
+    private void ServerSpawnCard(NetworkConnection connection, GameObject originalCard, Vector2 spawnPosition, bool isSpotlight)
     {
-        GameObject spotlightCard = Instantiate(card, spawnPosition, Quaternion.identity);
-        //enlargedCard = card;
-        Spawn(spotlightCard);
+        GameObject card = Instantiate(originalCard, spawnPosition, Quaternion.identity);
+        Spawn(card);
 
-        //enlargedCard.LoadCardData(card.Data);
+        card.GetComponent<Card>().TargetCopyCardData(connection, originalCard.GetComponent<Card>());
 
-        TargetRenderSpotlightCard(connection, spotlightCard);
+        if (isSpotlight) TargetRenderSpotlightCard(connection, card);
+        else TargetRenderEnlargedCard(connection, card);
     }
 
     [TargetRpc]
     private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject spotlightCard)
     {
+        
+        CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
+        canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
+
+        RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
+        spotlightRect.localScale = new Vector2(3f, 3f);
+
+        spotlightCard.gameObject.transform.SetParent(canvas.transform, true);
+        spotlightCard.gameObject.layer = LayerMask.NameToLayer("Spotlight");
+
+        spotlight = spotlightCard;
+        isSpotlighting = true;
+    }
+
+    [TargetRpc]
+    private void TargetRenderEnlargedCard(NetworkConnection connection, GameObject spotlightCard)
+    {
+
         CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
         canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
 
@@ -89,29 +126,26 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         spotlightCard.gameObject.transform.SetParent(canvas.transform, true);
         spotlightCard.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
-        spotlight = spotlightCard;
-        isSpotlighting = true;
-
-
+        enlargedCard = spotlightCard;
+        isEnlarged = true;
     }
 
-    public void DestroySpotlightCard()
+    public void DestroyEnlargedCard()
     {
         if (isEnlarged)
         {
             isEnlarged = false;
-            cardRectTransform.localScale = originalSize;
-            gameObject.transform.SetParent(originalParent, true);
-            gameObject.layer = originalLayer;
+            ServerDespawnCard(enlargedCard);
         }
+    }
 
+    public void DestroySpotlightCard()
+    {
         if (isSpotlighting)
         {
             isSpotlighting = false;
             ServerDespawnCard(spotlight);
         }
-
-        
     }
 
     [ServerRpc(RequireOwnership = false)]
