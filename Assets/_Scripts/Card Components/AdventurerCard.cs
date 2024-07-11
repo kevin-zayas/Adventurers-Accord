@@ -151,12 +151,17 @@ public class AdventurerCard : Card
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
 
-        if (physicalPower > OriginalPhysicalPower) physicalPowerText.color = Color.green;
-        else if (physicalPower < OriginalPhysicalPower) physicalPowerText.color = Color.red;
+        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower, OriginalMagicalPower);
+    }
+
+    private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
+    {
+        if (physicalPower > originalPhysicalPower) physicalPowerText.color = Color.green;
+        else if (physicalPower < originalPhysicalPower) physicalPowerText.color = Color.red;
         else physicalPowerText.color = Color.white;
 
-        if (magicalPower > OriginalMagicalPower) magicalPowerText.color = Color.green;
-        else if (magicalPower < OriginalMagicalPower) magicalPowerText.color = Color.red;
+        if (magicalPower > originalMagicalPower) magicalPowerText.color = Color.green;
+        else if (magicalPower < originalMagicalPower) magicalPowerText.color = Color.red;
         else magicalPowerText.color = Color.white;
     }
 
@@ -205,7 +210,6 @@ public class AdventurerCard : Card
     {
         cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
         
-
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
@@ -223,13 +227,14 @@ public class AdventurerCard : Card
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
 
-
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
         nameText.text = card.Name;
         abilityNameText.text = card.AbilityName;
         cardTypeText.text = card.CardType;
         costText.text = card.Cost.ToString();
+
+        UpdatePowerTextColor(card.PhysicalPower, card.MagicalPower, card.OriginalPhysicalPower, card.OriginalMagicalPower);
 
         if (card.AbilityName == "") descriptionObject.SetActive(false);
 

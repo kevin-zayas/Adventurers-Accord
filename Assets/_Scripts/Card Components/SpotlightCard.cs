@@ -16,11 +16,13 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     private int originalLayer;
     private RectTransform cardRectTransform;
 
-    private bool isEnlarged;
+    //private bool isEnlarged;
     private GameObject enlargedCard;
 
-    private bool isSpotlighting;
-    private GameObject spotlight;
+    //private bool isSpotlighting;
+    private GameObject spotlightCard;
+
+    private bool isDragging;
 
 
 
@@ -30,23 +32,25 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         cardRectTransform = gameObject.GetComponent<RectTransform>();
     }
 
-    private void OnDisable()
-    {
-        DestroySpotlightCard();
-    }
+    //private void OnDisable()
+    //{
+    //    DestroySpotlightCard();
+    //}
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (isDragging) return;
         if (eventData.pointerId == -1)
         {
+            print("OnPointerDown" + enlargedCard);
             // LEFT CLICK
-            if (isEnlarged)
+            if (enlargedCard)
             {
                 DestroyEnlargedCard();
                 return;
             }
 
-            if (isSpotlighting) return;
+            if (spotlightCard) return;
 
             Vector2 spawnPosition = gameObject.transform.position;
             ServerSpawnCard(LocalConnection, gameObject, spawnPosition, false);
@@ -55,16 +59,16 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         {
             // RIGHT CLICK
 
-            if (isEnlarged) DestroyEnlargedCard();
+            if (enlargedCard) DestroyEnlargedCard();
 
-            if (isSpotlighting)
+            if (spotlightCard)
             {
                 DestroySpotlightCard();
                 return;
             }
 
-            Vector2 spawnPosition = new Vector2(Screen.width/2, Screen.height/2);
-            ServerSpawnCard(LocalConnection, gameObject, spawnPosition,true);
+            Vector2 spawnPosition = new(Screen.width / 2, Screen.height / 2);
+            ServerSpawnCard(LocalConnection, gameObject, spawnPosition, true);
         }
     }
 
@@ -97,63 +101,94 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     }
 
     [TargetRpc]
-    private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject spotlightCard)
+    private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject card)
     {
         
-        CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
+        CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
         canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
 
-        RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
+        RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(3f, 3f);
 
-        spotlightCard.gameObject.transform.SetParent(canvas.transform, true);
-        spotlightCard.gameObject.layer = LayerMask.NameToLayer("Spotlight");
+        card.gameObject.transform.SetParent(canvas.transform, true);
+        card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
-        spotlight = spotlightCard;
-        isSpotlighting = true;
+        spotlightCard = card;
+        //isSpotlighting = true;
     }
 
     [TargetRpc]
-    private void TargetRenderEnlargedCard(NetworkConnection connection, GameObject spotlightCard)
+    private void TargetRenderEnlargedCard(NetworkConnection connection, GameObject card)
     {
+        if (isDragging)
+        {
+            ServerDespawnCard(card);
+            return;
+        }
 
-        CanvasGroup canvasGroup = spotlightCard.GetComponent<CanvasGroup>();
+        CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
         canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
 
-        RectTransform spotlightRect = spotlightCard.GetComponent<RectTransform>();
+        RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
 
-        spotlightCard.gameObject.transform.SetParent(canvas.transform, true);
-        spotlightCard.gameObject.layer = LayerMask.NameToLayer("Spotlight");
+        card.gameObject.transform.SetParent(canvas.transform, true);
+        card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
-        enlargedCard = spotlightCard;
-        isEnlarged = true;
+        enlargedCard = card;
+        //isEnlarged = true;
+
+        // increase size of original card to ensure destroying enlarged card on pointer exit feels natural
+        originalSize = cardRectTransform.localScale;
+        cardRectTransform.localScale = new Vector2(2f, 2f);
+
     }
 
     public void DestroyEnlargedCard()
     {
-        if (isEnlarged)
-        {
-            isEnlarged = false;
-            ServerDespawnCard(enlargedCard);
-        }
+        print("destroy enlarged card");
+        if (!enlargedCard) return;
+
+        cardRectTransform.localScale = originalSize;
+
+        enlargedCard.gameObject.SetActive(false);
+        ServerDespawnCard(enlargedCard);
+
+        cardRectTransform.localScale = originalSize;
     }
 
     public void DestroySpotlightCard()
     {
-        if (isSpotlighting)
-        {
-            isSpotlighting = false;
-            ServerDespawnCard(spotlight);
-        }
+        print("destroy spotlight card");
+        //isSpotlighting = false;
+        ServerDespawnCard(spotlightCard);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerDespawnCard(GameObject spotlightCard)
+    private void ServerDespawnCard(GameObject card)
     {
-        if (spotlightCard)
+
+        if (card)
         {
-            Despawn(spotlightCard.gameObject);
+            Despawn(card.gameObject);
+            print("despawn card");
         }
+    }
+
+    public void OnBeginDrag()
+    {
+        print("begin drag, isDragging True");
+        isDragging = true;
+        if (enlargedCard)
+        {
+            print("enlarged card present during drag, destroying enlarged card");
+            DestroyEnlargedCard();
+        }
+    }
+
+    public void OnEndDrag()
+    {
+        print("end drag, isDragging False");
+        isDragging = false;
     }
 }
