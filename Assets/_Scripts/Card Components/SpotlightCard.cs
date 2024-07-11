@@ -1,25 +1,15 @@
 using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 {
-    private GameObject canvas;
-    private CardData cardData;
-    
+    private GameObject canvas;    
     private Vector2 originalSize;
-    private Transform originalParent;
-    private int originalLayer;
     private RectTransform cardRectTransform;
 
-    //private bool isEnlarged;
     private GameObject enlargedCard;
-
-    //private bool isSpotlighting;
     private GameObject spotlightCard;
 
     private bool isDragging;
@@ -72,22 +62,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         }
     }
 
-    //public void EnlargeCard()
-    //{
-    //    if (isEnlarged) return;
-    //    isEnlarged = true;
-
-    //    //Vector2 spawnPosition = gameObject.transform.position + new Vector3(0f, 300f);
-
-    //    originalSize = cardRectTransform.localScale;
-    //    originalParent = gameObject.transform.parent;
-    //    originalLayer = gameObject.layer;
-
-    //    cardRectTransform.localScale = new Vector2(2f, 2f);
-    //    gameObject.transform.SetParent(canvas.transform, true);
-    //    gameObject.layer = LayerMask.NameToLayer("Spotlight");
-    //}
-
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnCard(NetworkConnection connection, GameObject originalCard, Vector2 spawnPosition, bool isSpotlight)
     {
@@ -114,7 +88,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
         spotlightCard = card;
-        //isSpotlighting = true;
     }
 
     [TargetRpc]
@@ -136,7 +109,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
         enlargedCard = card;
-        //isEnlarged = true;
 
         // increase size of original card to ensure destroying enlarged card on pointer exit feels natural
         originalSize = cardRectTransform.localScale;
@@ -160,7 +132,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     public void DestroySpotlightCard()
     {
         print("destroy spotlight card");
-        //isSpotlighting = false;
         ServerDespawnCard(spotlightCard);
     }
 
