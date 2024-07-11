@@ -1,8 +1,10 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class QuestCard : Card
 {
@@ -70,6 +72,25 @@ public class QuestCard : Card
 
         if (cardData.CardDescription == "") descriptionObject.SetActive(false);
 
-        cardImage.sprite = Resources.Load<Sprite>("Quest_Sprites/" + cardData.CardName);
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
+    }
+
+    [TargetRpc]
+    public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
+    {
+        QuestCard card = originalCard as QuestCard;
+
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+
+        physicalPowerText.text = card.PhysicalPower.ToString();
+        magicalPowerText.text = card.MagicalPower.ToString();
+        nameText.text = card.Name;
+        descriptionText.text = card.Description;
+        goldRewardText.text = $"{card.GoldReward} GP";
+        reputationRewardText.text = $"{card.ReputationReward} Rep.";
+        lootRewardText.text = $"{card.LootReward} Loot";
+
+        if (card.Description == "") descriptionObject.SetActive(false);
+
     }
 }

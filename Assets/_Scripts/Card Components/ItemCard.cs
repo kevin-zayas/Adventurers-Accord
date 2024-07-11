@@ -3,6 +3,7 @@ using FishNet.Object;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using FishNet.Connection;
 
 public class ItemCard : Card
 {
@@ -50,6 +51,21 @@ public class ItemCard : Card
         subDescriptionText.text = cardData.CardSubDescription;
 
         cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.CardName);
+    }
+
+    [TargetRpc]
+    public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
+    {
+        ItemCard card = originalCard as ItemCard;
+
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+
+        physicalPowerText.text = card.PhysicalPower.ToString();
+        magicalPowerText.text = card.MagicalPower.ToString();
+        nameText.text = card.Name;
+        descriptionText.text = card.Description;
+        subDescriptionText.text = card.SubDescription;
+
     }
 
 }

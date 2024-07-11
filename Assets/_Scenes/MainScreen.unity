@@ -5500,7 +5500,7 @@ MonoBehaviour:
   <CurrentPhase>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
   <StartingGold>k__BackingField: 30
-  <StartingLoot>k__BackingField: 3
+  <StartingLoot>k__BackingField: 8
   <ReputationGoal>k__BackingField: 25
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 

@@ -296,7 +296,6 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  cardPrefab: {fileID: 3478594553878486444}
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +315,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -4959033644106127066}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
+          m_MethodName: OnBeginDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -344,7 +343,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -4959033644106127066}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
+          m_MethodName: OnEndDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -372,7 +371,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: -4959033644106127066}
           m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroySpotlightCard
+          m_MethodName: DestroyEnlargedCard
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -385,35 +384,11 @@ MonoBehaviour:
   - eventID: 4
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: -4959033644106127066}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: OnClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: -4959033644106127066}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 0
+        m_Calls: []
 --- !u!114 &3478594553878486444
 MonoBehaviour:
   m_ObjectHideFlags: 0

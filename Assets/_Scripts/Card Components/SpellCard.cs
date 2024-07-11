@@ -1,8 +1,10 @@
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class SpellCard : Card
 {
@@ -49,7 +51,20 @@ public class SpellCard : Card
         nameText.text = cardData.CardName;
         descriptionText.text = cardData.CardDescription;
 
-        if (cardData.PhysicalPower > 0 || cardData.MagicalPower > 0) cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/PositiveSpell");
-        else cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/NegativeSpell");
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
+    }
+
+    [TargetRpc]
+    public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
+    {
+        SpellCard card = originalCard as SpellCard;
+
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+
+        physicalPowerText.text = card.PhysicalPower.ToString();
+        magicalPowerText.text = card.MagicalPower.ToString();
+        nameText.text = card.Name;
+        descriptionText.text = card.Description;
+
     }
 }
