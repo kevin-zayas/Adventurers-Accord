@@ -41,8 +41,17 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
             }
 
             if (spotlightCard) return;
+            Vector2 spawnPosition;
 
-            Vector2 spawnPosition = gameObject.transform.position;
+            Card card = gameObject.GetComponent<Card>();
+            if (card is ItemCardHeader itemHeader)
+            {
+                spawnPosition = gameObject.transform.position;
+                ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, false);
+                return;
+            }
+
+            spawnPosition = gameObject.transform.position;
             ServerSpawnCard(LocalConnection, gameObject, spawnPosition, false);
         }
         else if (eventData.pointerId == -2)
@@ -58,25 +67,46 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
             }
 
             Vector2 spawnPosition = new(Screen.width / 2, Screen.height / 2);
+
+            Card card = gameObject.GetComponent<Card>();
+            if (card is ItemCardHeader itemHeader)
+            {
+                ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, true);
+                return;
+            }
+
             ServerSpawnCard(LocalConnection, gameObject, spawnPosition, true);
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerSpawnCard(NetworkConnection connection, GameObject originalCard, Vector2 spawnPosition, bool isSpotlight)
+    private void ServerSpawnCard(NetworkConnection connection, GameObject originalCardObject, Vector2 spawnPosition, bool isSpotlight)
     {
-        GameObject cardObject = Instantiate(originalCard, spawnPosition, Quaternion.identity);
-        Spawn(cardObject);
+        GameObject newCardObject = Instantiate(originalCardObject, spawnPosition, Quaternion.identity);
+        Spawn(newCardObject);
 
-        Card card = cardObject.GetComponent<Card>();
-        card.TargetCopyCardData(connection, originalCard.GetComponent<Card>());
+        Card card = newCardObject.GetComponent<Card>();
+        card.TargetCopyCardData(connection, originalCardObject.GetComponent<Card>());
+
         if (card is AdventurerCard adventurerCard && adventurerCard.HasItem)
         {
-            adventurerCard.Item.TargetCopyCardData(connection, originalCard.GetComponent<Card>());
+            adventurerCard.Item.TargetCopyCardData(connection, originalCardObject.GetComponent<Card>());
         }
 
-        if (isSpotlight) TargetRenderSpotlightCard(connection, cardObject);
-        else TargetRenderEnlargedCard(connection, cardObject);
+        if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject);
+        else TargetRenderEnlargedCard(connection, newCardObject);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerSpawnItemHeaderCard(NetworkConnection connection, ItemCardHeader itemHeader, Vector2 spawnPosition, bool isSpotlight)
+    {
+        ItemCard newItem = Instantiate(CardDatabase.Instance.itemCardPrefab, spawnPosition, Quaternion.identity);
+        Spawn(newItem.gameObject);
+
+        newItem.TargetCopyItemHeaderData(connection, itemHeader);
+
+        if (isSpotlight) TargetRenderSpotlightCard(connection, newItem.gameObject);
+        else TargetRenderEnlargedCard(connection, newItem.gameObject);
     }
 
     [TargetRpc]
@@ -109,6 +139,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
+        print(spotlightRect.sizeDelta.x + " , " + spotlightRect.sizeDelta.y);
 
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
@@ -118,6 +149,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         // increase size of original card to ensure destroying enlarged card on pointer exit feels natural
         originalSize = cardRectTransform.localScale;
         cardRectTransform.localScale = new Vector2(2f, 2f);
+        print(cardRectTransform.sizeDelta.x + " , " + cardRectTransform.sizeDelta.y);
 
     }
 

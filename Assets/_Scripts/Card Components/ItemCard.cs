@@ -65,7 +65,31 @@ public class ItemCard : Card
         nameText.text = card.Name;
         descriptionText.text = card.Description;
         subDescriptionText.text = card.SubDescription;
-
     }
 
+    [TargetRpc]
+    public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
+    {
+
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.Name];
+
+        physicalPowerText.text = itemHeader.PhysicalPower.ToString();
+        magicalPowerText.text = itemHeader.MagicalPower.ToString();
+        nameText.text = itemHeader.Name;
+        descriptionText.text = itemHeader.Description;
+        subDescriptionText.text = itemHeader.Data.CardSubDescription;
+
+        UpdatePowerTextColor(itemHeader.PhysicalPower, itemHeader.MagicalPower, itemHeader.Data.OriginalPhysicalPower, itemHeader.Data.MagicalPower);
+    }
+
+    private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
+    {
+        if (physicalPower > originalPhysicalPower) physicalPowerText.color = Color.green;
+        else if (physicalPower < originalPhysicalPower) physicalPowerText.color = Color.red;
+        else physicalPowerText.color = Color.white;
+
+        if (magicalPower > originalMagicalPower) magicalPowerText.color = Color.green;
+        else if (magicalPower < originalMagicalPower) magicalPowerText.color = Color.red;
+        else magicalPowerText.color = Color.white;
+    }
 }
