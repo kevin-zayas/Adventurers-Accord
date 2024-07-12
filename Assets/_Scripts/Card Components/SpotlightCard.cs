@@ -65,13 +65,18 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnCard(NetworkConnection connection, GameObject originalCard, Vector2 spawnPosition, bool isSpotlight)
     {
-        GameObject card = Instantiate(originalCard, spawnPosition, Quaternion.identity);
-        Spawn(card);
+        GameObject cardObject = Instantiate(originalCard, spawnPosition, Quaternion.identity);
+        Spawn(cardObject);
 
-        card.GetComponent<Card>().TargetCopyCardData(connection, originalCard.GetComponent<Card>());
+        Card card = cardObject.GetComponent<Card>();
+        card.TargetCopyCardData(connection, originalCard.GetComponent<Card>());
+        if (card is AdventurerCard adventurerCard && adventurerCard.HasItem)
+        {
+            adventurerCard.Item.TargetCopyCardData(connection, originalCard.GetComponent<Card>());
+        }
 
-        if (isSpotlight) TargetRenderSpotlightCard(connection, card);
-        else TargetRenderEnlargedCard(connection, card);
+        if (isSpotlight) TargetRenderSpotlightCard(connection, cardObject);
+        else TargetRenderEnlargedCard(connection, cardObject);
     }
 
     [TargetRpc]

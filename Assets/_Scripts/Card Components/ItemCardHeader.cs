@@ -68,12 +68,16 @@ public class ItemCardHeader : Card
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
 
-        if (physicalPower > OriginalPhysicalPower) physicalPowerText.color = Color.green;
-        else if (physicalPower < OriginalPhysicalPower) physicalPowerText.color = Color.red;
+        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower, OriginalMagicalPower);
+    }
+    private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
+    {
+        if (physicalPower > originalPhysicalPower) physicalPowerText.color = Color.green;
+        else if (physicalPower < originalPhysicalPower) physicalPowerText.color = Color.red;
         else physicalPowerText.color = Color.white;
 
-        if (magicalPower > OriginalMagicalPower) magicalPowerText.color = Color.green;
-        else if (magicalPower < OriginalMagicalPower) magicalPowerText.color = Color.red;
+        if (magicalPower > originalMagicalPower) magicalPowerText.color = Color.green;
+        else if (magicalPower < originalMagicalPower) magicalPowerText.color = Color.red;
         else magicalPowerText.color = Color.white;
     }
 
@@ -131,10 +135,13 @@ public class ItemCardHeader : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
-        ItemCardHeader card = originalCard as ItemCardHeader;
+        AdventurerCard card = originalCard as AdventurerCard;
+        ItemCardHeader item = card.Item;
 
-        physicalPowerText.text = card.PhysicalPower.ToString();
-        magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.Name;
+        physicalPowerText.text = item.PhysicalPower.ToString();
+        magicalPowerText.text = item.MagicalPower.ToString();
+        nameText.text = item.Name;
+
+        UpdatePowerTextColor(item.PhysicalPower, item.MagicalPower, item.OriginalPhysicalPower, item.OriginalMagicalPower);
     }
 }
