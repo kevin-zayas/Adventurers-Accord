@@ -30,9 +30,10 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isDragging) return;
+        Vector2 spawnPosition;
         if (eventData.pointerId == -1)
         {
-            print("OnPointerDown" + enlargedCard);
+            //print("OnPointerDown" + enlargedCard);
             // LEFT CLICK
             if (enlargedCard)
             {
@@ -41,18 +42,13 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
             }
 
             if (spotlightCard) return;
-            Vector2 spawnPosition;
-
-            Card card = gameObject.GetComponent<Card>();
-            if (card is ItemCardHeader itemHeader)
-            {
-                spawnPosition = gameObject.transform.position;
-                ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, false);
-                return;
-            }
 
             spawnPosition = gameObject.transform.position;
-            ServerSpawnCard(LocalConnection, gameObject, spawnPosition, false);
+
+            Card card = gameObject.GetComponent<Card>();
+
+            if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, false);
+            else ServerSpawnCard(LocalConnection, gameObject, spawnPosition, false);
         }
         else if (eventData.pointerId == -2)
         {
@@ -66,16 +62,12 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
                 return;
             }
 
-            Vector2 spawnPosition = new(Screen.width / 2, Screen.height / 2);
+            spawnPosition = new(Screen.width / 2, Screen.height / 2);
 
             Card card = gameObject.GetComponent<Card>();
-            if (card is ItemCardHeader itemHeader)
-            {
-                ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, true);
-                return;
-            }
 
-            ServerSpawnCard(LocalConnection, gameObject, spawnPosition, true);
+            if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, true);
+            else ServerSpawnCard(LocalConnection, gameObject, spawnPosition, true);
         }
     }
 
@@ -83,6 +75,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     private void ServerSpawnCard(NetworkConnection connection, GameObject originalCardObject, Vector2 spawnPosition, bool isSpotlight)
     {
         GameObject newCardObject = Instantiate(originalCardObject, spawnPosition, Quaternion.identity);
+
+        RectTransform spotlightRect = newCardObject.GetComponent<RectTransform>();
         Spawn(newCardObject);
 
         Card card = newCardObject.GetComponent<Card>();
@@ -119,6 +113,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(3f, 3f);
 
+        CorrectItemHeaderPosition(card);
+
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
@@ -139,7 +135,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
-        print(spotlightRect.sizeDelta.x + " , " + spotlightRect.sizeDelta.y);
+
+        CorrectItemHeaderPosition(card);
 
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
@@ -149,13 +146,24 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         // increase size of original card to ensure destroying enlarged card on pointer exit feels natural
         originalSize = cardRectTransform.localScale;
         cardRectTransform.localScale = new Vector2(2f, 2f);
-        print(cardRectTransform.sizeDelta.x + " , " + cardRectTransform.sizeDelta.y);
 
+    }
+
+    private void CorrectItemHeaderPosition(GameObject card)
+    {
+        if (card.GetComponent<Card>() is AdventurerCard adventurerCard && adventurerCard.Item)
+        {
+            RectTransform spotlightRect = card.GetComponent<RectTransform>();
+            spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 220f);
+
+            RectTransform itemHeaderRect = adventurerCard.Item.GetComponent<RectTransform>();
+            itemHeaderRect.anchoredPosition = Vector2.zero;
+        }
     }
 
     public void DestroyEnlargedCard()
     {
-        print("destroy enlarged card");
+        //print("destroy enlarged card");
         if (!enlargedCard) return;
 
         cardRectTransform.localScale = originalSize;
@@ -168,7 +176,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 
     public void DestroySpotlightCard()
     {
-        print("destroy spotlight card");
+        //print("destroy spotlight card");
         ServerDespawnCard(spotlightCard);
     }
 
@@ -179,24 +187,24 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         if (card)
         {
             Despawn(card.gameObject);
-            print("despawn card");
+            //print("despawn card");
         }
     }
 
     public void OnBeginDrag()
     {
-        print("begin drag, isDragging True");
+        //print("begin drag, isDragging True");
         isDragging = true;
         if (enlargedCard)
         {
-            print("enlarged card present during drag, destroying enlarged card");
+            //print("enlarged card present during drag, destroying enlarged card");
             DestroyEnlargedCard();
         }
     }
 
     public void OnEndDrag()
     {
-        print("end drag, isDragging False");
+        //print("end drag, isDragging False");
         isDragging = false;
     }
 }

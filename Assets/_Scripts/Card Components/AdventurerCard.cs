@@ -102,6 +102,13 @@ public class AdventurerCard : Card
         ObserversAdjustCardSize(220);    // increase card size to adjust for item header
     }
 
+    //[Server]
+    //private void AdjustCardSize(int height)
+    //{
+    //    gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+    //    ObserversAdjustCardSize(height);
+    //}
+
     [ObserversRpc(BufferLast = true)]
     private void ObserversAdjustCardSize(int height)
     {
@@ -237,11 +244,6 @@ public class AdventurerCard : Card
         UpdatePowerTextColor(card.PhysicalPower, card.MagicalPower, card.OriginalPhysicalPower, card.OriginalMagicalPower);
 
         if (card.AbilityName == "") descriptionObject.SetActive(false);
-
-        if (card.HasItem)
-        {
-            //Item.TargetCopyCardData(connection, card.Item);
-        }
     }
 
     [Server]
