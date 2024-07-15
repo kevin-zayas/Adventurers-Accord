@@ -75,8 +75,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     private void ServerSpawnCard(NetworkConnection connection, GameObject originalCardObject, Vector2 spawnPosition, bool isSpotlight)
     {
         GameObject newCardObject = Instantiate(originalCardObject, spawnPosition, Quaternion.identity);
-
-        RectTransform spotlightRect = newCardObject.GetComponent<RectTransform>();
         Spawn(newCardObject);
 
         Card card = newCardObject.GetComponent<Card>();
