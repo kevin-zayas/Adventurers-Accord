@@ -28,7 +28,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
     private void OnDisable()
     {
-        ServerDespawnCard(gameObject);
+        if (isEnlargedCard || isSpotlightCard) ServerDespawnCard(gameObject);
     }
 
     public void OnPointerDown(PointerEventData eventData)
