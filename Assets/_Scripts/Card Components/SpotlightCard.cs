@@ -111,7 +111,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(3f, 3f);
 
-        CorrectItemHeaderPosition(card);
+        CorrectCardSize(card);
 
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
@@ -134,7 +134,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
 
-        CorrectItemHeaderPosition(card);
+        CorrectCardSize(card);
 
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
@@ -147,9 +147,9 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 
     }
 
-    private void CorrectItemHeaderPosition(GameObject card)
+    private void CorrectCardSize(GameObject card)
     {
-        if (card.GetComponent<Card>() is AdventurerCard adventurerCard && adventurerCard.Item)
+        if (card.GetComponent<Card>() is AdventurerCard adventurerCard && adventurerCard.Item.isActiveAndEnabled)
         {
             RectTransform spotlightRect = card.GetComponent<RectTransform>();
             spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 220f);
