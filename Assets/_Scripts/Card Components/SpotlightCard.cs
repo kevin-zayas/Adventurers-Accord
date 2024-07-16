@@ -3,7 +3,7 @@ using FishNet.Object;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
+public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     private GameObject canvas;    
     private Vector2 originalSize;
@@ -13,6 +13,10 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
     private GameObject spotlightCard;
 
     private bool isDragging;
+    public bool isEnlargedCard;
+    public bool isSpotlightCard;
+
+    public GameObject referenceCard;
 
 
 
@@ -22,15 +26,19 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         cardRectTransform = gameObject.GetComponent<RectTransform>();
     }
 
-    //private void OnDisable()
-    //{
-    //    DestroySpotlightCard();
-    //}
+    private void OnDisable()
+    {
+        ServerDespawnCard(gameObject);
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isDragging) return;
         Vector2 spawnPosition;
+
+        if (isSpotlightCard) gameObject.SetActive(false);
+        
+
         if (eventData.pointerId == -1)
         {
             //print("OnPointerDown" + enlargedCard);
@@ -40,6 +48,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
                 DestroyEnlargedCard();
                 return;
             }
+
+            if (isEnlargedCard) gameObject.SetActive(false);
 
             if (spotlightCard) return;
 
@@ -71,19 +81,23 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void ServerSpawnCard(NetworkConnection connection, GameObject originalCardObject, Vector2 spawnPosition, bool isSpotlight)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        GameObject newCardObject = Instantiate(originalCardObject, spawnPosition, Quaternion.identity);
+        if (isEnlargedCard)
+        {
+            //ServerDespawnCard(gameObject);
+            gameObject.SetActive(false);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerSpawnCard(NetworkConnection connection, GameObject sourceCardObject, Vector2 spawnPosition, bool isSpotlight)
+    {
+        GameObject newCardObject = Instantiate(sourceCardObject, spawnPosition, Quaternion.identity);
         Spawn(newCardObject);
 
-        Card card = newCardObject.GetComponent<Card>();
-        card.TargetCopyCardData(connection, originalCardObject.GetComponent<Card>());
-
-        if (card is AdventurerCard adventurerCard && adventurerCard.HasItem)
-        {
-            adventurerCard.Item.TargetCopyCardData(connection, originalCardObject.GetComponent<Card>());
-        }
+        CopyCardData(connection, newCardObject, sourceCardObject);
+        newCardObject.GetComponent<SpotlightCard>().referenceCard = sourceCardObject;
 
         if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject);
         else TargetRenderEnlargedCard(connection, newCardObject);
@@ -101,12 +115,30 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         else TargetRenderEnlargedCard(connection, newItem.gameObject);
     }
 
+    private void CopyCardData(NetworkConnection connection, GameObject newCardObject, GameObject sourceCardObject)
+    {
+        Card originalCard;
+        Card newCard = newCardObject.GetComponent<Card>();
+        GameObject referenceCardObject = sourceCardObject.GetComponent<SpotlightCard>().referenceCard;
+        
+        // If there is a reference card, copy its data, otherwise use sourceCard
+        originalCard = referenceCardObject ? referenceCardObject.GetComponent<Card>() : sourceCardObject.GetComponent<Card>();
+        newCard.TargetCopyCardData(connection, originalCard);
+
+        if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem)
+        {
+            adventurerCard.Item.TargetCopyCardData(connection, originalCard);
+        }
+    }
+
+
     [TargetRpc]
     private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject card)
     {
-        
-        CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
-        canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
+
+        //CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
+        //canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
+        card.GetComponent<SpotlightCard>().isSpotlightCard = true;
 
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(3f, 3f);
@@ -128,8 +160,9 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
             return;
         }
 
-        CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
-        canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
+        //CanvasGroup canvasGroup = card.GetComponent<CanvasGroup>();
+        //canvasGroup.blocksRaycasts = false;     // turn off so the spotlight card doesnt register hover/clicks
+        card.GetComponent<SpotlightCard>().isEnlargedCard = true;
 
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
@@ -143,8 +176,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         enlargedCard = card;
 
         // increase size of original card to ensure destroying enlarged card on pointer exit feels natural
-        originalSize = cardRectTransform.localScale;
-        cardRectTransform.localScale = new Vector2(2f, 2f);
+        //originalSize = cardRectTransform.localScale;
+        //cardRectTransform.localScale = new Vector2(2f, 2f);
     }
 
     private void AdjustEnlargedCardPosition(RectTransform rt)
@@ -180,12 +213,12 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         //print("destroy enlarged card");
         if (!enlargedCard) return;
 
-        cardRectTransform.localScale = originalSize;
+        //cardRectTransform.localScale = originalSize;
 
         enlargedCard.gameObject.SetActive(false);
         ServerDespawnCard(enlargedCard);
 
-        cardRectTransform.localScale = originalSize;
+        //cardRectTransform.localScale = originalSize;
     }
 
     public void DestroySpotlightCard()
