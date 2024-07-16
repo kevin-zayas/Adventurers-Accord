@@ -133,6 +133,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
 
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
+        AdjustEnlargedCardPosition(spotlightRect);
 
         CorrectCardSize(card);
 
@@ -144,7 +145,22 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler
         // increase size of original card to ensure destroying enlarged card on pointer exit feels natural
         originalSize = cardRectTransform.localScale;
         cardRectTransform.localScale = new Vector2(2f, 2f);
+    }
 
+    private void AdjustEnlargedCardPosition(RectTransform rt)
+    {
+        Vector2 position = rt.anchoredPosition;
+        print("initial position : " + position);
+
+        float x = position.x;
+        x = Mathf.Clamp(x, 0, Screen.width- rt.sizeDelta.x);
+
+        float y = position.y;
+        y = Mathf.Clamp(y, rt.sizeDelta.y, Screen.height - rt.sizeDelta.y);
+
+        position = new Vector2(x, y);
+        print("final position : " + position);
+        rt.anchoredPosition = position;
     }
 
     private void CorrectCardSize(GameObject card)

@@ -36,6 +36,7 @@ public class AdventurerDragDrop : NetworkBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch) return;
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return;      // prevent adventurer card from being dragged onto Magic Item
 
         dropZone = collision.gameObject;
         dropZoneTag = collision.gameObject.tag;
