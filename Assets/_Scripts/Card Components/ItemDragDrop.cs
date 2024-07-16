@@ -45,9 +45,6 @@ public class ItemDragDrop : NetworkBehaviour
         if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
 
-        
-        gameObject.layer = LayerMask.NameToLayer("Magic Items");
-
         startPosition = transform.position;
         startParentTransform = transform.parent;
         isDragging = true;
@@ -63,7 +60,6 @@ public class ItemDragDrop : NetworkBehaviour
         if (!isDragging) return;
 
         isDragging = false;
-        gameObject.layer = LayerMask.NameToLayer("Cards");
 
         if (adventurerCard == null)
         {
