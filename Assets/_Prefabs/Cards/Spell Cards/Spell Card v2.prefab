@@ -371,6 +371,9 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
+  isEnlargedCard: 0
+  isSpotlightCard: 0
+  referenceCard: {fileID: 0}
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -455,7 +458,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
   - eventID: 4
     callback:
       m_PersistentCalls:
