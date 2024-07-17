@@ -1521,6 +1521,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 8948479971837407625}
   isEnlargedCard: 0
   isSpotlightCard: 0
+  referenceCard: {fileID: 0}
 --- !u!114 &4105403660370424556
 MonoBehaviour:
   m_ObjectHideFlags: 0

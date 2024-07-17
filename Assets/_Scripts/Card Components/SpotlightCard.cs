@@ -2,6 +2,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExitHandler
 {
@@ -145,6 +146,13 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         CorrectCardSize(card);
 
+        spotlightRect.anchorMax = Vector2.one;
+        spotlightRect.anchorMin = Vector2.zero;
+        spotlightRect.offsetMin = Vector2.zero;
+        spotlightRect.offsetMax = new Vector2(Screen.width,Screen.height);
+
+        card.GetComponent<Image>().enabled = true;
+
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
 
@@ -166,7 +174,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(2f, 2f);
-        AdjustEnlargedCardPosition(spotlightRect);
+        PreventEnlargedCardCutoff(spotlightRect);
 
         CorrectCardSize(card);
 
@@ -180,10 +188,9 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         //cardRectTransform.localScale = new Vector2(2f, 2f);
     }
 
-    private void AdjustEnlargedCardPosition(RectTransform rt)
+    private void PreventEnlargedCardCutoff(RectTransform rt)
     {
         Vector2 position = rt.anchoredPosition;
-        print("initial position : " + position);
 
         float x = position.x;
         x = Mathf.Clamp(x, 0, Screen.width- rt.sizeDelta.x);
@@ -192,7 +199,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         y = Mathf.Clamp(y, rt.sizeDelta.y, Screen.height - rt.sizeDelta.y);
 
         position = new Vector2(x, y);
-        print("final position : " + position);
         rt.anchoredPosition = position;
     }
 
