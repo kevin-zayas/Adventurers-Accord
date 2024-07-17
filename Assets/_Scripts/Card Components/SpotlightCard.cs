@@ -53,7 +53,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         {
             // RIGHT CLICK
 
-            spawnPosition = new(Screen.width / 2, Screen.height / 2);
+            //spawnPosition = new(Screen.width / 2, Screen.height / 2);
+            spawnPosition = gameObject.transform.position;
             Card card = gameObject.GetComponent<Card>();
 
             if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, true);
@@ -76,19 +77,29 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         Spawn(newCardObject);
 
         CopyCardData(connection, newCardObject, sourceCardObject);
-        newCardObject.GetComponent<SpotlightCard>().referenceCard = sourceCardObject;
+        //newCardObject.GetComponent<SpotlightCard>().referenceCard = sourceCardObject;
+
+        if (sourceCardObject.GetComponent<Card>() is AdventurerCard adventurerCard && adventurerCard.HasItem)
+        {
+            newCardObject.GetComponent<AdventurerCard>().Item.GetComponent<SpotlightCard>().referenceCard = adventurerCard.Item.gameObject;
+        }
 
         if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject);
         else TargetRenderEnlargedCard(connection, newCardObject);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerSpawnItemHeaderCard(NetworkConnection connection, ItemCardHeader itemHeader, Vector2 spawnPosition, bool isSpotlight)
+    private void ServerSpawnItemHeaderCard(NetworkConnection connection, ItemCardHeader sourceItemHeader, Vector2 spawnPosition, bool isSpotlight)
     {
         ItemCard newItem = Instantiate(CardDatabase.Instance.itemCardPrefab, spawnPosition, Quaternion.identity);
         Spawn(newItem.gameObject);
+        print("new item spawned");
+        ItemCardHeader originalItemHeader;
+        GameObject referenceCardObject = sourceItemHeader.GetComponent<SpotlightCard>().referenceCard;
+        originalItemHeader = referenceCardObject ? referenceCardObject.GetComponent<ItemCardHeader>() : sourceItemHeader;
 
-        newItem.TargetCopyItemHeaderData(connection, itemHeader);
+        newItem.TargetCopyItemHeaderData(connection, originalItemHeader);
+        newItem.GetComponent<SpotlightCard>().referenceCard = originalItemHeader.gameObject;
 
         if (isSpotlight) TargetRenderSpotlightCard(connection, newItem.gameObject);
         else TargetRenderEnlargedCard(connection, newItem.gameObject);
@@ -102,7 +113,14 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         
         // If there is a reference card, copy its data, otherwise use sourceCard
         originalCard = referenceCardObject ? referenceCardObject.GetComponent<Card>() : sourceCardObject.GetComponent<Card>();
-        newCard.TargetCopyCardData(connection, originalCard);
+
+        if (newCard is ItemCard itemCard && originalCard is ItemCardHeader itemCardHeader)
+        {
+            itemCard.TargetCopyItemHeaderData(connection, itemCardHeader);
+        }
+        else newCard.TargetCopyCardData(connection, originalCard);
+
+        newCardObject.GetComponent<SpotlightCard>().referenceCard = originalCard.gameObject;
 
         if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem)
         {
