@@ -91,7 +91,7 @@ public class AdventurerCard : Card
     {
         HasItem = hasItem;
 
-        ItemCardHeader itemCardHeader = gameObject.transform.GetChild(1).GetComponent<ItemCardHeader>();
+        ItemCardHeader itemCardHeader = gameObject.transform.GetChild(0).transform.GetChild(1).GetComponent<ItemCardHeader>();
         Spawn(itemCardHeader.gameObject);
 
         itemCardHeader.LoadCardData(itemCardData);
@@ -99,14 +99,14 @@ public class AdventurerCard : Card
 
         if (Name == "Sorcerer") ResetPower();
         
-        ObserversAdjustCardSize(220);    // increase card size to adjust for item header
+        //ObserversAdjustCardSize(220);    // increase card size to adjust for item header
     }
 
-    [ObserversRpc(BufferLast = true)]
-    private void ObserversAdjustCardSize(int height)
-    {
-        gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-    }
+    //[ObserversRpc(BufferLast = true)]
+    //private void ObserversAdjustCardSize(int height)
+    //{
+    //    gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+    //}
 
 
     [ServerRpc(RequireOwnership = false)]

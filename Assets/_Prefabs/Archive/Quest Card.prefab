@@ -814,6 +814,7 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
+  - {fileID: -4959033644106127066}
   - {fileID: -5912677968188888225}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
@@ -826,11 +827,11 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 24
+  <PrefabId>k__BackingField: 2
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 804111248256903310
+  <AssetPathHash>k__BackingField: 9284951559712108631
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,6 +945,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  isEnlargedCard: 0
+  isSpotlightCard: 0
+  referenceCard: {fileID: 0}
 --- !u!114 &-5912677968188888225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,13 +963,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a5d6fd08e91fc48984f4a33d7cf145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  <Parent>k__BackingField: {fileID: 0}
   <Name>k__BackingField: 
+  <Description>k__BackingField: 
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: 0
+  <Data>k__BackingField: {fileID: 0}
+  <ControllingPlayer>k__BackingField: {fileID: 0}
+  <ControllingPlayerHand>k__BackingField: {fileID: 0}
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
