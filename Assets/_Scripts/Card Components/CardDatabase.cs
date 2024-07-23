@@ -27,16 +27,37 @@ public class CardDatabase : NetworkBehaviour
     public CardData wolfCardData;
 
     public Dictionary<string,Sprite> SpriteMap { get; private set; }
+    public Dictionary<string, List<string>> DescriptionKeyMap { get; private set; }
+    public Dictionary<string, string> DescriptionMap { get; private set; }
+
 
 
     private void Awake()
     {
         Instance = this;
-        SpriteMap = new Dictionary<string,Sprite>();
+        SpriteMap = new();
+        DescriptionKeyMap = new();
+        DescriptionMap = new();
     }
 
     // Start is called before the first frame update
     void Start()
+    {
+        InitializeDescriptionKeyMap();
+        InitializeSpriteMap();
+    }
+
+    private void InitializeDescriptionKeyMap()
+    {
+        DescriptionKeyMap.Add("Assassin", new List<string> { "test1", "test2" });
+    }
+
+    public string GetCardDescription(string keyword)
+    {
+        return DescriptionMap[keyword];
+    }
+
+    private void InitializeSpriteMap()
     {
         SaveSprites(tierOneCards, "Card_Sprites/");
         SaveSprites(tierTwoCards, "Card_Sprites/");

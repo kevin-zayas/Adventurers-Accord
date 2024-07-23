@@ -13,9 +13,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     public bool isEnlargedCard;
     public bool isSpotlightCard;
 
-    
-
-
+    [SerializeField] private SpotlightDescription spotlightDescriptionPrefab;
 
     private void Start()
     {
@@ -33,7 +31,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         if (isSpotlightCard) gameObject.SetActive(false);
 
         bool isSpotlight = true;
-        
+
         if (eventData.pointerId == -1)
         {
             // LEFT CLICK
@@ -90,7 +88,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         Card originalCard;
         Card newCard = newCardObject.GetComponent<Card>();
         GameObject referenceCardObject = sourceCardObject.GetComponent<SpotlightCard>().referenceCard;
-        
+
         // If there is a reference card, copy its data, otherwise use sourceCard
         originalCard = referenceCardObject ? referenceCardObject.GetComponent<Card>() : sourceCardObject.GetComponent<Card>();
         newCardObject.GetComponent<SpotlightCard>().referenceCard = originalCard.gameObject;
@@ -100,7 +98,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         {
             itemCard.TargetCopyItemHeaderData(connection, itemCardHeader);
         }
-        else newCard.TargetCopyCardData(connection, originalCard);        
+        else newCard.TargetCopyCardData(connection, originalCard);
 
         // Copy data into Adventurer Card's Item Header
         if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem)
@@ -114,21 +112,42 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     [TargetRpc]
     private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject card)
     {
+        ServerSpawnSpotlightDescription(connection, card);
         card.GetComponent<SpotlightCard>().isSpotlightCard = true;
 
-        RectTransform spotlightRect = card.GetComponent<RectTransform>();
-        spotlightRect.localScale = new Vector2(3f, 3f);
+        RectTransform spotlightTransform = card.GetComponent<RectTransform>();
+        spotlightTransform.localScale = new Vector2(3f, 3f);
 
         // Expand raycast blocker to full screen
-        spotlightRect.anchorMax = Vector2.one;
-        spotlightRect.anchorMin = Vector2.zero;
-        spotlightRect.offsetMin = Vector2.zero;
-        spotlightRect.offsetMax = new Vector2(Screen.width,Screen.height);
+        spotlightTransform.anchorMax = Vector2.one;
+        spotlightTransform.anchorMin = Vector2.zero;
+        spotlightTransform.offsetMin = Vector2.zero;
+        spotlightTransform.offsetMax = new Vector2(Screen.width, Screen.height + 125f);
 
         card.GetComponent<Image>().enabled = true;
 
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
+
+        //ServerSpawnSpotlightDescription(connection,card);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard)
+    {
+        SpotlightDescription sp = Instantiate(spotlightDescriptionPrefab, Vector2.zero, Quaternion.identity);
+        Spawn(sp.gameObject);
+        TargetRenderSpotlightDescription(connection, spotlightCard, sp.gameObject);
+    }
+
+    [TargetRpc]
+    private void TargetRenderSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject description)
+    {
+        RectTransform descriptionTransform= description.GetComponent<RectTransform>();
+        descriptionTransform.anchoredPosition = new Vector2(Screen.width/2, Screen.height/2 - 355f);
+        descriptionTransform.SetParent(spotlightCard.transform, true);
+
+        description.GetComponent<SpotlightDescription>().SetDescriptionText(spotlightCard.GetComponent<Card>().Description);
     }
 
     [TargetRpc]

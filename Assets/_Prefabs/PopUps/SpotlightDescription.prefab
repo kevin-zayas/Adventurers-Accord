@@ -39,7 +39,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 360.5, y: 144.5}
+  m_SizeDelta: {x: 450.625, y: 180.625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7914884968250587175
 CanvasRenderer:
@@ -91,9 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce02a03363b94c4fb0f8c363dbe4675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 6051542341756490115}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6051542341756490115}
   descriptionText: {fileID: 1204296013753909775}
 --- !u!114 &6051542341756490115
 MonoBehaviour:
@@ -110,7 +110,8 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours: []
+  _networkBehaviours:
+  - {fileID: 3943229531704368823}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   SerializedTransformProperties:
@@ -122,7 +123,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 0
+  <PrefabId>k__BackingField: 21
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
@@ -1153,7 +1154,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 360.5, y: 144.5}
+  m_SizeDelta: {x: 450.625, y: 180.625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6624479461768516083
 CanvasRenderer:
@@ -1228,7 +1229,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 80}
+  m_SizeDelta: {x: 375, y: 115}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1174146147395738365
 CanvasRenderer:
@@ -1285,12 +1286,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16.75
+  m_fontSize: 21
   m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 9
-  m_fontSizeMax: 16.75
+  m_fontSizeMin: 16
+  m_fontSizeMax: 21
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

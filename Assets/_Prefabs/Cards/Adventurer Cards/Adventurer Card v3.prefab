@@ -1518,9 +1518,10 @@ MonoBehaviour:
   _componentIndexCache: 2
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
+  referenceCard: {fileID: 0}
   isEnlargedCard: 0
   isSpotlightCard: 0
-  referenceCard: {fileID: 0}
+  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
 --- !u!114 &4105403660370424556
 MonoBehaviour:
   m_ObjectHideFlags: 0

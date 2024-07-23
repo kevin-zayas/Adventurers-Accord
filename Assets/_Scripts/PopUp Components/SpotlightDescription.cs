@@ -10,9 +10,8 @@ public class SpotlightDescription : NetworkBehaviour
 {
     [SerializeField] private TMP_Text descriptionText;
 
-    [TargetRpc]
-    public void TargetSetDescriptionText(NetworkConnection connection, string description)
+    public void SetDescriptionText(string description)
     {
-
+        descriptionText.text = description;
     }
 }

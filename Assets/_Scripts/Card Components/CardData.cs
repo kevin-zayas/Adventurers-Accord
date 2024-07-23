@@ -1,4 +1,5 @@
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
@@ -32,5 +33,7 @@ public class CardData : ScriptableObject
 
     //Spells
     [field: SerializeField] public bool IsGreaseSpell { get; set; }
+
+    [field: SerializeField] public List<string> DescriptionKeys { get; set; }
 
 }
