@@ -77,12 +77,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         Spawn(newCardObject);
 
         CopyCardData(connection, newCardObject, sourceCardObject);
-        //newCardObject.GetComponent<SpotlightCard>().referenceCard = sourceCardObject;
-
-        if (sourceCardObject.GetComponent<Card>() is AdventurerCard adventurerCard && adventurerCard.HasItem)
-        {
-            newCardObject.GetComponent<AdventurerCard>().Item.GetComponent<SpotlightCard>().referenceCard = adventurerCard.Item.gameObject;
-        }
 
         if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject);
         else TargetRenderEnlargedCard(connection, newCardObject);
@@ -93,7 +87,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     {
         ItemCard newItem = Instantiate(CardDatabase.Instance.itemCardPrefab, spawnPosition, Quaternion.identity);
         Spawn(newItem.gameObject);
-        print("new item spawned");
+
         ItemCardHeader originalItemHeader;
         GameObject referenceCardObject = sourceItemHeader.GetComponent<SpotlightCard>().referenceCard;
         originalItemHeader = referenceCardObject ? referenceCardObject.GetComponent<ItemCardHeader>() : sourceItemHeader;
@@ -113,18 +107,20 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         
         // If there is a reference card, copy its data, otherwise use sourceCard
         originalCard = referenceCardObject ? referenceCardObject.GetComponent<Card>() : sourceCardObject.GetComponent<Card>();
+        newCardObject.GetComponent<SpotlightCard>().referenceCard = originalCard.gameObject;
 
+        // Copy data to a new Item Card
         if (newCard is ItemCard itemCard && originalCard is ItemCardHeader itemCardHeader)
         {
             itemCard.TargetCopyItemHeaderData(connection, itemCardHeader);
         }
-        else newCard.TargetCopyCardData(connection, originalCard);
+        else newCard.TargetCopyCardData(connection, originalCard);        
 
-        newCardObject.GetComponent<SpotlightCard>().referenceCard = originalCard.gameObject;
-
+        // Copy data into Adventurer Card's Item Header
         if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem)
         {
             adventurerCard.Item.TargetCopyCardData(connection, originalCard);
+            adventurerCard.Item.GetComponent<SpotlightCard>().referenceCard = originalCard.GetComponent<AdventurerCard>().Item.gameObject;
         }
     }
 
@@ -137,8 +133,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         RectTransform spotlightRect = card.GetComponent<RectTransform>();
         spotlightRect.localScale = new Vector2(3f, 3f);
 
-        //CorrectCardSize(card);
-
+        // Expand raycast blocker to full screen
         spotlightRect.anchorMax = Vector2.one;
         spotlightRect.anchorMin = Vector2.zero;
         spotlightRect.offsetMin = Vector2.zero;
@@ -165,8 +160,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         spotlightRect.localScale = new Vector2(2f, 2f);
         PreventEnlargedCardCutoff(spotlightRect);
 
-        //CorrectCardSize(card);
-
         card.gameObject.transform.SetParent(canvas.transform, true);
         card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
     }
@@ -184,18 +177,6 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         position = new Vector2(x, y);
         rt.anchoredPosition = position;
     }
-
-    //private void CorrectCardSize(GameObject card)
-    //{
-    //    if (card.GetComponent<Card>() is AdventurerCard adventurerCard && adventurerCard.Item.isActiveAndEnabled)
-    //    {
-    //        RectTransform spotlightRect = card.GetComponent<RectTransform>();
-    //        spotlightRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 220f);
-
-    //        RectTransform itemHeaderRect = adventurerCard.Item.GetComponent<RectTransform>();
-    //        itemHeaderRect.anchoredPosition = Vector2.zero;
-    //    }
-    //}
 
     [ServerRpc(RequireOwnership = false)]
     private void ServerDespawnCard(GameObject card)
