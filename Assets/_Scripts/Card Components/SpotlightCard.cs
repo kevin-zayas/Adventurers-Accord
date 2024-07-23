@@ -7,15 +7,13 @@ using UnityEngine.UI;
 public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExitHandler
 {
     private GameObject canvas;
-
-    //private GameObject enlargedCard;
-    //private GameObject spotlightCard;
+    public GameObject referenceCard;
 
     private bool isDragging;
     public bool isEnlargedCard;
     public bool isSpotlightCard;
 
-    public GameObject referenceCard;
+    
 
 
 
@@ -32,34 +30,22 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     public void OnPointerDown(PointerEventData eventData)
     {
         if (isDragging) return;
-        Vector2 spawnPosition;
-
         if (isSpotlightCard) gameObject.SetActive(false);
-        
 
+        bool isSpotlight = true;
+        
         if (eventData.pointerId == -1)
         {
             // LEFT CLICK
-
             if (isEnlargedCard) gameObject.SetActive(false);
-
-            spawnPosition = gameObject.transform.position;
-            Card card = gameObject.GetComponent<Card>();
-
-            if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, false);
-            else ServerSpawnCard(LocalConnection, gameObject, spawnPosition, false);
+            isSpotlight = false;
         }
-        else if (eventData.pointerId == -2)
-        {
-            // RIGHT CLICK
 
-            //spawnPosition = new(Screen.width / 2, Screen.height / 2);
-            spawnPosition = gameObject.transform.position;
-            Card card = gameObject.GetComponent<Card>();
+        Vector2 spawnPosition = gameObject.transform.position;
+        Card card = gameObject.GetComponent<Card>();
 
-            if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, true);
-            else ServerSpawnCard(LocalConnection, gameObject, spawnPosition, true);
-        }
+        if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, isSpotlight);
+        else ServerSpawnCard(LocalConnection, gameObject, spawnPosition, isSpotlight);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -190,13 +176,13 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
     public void OnBeginDrag()
     {
-        print("begin drag, isDragging True");
+        //print("begin drag, isDragging True");
         isDragging = true;
     }
 
     public void OnEndDrag()
     {
-        print("end drag, isDragging False");
+        //print("end drag, isDragging False");
         isDragging = false;
     }
 }
