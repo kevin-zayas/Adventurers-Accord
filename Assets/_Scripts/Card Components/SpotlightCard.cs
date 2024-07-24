@@ -61,8 +61,9 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         Spawn(newCardObject);
 
         CopyCardData(connection, newCardObject, sourceCardObject);
+        GameObject originalCard = newCardObject.GetComponent<SpotlightCard>().referenceCard;
 
-        if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject);
+        if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject, originalCard);
         else TargetRenderEnlargedCard(connection, newCardObject);
     }
 
@@ -79,7 +80,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         newItem.TargetCopyItemHeaderData(connection, originalItemHeader);
         newItem.GetComponent<SpotlightCard>().referenceCard = originalItemHeader.gameObject;
 
-        if (isSpotlight) TargetRenderSpotlightCard(connection, newItem.gameObject);
+        if (isSpotlight) TargetRenderSpotlightCard(connection, newItem.gameObject, originalItemHeader.gameObject);
         else TargetRenderEnlargedCard(connection, newItem.gameObject);
     }
 
@@ -110,12 +111,14 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
 
     [TargetRpc]
-    private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject card)
+    private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject newCardObject, GameObject originalCardObject)
     {
-        ServerSpawnSpotlightDescription(connection, card);
-        card.GetComponent<SpotlightCard>().isSpotlightCard = true;
+        SpotlightCard spotlightCard = newCardObject.GetComponent<SpotlightCard>();
+        spotlightCard.isSpotlightCard = true;
 
-        RectTransform spotlightTransform = card.GetComponent<RectTransform>();
+        if (originalCardObject.GetComponent<Card>().Description != "") ServerSpawnSpotlightDescription(connection, newCardObject);
+
+        RectTransform spotlightTransform = newCardObject.GetComponent<RectTransform>();
         spotlightTransform.localScale = new Vector2(3f, 3f);
 
         // Expand raycast blocker to full screen
@@ -124,20 +127,18 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         spotlightTransform.offsetMin = Vector2.zero;
         spotlightTransform.offsetMax = new Vector2(Screen.width, Screen.height + 125f);
 
-        card.GetComponent<Image>().enabled = true;
+        newCardObject.GetComponent<Image>().enabled = true;
 
-        card.gameObject.transform.SetParent(canvas.transform, true);
-        card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
-
-        //ServerSpawnSpotlightDescription(connection,card);
+        newCardObject.gameObject.transform.SetParent(canvas.transform, true);
+        newCardObject.gameObject.layer = LayerMask.NameToLayer("Spotlight");
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard)
     {
-        SpotlightDescription sp = Instantiate(spotlightDescriptionPrefab, Vector2.zero, Quaternion.identity);
-        Spawn(sp.gameObject);
-        TargetRenderSpotlightDescription(connection, spotlightCard, sp.gameObject);
+        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, Vector2.zero, Quaternion.identity);
+        Spawn(spotlightDescription.gameObject);
+        TargetRenderSpotlightDescription(connection, spotlightCard, spotlightDescription.gameObject);
     }
 
     [TargetRpc]
@@ -147,7 +148,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         descriptionTransform.anchoredPosition = new Vector2(Screen.width/2, Screen.height/2 - 355f);
         descriptionTransform.SetParent(spotlightCard.transform, true);
 
-        description.GetComponent<SpotlightDescription>().SetDescriptionText(spotlightCard.GetComponent<Card>().Description);
+        string cardDescription = spotlightCard.GetComponent<SpotlightCard>().referenceCard.GetComponent<Card>().Description;
+        description.GetComponent<SpotlightDescription>().SetDescriptionText(cardDescription);
     }
 
     [TargetRpc]
