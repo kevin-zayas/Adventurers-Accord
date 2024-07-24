@@ -116,7 +116,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         SpotlightCard spotlightCard = newCardObject.GetComponent<SpotlightCard>();
         spotlightCard.isSpotlightCard = true;
 
-        if (originalCardObject.GetComponent<Card>().Description != "") ServerSpawnSpotlightDescription(connection, newCardObject);
+        if (originalCardObject.GetComponent<Card>().Description != "") ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
 
         RectTransform spotlightTransform = newCardObject.GetComponent<RectTransform>();
         spotlightTransform.localScale = new Vector2(3f, 3f);
@@ -134,21 +134,24 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard)
+    private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject)
     {
-        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, Vector2.zero, Quaternion.identity);
+        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, new Vector2(Screen.width / 2, Screen.height / 2 - 355f), Quaternion.identity);
         Spawn(spotlightDescription.gameObject);
-        TargetRenderSpotlightDescription(connection, spotlightCard, spotlightDescription.gameObject);
+        TargetRenderSpotlightDescription(connection, spotlightCard, originalCardObject, spotlightDescription.gameObject);
+
+        //try seting position above instead of in targetRender to try to descrease delay.
+        // move logic to populate description to here so that we can also populate the side panel of keyword descriptions
     }
 
     [TargetRpc]
-    private void TargetRenderSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject description)
+    private void TargetRenderSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject, GameObject description)
     {
         RectTransform descriptionTransform= description.GetComponent<RectTransform>();
-        descriptionTransform.anchoredPosition = new Vector2(Screen.width/2, Screen.height/2 - 355f);
+        //descriptionTransform.anchoredPosition = new Vector2(Screen.width/2, Screen.height/2 - 355f);
         descriptionTransform.SetParent(spotlightCard.transform, true);
 
-        string cardDescription = spotlightCard.GetComponent<SpotlightCard>().referenceCard.GetComponent<Card>().Description;
+        string cardDescription = originalCardObject.GetComponent<Card>().Description;
         description.GetComponent<SpotlightDescription>().SetDescriptionText(cardDescription);
     }
 
