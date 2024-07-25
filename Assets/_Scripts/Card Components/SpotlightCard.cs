@@ -139,23 +139,20 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject)
     {
-        Vector2 spawnPosition = new Vector2(Screen.width / 2, Screen.height / 2 - 355f);
+        Vector2 spawnPosition = new(Screen.width / 2, Screen.height / 2 - 355f);
         SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, spawnPosition, Quaternion.identity);
         Spawn(spotlightDescription.gameObject);
         spotlightDescription.TargetSetParent(connection, spotlightCard);
-        //TargetRenderSpotlightDescription(connection, spotlightCard, originalCardObject, spotlightDescription.gameObject);
 
         string cardDescription = originalCardObject.GetComponent<Card>().Description;
         spotlightDescription.TargetSetDescriptionText(connection, cardDescription);
 
         // check database for keywords that need a description
-        print(originalCardObject.GetComponent<Card>().Name);
         List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().Name);
-
         if (keywordList is null) return;
 
         // if there are any keywords, create and spawn description grouper
-        Vector2 keywordGrouperSpawn = new Vector2(Screen.width/2 + 485f, Screen.height/2 + 65f);
+        Vector2 keywordGrouperSpawn = new(Screen.width/2 + 485f, Screen.height/2 + 65f);
         KeywordGrouper keywordGrouper = Instantiate(keywordGrouperPrefab, keywordGrouperSpawn, Quaternion.identity);
         Spawn(keywordGrouper.gameObject);
         keywordGrouper.TargetSetParent(connection, spotlightCard);
@@ -164,19 +161,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         {
             keywordGrouper.AddKeywordDescription(connection,keyword);
         }
+
         keywordGrouper.TargetResizeKeywordGrouper(connection);
-        // call a description grouper TargetRPC that resizes the layout group transfrom and renders it onto player screen
-    }
-
-    [TargetRpc]
-    private void TargetRenderSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject, GameObject description)
-    {
-        //change this function to take in a string and just set the description to the string value, maybe just move this to a TargetRPC in SpotlightDescription.cs
-        //RectTransform descriptionTransform = description.GetComponent<RectTransform>();
-        //descriptionTransform.SetParent(spotlightCard.transform, true);
-
-        //string cardDescription = originalCardObject.GetComponent<Card>().Description;
-        //description.GetComponent<SpotlightDescription>().SetDescriptionText(connection,cardDescription);
     }
 
     [TargetRpc]

@@ -56,8 +56,8 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
         CardKeywordMap.Add("Rogue", new List<string> { "Steal" });
-        CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
-        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower" });
+        CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" , "Protection"});
+        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower", "Protection"});
         //CardKeywordMap.Add("", new List<string> { "" });
     }
 

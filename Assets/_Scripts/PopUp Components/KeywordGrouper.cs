@@ -35,7 +35,7 @@ public class KeywordGrouper : NetworkBehaviour
     [TargetRpc]
     public void TargetResizeKeywordGrouper(NetworkConnection connection) 
     {
-        int keywordGrouperheight = 60 + 200 * transform.childCount;
+        int keywordGrouperheight = 20 + 195 * layoutGroupObject.transform.childCount;
         RectTransform rectTransform = layoutGroupObject.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, keywordGrouperheight);
     }
