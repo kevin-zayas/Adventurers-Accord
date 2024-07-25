@@ -51,23 +51,40 @@ public class CardDatabase : NetworkBehaviour
     private void InitializeCardKeywordMap()
     {
         CardKeywordMap.Add("Assassin", new List<string> { "Poison" });
+        CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
+        CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
+        CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
+        CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
+        CardKeywordMap.Add("Rogue", new List<string> { "Steal" });
+        CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
+        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower" });
+        //CardKeywordMap.Add("", new List<string> { "" });
     }
 
     private void InitializeKeywordDefinitionMap()
     {
         KeywordDefinitionMap.Add("Posion", poisonKeywordText);
+        KeywordDefinitionMap.Add("Bardsong", bardsongKeywordText);
+        KeywordDefinitionMap.Add("Protection", protectionKeywordText);
+        KeywordDefinitionMap.Add("Empower", empowerKeywordText);
+        KeywordDefinitionMap.Add("Summon", summonKeywordText);
+        KeywordDefinitionMap.Add("Steal", stealKeywordText);
+
     }
 
     public List<string> GetCardKeywords(string cardName)
     {
-        //return CardKeywordMap[cardName];
+        print(cardName);
         print(CardKeywordMap.GetValueOrDefault(cardName));
-        return new List<string> { "Poison" };
+        return CardKeywordMap.GetValueOrDefault(cardName);
+        //return new List<string> { "Poison" };
     }
 
     public string GetKeywordDefinition(string keyword)
     {
         //return KeywordDefinitionMap[keyword];
+        print(keyword);
+        print(KeywordDefinitionMap.GetValueOrDefault(keyword));
         return KeywordDefinitionMap.GetValueOrDefault(keyword);
     }
 
@@ -94,5 +111,11 @@ public class CardDatabase : NetworkBehaviour
         }
     }
 
-    private readonly string poisonKeywordText = "test";
+    private readonly string poisonKeywordText = "Poison explanation";
+    private readonly string bardsongKeywordText = "Bardsong explanation";
+    private readonly string protectionKeywordText = "Protection explanation";
+    private readonly string empowerKeywordText = "Empower explanation";
+    private readonly string summonKeywordText = "Summon explanation";
+    private readonly string stealKeywordText = "Steal explanation";
+    
 }

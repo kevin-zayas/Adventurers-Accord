@@ -8,12 +8,12 @@ public class KeywordGrouper : NetworkBehaviour
 {
     [SerializeField] SpotlightDescription keywordDescriptionPrefab;
     [SerializeField] GameObject layoutGroupObject;
-    private RectTransform grouperTransform;
+    //private RectTransform grouperTransform;
 
-    private void Start()
-    {
-        grouperTransform = GetComponent<RectTransform>();
-    }
+    //private void Start()
+    //{
+    //    grouperTransform = GetComponent<RectTransform>();
+    //}
 
     [Server]
     public void AddKeywordDescription(NetworkConnection connection, string keyword)
@@ -21,7 +21,8 @@ public class KeywordGrouper : NetworkBehaviour
         SpotlightDescription spotlightDescription = Instantiate(keywordDescriptionPrefab);
         Spawn(spotlightDescription.gameObject);
         spotlightDescription.TargetSetParent(connection, layoutGroupObject);
-        spotlightDescription.TargetSetDescriptionTitle(connection, keyword);
+        spotlightDescription.TargetSetTitleText(connection, keyword);
+        spotlightDescription.TargetSetDescriptionText(connection, CardDatabase.Instance.GetKeywordDefinition(keyword));
 
     }
 
@@ -29,6 +30,14 @@ public class KeywordGrouper : NetworkBehaviour
     public void TargetSetParent(NetworkConnection connection, GameObject parent)
     {
         GetComponent<RectTransform>().SetParent(parent.transform, true);
+    }
+
+    [TargetRpc]
+    public void TargetResizeKeywordGrouper(NetworkConnection connection) 
+    {
+        int keywordGrouperheight = 60 + 200 * transform.childCount;
+        RectTransform rectTransform = layoutGroupObject.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, keywordGrouperheight);
     }
 
 }

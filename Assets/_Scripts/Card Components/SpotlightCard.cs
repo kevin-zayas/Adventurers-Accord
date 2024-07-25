@@ -152,7 +152,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         print(originalCardObject.GetComponent<Card>().Name);
         List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().Name);
 
-        if (keywordList.Count == 0) return;
+        if (keywordList is null) return;
 
         // if there are any keywords, create and spawn description grouper
         Vector2 keywordGrouperSpawn = new Vector2(Screen.width/2 + 485f, Screen.height/2 + 65f);
@@ -164,11 +164,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         {
             keywordGrouper.AddKeywordDescription(connection,keyword);
         }
-        
-        // for each keyword, call a description grouper function that spawns a description object, adds it to the vertical layout group, and sets the text based on a string we pass in
+        keywordGrouper.TargetResizeKeywordGrouper(connection);
         // call a description grouper TargetRPC that resizes the layout group transfrom and renders it onto player screen
-
-        // move logic to populate description to here so that we can also populate the side panel of keyword descriptions
     }
 
     [TargetRpc]

@@ -11,7 +11,7 @@ public class SpotlightDescription : NetworkBehaviour
 {
     [SerializeField] TMP_Text descriptionText;
     [SerializeField] TMP_Text titleText;
-    private RectTransform descriptionTransform;
+    //private RectTransform descriptionTransform;
 
     //private void Start()
     //{
@@ -25,9 +25,9 @@ public class SpotlightDescription : NetworkBehaviour
     }
 
     [TargetRpc]
-    public void TargetSetDescriptionTitle(NetworkConnection connection, string text)
+    public void TargetSetTitleText(NetworkConnection connection, string text)
     {
-        descriptionText.text = text;
+        titleText.text = text;
     }
 
     [TargetRpc]
