@@ -1,5 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +16,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     public bool isSpotlightCard;
 
     [SerializeField] private SpotlightDescription spotlightDescriptionPrefab;
+    [SerializeField] private KeywordGrouper keywordGrouperPrefab;
 
     private void Start()
     {
@@ -136,23 +139,47 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject)
     {
-        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, new Vector2(Screen.width / 2, Screen.height / 2 - 355f), Quaternion.identity);
+        Vector2 spawnPosition = new Vector2(Screen.width / 2, Screen.height / 2 - 355f);
+        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, spawnPosition, Quaternion.identity);
         Spawn(spotlightDescription.gameObject);
-        TargetRenderSpotlightDescription(connection, spotlightCard, originalCardObject, spotlightDescription.gameObject);
+        spotlightDescription.TargetSetParent(connection, spotlightCard);
+        //TargetRenderSpotlightDescription(connection, spotlightCard, originalCardObject, spotlightDescription.gameObject);
 
-        //try seting position above instead of in targetRender to try to descrease delay.
+        string cardDescription = originalCardObject.GetComponent<Card>().Description;
+        spotlightDescription.TargetSetDescriptionText(connection, cardDescription);
+
+        // check database for keywords that need a description
+        print(originalCardObject.GetComponent<Card>().Name);
+        List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().Name);
+
+        if (keywordList.Count == 0) return;
+
+        // if there are any keywords, create and spawn description grouper
+        Vector2 keywordGrouperSpawn = new Vector2(Screen.width/2 + 485f, Screen.height/2 + 65f);
+        KeywordGrouper keywordGrouper = Instantiate(keywordGrouperPrefab, keywordGrouperSpawn, Quaternion.identity);
+        Spawn(keywordGrouper.gameObject);
+        keywordGrouper.TargetSetParent(connection, spotlightCard);
+
+        foreach (string keyword in keywordList)
+        {
+            keywordGrouper.AddKeywordDescription(connection,keyword);
+        }
+        
+        // for each keyword, call a description grouper function that spawns a description object, adds it to the vertical layout group, and sets the text based on a string we pass in
+        // call a description grouper TargetRPC that resizes the layout group transfrom and renders it onto player screen
+
         // move logic to populate description to here so that we can also populate the side panel of keyword descriptions
     }
 
     [TargetRpc]
     private void TargetRenderSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject, GameObject description)
     {
-        RectTransform descriptionTransform= description.GetComponent<RectTransform>();
-        //descriptionTransform.anchoredPosition = new Vector2(Screen.width/2, Screen.height/2 - 355f);
-        descriptionTransform.SetParent(spotlightCard.transform, true);
+        //change this function to take in a string and just set the description to the string value, maybe just move this to a TargetRPC in SpotlightDescription.cs
+        //RectTransform descriptionTransform = description.GetComponent<RectTransform>();
+        //descriptionTransform.SetParent(spotlightCard.transform, true);
 
-        string cardDescription = originalCardObject.GetComponent<Card>().Description;
-        description.GetComponent<SpotlightDescription>().SetDescriptionText(cardDescription);
+        //string cardDescription = originalCardObject.GetComponent<Card>().Description;
+        //description.GetComponent<SpotlightDescription>().SetDescriptionText(connection,cardDescription);
     }
 
     [TargetRpc]

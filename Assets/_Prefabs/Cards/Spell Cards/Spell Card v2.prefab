@@ -375,6 +375,7 @@ MonoBehaviour:
   isEnlargedCard: 0
   isSpotlightCard: 0
   spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
+  keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0

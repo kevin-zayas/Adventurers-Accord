@@ -26,9 +26,9 @@ public class CardDatabase : NetworkBehaviour
 
     public CardData wolfCardData;
 
-    public Dictionary<string,Sprite> SpriteMap { get; private set; }
-    public Dictionary<string, List<string>> DescriptionKeyMap { get; private set; }
-    public Dictionary<string, string> DescriptionMap { get; private set; }
+    public Dictionary<string,Sprite> SpriteMap { get; private set; }    //make private and use a function to access
+    private Dictionary<string, List<string>> CardKeywordMap;
+    public Dictionary<string, string> KeywordDefinitionMap { get; private set; }
 
 
 
@@ -36,25 +36,39 @@ public class CardDatabase : NetworkBehaviour
     {
         Instance = this;
         SpriteMap = new();
-        DescriptionKeyMap = new();
-        DescriptionMap = new();
+        CardKeywordMap = new();
+        KeywordDefinitionMap = new();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        InitializeDescriptionKeyMap();
+        InitializeCardKeywordMap();
+        InitializeKeywordDefinitionMap();
         InitializeSpriteMap();
     }
 
-    private void InitializeDescriptionKeyMap()
+    private void InitializeCardKeywordMap()
     {
-        DescriptionKeyMap.Add("Assassin", new List<string> { "test1", "test2" });
+        CardKeywordMap.Add("Assassin", new List<string> { "Poison" });
     }
 
-    public string GetCardDescription(string keyword)
+    private void InitializeKeywordDefinitionMap()
     {
-        return DescriptionMap[keyword];
+        KeywordDefinitionMap.Add("Posion", poisonKeywordText);
+    }
+
+    public List<string> GetCardKeywords(string cardName)
+    {
+        //return CardKeywordMap[cardName];
+        print(CardKeywordMap.GetValueOrDefault(cardName));
+        return new List<string> { "Poison" };
+    }
+
+    public string GetKeywordDefinition(string keyword)
+    {
+        //return KeywordDefinitionMap[keyword];
+        return KeywordDefinitionMap.GetValueOrDefault(keyword);
     }
 
     private void InitializeSpriteMap()
@@ -79,4 +93,6 @@ public class CardDatabase : NetworkBehaviour
             SpriteMap.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
         }
     }
+
+    private readonly string poisonKeywordText = "test";
 }
