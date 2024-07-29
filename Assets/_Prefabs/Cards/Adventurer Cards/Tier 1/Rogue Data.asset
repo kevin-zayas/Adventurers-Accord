@@ -18,8 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 2
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 5
-  <CardDescription>k__BackingField: Temporarily steal a Magic Item equipped by another
-    Adventurer on this Quest
+  <CardDescription>k__BackingField: Disable a Magic Item equipped by another Adventurer
+    on this Quest until the Quest is resolved.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
   <AbilityName>k__BackingField: Sticky Fingers
@@ -32,3 +32,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

@@ -18,8 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 2
   <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 8
-  <CardDescription>k__BackingField: Your Magic Items at this Quest gain an additional
-    +1 Power
+  <CardDescription>k__BackingField: Empower your Magic Items on this Quest with +1
+    Power.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer II
   <AbilityName>k__BackingField: Magic Item Savant
@@ -32,3 +32,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

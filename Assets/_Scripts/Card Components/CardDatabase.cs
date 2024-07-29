@@ -55,9 +55,9 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
-        CardKeywordMap.Add("Rogue", new List<string> { "Steal" });
-        CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" , "Protection"});
-        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower", "Protection"});
+        CardKeywordMap.Add("Rogue", new List<string> { "Disable" });
+        CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
+        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower" });
         //CardKeywordMap.Add("", new List<string> { "" });
     }
 
@@ -68,7 +68,7 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Protection", protectionKeywordText);
         KeywordDefinitionMap.Add("Empower", empowerKeywordText);
         KeywordDefinitionMap.Add("Summon", summonKeywordText);
-        KeywordDefinitionMap.Add("Steal", stealKeywordText);
+        KeywordDefinitionMap.Add("Disable", disableKeywordText);
 
     }
 
@@ -111,11 +111,11 @@ public class CardDatabase : NetworkBehaviour
         }
     }
 
-    private readonly string poisonKeywordText = "Poison explanation";
-    private readonly string bardsongKeywordText = "Bardsong explanation";
-    private readonly string protectionKeywordText = "Protection explanation";
-    private readonly string empowerKeywordText = "Empower explanation";
-    private readonly string summonKeywordText = "Summon explanation";
-    private readonly string stealKeywordText = "Steal explanation";
+    private readonly string poisonKeywordText = "Decreases a specified stat of a targeted Adventurer by a specified amount until the Quest is resolved. This stat cannot be decreased lower than 0.";
+    private readonly string bardsongKeywordText = "<align=left>Gain rewards based on the number of Bards on this Quest:\n<line-indent=15%>1 Bard:   +1 Gold\n2 Bards: +2 Gold, +1 Reputation\n3 Bards: +4 Gold, +2 Reputation</line-indent></align>";
+    private readonly string protectionKeywordText = "Prevents targeted Adventurers from having their Power reduced until the Quest is resolved.";
+    private readonly string empowerKeywordText = "Increases the Power of a card by a specified amount. A card can gain Power in each stat (Physical and Magical) that is non-zero.";
+    private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
+    private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
     
 }

@@ -18,8 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 3
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 8
-  <CardDescription>k__BackingField: You may poison an Adventurer on this Quest, decreasing
-    one of their stats by 2
+  <CardDescription>k__BackingField: You may Poison an Adventurer on this Quest, decreasing
+    their Physical or Magical Power by 2.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer II
   <AbilityName>k__BackingField: Poison Expert
@@ -32,3 +32,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []
