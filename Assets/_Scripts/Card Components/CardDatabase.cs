@@ -50,6 +50,7 @@ public class CardDatabase : NetworkBehaviour
 
     private void InitializeCardKeywordMap()
     {
+        //ADVENTURERERS
         CardKeywordMap.Add("Assassin", new List<string> { "Poison" });
         CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
         CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
@@ -57,8 +58,14 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
         CardKeywordMap.Add("Rogue", new List<string> { "Disable" });
         CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
-        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower" });
+        CardKeywordMap.Add("Tinkerer", new List<string> { "Empower"  });
         //CardKeywordMap.Add("", new List<string> { "" });
+
+        //ITEMS
+        CardKeywordMap.Add("+1 Staff", new List<string> { "Magic Items", "Equip"});
+        CardKeywordMap.Add("+2 Staff", new List<string> { "Magic Items", "Equip" });
+        CardKeywordMap.Add("+1 Sword", new List<string> { "Magic Items", "Equip" });
+        CardKeywordMap.Add("+2 Sword", new List<string> { "Magic Items", "Equip" });
     }
 
     private void InitializeKeywordDefinitionMap()
@@ -69,6 +76,9 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Empower", empowerKeywordText);
         KeywordDefinitionMap.Add("Summon", summonKeywordText);
         KeywordDefinitionMap.Add("Disable", disableKeywordText);
+
+        KeywordDefinitionMap.Add("Magic Items", magicItemKeywordText);
+        KeywordDefinitionMap.Add("Equip", equipKeywordText);
 
     }
 
@@ -117,5 +127,8 @@ public class CardDatabase : NetworkBehaviour
     private readonly string empowerKeywordText = "Increases the Power of a card by a specified amount. A card can gain Power in each stat (Physical and Magical) that is non-zero.";
     private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
     private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
-    
+
+    private readonly string magicItemKeywordText = "Grants a permanent boost to the Physical or Magical Power of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
+    private readonly string equipKeywordText = "To Equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding Power must be greater than 0 to Equip the item.";
+
 }
