@@ -18,9 +18,10 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
-  <CardDescription>k__BackingField: Gain +2 Physical Power at this Quest Lane
+  <CardDescription>k__BackingField: Boost Physical Power by +2 at this Quest Lane
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Magic Spell
+  <AbilityName>k__BackingField: 
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
@@ -30,3 +31,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

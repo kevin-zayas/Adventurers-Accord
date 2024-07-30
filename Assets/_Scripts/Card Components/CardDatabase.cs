@@ -51,12 +51,12 @@ public class CardDatabase : NetworkBehaviour
     private void InitializeCardKeywordMap()
     {
         //ADVENTURERERS
-        CardKeywordMap.Add("Assassin", new List<string> { "Poison" });
+        CardKeywordMap.Add("Assassin", new List<string> { "Poison", "Resolution Phase"});
         CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
         CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
-        CardKeywordMap.Add("Rogue", new List<string> { "Disable" });
+        CardKeywordMap.Add("Rogue", new List<string> { "Disable", "Resolution Phase"});
         CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
         CardKeywordMap.Add("Tinkerer", new List<string> { "Empower"  });
         //CardKeywordMap.Add("", new List<string> { "" });
@@ -66,6 +66,14 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("+2 Staff", new List<string> { "Magic Items", "Equip" });
         CardKeywordMap.Add("+1 Sword", new List<string> { "Magic Items", "Equip" });
         CardKeywordMap.Add("+2 Sword", new List<string> { "Magic Items", "Equip" });
+
+        //SPELLS
+        CardKeywordMap.Add("Cloud of Daggers", new List<string> {"Boost", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Fireball", new List<string> { "Boost", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Grease", new List<string> { "Disable", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Hex", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Mana Drain", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
+
     }
 
     private void InitializeKeywordDefinitionMap()
@@ -79,6 +87,17 @@ public class CardDatabase : NetworkBehaviour
 
         KeywordDefinitionMap.Add("Magic Items", magicItemKeywordText);
         KeywordDefinitionMap.Add("Equip", equipKeywordText);
+
+        KeywordDefinitionMap.Add("Magic Spells", magicSpellKeywordText);
+        KeywordDefinitionMap.Add("Afflict", afflictKeywordText);
+        KeywordDefinitionMap.Add("Boost", gainKeywordText);
+
+
+        KeywordDefinitionMap.Add("Magic Phase", magicPhaseKeywordText);
+        KeywordDefinitionMap.Add("Resolution Phase", resolutionPhaseKeywordText);
+
+
+
 
     }
 
@@ -128,7 +147,13 @@ public class CardDatabase : NetworkBehaviour
     private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
     private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
 
-    private readonly string magicItemKeywordText = "Grants a permanent boost to the Physical or Magical Power of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
+    private readonly string magicItemKeywordText = "Grants a permanent boost to the Power of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
     private readonly string equipKeywordText = "To Equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding Power must be greater than 0 to Equip the item.";
 
+    private readonly string magicSpellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the card onto a Quest Lane.";
+    private readonly string afflictKeywordText = "Decreases Power (Physical or Magical) on a Quest Lane by a specified amount until the Quest is resolved. This stat cannot be decreased lower than 0.";
+    private readonly string gainKeywordText = "Increases Power (Physical or Magical) on a Quest Lane by a specified amount until the Quest is resolved.";
+
+    private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
+    private readonly string magicPhaseKeywordText = "The phase in which players can play Magic Spells to affect the outcome of a Quest.";
 }
