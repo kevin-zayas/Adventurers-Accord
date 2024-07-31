@@ -74,6 +74,11 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("Hex", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
         CardKeywordMap.Add("Mana Drain", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
 
+        //QUESTS
+        CardKeywordMap.Add("Giant Scorpion", new List<string> { "Weaken" });
+        CardKeywordMap.Add("Lich", new List<string> { "Weaken" });
+        CardKeywordMap.Add("Beholder", new List<string> { "Disable" });
+
     }
 
     private void InitializeKeywordDefinitionMap()
@@ -92,12 +97,10 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Afflict", afflictKeywordText);
         KeywordDefinitionMap.Add("Boost", gainKeywordText);
 
-
         KeywordDefinitionMap.Add("Magic Phase", magicPhaseKeywordText);
         KeywordDefinitionMap.Add("Resolution Phase", resolutionPhaseKeywordText);
 
-
-
+        KeywordDefinitionMap.Add("Weaken", weakenKeywordText);
 
     }
 
@@ -140,7 +143,7 @@ public class CardDatabase : NetworkBehaviour
         }
     }
 
-    private readonly string poisonKeywordText = "Decreases a specified stat of a targeted Adventurer by a specified amount until the Quest is resolved. This stat cannot be decreased lower than 0.";
+    private readonly string poisonKeywordText = "Decreases the Power of a targeted Adventurer by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
     private readonly string bardsongKeywordText = "<align=left>Gain rewards based on the number of Bards on this Quest:\n<line-indent=15%>1 Bard:   +1 Gold\n2 Bards: +2 Gold, +1 Reputation\n3 Bards: +4 Gold, +2 Reputation</line-indent></align>";
     private readonly string protectionKeywordText = "Prevents targeted Adventurers from having their Power reduced until the Quest is resolved.";
     private readonly string empowerKeywordText = "Increases the Power of a card by a specified amount. A card can gain Power in each stat (Physical and Magical) that is non-zero.";
@@ -151,9 +154,11 @@ public class CardDatabase : NetworkBehaviour
     private readonly string equipKeywordText = "To Equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding Power must be greater than 0 to Equip the item.";
 
     private readonly string magicSpellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the card onto a Quest Lane.";
-    private readonly string afflictKeywordText = "Decreases Power (Physical or Magical) on a Quest Lane by a specified amount until the Quest is resolved. This stat cannot be decreased lower than 0.";
-    private readonly string gainKeywordText = "Increases Power (Physical or Magical) on a Quest Lane by a specified amount until the Quest is resolved.";
+    private readonly string afflictKeywordText = "Decreases Total Power on a Quest Lane by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
+    private readonly string gainKeywordText = "Increases Total Power on a Quest Lane by a specified amount until the Quest is resolved.";
 
     private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
     private readonly string magicPhaseKeywordText = "The phase in which players can play Magic Spells to affect the outcome of a Quest.";
+
+    private readonly string weakenKeywordText = "Reduces the Power of all Adventurers on this Quest by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
 }

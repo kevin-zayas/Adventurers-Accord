@@ -18,10 +18,11 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
-  <CardDescription>k__BackingField: All Adventurers on this Quest recieve a -1 to
-    Physical Power
+  <CardDescription>k__BackingField: Weaken all Adventurers on this Quest by -1 Physical
+    Power.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: 
+  <AbilityName>k__BackingField: 
   <GoldReward>k__BackingField: 8
   <ReputationReward>k__BackingField: 4
   <LootReward>k__BackingField: 2
@@ -31,3 +32,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

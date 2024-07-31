@@ -5293,17 +5293,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
   levelOneQuestCards:
   - {fileID: 11400000, guid: 7801ecc3274fe82458a209cd1375b4c6, type: 2}
-  - {fileID: 11400000, guid: 4a3856edc06240541a4c3929720b5748, type: 2}
-  - {fileID: 11400000, guid: 3e8fd8c8d1cb6c1458ac8d76c03cdbe9, type: 2}
-  - {fileID: 11400000, guid: bab5dff3694024f44959917321bd7b08, type: 2}
-  - {fileID: 11400000, guid: b72acab4728516e4c805dc168d05d483, type: 2}
   levelTwoQuestCards:
   - {fileID: 11400000, guid: 50c3b99cc643ced4ba01d3d4eba8d5fd, type: 2}
-  - {fileID: 11400000, guid: a2fac884343fcaf4fb6cc20a3fb61f29, type: 2}
-  - {fileID: 11400000, guid: 27916a66a017a60409049cf7dc52afb5, type: 2}
   - {fileID: 11400000, guid: 288055a8c421aab4999213648722eb97, type: 2}
-  - {fileID: 11400000, guid: a397144b90585964eaefc883a4d04f91, type: 2}
-  - {fileID: 11400000, guid: 54c26d0709a378246913c967792c42a1, type: 2}
   levelThreeQuestCards:
   - {fileID: 11400000, guid: 9748513db1a8dda479eb2980e86090e6, type: 2}
   - {fileID: 11400000, guid: a6a0429864df8414d898a2267bfd05e4, type: 2}
