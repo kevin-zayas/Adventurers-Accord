@@ -44,6 +44,12 @@ public abstract class Card : NetworkBehaviour
         this.transform.SetParent(parent, worldPositionStays);
     }
 
+    [ObserversRpc]
+    public void ObserversSetCardScale(Vector2 scale)
+    {
+        GetComponent<RectTransform>().localScale = scale;
+    }
+
     [Server]
     public virtual void LoadCardData(CardData cardData)
     {

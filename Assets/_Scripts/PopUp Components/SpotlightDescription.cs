@@ -34,5 +34,6 @@ public class SpotlightDescription : NetworkBehaviour
     public void TargetSetParent(NetworkConnection connection, GameObject parent)
     {
         GetComponent<RectTransform>().SetParent(parent.transform, true);
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -140);
     }
 }

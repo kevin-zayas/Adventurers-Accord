@@ -139,8 +139,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject)
     {
-        Vector2 spawnPosition = new(Screen.width / 2, Screen.height / 2 - 355f);
-        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab, spawnPosition, Quaternion.identity);
+        SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab);
         Spawn(spotlightDescription.gameObject);
         spotlightDescription.TargetSetParent(connection, spotlightCard);
 
@@ -152,8 +151,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         if (keywordList is null) return;
 
         // if there are any keywords, create and spawn description grouper
-        Vector2 keywordGrouperSpawn = new(Screen.width/2 + 485f, Screen.height/2 + 65f);
-        KeywordGrouper keywordGrouper = Instantiate(keywordGrouperPrefab, keywordGrouperSpawn, Quaternion.identity);
+        KeywordGrouper keywordGrouper = Instantiate(keywordGrouperPrefab);
         Spawn(keywordGrouper.gameObject);
         keywordGrouper.TargetSetParent(connection, spotlightCard);
 

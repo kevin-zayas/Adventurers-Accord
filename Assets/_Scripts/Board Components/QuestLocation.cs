@@ -90,6 +90,7 @@ public class QuestLocation : NetworkBehaviour
         CreatePreviewCard(questCard);
 
         questCard.SetCardParent(questCardSlot.transform, false);
+        questCard.ObserversSetCardScale(new Vector2(1.25f, 1.25f));
         QuestCard = questCard;
 
         foreach (QuestLane lane in questLanes) lane.AssignQuestCard(questCard);
@@ -100,12 +101,9 @@ public class QuestLocation : NetworkBehaviour
     {
         QuestCard previewCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
         Spawn(previewCard.gameObject);
+
         previewCard.LoadCardData(questCard.Data);
         previewCard.SetCardParent(questPreviewSlot.transform, false);
-
-        RectTransform previewRect = previewCard.GetComponent<RectTransform>();
-        previewRect.localScale = new Vector2(.85f, .85f);
-
         previewQuestCard = previewCard;
     }
 

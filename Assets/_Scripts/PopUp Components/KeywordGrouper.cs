@@ -8,12 +8,6 @@ public class KeywordGrouper : NetworkBehaviour
 {
     [SerializeField] SpotlightDescription keywordDescriptionPrefab;
     [SerializeField] GameObject layoutGroupObject;
-    //private RectTransform grouperTransform;
-
-    //private void Start()
-    //{
-    //    grouperTransform = GetComponent<RectTransform>();
-    //}
 
     [Server]
     public void AddKeywordDescription(NetworkConnection connection, string keyword)
@@ -30,6 +24,7 @@ public class KeywordGrouper : NetworkBehaviour
     public void TargetSetParent(NetworkConnection connection, GameObject parent)
     {
         GetComponent<RectTransform>().SetParent(parent.transform, true);
+        GetComponent<RectTransform>().anchoredPosition = new Vector2(90, 0);
     }
 
     [TargetRpc]
