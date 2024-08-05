@@ -80,20 +80,20 @@ public class QuestSummary : NetworkBehaviour
     }
 
     [ObserversRpc]
-    public void ObserversAddBardBonus(int player, int physPower, int magPower, int bardBonus)
+    public void ObserversAddBardBonus(int player, int physPower, int magPower, int bardBonusGold, int bardBonusReputation)
     {
         for (int i = 0; i < playerSummaries.Length; i++)
         {
             if (playerSummaries[i].text.Contains($"Player {player+1}"))
             {
-                playerSummaries[i].text += Regex.Unescape(string.Format(bardBonusText, bardBonus));
+                playerSummaries[i].text += Regex.Unescape(string.Format(bardBonusText, bardBonusGold, bardBonusReputation));
                 return;
             }
         }
 
         playerSummaries[playerCount].gameObject.SetActive(true);
         playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
-        playerSummaries[playerCount].text += Regex.Unescape(string.Format("Rewards:"+bardBonusText, bardBonus));
+        playerSummaries[playerCount].text += Regex.Unescape(string.Format("Rewards:"+bardBonusText, bardBonusGold, bardBonusReputation));
         playerCount++;
     }
     

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Sorcerer
   <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 4
+  <MagicalPower>k__BackingField: 5
   <OriginalPhysicalPower>k__BackingField: 0
-  <OriginalMagicalPower>k__BackingField: 4
+  <OriginalMagicalPower>k__BackingField: 5
   <Cost>k__BackingField: 8
-  <CardDescription>k__BackingField: Empower this card with +3 Power if it has a Magic
+  <CardDescription>k__BackingField: Empower this card with +2 Power if it has a Magic
     Item equipped.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer II

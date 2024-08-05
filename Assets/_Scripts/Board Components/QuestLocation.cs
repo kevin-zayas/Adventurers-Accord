@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -46,6 +47,8 @@ public class QuestLocation : NetworkBehaviour
     [field: SyncVar]
     public bool AllowResolution { get; private set; }
 
+    private Dictionary<int, Tuple<int,int>> bardBonusMap = new Dictionary<int, Tuple<int,int>>();
+
     [Server]
     public void OnStartGame()
     {
@@ -57,6 +60,10 @@ public class QuestLocation : NetworkBehaviour
         {
             CardsToResolvePerLane.Add(new List<AdventurerCard>());
         }
+
+        bardBonusMap.Add(1, new Tuple<int, int>(1, 0));
+        bardBonusMap.Add(2, new Tuple<int, int>(2, 1));
+        bardBonusMap.Add(3, new Tuple<int, int>(4, 2));
 
     }
 
@@ -265,13 +272,16 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private void DistributeBardBonus()
     {
+        int bardBonusGold;
+        int bardBonusReputation;
         foreach (QuestLane lane in questLanes)
         {
             if (lane.BardBonus > 0)
             {
-                lane.Player.ChangePlayerReputation(lane.BardBonus);
-                lane.Player.ChangePlayerGold(lane.BardBonus);
-                QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, lane.BardBonus);
+                (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus];
+                lane.Player.ChangePlayerGold(bardBonusGold);
+                lane.Player.ChangePlayerReputation(bardBonusReputation);
+                QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, bardBonusGold, bardBonusReputation);
             }
         }
     }

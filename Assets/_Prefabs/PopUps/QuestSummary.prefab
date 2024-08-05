@@ -359,7 +359,7 @@ MonoBehaviour:
 
     <indent=10%>\u2022 {0} GP, {1} Rep, {2} Loot'
   penaltyText: "Penalty:\r\n<indent=10%>\r\\u2022 {0} Rep"
-  bardBonusText: \n\u2022 +{0} GP, +{0} Rep (Bardsong)
+  bardBonusText: \n\u2022 +{0} GP, +{1} Rep (Bardsong)
 --- !u!114 &-446183644572633041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +388,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 19
+  <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
