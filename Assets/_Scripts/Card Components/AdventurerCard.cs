@@ -165,7 +165,7 @@ public class AdventurerCard : Card
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
 
-        if (Name == "Sorcerer" && HasItem && !Item.IsDisabled) MagicalPower += 3;
+        if (Name == "Sorcerer" && HasItem && !Item.IsDisabled) MagicalPower += 2;
 
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
     }
