@@ -5299,9 +5299,6 @@ MonoBehaviour:
   levelThreeQuestCards:
   - {fileID: 11400000, guid: 9748513db1a8dda479eb2980e86090e6, type: 2}
   - {fileID: 11400000, guid: a6a0429864df8414d898a2267bfd05e4, type: 2}
-  - {fileID: 11400000, guid: a4bc626b8a07c0046bb65f9134ae143b, type: 2}
-  - {fileID: 11400000, guid: 023e6fa9c6a7980428c8644eac036027, type: 2}
-  - {fileID: 11400000, guid: 1d90061528ed12448815c926e3458f44, type: 2}
   spellCards:
   - {fileID: 11400000, guid: bb868b344bfabba4cb01d47e8c15018c, type: 2}
   - {fileID: 11400000, guid: 7744cb6c95314664dadaef10ad4b3c30, type: 2}

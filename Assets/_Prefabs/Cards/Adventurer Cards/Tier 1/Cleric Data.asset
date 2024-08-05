@@ -19,7 +19,7 @@ MonoBehaviour:
   <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 5
   <CardDescription>k__BackingField: Grants Protection to all your Adventurers on
-    this Quest, preventing any Power reduction effects.
+    this Quest
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
   <AbilityName>k__BackingField: Divine Protection

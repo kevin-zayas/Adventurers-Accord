@@ -21,6 +21,7 @@ MonoBehaviour:
   <CardDescription>k__BackingField: Magic Items on this Quest are Disabled
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: 
+  <AbilityName>k__BackingField: Antimagic Cone
   <GoldReward>k__BackingField: 12
   <ReputationReward>k__BackingField: 6
   <LootReward>k__BackingField: 2
@@ -30,3 +31,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

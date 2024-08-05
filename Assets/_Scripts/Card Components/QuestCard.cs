@@ -8,6 +8,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class QuestCard : Card
 {
+    [field: SyncVar] public string AbilityName { get; private set; }
     [field: SyncVar] public int GoldReward { get; private set; }
     [field: SyncVar] public int ReputationReward { get; private set; }
     [field: SyncVar] public int LootReward { get; private set; }
@@ -24,8 +25,8 @@ public class QuestCard : Card
     [SerializeField] private TMP_Text reputationRewardText;
     [SerializeField] private TMP_Text lootRewardText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private GameObject descriptionObject;
+    [SerializeField] private TMP_Text abilityNameText;
+    [SerializeField] private GameObject abilityNameObject;
     [SerializeField] private Image cardImage;
 
 
@@ -44,6 +45,7 @@ public class QuestCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
+        AbilityName = cardData.AbilityName;
         GoldReward = cardData.GoldReward;
         ReputationReward = cardData.ReputationReward;
         LootReward = cardData.LootReward;
@@ -65,12 +67,12 @@ public class QuestCard : Card
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
-        descriptionText.text = cardData.CardDescription;
+        abilityNameText.text = cardData.AbilityName;
         goldRewardText.text = $"{cardData.GoldReward} GP";
         reputationRewardText.text = $"{cardData.ReputationReward} Rep.";
         lootRewardText.text = $"{cardData.LootReward} Loot";
 
-        if (cardData.CardDescription == "") descriptionObject.SetActive(false);
+        if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
     }
@@ -85,12 +87,12 @@ public class QuestCard : Card
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
         nameText.text = card.Name;
-        descriptionText.text = card.Description;
+        abilityNameText.text = card.AbilityName;
         goldRewardText.text = $"{card.GoldReward} GP";
         reputationRewardText.text = $"{card.ReputationReward} Rep.";
         lootRewardText.text = $"{card.LootReward} Loot";
 
-        if (card.Description == "") descriptionObject.SetActive(false);
+        if (card.Description == "") abilityNameObject.SetActive(false);
 
     }
 }

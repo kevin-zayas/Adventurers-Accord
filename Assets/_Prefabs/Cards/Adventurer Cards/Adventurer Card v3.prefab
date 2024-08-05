@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6039446311126529750}
   - component: {fileID: 2148980276914366932}
   m_Layer: 8
-  m_Name: Description Border
+  m_Name: Ability Name Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -524,7 +524,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Description
+  m_text: Ability Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -1478,7 +1478,7 @@ MonoBehaviour:
   abilityNameText: {fileID: 4004057442462621200}
   cardTypeText: {fileID: 1412657023948964493}
   costText: {fileID: 1356007084095882162}
-  descriptionObject: {fileID: 800517241531852951}
+  abilityNameObject: {fileID: 800517241531852951}
   cardImage: {fileID: 1177701720125259711}
 --- !u!114 &2922969160115862960
 MonoBehaviour:

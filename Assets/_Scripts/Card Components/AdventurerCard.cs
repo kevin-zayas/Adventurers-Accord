@@ -25,18 +25,11 @@ public class AdventurerCard : Card
     [SerializeField] private TMP_Text abilityNameText;
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private TMP_Text costText;
-    [SerializeField] private GameObject descriptionObject;
+    [SerializeField] private GameObject abilityNameObject;
     [SerializeField] private Image cardImage;
     
     private void Start()
     {
-        //nameText.text = Name;
-        //descriptionText.text = Description;
-        //cardTypeText.text = CardType;
-        //physicalPowerText.text = PhysicalPower.ToString();
-        //magicalPowerText.text = MagicalPower.ToString();
-        //costText.text = Cost.ToString();
-
         if (IsServer)
         {
             IsDraftCard = true;
@@ -217,7 +210,7 @@ public class AdventurerCard : Card
         cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
 
-        if (cardData.AbilityName == "") descriptionObject.SetActive(false);
+        if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
     }
 
     [TargetRpc]
@@ -236,7 +229,7 @@ public class AdventurerCard : Card
 
         UpdatePowerTextColor(card.PhysicalPower, card.MagicalPower, card.OriginalPhysicalPower, card.OriginalMagicalPower);
 
-        if (card.AbilityName == "") descriptionObject.SetActive(false);
+        if (card.AbilityName == "") abilityNameObject.SetActive(false);
     }
 
     [Server]
