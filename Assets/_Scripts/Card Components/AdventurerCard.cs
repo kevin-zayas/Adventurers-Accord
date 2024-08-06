@@ -63,7 +63,7 @@ public class AdventurerCard : Card
     {
         Vector3 scale;
 
-        if (newParent.CompareTag("Quest")) scale = new Vector3(.5f, .5f, 1f);
+        if (newParent.CompareTag("Quest")) scale = new Vector3(.6f, .6f, 1f);
         else scale = new Vector3(1f, 1f, 1f);
 
         this.transform.localScale = scale;

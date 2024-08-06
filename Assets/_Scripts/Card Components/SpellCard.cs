@@ -29,7 +29,7 @@ public class SpellCard : Card
     {
         if (parent.CompareTag("Quest"))
         {
-            this.transform.localScale = new Vector3(.5f, .5f, 1f);
+            this.transform.localScale = new Vector3(.6f, .6f, 1f);
         }
         this.transform.SetParent(parent, worldPositionStays);
     }
