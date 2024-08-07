@@ -6,12 +6,13 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExitHandler
+public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExitHandler, IPointerUpHandler
 {
     private GameObject canvas;
     public GameObject referenceCard;
 
     private bool isDragging;
+    private bool isClicking;
     public bool isEnlargedCard;
     public bool isSpotlightCard;
 
@@ -30,17 +31,18 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.pointerId == -1 && isEnlargedCard) gameObject.SetActive(false);       //disable enlarged card on left click down to prevent dragging
+        isClicking = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (!isClicking) return;
         if (isDragging) return;
         if (isSpotlightCard) gameObject.SetActive(false);
 
         bool isSpotlight = true;
-
-        if (eventData.pointerId == -1)
-        {
-            // LEFT CLICK
-            if (isEnlargedCard) gameObject.SetActive(false);
-            isSpotlight = false;
-        }
+        if (eventData.pointerId == -1) isSpotlight = false;
 
         Vector2 spawnPosition = gameObject.transform.position;
         Card card = gameObject.GetComponent<Card>();
@@ -51,6 +53,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        isClicking = false;
         if (isEnlargedCard)
         {
             gameObject.SetActive(false);
