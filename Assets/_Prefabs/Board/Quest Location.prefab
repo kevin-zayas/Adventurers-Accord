@@ -155,10 +155,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
-      propertyPath: <PrefabId>k__BackingField
-      value: 31
-      objectReference: {fileID: 0}
-    - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 14
       objectReference: {fileID: 0}
@@ -172,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
-      value: 460
+      value: 425
       objectReference: {fileID: 0}
     - target: {fileID: 6714051032548695215, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_Name
@@ -204,11 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 195
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 270
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -244,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 285
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -394,6 +390,10 @@ PrefabInstance:
       propertyPath: <ComponentIndex>k__BackingField
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 946070325450060928, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
+      objectReference: {fileID: 0}
     - target: {fileID: 1153304964232830349, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -414,6 +414,10 @@ PrefabInstance:
       propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 1759175782049815472, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
+      objectReference: {fileID: 0}
     - target: {fileID: 2636546665545583192, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -434,9 +438,17 @@ PrefabInstance:
       propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 3242135390052912229, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
+      objectReference: {fileID: 0}
     - target: {fileID: 3896972877740054698, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4158691672531805013, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
       objectReference: {fileID: 0}
     - target: {fileID: 4345569053658872203, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
@@ -445,6 +457,10 @@ PrefabInstance:
     - target: {fileID: 4489293711292783353, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4700020494983355083, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
       objectReference: {fileID: 0}
     - target: {fileID: 4887996168270480324, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -466,6 +482,10 @@ PrefabInstance:
       propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 6084670145852634619, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
+      objectReference: {fileID: 0}
     - target: {fileID: 6417189112359293797, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 13
@@ -506,6 +526,10 @@ PrefabInstance:
       propertyPath: <ComponentIndex>k__BackingField
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 7665793238935239964, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7897579298858534064, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 10
@@ -533,6 +557,10 @@ PrefabInstance:
     - target: {fileID: 9063194674026548003, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9163306448957133356, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: m_fontSize
+      value: 28.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

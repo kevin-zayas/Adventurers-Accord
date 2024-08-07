@@ -97,7 +97,7 @@ public class QuestLocation : NetworkBehaviour
         CreatePreviewCard(questCard);
 
         questCard.SetCardParent(questCardSlot.transform, false);
-        questCard.ObserversSetCardScale(new Vector2(1.25f, 1.25f));
+        //questCard.ObserversSetCardScale(new Vector2(1.25f, 1.25f));
         QuestCard = questCard;
 
         foreach (QuestLane lane in questLanes) lane.AssignQuestCard(questCard);
