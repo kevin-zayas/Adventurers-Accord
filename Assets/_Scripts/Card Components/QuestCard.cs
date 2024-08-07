@@ -69,7 +69,7 @@ public class QuestCard : Card
         nameText.text = cardData.CardName;
         abilityNameText.text = cardData.AbilityName;
         goldRewardText.text = $"{cardData.GoldReward} GP";
-        reputationRewardText.text = $"{cardData.ReputationReward} Rep.";
+        reputationRewardText.text = $"{cardData.ReputationReward} Rep";
         lootRewardText.text = $"{cardData.LootReward} Loot";
 
         if (cardData.AbilityName == "") abilityNameObject.SetActive(false);

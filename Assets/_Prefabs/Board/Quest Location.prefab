@@ -168,7 +168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 951993302022062511, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: SerializedTransformProperties.Position.y
-      value: 425
+      value: 440
       objectReference: {fileID: 0}
     - target: {fileID: 6714051032548695215, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_Name
@@ -200,11 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 184
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 220
+      value: 253
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_LocalPosition.x
@@ -240,7 +240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 250
+      value: 265
       objectReference: {fileID: 0}
     - target: {fileID: 7077388879507877939, guid: a40684fd2eae0cc44a23c944d1f6b653, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
