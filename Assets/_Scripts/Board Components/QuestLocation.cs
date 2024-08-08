@@ -3,6 +3,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,26 +29,26 @@ public class QuestLocation : NetworkBehaviour
     [field: SerializeField]
     private CardSlot questCardSlot;
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public QuestCard QuestCard { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int TotalPhysicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int TotalMagicalPower { get; private set; }
 
     [field: SerializeField]
     public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public bool AllowResolution { get; private set; }
 
-    private Dictionary<int, Tuple<int,int>> bardBonusMap = new Dictionary<int, Tuple<int,int>>();
+    private readonly Dictionary<int, Tuple<int,int>> bardBonusMap = new();
+
+    [field: SerializeField] private TMP_Text totalPhysicalPowerText;
+
+    [field: SerializeField] private TMP_Text totalMagicalPowerText;
 
     [Server]
     public void OnStartGame()
@@ -121,6 +122,28 @@ public class QuestLocation : NetworkBehaviour
 
         Despawn(QuestCard.gameObject);
         Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
+    }
+
+    [Server]
+    public void UpdateTotalPower()
+    {
+        TotalPhysicalPower = 0;
+        TotalMagicalPower = 0;
+
+        for (int i = 0; i < questLanes.Length; i++)
+        {
+            TotalPhysicalPower += questLanes[i].PhysicalPower + questLanes[i].SpellPhysicalPower;
+            TotalMagicalPower += questLanes[i].MagicalPower + questLanes[i].SpellMagicalPower;
+        }
+
+        ObserversUpdateTotalPower(TotalPhysicalPower, TotalMagicalPower);
+    }
+
+    [ObserversRpc]
+    private void ObserversUpdateTotalPower(int totalPhysicalPower, int totalMagicalPower)
+    {
+        totalPhysicalPowerText.text = totalPhysicalPower.ToString();
+        totalMagicalPowerText.text = totalMagicalPower.ToString();
     }
 
     [Server]

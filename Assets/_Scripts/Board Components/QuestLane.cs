@@ -7,12 +7,10 @@ using UnityEngine;
 
 public class QuestLane : NetworkBehaviour
 {
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public QuestLocation QuestLocation { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public QuestCard QuestCard { get; private set; }
 
     [field: SerializeField]
@@ -24,24 +22,19 @@ public class QuestLane : NetworkBehaviour
     [field: SerializeField]
     public GameObject SpellDropZone { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int PhysicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int MagicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int SpellPhysicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int SpellMagicalPower { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int EffectiveTotalPower { get; private set; }
 
     [field: SerializeField]
@@ -49,12 +42,10 @@ public class QuestLane : NetworkBehaviour
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public int BardBonus { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
+    [field: SerializeField, SyncVar]
     public bool ClericProtection { get; private set; }
 
     private bool EnchanterBuff;
@@ -105,6 +96,7 @@ public class QuestLane : NetworkBehaviour
         if (QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellMagicalPower;
 
         ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
+        QuestLocation.UpdateTotalPower();
     }
 
     [ServerRpc(RequireOwnership = false)]
