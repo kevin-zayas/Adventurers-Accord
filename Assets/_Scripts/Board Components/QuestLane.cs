@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestLane : NetworkBehaviour
 {
@@ -53,6 +54,7 @@ public class QuestLane : NetworkBehaviour
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
+    [SerializeField] private Image rewardIndicator;
 
     private void Start()
     {
@@ -97,6 +99,8 @@ public class QuestLane : NetworkBehaviour
 
         ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
         QuestLocation.UpdateTotalPower();
+
+        QuestLocation.CalculateQuestContributions(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -265,7 +269,9 @@ public class QuestLane : NetworkBehaviour
                 break;
 
         }
-
+        print(DropZone.transform.childCount);
+        if (DropZone.transform.childCount == 0) ObserversUpdateRewardIndicator("blank");
+        
         UpdateQuestLanePower();
     }
 
@@ -344,5 +350,19 @@ public class QuestLane : NetworkBehaviour
         wolfCard.LoadCardData(wolfCardData);
         wolfCard.SetCardParent(Player.controlledHand.transform,false);
         wolfCard.SetCardParent(DropZone.transform, false);
+    }
+
+    [ObserversRpc]
+    public void ObserversUpdateRewardIndicator(string color)
+    {
+        print(color);
+        if (color == "blank")
+        {
+            rewardIndicator.enabled = false;
+            return;
+        }
+        rewardIndicator.enabled = true;
+        if (color == "gold") rewardIndicator.color = Color.yellow;
+        if (color == "silver") rewardIndicator.color = Color.gray;
     }
 }

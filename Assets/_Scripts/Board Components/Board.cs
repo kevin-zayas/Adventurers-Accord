@@ -179,7 +179,7 @@ public class Board : NetworkBehaviour
         for (int i = 0; i < QuestLocations.Length; i++)
         {
 
-            QuestLocations[i].CheckQuestCompletion(popUp.QuestSummaries[i]);
+            QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
         }
 
         

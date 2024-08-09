@@ -147,24 +147,29 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public void CheckQuestCompletion(QuestSummary questSummary)
+    public bool MeetsQuestRequirements()
+    {
+        // Check if the Physical Power requirement is met or if no Physical Power is required
+        bool physicalRequirementMet = (QuestCard.PhysicalPower == 0 || TotalPhysicalPower >= QuestCard.PhysicalPower);
+
+        // Check if the Magical Power requirement is met or if no Magical Power is required
+        bool magicalRequirementMet = (QuestCard.MagicalPower == 0 || TotalMagicalPower >= QuestCard.MagicalPower);
+
+        return physicalRequirementMet && magicalRequirementMet; ;
+
+    }
+
+    [Server]
+    public void HandleEndOfQuest(QuestSummary questSummary)
     {
         QuestSummary = questSummary;
-        TotalPhysicalPower = 0;
-        TotalMagicalPower = 0;
-        bool adventurersPresent = false;
 
-        for (int i = 0; i < questLanes.Length; i++)
-        {
-            // prevent negative power from failing a Quest with 0 power required
-            if (QuestCard.PhysicalPower > 0) TotalPhysicalPower += questLanes[i].PhysicalPower + questLanes[i].SpellPhysicalPower;
-            if (QuestCard.MagicalPower > 0) TotalMagicalPower += questLanes[i].MagicalPower + questLanes[i].SpellMagicalPower;
-        }
+        UpdateTotalPower();
 
-        if (TotalPhysicalPower >= QuestCard.PhysicalPower && TotalMagicalPower >= QuestCard.MagicalPower)
+        if (MeetsQuestRequirements())
         {
             QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
-            CalculateQuestContributions();
+            CalculateQuestContributions(true);
             DistributeBardBonus();
 
             ReplaceQuestCard();
@@ -175,19 +180,12 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.DropZone.transform.childCount > 0)
                 {
-                    adventurersPresent = true;
+                    QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+                    CalculateFailedQuestPenalty();
+                    ReplaceQuestCard();
+
                     break;
                 }
-            }
-
-            if (adventurersPresent)
-            {
-                QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
-                CalculateFailedQuestPenalty();
-
-                ReplaceQuestCard();
-
-                return;
             }
 
             QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Unchallenged", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
@@ -197,7 +195,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void CalculateQuestContributions()
+    public void CalculateQuestContributions(bool isQuestComplete)
     {
         List<QuestLane> laneList = new(questLanes);
         laneList.Sort((a, b) => b.EffectiveTotalPower.CompareTo(a.EffectiveTotalPower));
@@ -216,7 +214,7 @@ public class QuestLocation : NetworkBehaviour
                 if (lane.EffectiveTotalPower > 0) secondaryContributors.Add(lane);
             }
         }
-        CalculateQuestRwards(primaryContributors, secondaryContributors);
+        CalculateQuestRwards(primaryContributors, secondaryContributors, isQuestComplete);
     }
 
     [Server]
@@ -229,13 +227,18 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void CalculateQuestRwards(List<QuestLane> primaryContributors, List<QuestLane> secondaryContributors)
+    private void CalculateQuestRwards(List<QuestLane> primaryContributors, List<QuestLane> secondaryContributors, bool isQuestComplete)
     {
         if (primaryContributors.Count == 0)         //all secondary contributors recieve half rewards
         {
             foreach (QuestLane lane in secondaryContributors)
             {
-                DistributeQuestRewards(lane, false);
+                if (isQuestComplete) DistributeQuestRewards(lane, false);
+                else
+                {
+                    if (MeetsQuestRequirements()) lane.ObserversUpdateRewardIndicator("silver");
+                    else lane.ObserversUpdateRewardIndicator("blank");
+                }
             }
             return;
         }
@@ -243,7 +246,8 @@ public class QuestLocation : NetworkBehaviour
         {
             foreach (QuestLane lane in primaryContributors)
             {
-                DistributeQuestRewards(lane, true);
+                if (isQuestComplete) DistributeQuestRewards(lane, true);
+                else lane.ObserversUpdateRewardIndicator("gold");
             }
 
             if (secondaryContributors.Count == 0) return;
@@ -253,9 +257,13 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.EffectiveTotalPower == topSecondaryPower)
                 {
-                    DistributeQuestRewards(lane, false);
+                    if (isQuestComplete) DistributeQuestRewards(lane, false);
+                    else lane.ObserversUpdateRewardIndicator("silver");
                 }
-                else break;
+                else
+                {
+                    lane.ObserversUpdateRewardIndicator("blank");
+                }
             }
             return;
         }
