@@ -79,11 +79,11 @@ public class ConfirmationPopUp : MonoBehaviour
         titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().Name, card.Name);
         messageText.text = equipItemMessage;
 
-        RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
-        titleRect.position = new Vector2(0f, 15f);
+        //RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
+        //titleRect.position = new Vector2(0f, 15f);
 
-        RectTransform messageRect = messageText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
-        messageRect.position = new Vector2(0f, -25f);
+        //RectTransform messageRect = messageText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
+        //messageRect.position = new Vector2(0f, -25f);
 
 
     }

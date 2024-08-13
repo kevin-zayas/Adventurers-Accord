@@ -90,7 +90,7 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp(true);
         popUp.InitializeEquipItemPopUp(card,this.gameObject);
         //transform.position = startPosition;
     }

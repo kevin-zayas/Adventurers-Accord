@@ -5,20 +5,17 @@ using UnityEngine.UI;
 
 public class LobbyView : View
 {
-    [SerializeField]
-    private TMP_Text playerList;
+    [SerializeField] Button howToPlayButton;
+    [SerializeField] Button readyButton;
+    [SerializeField] Button startButton;
 
-    [SerializeField]
-    private Button readyButton;
-
-    [SerializeField]
-    private TMP_Text readyButtonText;
-
-    [SerializeField]
-    private Button startButton;
+    [SerializeField] TMP_Text playerList;
+    [SerializeField] TMP_Text readyButtonText;    
 
     public override void Initialize()
     {
+        howToPlayButton.onClick.AddListener(() => PopUpManager.Instance.CreateHowToPlayPopUp());
+
         readyButton.onClick.AddListener(() => Player.Instance.IsReady = !Player.Instance.IsReady);
 
         //if (InstanceFinder.IsServer)
@@ -46,7 +43,8 @@ public class LobbyView : View
         {
             Player player = GameManager.Instance.Players[i];
 
-            playerListText += $"Player {player.OwnerId+1} (Is Ready: {player.IsReady})";
+            if (player.IsReady) playerListText += $"Player {player.OwnerId+1} - Ready";
+            else playerListText += $"Player {player.OwnerId + 1} - Not Ready";
 
             if (i < playerCount - 1) playerListText += "\r\n";
         }

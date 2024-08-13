@@ -10,13 +10,14 @@ public class PopUpManager : NetworkBehaviour
 {
     public static PopUpManager Instance { get; private set; }
 
-    
+
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
     [SerializeField] GameOverPopUp GameOverPopUpPrefab;
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
     [SerializeField] ResolutionPopUp ResolutionPopUpPrefab;
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
+    [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
 
     [field: SerializeField]
     [field: SyncVar]
@@ -94,5 +95,38 @@ public class PopUpManager : NetworkBehaviour
     {
         ConfirmationPopUp popUp = Instantiate(ConfirmationPopUpPrefab);
         return popUp;
+    }
+
+    public ConfirmationPopUp CreateConfirmationPopUp(bool itemPopUp)
+    {
+        ConfirmationPopUp popUp = Instantiate(EquipConfirmationPopUpPrefab);
+
+        return popUp;
+    }
+
+    public HowToPlayPopUp CreateHowToPlayPopUp()
+    {
+        HowToPlayPopUp howToPlayPopUp = Instantiate(HowToPlayPopUpPrefab);
+        howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+        howToPlayPopUp.transform.localPosition = Vector3.zero;
+
+        RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();        // modify transform so raycast blocker can stretch across the screen
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
+
+        return howToPlayPopUp;
+    }
+
+    public CreditsPopUp CreateCreditsPopUp()
+    {
+        CreditsPopUp creditsPopUp = Instantiate(CreditsPopUpPrefab);
+        creditsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+        creditsPopUp.transform.localPosition = Vector3.zero;
+
+        RectTransform rt = creditsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
+
+        return creditsPopUp;
     }
 }

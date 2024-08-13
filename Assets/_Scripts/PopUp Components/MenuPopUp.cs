@@ -23,36 +23,17 @@ public class MenuPopUp : MonoBehaviour
 
     private void Start()
     {
-        closeMenuButton.onClick.AddListener(() =>
-        {
-            CloseMenu();
-        });
+        closeMenuButton.onClick.AddListener(() => CloseMenu());
 
         howToPlayButton.onClick.AddListener(() =>
         {
-            HowToPlayPopUp howToPlayPopUp = Instantiate(HowToPlayPopUpPrefab);
-            howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            howToPlayPopUp.transform.localPosition = Vector3.zero;
-
-            RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();        // modify transform so raycast blocker can stretch across the screen
-            rt.offsetMax = Vector2.zero;
-            rt.offsetMin = Vector2.zero;
-
-            popUp = howToPlayPopUp;
+            popUp = PopUpManager.Instance.CreateHowToPlayPopUp();
             CloseMenu();
         });
 
         creditsButton.onClick.AddListener(() =>
         {
-            CreditsPopUp creditsPopUp = Instantiate(CreditsPopUpPrefab);
-            creditsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            creditsPopUp.transform.localPosition = Vector3.zero;
-
-            RectTransform rt = creditsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
-            rt.offsetMax = Vector2.zero;
-            rt.offsetMin = Vector2.zero;
-
-            popUp = creditsPopUp;
+            popUp = PopUpManager.Instance.CreateCreditsPopUp();
             CloseMenu();
         });
 
