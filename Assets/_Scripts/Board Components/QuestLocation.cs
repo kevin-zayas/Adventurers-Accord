@@ -364,12 +364,43 @@ public class QuestLocation : NetworkBehaviour
     private void ResolveCard(AdventurerCard card)
     {
         print("Resolving card: " + card.Name);
+        if (!CheckResolutionValid(card))
+        {
+            GameManager.Instance.ServerCheckForUnresolvedCards();
+            return;
+        }
+
         ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
 
         Spawn(popUp.gameObject);
         GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
         TargetResolveCard(card.Owner, popUp, card.Name);
         
+    }
+
+    [Server]
+    private bool CheckResolutionValid(AdventurerCard card)
+    {   
+        if (card.Name == "Rogue")
+        {
+            //check for magic items in Quest Location
+            foreach (QuestLane lane in questLanes)
+            {
+                foreach (Transform cardTransform in lane.DropZone.transform)
+                {
+                    AdventurerCard childCard = cardTransform.GetComponent<AdventurerCard>();
+
+                    if (childCard == card) continue;
+
+                    if (childCard.HasItem)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;   //no items found in any lanes
+        }
+        return true;
     }
 
     [TargetRpc]

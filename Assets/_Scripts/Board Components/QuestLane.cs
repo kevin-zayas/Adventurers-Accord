@@ -355,7 +355,6 @@ public class QuestLane : NetworkBehaviour
     [ObserversRpc]
     public void ObserversUpdateRewardIndicator(string color)
     {
-        print(color);
         if (color == "blank")
         {
             rewardIndicator.enabled = false;

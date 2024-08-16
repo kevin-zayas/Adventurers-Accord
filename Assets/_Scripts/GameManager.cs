@@ -156,7 +156,7 @@ public class GameManager : NetworkBehaviour
     [ObserversRpc]
     private void ObserversEnableEndRoundButton()
     {
-        GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundButton();
+        GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundUI();
     }
 
     [Server]

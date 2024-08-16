@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,8 @@ public class MainView : View
 {
     [SerializeField]
     private Button endTurnButton;
+
+    public TMP_Text text;
 
     public override void Initialize()
     {
@@ -27,6 +30,13 @@ public class MainView : View
 
         base.Initialize();
     }
+
+    public override void Show(object args = null) 
+    {
+        base.Show(args);
+        text.GetComponent<FlashingEffect>().FlashEffect();
+    }
+
 
     public void SetEndTurnButtonActive(bool value)
     {

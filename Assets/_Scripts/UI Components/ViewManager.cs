@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ViewManager : MonoBehaviour
@@ -7,18 +6,21 @@ public class ViewManager : MonoBehaviour
     public static ViewManager Instance { get; private set; }
 
     [SerializeField] private View[] views;
-
     [SerializeField] private View defaultView;
-
-    private View currentView;
-
     [SerializeField] private bool autoInitialize;
 
     [SerializeField] private GameObject recruitUI;
     [SerializeField] private GameObject questUI;
 
+    private View currentView;
+
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
@@ -38,27 +40,29 @@ public class ViewManager : MonoBehaviour
         if (defaultView != null) Show(defaultView);
     }
 
-    public void Show<TView>(object args = null) where TView : View
+    public void Show<TView>() where TView : View
     {
-        foreach (View view in views)
+        var viewToShow = views.OfType<TView>().FirstOrDefault();
+        if (viewToShow != null)
         {
-            if (view is not TView) continue;
-
-            if (currentView != null) currentView.Hide();  // redundant check
-
-            view.Show();
-            currentView = view;
-
-            break;
+            SwitchView(viewToShow);
+        }
+        else
+        {
+            Debug.LogError($"View of type {typeof(TView)} not found.");
         }
     }
 
-    public void Show(View view, object args = null)
+    public void Show(View view)
+    {
+        SwitchView(view);
+    }
+
+    private void SwitchView(View newView)
     {
         if (currentView != null) currentView.Hide();
-
-        view.Show(args);
-        currentView = view;
+        newView.Show();
+        currentView = newView;
     }
 
     public void EnableRecruitUI()

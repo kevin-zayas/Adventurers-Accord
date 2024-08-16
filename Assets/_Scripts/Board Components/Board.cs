@@ -162,6 +162,7 @@ public class Board : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     public void ObserversUpdatePhaseText(string phase, bool gameOver = false)
     {
+        phaseText.GetComponent<FlashingEffect>().FlashEffect();
         if (gameOver)
         {
             phaseText.text = "Game Over!";
