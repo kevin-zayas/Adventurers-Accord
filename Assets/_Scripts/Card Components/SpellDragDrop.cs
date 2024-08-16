@@ -1,6 +1,4 @@
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpellDragDrop : NetworkBehaviour
@@ -86,9 +84,17 @@ public class SpellDragDrop : NetworkBehaviour
         }
 
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+
         if (questLane.QuestCard.BlockSpells)
         {
             print("Spells cant be used on this Quest");
+            ResetCardPosition();
+            return;
+        }
+
+        if (questLane.DropZone.transform.childCount == 0)
+        {
+            print("Spells cant be used on a lane with no Adventurers");
             ResetCardPosition();
             return;
         }
