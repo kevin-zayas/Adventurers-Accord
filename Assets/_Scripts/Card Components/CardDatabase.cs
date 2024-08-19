@@ -83,7 +83,7 @@ public class CardDatabase : NetworkBehaviour
 
     private void InitializeKeywordDefinitionMap()
     {
-        KeywordDefinitionMap.Add("Posion", poisonKeywordText);
+        KeywordDefinitionMap.Add("Poison", poisonKeywordText);
         KeywordDefinitionMap.Add("Bardsong", bardsongKeywordText);
         KeywordDefinitionMap.Add("Protection", protectionKeywordText);
         KeywordDefinitionMap.Add("Empower", empowerKeywordText);
