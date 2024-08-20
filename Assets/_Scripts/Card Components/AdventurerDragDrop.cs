@@ -18,7 +18,8 @@ public class AdventurerDragDrop : NetworkBehaviour
     {
         card = this.GetComponent<AdventurerCard>();
         canvas = GameObject.Find("Canvas");
-
+        
+        if (IsServer) return;
         if (player == null) player = GameManager.Instance.Players[LocalConnection.ClientId];    // spotlight card tries to populate player but return -1 for clientID. 
                                                                                                 // This prevents spotlights from trying to populate player on Start.
                                                                                                 // This should be addressed in spotlight overhaul

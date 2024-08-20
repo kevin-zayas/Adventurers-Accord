@@ -13,12 +13,12 @@ public class ScoreBoard : NetworkBehaviour
     public PlayerScore[] PlayerScores { get; private set; }
 
     //[SerializeField] GameObject scoreboardPanelPrefab;
-    [SerializeField] GameObject turnMarkerPrefab;
+    //[SerializeField] GameObject turnMarkerPrefab;
 
     [SerializeField] private GameObject scoreboardPanel;
 
-    [SerializeField]
-    private GameObject turnMarker;
+    //[SerializeField]
+    //private GameObject turnMarker;
 
     [SyncVar]
     private int playerCount;
@@ -47,6 +47,8 @@ public class ScoreBoard : NetworkBehaviour
 
         RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
+
+        this.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(25f, -20);
     }
 
     [Server]

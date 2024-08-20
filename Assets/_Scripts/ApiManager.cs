@@ -7,9 +7,29 @@ public class ApiManager : MonoBehaviour
 {
     //[SerializeField] string matchId;
     public static ApiManager Instance { get; private set; }
+    BuildType buildType;
+
+    string finalToken;
+    string finalMatchId;
+
+    string testToken;
+    string testMatchId;
+
+    public enum BuildType
+    {
+        Final,
+        Test
+    }
     private void Awake()
     {
         Instance = this;
+        finalToken = "efe81a97a8bd587f5b1172d7c025796b";
+        finalMatchId = "2726223d33a344968466f5b9991d4697-studio-us-east.playflow.dev";
+
+        testToken = "3d65b1b4af0445a224841e24e312b197";
+        testMatchId = "17d29124cf324cac8974516fbec4e97e-free-us-east.playflow.dev";
+
+        buildType = BuildType.Test;
     }
 
     public void RestartGameServer()
@@ -20,9 +40,20 @@ public class ApiManager : MonoBehaviour
     private IEnumerator SendPostRequest()
     {
         print("Restarting Server");
-        string token = "efe81a97a8bd587f5b1172d7c025796b";
-        string matchId = "cbb7a6acd06643c4a12e631864ed0b35-studio-us-east.playflow.dev";
+        string token;
+        string matchId;
         string url = "https://api.cloud.playflow.app/restart_game_server";
+
+        if (buildType == BuildType.Final)
+        {
+            token = finalToken;
+            matchId = finalMatchId;
+        }
+        else
+        {
+            token = testToken;
+            matchId = testMatchId;
+        }
 
         // Create a new UnityWebRequest
         UnityWebRequest request = new UnityWebRequest(url, "POST");
