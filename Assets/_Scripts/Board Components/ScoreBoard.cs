@@ -47,6 +47,8 @@ public class ScoreBoard : NetworkBehaviour
 
         RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
+
+        this.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(25, -20);
     }
 
     [Server]
