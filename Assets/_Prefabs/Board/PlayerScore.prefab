@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 63
+  <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 2449725273452969227}
@@ -391,7 +391,7 @@ MonoBehaviour:
   <ChildNetworkObjects>k__BackingField:
   - {fileID: 2084680035684182592}
   SerializedTransformProperties:
-    Position: {x: 0, y: -35, z: 0}
+    Position: {x: 0, y: 77.25, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
@@ -399,7 +399,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 28
+  <PrefabId>k__BackingField: 10
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 979065644
   <SceneId>k__BackingField: 0
@@ -876,7 +876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4704720060911695634, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -20
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 4704720060911695634, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -912,7 +912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 64
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
@@ -920,7 +920,7 @@ PrefabInstance:
       objectReference: {fileID: 7343440687860504333}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: -191.25
+      value: -186.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
