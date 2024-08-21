@@ -2780,8 +2780,8 @@ MonoBehaviour:
   _enabled: 1
   _enableGlobalScenes: 1
   _startInOffline: 0
-  _offlineScene: Assets/Scenes/StartScreen.unity
-  _onlineScene: Assets/Scenes/MainScreen.unity
+  _offlineScene: Assets/_Scenes/StartScreen.unity
+  _onlineScene: Assets/_Scenes/MainScreen.unity
   _replaceScenes: 0
 --- !u!114 &2084902073
 MonoBehaviour:
@@ -2810,16 +2810,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 362dfd7e6009fb44c90beec3df0ad853, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _useWss: 0
+  _useWss: 1
   _sslConfiguration:
     Enabled: 0
     CertificatePath: 
     CertificatePassword: 
     SslProtocol: 0
   _mtu: 1023
-  _port: 7770
+  _port: 443
   _maximumClients: 2000
-  _clientAddress: localhost
+  _clientAddress: 492d6255d4d943ebaf78f2f9a11e0052-free-us-east.playflow.dev
 --- !u!114 &2084902076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2827,7 +2827,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2084902069}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afe141f963be96d4091dc44d2dbc9e69, type: 3}
   m_Name: 

@@ -69,7 +69,12 @@ public class GameManager : NetworkBehaviour
         if (!IsServer) return;
 
         CanStart = Players.All(player => player.IsReady);
-        if (DidStart && Players.Count == 0) ApiManager.Instance.RestartGameServer();
+        if (DidStart && Players.Count == 0)
+        {
+            ApiManager.Instance.RestartGameServer();
+            DidStart = false;
+        }
+            
     }
 
     [ServerRpc(RequireOwnership = false)]
