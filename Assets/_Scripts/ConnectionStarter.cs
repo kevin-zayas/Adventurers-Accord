@@ -32,8 +32,7 @@ public class ConnectionStarter : MonoBehaviour
             else
             {
                 print("Host: starting server only");
-                //_bayou.StartConnection(true);
-                //_bayou.StartConnection(false);
+                _bayou.StartConnection(true);
             }
 
             return;
@@ -43,7 +42,7 @@ public class ConnectionStarter : MonoBehaviour
 
 #endif
 #if !UNITY_EDITOR
-        //_bayou.StartConnection(true);
+        _bayou.StartConnection(true);
         //_tugboat.StartConnection(true);
 #endif
     }

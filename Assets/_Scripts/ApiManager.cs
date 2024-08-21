@@ -20,8 +20,11 @@ public class ApiManager : MonoBehaviour
     private IEnumerator SendPostRequest()
     {
         print("Restarting Server");
-        string token = "efe81a97a8bd587f5b1172d7c025796b";
-        string matchId = "cbb7a6acd06643c4a12e631864ed0b35-studio-us-east.playflow.dev";
+        //string token = "efe81a97a8bd587f5b1172d7c025796b";
+        //string matchId = "cbb7a6acd06643c4a12e631864ed0b35-studio-us-east.playflow.dev";
+
+        string token = "3d65b1b4af0445a224841e24e312b197";
+        string matchId = "492d6255d4d943ebaf78f2f9a11e0052-free-us-east.playflow.dev";
         string url = "https://api.cloud.playflow.app/restart_game_server";
 
         // Create a new UnityWebRequest
