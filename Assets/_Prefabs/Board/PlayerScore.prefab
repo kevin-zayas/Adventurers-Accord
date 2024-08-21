@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 63
   <PredictedSpawn>k__BackingField: {fileID: 0}
   _networkBehaviours:
   - {fileID: 2449725273452969227}
@@ -399,7 +399,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 10
+  <PrefabId>k__BackingField: 28
   <SpawnableCollectionId>k__BackingField: 0
   _scenePathHash: 979065644
   <SceneId>k__BackingField: 0
@@ -876,7 +876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4704720060911695634, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -15
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 4704720060911695634, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -912,7 +912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 1
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField

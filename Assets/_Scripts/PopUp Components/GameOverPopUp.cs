@@ -31,9 +31,8 @@ public class GameOverPopUp : NetworkBehaviour
     {
         restartServerButton.onClick.AddListener(() =>
         {
-            RestartServerPopUp restartServerPopUp = Instantiate(Resources.Load<RestartServerPopUp>("PopUps/RestartServerPopUp"));
-            restartServerPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            restartServerPopUp.transform.localPosition = Vector3.zero;
+            ConfirmationPopUp confirmationPopUp = PopUpManager.Instance.CreateConfirmationPopUp();
+            confirmationPopUp.InitializeRestartServerPopUp();
         });
     }
 

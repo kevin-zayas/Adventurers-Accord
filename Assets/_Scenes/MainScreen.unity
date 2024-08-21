@@ -1975,7 +1975,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7849010289838963864, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 25
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 7849010289838963864, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5414,7 +5414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5782254698409434012, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -143.33333
+      value: -135
       objectReference: {fileID: 0}
     - target: {fileID: 5782254698409434012, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8734,7 +8734,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7849010289838963864, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -600
+      value: -500
       objectReference: {fileID: 0}
     - target: {fileID: 7849010289838963864, guid: 3e022a0334f390441ad63017c6bb0789, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9302,10 +9302,6 @@ PrefabInstance:
       propertyPath: <SceneId>k__BackingField
       value: 4205054924542869120
       objectReference: {fileID: 0}
-    - target: {fileID: 2084680035684182592, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 64
-      objectReference: {fileID: 0}
     - target: {fileID: 3204417926219592785, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: m_Name
       value: PlayerScore
@@ -9401,10 +9397,6 @@ PrefabInstance:
     - target: {fileID: 7343440687860504333, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7343440687860504333, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 7343440687860504333, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
