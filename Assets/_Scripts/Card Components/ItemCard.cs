@@ -58,12 +58,12 @@ public class ItemCard : Card
     {
         ItemCard card = originalCard as ItemCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.Name;
-        descriptionText.text = card.Description;
+        nameText.text = card.CardName;
+        descriptionText.text = card.CardDescription;
         subDescriptionText.text = card.SubDescription;
     }
 
@@ -71,12 +71,12 @@ public class ItemCard : Card
     public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
     {
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.Name];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName];
 
         physicalPowerText.text = itemHeader.PhysicalPower.ToString();
         magicalPowerText.text = itemHeader.MagicalPower.ToString();
-        nameText.text = itemHeader.Name;
-        descriptionText.text = itemHeader.Description;
+        nameText.text = itemHeader.CardName;
+        descriptionText.text = itemHeader.CardDescription;
         subDescriptionText.text = itemHeader.Data.CardSubDescription;
 
         UpdatePowerTextColor(itemHeader.PhysicalPower, itemHeader.MagicalPower, itemHeader.Data.OriginalPhysicalPower, itemHeader.Data.MagicalPower);

@@ -156,7 +156,7 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = DropZone.transform.GetChild(0);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-            if (card.Name == "Wolf")
+            if (card.CardName == "Wolf")
             {
                 SummonWolfCompanion(true);
                 continue;
@@ -203,9 +203,9 @@ public class QuestLane : NetworkBehaviour
         }
 
 
-        if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]++;
+        if (adventurerEffects.ContainsKey(card.CardName)) adventurerEffects[card.CardName]++;
 
-        switch (card.Name)
+        switch (card.CardName)
         {
             case "Bard":
                 BardBonus++;
@@ -238,9 +238,9 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void RemoveAdventurerFromQuestLane(AdventurerCard card)
     {
-        if (adventurerEffects.ContainsKey(card.Name)) adventurerEffects[card.Name]--;
+        if (adventurerEffects.ContainsKey(card.CardName)) adventurerEffects[card.CardName]--;
 
-        switch (card.Name)
+        switch (card.CardName)
         {
             case "Bard":
                 BardBonus--;
@@ -305,7 +305,7 @@ public class QuestLane : NetworkBehaviour
         foreach (Transform cardTransform in DropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
-            if (card.Name == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
+            if (card.CardName == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
 
             card.ChangePhysicalPower(buffDelta);
             card.ChangeMagicalPower(buffDelta);
@@ -319,7 +319,7 @@ public class QuestLane : NetworkBehaviour
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem) continue;
-            print($"{card.Name} changing item power by {buffDelta}");
+            print($"{card.CardName} changing item power by {buffDelta}");
             card.Item.ServerChangePhysicalPower(buffDelta);
             card.Item.ServerChangeMagicalPower(buffDelta);
         }
@@ -333,7 +333,7 @@ public class QuestLane : NetworkBehaviour
             foreach (Transform cardTransform in DropZone.transform)
             {
                 AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
-                if (card.Name == "Wolf")
+                if (card.CardName == "Wolf")
                 {
                     card.transform.SetParent(null);
                     card.Despawn();

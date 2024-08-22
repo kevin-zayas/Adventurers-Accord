@@ -122,7 +122,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         SpotlightCard spotlightCard = newCardObject.GetComponent<SpotlightCard>();
         spotlightCard.isSpotlightCard = true;
 
-        if (originalCardObject.GetComponent<Card>().Description != "") ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
+        if (originalCardObject.GetComponent<Card>().CardDescription != "") ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
 
         RectTransform spotlightTransform = newCardObject.GetComponent<RectTransform>();
         spotlightTransform.localScale = new Vector2(3f, 3f);
@@ -146,11 +146,11 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         Spawn(spotlightDescription.gameObject);
         spotlightDescription.TargetSetParent(connection, spotlightCard);
 
-        string cardDescription = originalCardObject.GetComponent<Card>().Description;
+        string cardDescription = originalCardObject.GetComponent<Card>().CardDescription;
         spotlightDescription.TargetSetDescriptionText(connection, cardDescription);
 
         // check database for keywords that need a description
-        List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().Name);
+        List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().CardName);
         if (keywordList is null) return;
 
         // if there are any keywords, create and spawn description grouper

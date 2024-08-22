@@ -84,7 +84,7 @@ public class ItemCardHeader : Card
     [Server]
     public void ResetPower()
     {
-        print($"{Name} Resetting Item Power");
+        print($"{CardName} Resetting Item Power");
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
@@ -140,7 +140,7 @@ public class ItemCardHeader : Card
 
         physicalPowerText.text = item.PhysicalPower.ToString();
         magicalPowerText.text = item.MagicalPower.ToString();
-        nameText.text = item.Name;
+        nameText.text = item.CardName;
 
         UpdatePowerTextColor(item.PhysicalPower, item.MagicalPower, item.OriginalPhysicalPower, item.OriginalMagicalPower);
     }

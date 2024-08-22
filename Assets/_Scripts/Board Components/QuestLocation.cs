@@ -168,7 +168,7 @@ public class QuestLocation : NetworkBehaviour
 
         if (MeetsQuestRequirements())
         {
-            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+            QuestSummary.ObserversSetQuestInfo(QuestCard.CardName, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
             CalculateQuestContributions(true);
             DistributeBardBonus();
 
@@ -180,7 +180,7 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.DropZone.transform.childCount > 0)
                 {
-                    QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+                    QuestSummary.ObserversSetQuestInfo(QuestCard.CardName, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
                     CalculateFailedQuestPenalty();
                     ReplaceQuestCard();
 
@@ -188,7 +188,7 @@ public class QuestLocation : NetworkBehaviour
                 }
             }
 
-            QuestSummary.ObserversSetQuestInfo(QuestCard.Name, "Unchallenged", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+            QuestSummary.ObserversSetQuestInfo(QuestCard.CardName, "Unchallenged", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
             return;
 
         }
@@ -363,7 +363,7 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private void ResolveCard(AdventurerCard card)
     {
-        print("Resolving card: " + card.Name);
+        print("Resolving card: " + card.CardName);
         if (!CheckResolutionValid(card))
         {
             GameManager.Instance.ServerCheckForUnresolvedCards();
@@ -374,14 +374,14 @@ public class QuestLocation : NetworkBehaviour
 
         Spawn(popUp.gameObject);
         GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
-        TargetResolveCard(card.Owner, popUp, card.Name);
+        TargetResolveCard(card.Owner, popUp, card.CardName);
         
     }
 
     [Server]
     private bool CheckResolutionValid(AdventurerCard card)
     {   
-        if (card.Name == "Rogue")
+        if (card.CardName == "Rogue")
         {
             //check for magic items in Quest Location
             foreach (QuestLane lane in questLanes)

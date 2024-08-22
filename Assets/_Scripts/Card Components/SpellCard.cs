@@ -58,12 +58,12 @@ public class SpellCard : Card
     {
         SpellCard card = originalCard as SpellCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.Name;
-        descriptionText.text = card.Description;
+        nameText.text = card.CardName;
+        descriptionText.text = card.CardDescription;
 
     }
 }

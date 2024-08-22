@@ -129,7 +129,7 @@ public class AdventurerCard : Card
         itemCardHeader.LoadCardData(itemCardData);
         Item = itemCardHeader;
 
-        if (Name == Sorcerer) ResetPower();
+        if (CardName == Sorcerer) ResetPower();
     }
 
     /// <summary>
@@ -218,7 +218,7 @@ public class AdventurerCard : Card
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
 
-        if (Name == Sorcerer && HasItem && !Item.IsDisabled) MagicalPower += 2;
+        if (CardName == Sorcerer && HasItem && !Item.IsDisabled) MagicalPower += 2;
 
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
     }
@@ -234,7 +234,7 @@ public class AdventurerCard : Card
 
         Item.DisableItem(disableType);
 
-        if (Name == Sorcerer) ResetPower();
+        if (CardName == Sorcerer) ResetPower();
     }
 
     /// <summary>
@@ -291,11 +291,11 @@ public class AdventurerCard : Card
     {
         AdventurerCard card = originalCard as AdventurerCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.Name];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.Name;
+        nameText.text = card.CardName;
         abilityNameText.text = card.AbilityName;
         costText.text = card.Cost.ToString();
 
