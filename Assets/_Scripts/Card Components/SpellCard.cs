@@ -24,7 +24,7 @@ public class SpellCard : Card
     }
 
     [ObserversRpc(BufferLast = true)]
-    protected override void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    protected override void ObserversSetCardParent(Transform parent, bool worldPositionStays)
     {
         if (parent.CompareTag("Quest"))
         {

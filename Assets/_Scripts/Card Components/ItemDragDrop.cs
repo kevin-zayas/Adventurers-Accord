@@ -77,7 +77,7 @@ public class ItemDragDrop : NetworkBehaviour
             return;
         }
 
-        if (card.Parent.CompareTag("Quest"))       // if card is on a quest, don't allow item to be equipped
+        if (card.ParentTransform.CompareTag("Quest"))       // if card is on a quest, don't allow item to be equipped
         {
             print("Card is on a quest");
             ResetCardPosition();

@@ -115,7 +115,7 @@ public class ResolutionPopUp : NetworkBehaviour
                 }
             }
             
-            card.Parent.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            card.ParentTransform.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
@@ -169,7 +169,7 @@ public class ResolutionPopUp : NetworkBehaviour
         leftButton.onClick.AddListener(() =>
         {
             card.ServerChangePhysicalPower(-2);
-            card.Parent.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            card.ParentTransform.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
@@ -179,7 +179,7 @@ public class ResolutionPopUp : NetworkBehaviour
         rightButton.onClick.AddListener(() =>
         {
             card.ServerChangeMagicalPower(-2);
-            card.Parent.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            card.ParentTransform.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);

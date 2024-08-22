@@ -28,18 +28,18 @@ public abstract class Card : NetworkBehaviour
     [Server]
     public virtual void SetCardParent(Transform parent, bool worldPositionStays)
     {
-        OberserversSetCardParent(parent, worldPositionStays);
+        ObserversSetCardParent(parent, worldPositionStays);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public virtual void ServerSetCardParent(Transform parent, bool worldPositionStays)
     {
-        OberserversSetCardParent(parent, worldPositionStays);
+        ObserversSetCardParent(parent, worldPositionStays);
         this.transform.SetParent(parent, worldPositionStays);
     }
 
     [ObserversRpc(BufferLast = true)]
-    protected virtual void OberserversSetCardParent(Transform parent, bool worldPositionStays)
+    protected virtual void ObserversSetCardParent(Transform parent, bool worldPositionStays)
     {
         this.transform.SetParent(parent, worldPositionStays);
     }

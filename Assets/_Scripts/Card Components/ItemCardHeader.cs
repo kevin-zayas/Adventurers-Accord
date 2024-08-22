@@ -18,7 +18,7 @@ public class ItemCardHeader : Card
 
     public override void SetCardParent(Transform newParent, bool worldPositionStays) { }
     public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
-    protected override void OberserversSetCardParent(Transform parent, bool worldPositionStays) { }
+    protected override void ObserversSetCardParent(Transform parent, bool worldPositionStays) { }
 
     [Server]
     public override void LoadCardData(CardData cardData)
