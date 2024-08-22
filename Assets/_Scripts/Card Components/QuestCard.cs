@@ -7,40 +7,37 @@ using UnityEngine.UI;
 
 public class QuestCard : Card
 {
-    [field: SyncVar] public string AbilityName { get; private set; }
-    [field: SyncVar] public int GoldReward { get; private set; }
-    [field: SyncVar] public int ReputationReward { get; private set; }
-    [field: SyncVar] public int LootReward { get; private set; }
-    [field: SyncVar] public bool Drain { get; private set; }
-    [field: SyncVar] public int PhysicalDrain { get; private set; }
-    [field: SyncVar] public int MagicalDrain { get; private set; }
-
-    [field: SyncVar] public bool DisableItems { get; private set; }
+    #region SyncVars
     [field: SyncVar] public bool BlockSpells { get; private set; }
+    [field: SyncVar] public bool DisableItems { get; private set; }
+    [field: SyncVar] public bool Drain { get; private set; }
+    [field: SyncVar] public int GoldReward { get; private set; }
+    [field: SyncVar] public int LootReward { get; private set; }
+    [field: SyncVar] public int MagicalDrain { get; private set; }
+    [field: SyncVar] public int PhysicalDrain { get; private set; }
+    [field: SyncVar] public int ReputationReward { get; private set; }
+    #endregion
 
-    [SerializeField] private TMP_Text physicalPowerText;
-    [SerializeField] private TMP_Text magicalPowerText;
-    [SerializeField] private TMP_Text goldRewardText;
-    [SerializeField] private TMP_Text reputationRewardText;
-    [SerializeField] private TMP_Text lootRewardText;
-    [SerializeField] private TMP_Text nameText;
+    #region General Variables
+    public string AbilityName { get; private set; }
+    #endregion
+
+    #region UI Elements
     [SerializeField] private TMP_Text abilityNameText;
     [SerializeField] private GameObject abilityNameObject;
     [SerializeField] private Image cardImage;
+    [SerializeField] private TMP_Text goldRewardText;
+    [SerializeField] private TMP_Text lootRewardText;
+    [SerializeField] private TMP_Text magicalPowerText;
+    [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text physicalPowerText;
+    [SerializeField] private TMP_Text reputationRewardText;
+    #endregion
 
-
-    private void Start()
-    {
-        //physicalPowerText.text = PhysicalPower.ToString();
-        //magicalPowerText.text = MagicalPower.ToString();
-        //goldRewardText.text = $"{GoldReward} GP";
-        //reputationRewardText.text = $"{ReputationReward} Rep.";
-        //lootRewardText.text = $"{LootReward} Loot";
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
-
+    /// <summary>
+    /// Loads the card data and updates the relevant SyncVars on the server.
+    /// </summary>
+    /// <param name="cardData">The card data to load.</param>
     [Server]
     public override void LoadCardData(CardData cardData)
     {
@@ -56,10 +53,12 @@ public class QuestCard : Card
         Data = cardData;
 
         base.LoadCardData(cardData);
-
-        //ObserversLoadCardData(cardData);
     }
 
+    /// <summary>
+    /// Updates the card's visual representation on all clients based on the provided card data.
+    /// </summary>
+    /// <param name="cardData">The card data to load into the visual elements.</param>
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversLoadCardData(CardData cardData)
     {
@@ -76,6 +75,11 @@ public class QuestCard : Card
         cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
     }
 
+    /// <summary>
+    /// Updates the target client with the copied card data from the original card.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="originalCard">The original card to copy data from.</param>
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
@@ -92,6 +96,5 @@ public class QuestCard : Card
         lootRewardText.text = $"{card.LootReward} Loot";
 
         if (card.CardDescription == "") abilityNameObject.SetActive(false);
-
     }
 }
