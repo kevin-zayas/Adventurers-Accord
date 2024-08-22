@@ -42,7 +42,7 @@ public class ConnectionStarter : MonoBehaviour
 
 #endif
 #if !UNITY_EDITOR
-        _bayou.StartConnection(true);
+        //_bayou.StartConnection(true);
         //_tugboat.StartConnection(true);
 #endif
     }

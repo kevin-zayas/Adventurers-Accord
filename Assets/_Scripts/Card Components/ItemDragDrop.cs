@@ -63,6 +63,7 @@ public class ItemDragDrop : NetworkBehaviour
 
         if (adventurerCard == null)
         {
+            print("adventurer card is null");
             ResetCardPosition();
             return;
         }
