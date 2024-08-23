@@ -8,49 +8,76 @@ using UnityEngine.UI;
 
 public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExitHandler, IPointerUpHandler
 {
+    #region General Variables
     private GameObject canvas;
     public GameObject referenceCard;
 
-    private bool isDragging;
     private bool isClicking;
+    private bool isDragging;
     public bool isEnlargedCard;
     public bool isSpotlightCard;
+    #endregion
 
-    [SerializeField] private SpotlightDescription spotlightDescriptionPrefab;
+    #region UI Elements
     [SerializeField] private KeywordGrouper keywordGrouperPrefab;
+    [SerializeField] private SpotlightDescription spotlightDescriptionPrefab;
+    #endregion
 
     private void Start()
     {
+        // Cache the Canvas GameObject for later use
         canvas = GameObject.Find("Canvas");
     }
 
     private void OnDisable()
     {
-        if (isEnlargedCard || isSpotlightCard) ServerDespawnCard(gameObject);
+        // Despawn the card if it is either an enlarged or spotlight card
+        if (isEnlargedCard || isSpotlightCard)
+        {
+            ServerDespawnCard(gameObject);
+        }
     }
 
+    /// <summary>
+    /// Handles pointer down events. Disables the card if it's enlarged
+    /// </summary>
+    /// <param name="eventData">Event data associated with the pointer down event.</param>
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.pointerId == -1 && isEnlargedCard) gameObject.SetActive(false);       //disable enlarged card on left click down to prevent dragging
+        if (eventData.pointerId == -1 && isEnlargedCard)
+        {
+            gameObject.SetActive(false); // Disable enlarged card on left-click down to prevent dragging
+        }
         isClicking = true;
     }
 
+    /// <summary>
+    /// Handles pointer up events. Spawns a spotlight or enlarged version of the card depending on context.
+    /// </summary>
+    /// <param name="eventData">Event data associated with the pointer up event.</param>
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!isClicking) return;
-        if (isDragging) return;
+        if (!isClicking || isDragging) return;
         if (isSpotlightCard) gameObject.SetActive(false);
 
-        bool isSpotlight = true;
-        if (eventData.pointerId == -1) isSpotlight = false;
+        bool isSpotlight = eventData.pointerId != -1;
+        Vector2 spawnPosition = transform.position;
+        Card card = GetComponent<Card>();
 
-        Vector2 spawnPosition = gameObject.transform.position;
-        Card card = gameObject.GetComponent<Card>();
-
-        if (card is ItemCardHeader itemHeader) ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, isSpotlight);
-        else ServerSpawnCard(LocalConnection, gameObject, spawnPosition, isSpotlight);
+        if (card is ItemCardHeader itemHeader)
+        {
+            ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, isSpotlight);
+        }
+        else
+        {
+            ServerSpawnCard(LocalConnection, gameObject, spawnPosition, isSpotlight);
+        }
     }
 
+    /// <summary>
+    /// Handles pointer exit events. Disables the card if it's enlarged.
+    /// </summary>
+    /// <param name="eventData">Event data associated with the pointer exit event.</param>
     public void OnPointerExit(PointerEventData eventData)
     {
         isClicking = false;
@@ -60,6 +87,13 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         }
     }
 
+    /// <summary>
+    /// Spawns a new card on the server and copies the relevant data from the source card.
+    /// </summary>
+    /// <param name="connection">The network connection of the client requesting the spawn.</param>
+    /// <param name="sourceCardObject">The source card object to copy data from.</param>
+    /// <param name="spawnPosition">The position where the new card should be spawned.</param>
+    /// <param name="isSpotlight">Whether the card should be rendered as a spotlight card.</param>
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnCard(NetworkConnection connection, GameObject sourceCardObject, Vector2 spawnPosition, bool isSpotlight)
     {
@@ -69,27 +103,51 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         CopyCardData(connection, newCardObject, sourceCardObject);
         GameObject originalCard = newCardObject.GetComponent<SpotlightCard>().referenceCard;
 
-        if (isSpotlight) TargetRenderSpotlightCard(connection, newCardObject, originalCard);
-        else TargetRenderEnlargedCard(connection, newCardObject);
+        if (isSpotlight)
+        {
+            TargetRenderSpotlightCard(connection, newCardObject, originalCard);
+        }
+        else
+        {
+            TargetRenderEnlargedCard(connection, newCardObject);
+        }
     }
 
+    /// <summary>
+    /// Spawns a new item header card on the server and copies the relevant data from the source item header.
+    /// </summary>
+    /// <param name="connection">The network connection of the client requesting the spawn.</param>
+    /// <param name="sourceItemHeader">The source item header to copy data from.</param>
+    /// <param name="spawnPosition">The position where the new item header should be spawned.</param>
+    /// <param name="isSpotlight">Whether the item should be rendered as a spotlight item.</param>
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnItemHeaderCard(NetworkConnection connection, ItemCardHeader sourceItemHeader, Vector2 spawnPosition, bool isSpotlight)
     {
         ItemCard newItem = Instantiate(CardDatabase.Instance.itemCardPrefab, spawnPosition, Quaternion.identity);
         Spawn(newItem.gameObject);
 
-        ItemCardHeader originalItemHeader;
         GameObject referenceCardObject = sourceItemHeader.GetComponent<SpotlightCard>().referenceCard;
-        originalItemHeader = referenceCardObject ? referenceCardObject.GetComponent<ItemCardHeader>() : sourceItemHeader;
+        ItemCardHeader originalItemHeader = referenceCardObject ? referenceCardObject.GetComponent<ItemCardHeader>() : sourceItemHeader;
 
         newItem.TargetCopyItemHeaderData(connection, originalItemHeader);
         newItem.GetComponent<SpotlightCard>().referenceCard = originalItemHeader.gameObject;
 
-        if (isSpotlight) TargetRenderSpotlightCard(connection, newItem.gameObject, originalItemHeader.gameObject);
-        else TargetRenderEnlargedCard(connection, newItem.gameObject);
+        if (isSpotlight)
+        {
+            TargetRenderSpotlightCard(connection, newItem.gameObject, originalItemHeader.gameObject);
+        }
+        else
+        {
+            TargetRenderEnlargedCard(connection, newItem.gameObject);
+        }
     }
 
+    /// <summary>
+    /// Copies the card data from the source card to the newly spawned card.
+    /// </summary>
+    /// <param name="connection">The network connection of the client receiving the card data.</param>
+    /// <param name="newCardObject">The new card object to receive the copied data.</param>
+    /// <param name="sourceCardObject">The source card object to copy data from.</param>
     private void CopyCardData(NetworkConnection connection, GameObject newCardObject, GameObject sourceCardObject)
     {
         Card originalCard;
@@ -105,7 +163,10 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         {
             itemCard.TargetCopyItemHeaderData(connection, itemCardHeader);
         }
-        else newCard.TargetCopyCardData(connection, originalCard);
+        else
+        {
+            newCard.TargetCopyCardData(connection, originalCard);
+        }
 
         // Copy data into Adventurer Card's Item Header
         if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem)
@@ -115,14 +176,22 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         }
     }
 
-
+    /// <summary>
+    /// Renders the spotlight version of the card on the target client.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="newCardObject">The new card object to be rendered as a spotlight card.</param>
+    /// <param name="originalCardObject">The original card object for reference.</param>
     [TargetRpc]
     private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject newCardObject, GameObject originalCardObject)
     {
         SpotlightCard spotlightCard = newCardObject.GetComponent<SpotlightCard>();
         spotlightCard.isSpotlightCard = true;
 
-        if (originalCardObject.GetComponent<Card>().CardDescription != "") ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
+        if (!string.IsNullOrEmpty(originalCardObject.GetComponent<Card>().CardDescription))
+        {
+            ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
+        }
 
         RectTransform spotlightTransform = newCardObject.GetComponent<RectTransform>();
         spotlightTransform.localScale = new Vector2(3f, 3f);
@@ -135,10 +204,16 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         newCardObject.GetComponent<Image>().enabled = true;
 
-        newCardObject.gameObject.transform.SetParent(canvas.transform, true);
-        newCardObject.gameObject.layer = LayerMask.NameToLayer("Spotlight");
+        newCardObject.transform.SetParent(canvas.transform, true);
+        newCardObject.layer = LayerMask.NameToLayer("Spotlight");
     }
 
+    /// <summary>
+    /// Spawns the spotlight description and keyword grouper on the server and sends it to the target client.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="spotlightCard">The spotlight card that will contain the description and keywords.</param>
+    /// <param name="originalCardObject">The original card object for reference.</param>
     [ServerRpc(RequireOwnership = false)]
     private void ServerSpawnSpotlightDescription(NetworkConnection connection, GameObject spotlightCard, GameObject originalCardObject)
     {
@@ -151,7 +226,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         // check database for keywords that need a description
         List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().CardName);
-        if (keywordList is null) return;
+        if (keywordList == null) return;
 
         // if there are any keywords, create and spawn description grouper
         KeywordGrouper keywordGrouper = Instantiate(keywordGrouperPrefab);
@@ -160,12 +235,17 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         foreach (string keyword in keywordList)
         {
-            keywordGrouper.AddKeywordDescription(connection,keyword);
+            keywordGrouper.AddKeywordDescription(connection, keyword);
         }
 
         keywordGrouper.TargetResizeKeywordGrouper(connection);
     }
 
+    /// <summary>
+    /// Renders the enlarged version of the card on the target client.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="card">The card object to be rendered as an enlarged card.</param>
     [TargetRpc]
     private void TargetRenderEnlargedCard(NetworkConnection connection, GameObject card)
     {
@@ -181,43 +261,50 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         spotlightRect.localScale = new Vector2(2f, 2f);
         PreventEnlargedCardCutoff(spotlightRect);
 
-        card.gameObject.transform.SetParent(canvas.transform, true);
-        card.gameObject.layer = LayerMask.NameToLayer("Spotlight");
+        card.transform.SetParent(canvas.transform, true);
+        card.layer = LayerMask.NameToLayer("Spotlight");
     }
 
+    /// <summary>
+    /// Prevents the enlarged card from being cut off the screen by adjusting its position.
+    /// </summary>
+    /// <param name="rt">The RectTransform of the card being adjusted.</param>
     private void PreventEnlargedCardCutoff(RectTransform rt)
     {
         Vector2 position = rt.anchoredPosition;
 
-        float x = position.x;
-        x = Mathf.Clamp(x, 0, Screen.width- rt.sizeDelta.x);
+        float x = Mathf.Clamp(position.x, 0, Screen.width - rt.sizeDelta.x);
+        float y = Mathf.Clamp(position.y, rt.sizeDelta.y, Screen.height - rt.sizeDelta.y);
 
-        float y = position.y;
-        y = Mathf.Clamp(y, rt.sizeDelta.y, Screen.height - rt.sizeDelta.y);
-
-        position = new Vector2(x, y);
-        rt.anchoredPosition = position;
+        rt.anchoredPosition = new Vector2(x, y);
     }
 
+    /// <summary>
+    /// Despawns the card on the server.
+    /// </summary>
+    /// <param name="card">The card GameObject to be despawned.</param>
     [ServerRpc(RequireOwnership = false)]
     private void ServerDespawnCard(GameObject card)
     {
         if (card)
         {
-            Despawn(card.gameObject);
-            //print("despawn card");
+            Despawn(card);
         }
     }
 
+    /// <summary>
+    /// Handles the beginning of a drag event.
+    /// </summary>
     public void OnBeginDrag()
     {
-        //print("begin drag, isDragging True");
         isDragging = true;
     }
 
+    /// <summary>
+    /// Handles the end of a drag event.
+    /// </summary>
     public void OnEndDrag()
     {
-        //print("end drag, isDragging False");
         isDragging = false;
     }
 }
