@@ -1,36 +1,38 @@
-using FishNet.Object.Synchronizing;
+using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using FishNet.Connection;
 
 public class ItemCard : Card
 {
+    #region SyncVars
     [SyncVar] private string SubDescription;
+    #endregion
 
+    #region UI Elements
+    [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private Image cardImage;
+    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
-    [SerializeField] private TMP_Text magicalPowerText;
-    [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text subDescriptionText;
-    [SerializeField] private Image cardImage;
+    #endregion
 
-    private void Start()
-    {
-        //nameText.text = Name;
-        //descriptionText.text = Description;
-        //subDescriptionText.text = SubDescription;
-        //physicalPowerText.text = PhysicalPower.ToString();
-        //magicalPowerText.text = MagicalPower.ToString();
-    }
-
+    /// <summary>
+    /// Despawns the item on the server.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
     public void ServerDespawnItem()
     {
         this.Despawn();
     }
 
+    /// <summary>
+    /// Loads the card data and updates the relevant SyncVars on the server.
+    /// </summary>
+    /// <param name="cardData">The card data to load.</param>
     [Server]
     public override void LoadCardData(CardData cardData)
     {
@@ -38,9 +40,12 @@ public class ItemCard : Card
         Data = cardData;
 
         base.LoadCardData(cardData);
-        //ObserversLoadCardData(cardData);
     }
 
+    /// <summary>
+    /// Updates the card's visual representation on all clients based on the provided card data.
+    /// </summary>
+    /// <param name="cardData">The card data to load into the visual elements.</param>
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversLoadCardData(CardData cardData)
     {
@@ -53,6 +58,11 @@ public class ItemCard : Card
         cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.CardName);
     }
 
+    /// <summary>
+    /// Copies the card data to the target client from the original card.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="originalCard">The original card to copy data from.</param>
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
@@ -67,10 +77,14 @@ public class ItemCard : Card
         subDescriptionText.text = card.SubDescription;
     }
 
+    /// <summary>
+    /// Copies the item header data to the target client.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="itemHeader">The item header to copy data from.</param>
     [TargetRpc]
     public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
     {
-
         cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName];
 
         physicalPowerText.text = itemHeader.PhysicalPower.ToString();
@@ -82,14 +96,19 @@ public class ItemCard : Card
         UpdatePowerTextColor(itemHeader.PhysicalPower, itemHeader.MagicalPower, itemHeader.Data.OriginalPhysicalPower, itemHeader.Data.MagicalPower);
     }
 
+    /// <summary>
+    /// Updates the power text color based on comparison with the original power values.
+    /// </summary>
+    /// <param name="physicalPower">The current physical power.</param>
+    /// <param name="magicalPower">The current magical power.</param>
+    /// <param name="originalPhysicalPower">The original physical power.</param>
+    /// <param name="originalMagicalPower">The original magical power.</param>
     private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
     {
-        if (physicalPower > originalPhysicalPower) physicalPowerText.color = Color.green;
-        else if (physicalPower < originalPhysicalPower) physicalPowerText.color = Color.red;
-        else physicalPowerText.color = Color.white;
+        physicalPowerText.color = physicalPower > originalPhysicalPower ? Color.green :
+                                  physicalPower < originalPhysicalPower ? Color.red : Color.white;
 
-        if (magicalPower > originalMagicalPower) magicalPowerText.color = Color.green;
-        else if (magicalPower < originalMagicalPower) magicalPowerText.color = Color.red;
-        else magicalPowerText.color = Color.white;
+        magicalPowerText.color = magicalPower > originalMagicalPower ? Color.green :
+                                 magicalPower < originalMagicalPower ? Color.red : Color.white;
     }
 }
