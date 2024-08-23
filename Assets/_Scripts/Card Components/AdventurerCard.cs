@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AdventurerCard : Card
 {
     #region SyncVars
+    [field: SyncVar] public string AbilityName { get; private set; }
     [field: SyncVar] public int Cost { get; private set; }
     [field: SyncVar] public bool HasItem { get; private set; }
     [field: SyncVar] public ItemCardHeader Item { get; private set; }
@@ -30,10 +31,6 @@ public class AdventurerCard : Card
 
     #region Cached Components
     private RectTransform _rectTransform;
-    #endregion
-
-    #region General Variables
-    public string AbilityName { get; private set; }
     #endregion
 
     #region Constants
@@ -337,6 +334,7 @@ public class AdventurerCard : Card
     {
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Resolution) return;
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
+        if (ParentTransform == null) return;
 
         QuestLane lane = ParentTransform.parent.GetComponent<QuestLane>();
         if (!lane.QuestLocation.AllowResolution) return;

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class QuestCard : Card
 {
     #region SyncVars
+    [field: SyncVar] public string AbilityName { get; private set; }
     [field: SyncVar] public bool BlockSpells { get; private set; }
     [field: SyncVar] public bool DisableItems { get; private set; }
     [field: SyncVar] public bool Drain { get; private set; }
@@ -16,10 +17,6 @@ public class QuestCard : Card
     [field: SyncVar] public int MagicalDrain { get; private set; }
     [field: SyncVar] public int PhysicalDrain { get; private set; }
     [field: SyncVar] public int ReputationReward { get; private set; }
-    #endregion
-
-    #region General Variables
-    public string AbilityName { get; private set; }
     #endregion
 
     #region UI Elements
