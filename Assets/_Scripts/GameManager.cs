@@ -7,57 +7,30 @@ using UnityEngine;
 
 public class GameManager : NetworkBehaviour
 {
+    #region Singleton
     public static GameManager Instance { get; private set; }
+    #endregion
 
-    [field: SerializeField]
-    public ScoreBoard Scoreboard { get; private set; }
+    #region Serialized Fields
+    [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
 
-    public enum Phase { Recruit, Dispatch, Magic, Resolution, GameOver}
+    [field: SerializeField, SyncObject] public SyncList<Player> Players { get; } = new SyncList<Player>();
 
-    [field: SyncObject]
-    [field: SerializeField]
-    public SyncList<Player> Players { get; } = new SyncList<Player>();
+    [field: SerializeField, SyncVar] public bool CanStart { get; private set; }
+    [field: SerializeField, SyncVar] public bool DidStart { get; private set; }
+    [field: SerializeField, SyncVar] public int Turn { get; private set; }
+    [field: SerializeField, SyncVar] public Phase CurrentPhase { get; private set; }
+    [field: SerializeField, SyncVar] public int StartingTurn { get; private set; }
+    [field: SerializeField, SyncVar] public int StartingGold { get; private set; }
+    [field: SerializeField, SyncVar] public int StartingLoot { get; private set; }
+    [field: SerializeField, SyncVar] public int ReputationGoal { get; private set; }
+    [field: SerializeField, SyncVar] public bool[] PlayerSkipTurnStatus { get; private set; }
+    [field: SerializeField, SyncVar] public bool[] PlayerEndRoundStatus { get; private set; }
+    #endregion
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool CanStart { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool DidStart { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int Turn { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public Phase CurrentPhase { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int StartingTurn { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int StartingGold { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int StartingLoot { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public int ReputationGoal { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool[] PlayerSkipTurnStatus { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool[] PlayerEndRoundStatus { get; private set; }
-
+    #region Game Phases
+    public enum Phase { Recruit, Dispatch, Magic, Resolution, GameOver }
+    #endregion
 
     private void Awake()
     {
@@ -74,15 +47,20 @@ public class GameManager : NetworkBehaviour
             ApiManager.Instance.RestartGameServer();
             DidStart = false;
         }
-            
     }
 
+    /// <summary>
+    /// Starts the game by initializing all necessary game states and starting the first phase.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
     public void ServerStartGame()
     {
         StartGame();
     }
 
+    /// <summary>
+    /// Initializes the game, sets the initial phase, and prepares players and board.
+    /// </summary>
     [Server]
     public void StartGame()
     {
@@ -91,9 +69,9 @@ public class GameManager : NetworkBehaviour
 
         StartingTurn = 0;
 
-        for (int i = 0; i < Players.Count; i++)
+        foreach (var player in Players)
         {
-            Players[i].StartGame();
+            player.StartGame();
         }
 
         Board.Instance.StartGame();
@@ -105,16 +83,23 @@ public class GameManager : NetworkBehaviour
         SetPlayerTurn(Players[Turn]);
     }
 
+    /// <summary>
+    /// Stops the game and resets the game state.
+    /// </summary>
     [Server]
     public void StopGame()
     {
-        for (int i = 0; i < Players.Count; i++)
+        foreach (var player in Players)
         {
-            Players[i].StopGame();
+            player.StopGame();
         }
         DidStart = false;
     }
 
+    /// <summary>
+    /// Ends the current player's turn and advances to the next player or phase.
+    /// </summary>
+    /// <param name="passTurn">Indicates whether the current player wants to pass their turn.</param>
     [ServerRpc(RequireOwnership = false)]
     public void EndTurn(bool passTurn)
     {
@@ -122,7 +107,7 @@ public class GameManager : NetworkBehaviour
 
         Turn = (Turn + 1) % Players.Count;
 
-        if (PlayerSkipTurnStatus.All(status => status))     // if all players have ended turn, move onto next phase
+        if (PlayerSkipTurnStatus.All(status => status))
         {
             EndPhase();
             return;
@@ -136,44 +121,59 @@ public class GameManager : NetworkBehaviour
         SetPlayerTurn(Players[Turn]);
     }
 
+    /// <summary>
+    /// Confirms that a player has ended their round, and checks if all players have done so.
+    /// </summary>
+    /// <param name="playerID">The ID of the player confirming the end of their round.</param>
     [ServerRpc(RequireOwnership = false)]
     public void ConfirmEndRound(int playerID)
     {
         PlayerEndRoundStatus[playerID] = true;
-        Scoreboard.ObserversToggleTurnMarker(playerID,false);
+        Scoreboard.ObserversToggleTurnMarker(playerID, false);
 
-        if (PlayerEndRoundStatus.All(status => status))     // if all players have confirmed end round
+        if (PlayerEndRoundStatus.All(status => status))
         {
             ObserversEnableEndRoundButton();
             EndPhase();
         }
     }
 
+    /// <summary>
+    /// Resets the end round status for all players, preparing for the next round.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
     public void RefreshEndRoundStatus()
     {
-        // reset end round status
         PlayerEndRoundStatus = new bool[Players.Count];
         ObserversEnableEndRoundButton();
         Scoreboard.ObserversEnableAllTurnMarkers();
     }
 
-    [ObserversRpc]
+    /// <summary>
+    /// Enables the "End Round" button on all clients.
+    /// </summary>
+    [ObserversRpc(BufferLast = true)]
     private void ObserversEnableEndRoundButton()
     {
         GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundUI();
     }
 
+    /// <summary>
+    /// Prepares the end-of-round process for all players.
+    /// </summary>
     [Server]
     private void BeginEndRound()
     {
         PlayerEndRoundStatus = new bool[Players.Count];
-        foreach (Player player in Players)
+        foreach (var player in Players)
         {
             player.UpdatePlayerView();
         }
     }
 
+    /// <summary>
+    /// Ends the current phase and advances to the next phase based on game logic.
+    /// </summary>
     [Server]
     public void EndPhase()
     {
@@ -220,14 +220,15 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks for any unresolved cards in the current phase before advancing.
+    /// </summary>
     [Server]
     public void CheckForUnresolvedCards()
     {
-        print("checking for unresolved cards");
-        
         for (int i = 0; i < Players.Count; i++)
         {
-            int laneIndex = (i + GameManager.Instance.StartingTurn) % Players.Count;
+            int laneIndex = (i + StartingTurn) % Players.Count;
             foreach (QuestLocation questLocation in Board.Instance.QuestLocations)
             {
                 if (questLocation.HasUnresolvedCards(laneIndex))
@@ -237,33 +238,45 @@ public class GameManager : NetworkBehaviour
             }
         }
 
-        EndPhase();         // if no unresolved cards, end phase
+        EndPhase(); // If no unresolved cards, end phase
     }
 
+    /// <summary>
+    /// Server-side method to trigger a check for unresolved cards.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
     public void ServerCheckForUnresolvedCards()
     {
         CheckForUnresolvedCards();
     }
 
+    /// <summary>
+    /// Sets the current player's turn and updates all clients.
+    /// </summary>
+    /// <param name="currentPlayer">The player whose turn it currently is.</param>
     [Server]
     public void SetPlayerTurn(Player currentPlayer)
     {
-        foreach (Player player in Players)
+        foreach (var player in Players)
         {
             player.SetIsPlayerTurn(player == currentPlayer);
             player.UpdatePlayerView();
         }
         Scoreboard.ObserversUpdateTurnMarker(currentPlayer.PlayerID);
-
     }
 
+    /// <summary>
+    /// Sets the game phase to "Game Over".
+    /// </summary>
     [Server]
     public void SetPhaseGameOver()
     {
         CurrentPhase = Phase.GameOver;
     }
 
+    /// <summary>
+    /// Ends the game and triggers the game over logic.
+    /// </summary>
     [Server]
     public void EndGame()
     {
@@ -271,6 +284,9 @@ public class GameManager : NetworkBehaviour
         LaunchGameOverPopUp();
     }
 
+    /// <summary>
+    /// Launches the game over popup and calculates final rankings.
+    /// </summary>
     [Server]
     public void LaunchGameOverPopUp()
     {
