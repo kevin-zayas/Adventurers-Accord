@@ -3,28 +3,29 @@ using UnityEngine;
 
 public class AdventurerDragDrop : NetworkBehaviour
 {
-    [SerializeField] bool isDragging = false;
+    #region Serialized Fields
+    [SerializeField] private bool isDragging = false;
 
-    [SerializeField] AdventurerCard card;
-    [SerializeField] GameObject canvas;
-    [SerializeField] Player player;
+    [SerializeField] private AdventurerCard card;
+    [SerializeField] private GameObject canvas;
+    [SerializeField] private Player player;
 
-    [SerializeField] GameObject dropZone;
-    [SerializeField] string dropZoneTag;
-    [SerializeField] Transform startParentTransform;
-    [SerializeField] Vector2 startPosition;
+    [SerializeField] private GameObject dropZone;
+    [SerializeField] private Transform startParentTransform;
+    [SerializeField] private Vector2 startPosition;
+    #endregion
 
     private void Start()
     {
-        card = this.GetComponent<AdventurerCard>();
+        card = GetComponent<AdventurerCard>();
         canvas = GameObject.Find("Canvas");
 
-        //if (IsServer) return;         // This worked when using a separate server host but not for using a client/host 
-        if (!IsClient) return;          // Try this instead
+        if (!IsClient) return;
 
-        if (player == null) player = GameManager.Instance.Players[LocalConnection.ClientId];    // spotlight card tries to populate player but return -1 for clientID. 
-                                                                                                // This prevents spotlights from trying to populate player on Start.
-                                                                                                // This should be addressed in spotlight overhaul
+        if (player == null)
+        {
+            player = GameManager.Instance.Players[LocalConnection.ClientId];
+        }
     }
 
     private void Update()
@@ -39,10 +40,9 @@ public class AdventurerDragDrop : NetworkBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch) return;
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return;      // prevent adventurer card from being dragged onto Magic Item
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return; // Prevent dragging onto Magic Item
 
         dropZone = collision.gameObject;
-        dropZoneTag = collision.gameObject.tag;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -50,39 +50,41 @@ public class AdventurerDragDrop : NetworkBehaviour
         if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
         {
             dropZone = null;
-            dropZoneTag = null;
         }
     }
 
+    /// <summary>
+    /// Begins the drag operation for the card.
+    /// </summary>
     public void BeginDrag()
     {
-        if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
-        if (!card.IsDraftCard && !IsOwner) return;  // prevent players from dragging draft cards when its not their turn
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) return;
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
+        if (Input.GetMouseButton(1)) return; // Prevent dragging on right-click
+        if (!card.IsDraftCard && !IsOwner) return; // Prevent dragging non-draft cards if not owner
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution || GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
+        if (!player.IsPlayerTurn) return; // Allow dragging only during player's turn
+        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return;
 
-        if (!player.IsPlayerTurn) return;      //only allow player to drag cards on their turn
-        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return;   
-
-        if (!card.IsDraftCard || player.Gold >= card.Cost)         // only check for player gold if trying to drag a DraftCard
+        if (!card.IsDraftCard || player.Gold >= card.Cost) // Check player gold if dragging a DraftCard
         {
             startPosition = transform.position;
             startParentTransform = transform.parent;
             isDragging = true;
 
             transform.SetParent(canvas.transform, true);
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = Vector3.one;
         }
     }
 
+    /// <summary>
+    /// Ends the drag operation for the card, handling card placement and validation.
+    /// </summary>
     public void EndDrag()
     {
-        // set as first/last sibling? may help if player wants to reorder cards
         if (!isDragging) return;
 
         isDragging = false;
 
-        if (dropZone == null || startParentTransform == dropZone.transform)          // dont update parent if dragging and dropping into same zone
+        if (dropZone == null || startParentTransform == dropZone.transform)
         {
             print("not over valid drop zone or still in starting zone");
             ResetCardPosition();
@@ -99,12 +101,18 @@ public class AdventurerDragDrop : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Resets the card's position to its original location before dragging.
+    /// </summary>
     private void ResetCardPosition()
     {
         card.ServerSetCardParent(startParentTransform, true);
         transform.position = startPosition;
     }
 
+    /// <summary>
+    /// Assigns the draft card to the player, updating the game state accordingly.
+    /// </summary>
     private void AssignDraftCardToPlayer()
     {
         CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
@@ -117,6 +125,9 @@ public class AdventurerDragDrop : NetworkBehaviour
         GameManager.Instance.EndTurn(false);
     }
 
+    /// <summary>
+    /// Handles the movement of the card to a new drop zone.
+    /// </summary>
     private void HandleCardMovement()
     {
         card.ServerSetCardParent(dropZone.transform, false);
