@@ -42,6 +42,7 @@ public class GameManager : NetworkBehaviour
         if (!IsServer) return;
 
         CanStart = Players.All(player => player.IsReady);
+
         if (DidStart && Players.Count == 0)
         {
             ApiManager.Instance.RestartGameServer();
@@ -79,7 +80,6 @@ public class GameManager : NetworkBehaviour
         DidStart = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
-
         SetPlayerTurn(Players[Turn]);
     }
 
@@ -122,9 +122,10 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Confirms that a player has ended their round, and checks if all players have done so.
+    /// Confirms that a player has ended their round and checks if all players have confirmed.
+    /// Advances the game state if all players have confirmed.
     /// </summary>
-    /// <param name="playerID">The ID of the player confirming the end of their round.</param>
+    /// <param name="playerID">The ID of the player confirming the end of the round.</param>
     [ServerRpc(RequireOwnership = false)]
     public void ConfirmEndRound(int playerID)
     {
@@ -139,7 +140,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Resets the end round status for all players, preparing for the next round.
+    /// Refreshes the end round status, resetting all players' statuses and enabling the end round button.
     /// </summary>
     [ServerRpc(RequireOwnership = false)]
     public void RefreshEndRoundStatus()
@@ -150,7 +151,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Enables the "End Round" button on all clients.
+    /// Enables the end round button on all clients.
     /// </summary>
     [ObserversRpc(BufferLast = true)]
     private void ObserversEnableEndRoundButton()
@@ -159,7 +160,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Prepares the end-of-round process for all players.
+    /// Prepares for the end of the round by resetting player statuses and updating player views.
     /// </summary>
     [Server]
     private void BeginEndRound()
@@ -172,7 +173,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Ends the current phase and advances to the next phase based on game logic.
+    /// Ends the current game phase and advances to the next phase.
     /// </summary>
     [Server]
     public void EndPhase()
@@ -221,7 +222,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Checks for any unresolved cards in the current phase before advancing.
+    /// Checks all quests for unresolved cards and ends the phase if no unresolved cards are found.
     /// </summary>
     [Server]
     public void CheckForUnresolvedCards()
@@ -238,11 +239,11 @@ public class GameManager : NetworkBehaviour
             }
         }
 
-        EndPhase(); // If no unresolved cards, end phase
+        EndPhase();
     }
 
     /// <summary>
-    /// Server-side method to trigger a check for unresolved cards.
+    /// Server-side method to check for unresolved cards.
     /// </summary>
     [ServerRpc(RequireOwnership = false)]
     public void ServerCheckForUnresolvedCards()
@@ -251,9 +252,9 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Sets the current player's turn and updates all clients.
+    /// Sets the turn for the specified player, updating the turn indicators on the scoreboard.
     /// </summary>
-    /// <param name="currentPlayer">The player whose turn it currently is.</param>
+    /// <param name="currentPlayer">The player whose turn it is.</param>
     [Server]
     public void SetPlayerTurn(Player currentPlayer)
     {
@@ -262,11 +263,12 @@ public class GameManager : NetworkBehaviour
             player.SetIsPlayerTurn(player == currentPlayer);
             player.UpdatePlayerView();
         }
+
         Scoreboard.ObserversUpdateTurnMarker(currentPlayer.PlayerID);
     }
 
     /// <summary>
-    /// Sets the game phase to "Game Over".
+    /// Sets the game phase to Game Over.
     /// </summary>
     [Server]
     public void SetPhaseGameOver()
@@ -275,7 +277,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Ends the game and triggers the game over logic.
+    /// Ends the game, updating the board and launching the Game Over pop-up.
     /// </summary>
     [Server]
     public void EndGame()
@@ -285,7 +287,7 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Launches the game over popup and calculates final rankings.
+    /// Launches the Game Over pop-up, calculating the final rankings.
     /// </summary>
     [Server]
     public void LaunchGameOverPopUp()
