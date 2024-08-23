@@ -1,35 +1,42 @@
-using FishNet.Object.Synchronizing;
-using FishNet.Object;
-using UnityEngine;
-using TMPro;
 using FishNet.Connection;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
+using TMPro;
+using UnityEngine;
 
 public class ItemCardHeader : Card
 {
-    [field: SyncVar] public Transform Parent { get; private set; }
-    [field: SyncVar] public int OriginalPhysicalPower { get; private set; }
-    [field: SyncVar] public int OriginalMagicalPower { get; private set; }
+    #region SyncVars
     [field: SyncVar] public bool IsDisabled { get; private set; }
+    [field: SyncVar] public int OriginalMagicalPower { get; private set; }
+    [field: SyncVar] public int OriginalPhysicalPower { get; private set; }
+    [field: SyncVar] public Transform ParentTransform { get; private set; }
+    #endregion
 
+    #region UI Elements
+    [SerializeField] private TMP_Text disableTypeText;
+    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
-    [SerializeField] private TMP_Text magicalPowerText;
-    [SerializeField] private TMP_Text disableTypeText;
+    #endregion
 
-    public override void SetCardParent(Transform newParent, bool worldPositionStays) { }
-    public override void ServerSetCardParent(Transform parent, bool worldPositionStays) { }
-    protected override void ObserversSetCardParent(Transform parent, bool worldPositionStays) { }
-
+    /// <summary>
+    /// Loads the card data and updates the relevant SyncVars on the server.
+    /// </summary>
+    /// <param name="cardData">The card data to load.</param>
     [Server]
     public override void LoadCardData(CardData cardData)
     {
         OriginalPhysicalPower = cardData.OriginalPhysicalPower;
         OriginalMagicalPower = cardData.OriginalMagicalPower;
-        
+
         base.LoadCardData(cardData);
-        //ObserversLoadCardData(cardData);
     }
 
+    /// <summary>
+    /// Updates the card's visual representation on all clients based on the provided card data.
+    /// </summary>
+    /// <param name="cardData">The card data to load into the visual elements.</param>
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversLoadCardData(CardData cardData)
     {
@@ -38,11 +45,14 @@ public class ItemCardHeader : Card
         nameText.text = cardData.CardName;
     }
 
+    /// <summary>
+    /// Server-side method to change the card's physical power, only if it is part of a quest.
+    /// </summary>
+    /// <param name="powerDelta">The amount to change the physical power by.</param>
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangePhysicalPower(int powerDelta)
     {
-        print(Parent);
-        if (!Parent.transform.parent.CompareTag("Quest")) return;
+        if (!ParentTransform || !ParentTransform.parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower > 0)
         {
             PhysicalPower += powerDelta;
@@ -50,11 +60,14 @@ public class ItemCardHeader : Card
         }
     }
 
+    /// <summary>
+    /// Server-side method to change the card's magical power, only if it is part of a quest.
+    /// </summary>
+    /// <param name="powerDelta">The amount to change the magical power by.</param>
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangeMagicalPower(int powerDelta)
     {
-        print(Parent);
-        if (!Parent.transform.parent.CompareTag("Quest")) return;
+        if (!ParentTransform || !ParentTransform.parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower > 0)
         {
             MagicalPower += powerDelta;
@@ -62,6 +75,11 @@ public class ItemCardHeader : Card
         }
     }
 
+    /// <summary>
+    /// Updates the power text on all clients, reflecting changes to physical and magical power.
+    /// </summary>
+    /// <param name="physicalPower">The updated physical power.</param>
+    /// <param name="magicalPower">The updated magical power.</param>
     [ObserversRpc(BufferLast = true)]
     public void ObserversUpdatePowerText(int physicalPower, int magicalPower)
     {
@@ -70,21 +88,29 @@ public class ItemCardHeader : Card
 
         UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower, OriginalMagicalPower);
     }
+
+    /// <summary>
+    /// Updates the color of the power text based on comparison with the original power values.
+    /// </summary>
+    /// <param name="physicalPower">The current physical power.</param>
+    /// <param name="magicalPower">The current magical power.</param>
+    /// <param name="originalPhysicalPower">The original physical power.</param>
+    /// <param name="originalMagicalPower">The original magical power.</param>
     private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
     {
-        if (physicalPower > originalPhysicalPower) physicalPowerText.color = Color.green;
-        else if (physicalPower < originalPhysicalPower) physicalPowerText.color = Color.red;
-        else physicalPowerText.color = Color.white;
+        physicalPowerText.color = physicalPower > originalPhysicalPower ? Color.green :
+                                  physicalPower < originalPhysicalPower ? Color.red : Color.white;
 
-        if (magicalPower > originalMagicalPower) magicalPowerText.color = Color.green;
-        else if (magicalPower < originalMagicalPower) magicalPowerText.color = Color.red;
-        else magicalPowerText.color = Color.white;
+        magicalPowerText.color = magicalPower > originalMagicalPower ? Color.green :
+                                 magicalPower < originalMagicalPower ? Color.red : Color.white;
     }
 
+    /// <summary>
+    /// Resets the card's power to its original values and enables the card if it was disabled.
+    /// </summary>
     [Server]
     public void ResetPower()
     {
-        print($"{CardName} Resetting Item Power");
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
@@ -93,6 +119,10 @@ public class ItemCardHeader : Card
         ObserversSetDisable(false);
     }
 
+    /// <summary>
+    /// Sets the card's active state and notifies all clients.
+    /// </summary>
+    /// <param name="active">Whether the card should be active or not.</param>
     [Server]
     public void SetActive(bool active)
     {
@@ -100,12 +130,20 @@ public class ItemCardHeader : Card
         ObserversSetActive(active);
     }
 
+    /// <summary>
+    /// Updates the card's active state on all clients.
+    /// </summary>
+    /// <param name="active">The active state to set on all clients.</param>
     [ObserversRpc(BufferLast = true)]
     private void ObserversSetActive(bool active)
     {
         gameObject.SetActive(active);
     }
 
+    /// <summary>
+    /// Disables the card, setting its power to 0 and displaying the disable type on all clients.
+    /// </summary>
+    /// <param name="disableType">The type of disable action to apply.</param>
     [Server]
     public void DisableItem(string disableType)
     {
@@ -120,18 +158,31 @@ public class ItemCardHeader : Card
         ObserversSetDisableText(disableType);
     }
 
+    /// <summary>
+    /// Updates the disable state of the card on all clients.
+    /// </summary>
+    /// <param name="value">Whether the card should be disabled or not.</param>
     [ObserversRpc(BufferLast = true)]
     private void ObserversSetDisable(bool value)
     {
         gameObject.transform.GetChild(1).gameObject.SetActive(value);
     }
 
+    /// <summary>
+    /// Sets the disable type text on all clients.
+    /// </summary>
+    /// <param name="disableType">The type of disable action to display.</param>
     [ObserversRpc(BufferLast = true)]
     private void ObserversSetDisableText(string disableType)
     {
         disableTypeText.text = disableType;
     }
 
+    /// <summary>
+    /// Copies the card data to the target client from the original card.
+    /// </summary>
+    /// <param name="connection">The network connection of the target client.</param>
+    /// <param name="originalCard">The original card to copy data from.</param>
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
