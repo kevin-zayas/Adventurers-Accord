@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ItemDragDrop : NetworkBehaviour
 {
+    #region Serialized Fields
     [SerializeField] private bool isDragging = false;
 
     [SerializeField] private ItemCard itemCard;
@@ -11,10 +12,11 @@ public class ItemDragDrop : NetworkBehaviour
 
     [SerializeField] private Transform startParentTransform;
     [SerializeField] private Vector2 startPosition;
+    #endregion
 
     private void Awake()
     {
-        itemCard = this.GetComponent<ItemCard>();
+        itemCard = GetComponent<ItemCard>();
         canvas = GameObject.Find("Canvas");
     }
 
@@ -34,15 +36,18 @@ public class ItemDragDrop : NetworkBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject == adventurerCard)       // only excecute logic if the card is leaving the card it just entered
+        if (collision.gameObject == adventurerCard)       // only excecute logic if the card is leaving the collision it just entered
         {
             adventurerCard = null;
         }
     }
 
+    /// <summary>
+    /// Begins the drag operation for the item card.
+    /// </summary>
     public void BeginDrag()
     {
-        if (Input.GetMouseButton(1)) return;      // prevent dragging if right-clicking
+        if (Input.GetMouseButton(1)) return; // Prevent dragging on right-click
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
 
         startPosition = transform.position;
@@ -50,20 +55,20 @@ public class ItemDragDrop : NetworkBehaviour
         isDragging = true;
 
         transform.SetParent(canvas.transform, true);
-        //transform.localScale = new Vector3(2f, 2f, 1f);
-
     }
 
+    /// <summary>
+    /// Ends the drag operation for the item card, handling card placement and validation.
+    /// </summary>
     public void EndDrag()
     {
-        // set as first/last sibling? may help if player wants to reorder cards
         if (!isDragging) return;
 
         isDragging = false;
 
         if (adventurerCard == null)
         {
-            print("adventurer card is null");
+            Debug.Log("No adventurer card selected.");
             ResetCardPosition();
             return;
         }
@@ -72,30 +77,32 @@ public class ItemDragDrop : NetworkBehaviour
 
         if (card.IsDraftCard || card.HasItem || !card.IsOwner)
         {
-            print("Card already has item or over unowned card");
+            Debug.Log("Cannot equip item: card already has an item, is a draft card, or is not owned by the player.");
             ResetCardPosition();
             return;
         }
 
-        if (card.ParentTransform.CompareTag("Quest"))       // if card is on a quest, don't allow item to be equipped
+        if (card.ParentTransform.CompareTag("Quest"))
         {
-            print("Card is on a quest");
+            Debug.Log("Cannot equip item: card is currently on a quest.");
             ResetCardPosition();
             return;
         }
 
-        if (itemCard.MagicalPower > 0 && card.OriginalMagicalPower == 0 || itemCard.PhysicalPower > 0 && card.OriginalPhysicalPower == 0)
-        { 
-            print("Card does not have the required power type");
+        if ((itemCard.MagicalPower > 0 && card.OriginalMagicalPower == 0) || (itemCard.PhysicalPower > 0 && card.OriginalPhysicalPower == 0))
+        {
+            Debug.Log("Cannot equip item: card does not have the required power type.");
             ResetCardPosition();
             return;
         }
 
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp(true);
-        popUp.InitializeEquipItemPopUp(card,this.gameObject);
-        //transform.position = startPosition;
+        popUp.InitializeEquipItemPopUp(card, this.gameObject);
     }
 
+    /// <summary>
+    /// Resets the item card's position to its original location before dragging.
+    /// </summary>
     private void ResetCardPosition()
     {
         itemCard.ServerSetCardParent(startParentTransform, true);
