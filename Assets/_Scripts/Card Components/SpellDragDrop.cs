@@ -1,87 +1,55 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class SpellDragDrop : NetworkBehaviour
+public class SpellDragDrop : CardDragDrop
 {
     #region Serialized Fields
-    [SerializeField] private bool isDragging = false;
-
     [SerializeField] private SpellCard spellCard;
-    [SerializeField] private GameObject canvas;
-    [SerializeField] private GameObject dropZone;
-
-    [SerializeField] private Transform startParentTransform;
-    [SerializeField] private Vector2 startPosition;
     #endregion
 
-    private void Awake()
+    private void Start()
     {
         spellCard = GetComponent<SpellCard>();
-        canvas = GameObject.Find("Canvas");
     }
 
-    private void Update()
+    protected override bool CanStartDrag()
     {
-        if (isDragging)
-        {
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = (Vector2)worldPosition;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        dropZone = collision.gameObject;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject == dropZone)
-        {
-            dropZone = null;
-        }
-    }
-
-    /// <summary>
-    /// Begins the drag operation for the spell card.
-    /// </summary>
-    public void BeginDrag()
-    {
-        if (Input.GetMouseButton(1)) return; // Prevent dragging on right-click
-        if (!IsOwner) return; // Ensure the player owns the card before dragging
-        if (transform.parent.CompareTag("Quest")) return; // Prevent dragging if the card is already in a quest lane
+        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (!IsOwner) return false; // Ensure the player owns the card before dragging
+        if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
 
         // Only allow dragging during the Dispatch or Magic phase
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch &&
             GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
         {
             Debug.Log("Can't move spells during this phase");
-            return;
+            return false;
         }
 
-        startPosition = transform.position;
-        startParentTransform = transform.parent;
-        isDragging = true;
+        return true;
+    }
 
-        transform.SetParent(canvas.transform, true);
+    /// <summary>
+    /// Begins the drag operation for the spell card.
+    /// </summary>
+    public override void BeginDrag()
+    {
+        if (CanStartDrag())
+        {
+            base.BeginDrag();
+        }
     }
 
     /// <summary>
     /// Ends the drag operation for the spell card, handling card placement and validation.
     /// </summary>
-    public void EndDrag()
+    public override void EndDrag()
     {
-        if (!isDragging) return;
+        base.EndDrag();
+    }
 
-        isDragging = false;
-
-        if (dropZone == null || startParentTransform == dropZone.transform) // Don't update parent if dragging and dropping into the same zone
-        {
-            Debug.Log("Not over a valid drop zone or still in the starting zone");
-            ResetCardPosition();
-            return;
-        }
-
+    protected override void HandleEndDrag()
+    {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
 
         if (questLane.QuestCard.BlockSpells)
@@ -104,16 +72,16 @@ public class SpellDragDrop : NetworkBehaviour
     /// <summary>
     /// Resets the spell card's position to its original location before dragging.
     /// </summary>
-    private void ResetCardPosition()
+    protected override void ResetCardPosition()
     {
         spellCard.ServerSetCardParent(startParentTransform, true);
-        transform.position = startPosition;
+        base.ResetCardPosition();
     }
 
     /// <summary>
     /// Handles the movement of the spell card to a new drop zone and updates the quest lane.
     /// </summary>
-    private void HandleCardMovement()
+    protected override void HandleCardMovement()
     {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
         spellCard.ServerSetCardParent(dropZone.transform, false);

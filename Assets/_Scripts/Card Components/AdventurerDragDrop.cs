@@ -1,24 +1,17 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class AdventurerDragDrop : NetworkBehaviour
+public class AdventurerDragDrop : CardDragDrop
 {
     #region Serialized Fields
-    [SerializeField] private bool isDragging = false;
 
     [SerializeField] private AdventurerCard card;
-    [SerializeField] private GameObject canvas;
     [SerializeField] private Player player;
-
-    [SerializeField] private GameObject dropZone;
-    [SerializeField] private Transform startParentTransform;
-    [SerializeField] private Vector2 startPosition;
     #endregion
 
     private void Start()
     {
         card = GetComponent<AdventurerCard>();
-        canvas = GameObject.Find("Canvas");
 
         if (!IsClient) return;
 
@@ -28,69 +21,44 @@ public class AdventurerDragDrop : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (isDragging)
-        {
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = (Vector2)worldPosition;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {   
+        //revisit after tuning dragging logic. this may not even be possible if you can only drag cards during dispatch.
         if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return; // Prevent dragging onto Magic Item
 
-        dropZone = collision.gameObject;
+        base.OnCollisionEnter2D(collision);
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    protected override bool CanStartDrag()
     {
-        if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
+        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (!card.IsDraftCard && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution || GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return false;
+        if (!player.IsPlayerTurn) return false; // Allow dragging only during player's turn
+        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return false;
+
+        if (!card.IsDraftCard || player.Gold >= card.Cost) // Check player gold if dragging a DraftCard
         {
-            dropZone = null;
+            return true;
         }
+        else return false;
     }
 
     /// <summary>
     /// Begins the drag operation for the card.
     /// </summary>
-    public void BeginDrag()
+    public override void BeginDrag()
     {
-        if (Input.GetMouseButton(1)) return; // Prevent dragging on right-click
-        if (!card.IsDraftCard && !IsOwner) return; // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution || GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
-        if (!player.IsPlayerTurn) return; // Allow dragging only during player's turn
-        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return;
-
-        if (!card.IsDraftCard || player.Gold >= card.Cost) // Check player gold if dragging a DraftCard
+        if (CanStartDrag())
         {
-            startPosition = transform.position;
-            startParentTransform = transform.parent;
-            isDragging = true;
-
-            transform.SetParent(canvas.transform, true);
+            base.BeginDrag();
             transform.localScale = Vector3.one;
         }
     }
 
-    /// <summary>
-    /// Ends the drag operation for the card, handling card placement and validation.
-    /// </summary>
-    public void EndDrag()
+    protected override void HandleEndDrag()
     {
-        if (!isDragging) return;
-
-        isDragging = false;
-
-        if (dropZone == null || startParentTransform == dropZone.transform)
-        {
-            print("not over valid drop zone or still in starting zone");
-            ResetCardPosition();
-            return;
-        }
-
         if (card.IsDraftCard)
         {
             AssignDraftCardToPlayer();
@@ -104,10 +72,10 @@ public class AdventurerDragDrop : NetworkBehaviour
     /// <summary>
     /// Resets the card's position to its original location before dragging.
     /// </summary>
-    private void ResetCardPosition()
+    protected override void ResetCardPosition()
     {
         card.ServerSetCardParent(startParentTransform, true);
-        transform.position = startPosition;
+        base.ResetCardPosition();
     }
 
     /// <summary>
@@ -128,7 +96,7 @@ public class AdventurerDragDrop : NetworkBehaviour
     /// <summary>
     /// Handles the movement of the card to a new drop zone.
     /// </summary>
-    private void HandleCardMovement()
+    protected override void HandleCardMovement()
     {
         card.ServerSetCardParent(dropZone.transform, false);
     }

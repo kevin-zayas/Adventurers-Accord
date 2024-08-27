@@ -1,95 +1,56 @@
 using FishNet.Object;
 using UnityEngine;
 
-public class ItemDragDrop : NetworkBehaviour
+public class ItemDragDrop : CardDragDrop
 {
     #region Serialized Fields
-    [SerializeField] private bool isDragging = false;
 
     [SerializeField] private ItemCard itemCard;
-    [SerializeField] private GameObject canvas;
-    [SerializeField] private GameObject adventurerCard;
-
-    [SerializeField] private Transform startParentTransform;
-    [SerializeField] private Vector2 startPosition;
     #endregion
 
-    private void Awake()
+    private void Start()
     {
         itemCard = GetComponent<ItemCard>();
-        canvas = GameObject.Find("Canvas");
     }
 
-    private void Update()
+    protected override bool CanStartDrag()
     {
-        if (isDragging)
-        {
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = (Vector2)worldPosition;
-        }
-    }
+        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return false;
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        adventurerCard = collision.gameObject;
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject == adventurerCard)       // only excecute logic if the card is leaving the collision it just entered
-        {
-            adventurerCard = null;
-        }
+        return true;
     }
 
     /// <summary>
     /// Begins the drag operation for the item card.
     /// </summary>
-    public void BeginDrag()
+    public override void BeginDrag()
     {
-        if (Input.GetMouseButton(1)) return; // Prevent dragging on right-click
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return;
-
-        startPosition = transform.position;
-        startParentTransform = transform.parent;
-        isDragging = true;
-
-        transform.SetParent(canvas.transform, true);
+        if (CanStartDrag())
+        {
+            base.BeginDrag();
+        }
     }
 
-    /// <summary>
-    /// Ends the drag operation for the item card, handling card placement and validation.
-    /// </summary>
-    public void EndDrag()
+    protected override void HandleEndDrag()
     {
-        if (!isDragging) return;
+        AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
 
-        isDragging = false;
-
-        if (adventurerCard == null)
-        {
-            Debug.Log("No adventurer card selected.");
-            ResetCardPosition();
-            return;
-        }
-
-        AdventurerCard card = adventurerCard.GetComponent<AdventurerCard>();
-
-        if (card.IsDraftCard || card.HasItem || !card.IsOwner)
+        if (adventurerCard.IsDraftCard || adventurerCard.HasItem || !adventurerCard.IsOwner)
         {
             Debug.Log("Cannot equip item: card already has an item, is a draft card, or is not owned by the player.");
             ResetCardPosition();
             return;
         }
 
-        if (card.ParentTransform.CompareTag("Quest"))
+        if (adventurerCard.ParentTransform.CompareTag("Quest"))
         {
             Debug.Log("Cannot equip item: card is currently on a quest.");
             ResetCardPosition();
             return;
         }
 
-        if ((itemCard.MagicalPower > 0 && card.OriginalMagicalPower == 0) || (itemCard.PhysicalPower > 0 && card.OriginalPhysicalPower == 0))
+        if ((itemCard.MagicalPower > 0 && adventurerCard.OriginalMagicalPower == 0) || (itemCard.PhysicalPower > 0 && adventurerCard.OriginalPhysicalPower == 0))
         {
             Debug.Log("Cannot equip item: card does not have the required power type.");
             ResetCardPosition();
@@ -97,15 +58,20 @@ public class ItemDragDrop : NetworkBehaviour
         }
 
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp(true);
-        popUp.InitializeEquipItemPopUp(card, this.gameObject);
+        popUp.InitializeEquipItemPopUp(adventurerCard, this.gameObject);
     }
 
     /// <summary>
     /// Resets the item card's position to its original location before dragging.
     /// </summary>
-    private void ResetCardPosition()
+    protected override void ResetCardPosition()
     {
         itemCard.ServerSetCardParent(startParentTransform, true);
-        transform.position = startPosition;
+        base.ResetCardPosition();
+    }
+
+    protected override void HandleCardMovement()
+    {
+        throw new System.NotImplementedException();
     }
 }
