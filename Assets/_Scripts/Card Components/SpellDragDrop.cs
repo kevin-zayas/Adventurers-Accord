@@ -12,6 +12,10 @@ public class SpellDragDrop : CardDragDrop
         spellCard = GetComponent<SpellCard>();
     }
 
+    /// <summary>
+    /// Determines whether the drag operation can start based on various conditions.
+    /// </summary>
+    /// <returns>True if the drag can start, otherwise false.</returns>
     protected override bool CanStartDrag()
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
@@ -41,13 +45,8 @@ public class SpellDragDrop : CardDragDrop
     }
 
     /// <summary>
-    /// Ends the drag operation for the spell card, handling card placement and validation.
+    /// Handles the specific logic when the drag operation ends, including spell usage validation.
     /// </summary>
-    public override void EndDrag()
-    {
-        base.EndDrag();
-    }
-
     protected override void HandleEndDrag()
     {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();

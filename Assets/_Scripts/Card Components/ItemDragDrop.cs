@@ -4,7 +4,6 @@ using UnityEngine;
 public class ItemDragDrop : CardDragDrop
 {
     #region Serialized Fields
-
     [SerializeField] private ItemCard itemCard;
     #endregion
 
@@ -13,6 +12,10 @@ public class ItemDragDrop : CardDragDrop
         itemCard = GetComponent<ItemCard>();
     }
 
+    /// <summary>
+    /// Determines whether the drag operation can start based on various conditions.
+    /// </summary>
+    /// <returns>True if the drag can start, otherwise false.</returns>
     protected override bool CanStartDrag()
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
@@ -32,6 +35,9 @@ public class ItemDragDrop : CardDragDrop
         }
     }
 
+    /// <summary>
+    /// Handles the specific logic when the drag operation ends, including item equipping validation.
+    /// </summary>
     protected override void HandleEndDrag()
     {
         AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
@@ -50,7 +56,8 @@ public class ItemDragDrop : CardDragDrop
             return;
         }
 
-        if ((itemCard.MagicalPower > 0 && adventurerCard.OriginalMagicalPower == 0) || (itemCard.PhysicalPower > 0 && adventurerCard.OriginalPhysicalPower == 0))
+        if ((itemCard.MagicalPower > 0 && adventurerCard.OriginalMagicalPower == 0) ||
+            (itemCard.PhysicalPower > 0 && adventurerCard.OriginalPhysicalPower == 0))
         {
             Debug.Log("Cannot equip item: card does not have the required power type.");
             ResetCardPosition();
@@ -70,6 +77,9 @@ public class ItemDragDrop : CardDragDrop
         base.ResetCardPosition();
     }
 
+    /// <summary>
+    /// Not implemented for ItemDragDrop, since item movement is handled via a confirmation pop-up.
+    /// </summary>
     protected override void HandleCardMovement()
     {
         throw new System.NotImplementedException();

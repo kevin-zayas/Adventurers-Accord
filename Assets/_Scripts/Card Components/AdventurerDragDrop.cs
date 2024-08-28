@@ -4,7 +4,6 @@ using UnityEngine;
 public class AdventurerDragDrop : CardDragDrop
 {
     #region Serialized Fields
-
     [SerializeField] private AdventurerCard card;
     [SerializeField] private Player player;
     #endregion
@@ -21,6 +20,10 @@ public class AdventurerDragDrop : CardDragDrop
         }
     }
 
+    /// <summary>
+    /// Handles the collision enter event, with additional logic to filter invalid drop zones.
+    /// </summary>
+    /// <param name="collision">The collision data associated with this event.</param>
     protected override void OnCollisionEnter2D(Collision2D collision)
     {   
         //revisit after tuning dragging logic. this may not even be possible if you can only drag cards during dispatch.
@@ -30,6 +33,10 @@ public class AdventurerDragDrop : CardDragDrop
         base.OnCollisionEnter2D(collision);
     }
 
+    /// <summary>
+    /// Determines whether the drag operation can start, based on various conditions.
+    /// </summary>
+    /// <returns>True if the drag can start, otherwise false.</returns>
     protected override bool CanStartDrag()
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
@@ -38,15 +45,11 @@ public class AdventurerDragDrop : CardDragDrop
         if (!player.IsPlayerTurn) return false; // Allow dragging only during player's turn
         if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return false;
 
-        if (!card.IsDraftCard || player.Gold >= card.Cost) // Check player gold if dragging a DraftCard
-        {
-            return true;
-        }
-        else return false;
+        return !card.IsDraftCard || player.Gold >= card.Cost; // Check player gold if dragging a DraftCard
     }
 
     /// <summary>
-    /// Begins the drag operation for the card.
+    /// Begins the drag operation for the card and reverts card scale back to base
     /// </summary>
     public override void BeginDrag()
     {
@@ -57,6 +60,9 @@ public class AdventurerDragDrop : CardDragDrop
         }
     }
 
+    /// <summary>
+    /// Handles the specific logic when the drag operation ends.
+    /// </summary>
     protected override void HandleEndDrag()
     {
         if (card.IsDraftCard)
