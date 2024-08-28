@@ -39,9 +39,9 @@ public class AdventurerDragDrop : CardDragDrop
     /// <returns>True if the drag can start, otherwise false.</returns>
     protected override bool CanStartDrag()
     {
-        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (!base.CanStartDrag()) return false;
         if (!card.IsDraftCard && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution || GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return false;
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) return false;
         if (!player.IsPlayerTurn) return false; // Allow dragging only during player's turn
         if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return false;
 

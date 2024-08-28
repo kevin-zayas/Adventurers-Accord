@@ -18,7 +18,7 @@ public class SpellDragDrop : CardDragDrop
     /// <returns>True if the drag can start, otherwise false.</returns>
     protected override bool CanStartDrag()
     {
-        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (!base.CanStartDrag()) return false;
         if (!IsOwner) return false; // Ensure the player owns the card before dragging
         if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
 

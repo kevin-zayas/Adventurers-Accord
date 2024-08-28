@@ -13,18 +13,6 @@ public class ItemDragDrop : CardDragDrop
     }
 
     /// <summary>
-    /// Determines whether the drag operation can start based on various conditions.
-    /// </summary>
-    /// <returns>True if the drag can start, otherwise false.</returns>
-    protected override bool CanStartDrag()
-    {
-        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return false;
-
-        return true;
-    }
-
-    /// <summary>
     /// Begins the drag operation for the item card.
     /// </summary>
     public override void BeginDrag()

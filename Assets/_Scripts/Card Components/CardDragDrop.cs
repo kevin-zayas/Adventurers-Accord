@@ -57,6 +57,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     protected virtual bool CanStartDrag()
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver) return false; // Prevent dragging after the game ends
         return true;
     }
 
