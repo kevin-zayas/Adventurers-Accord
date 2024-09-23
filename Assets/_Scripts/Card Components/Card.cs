@@ -103,4 +103,14 @@ public abstract class Card : NetworkBehaviour
     /// <param name="originalCard">The original card to copy data from.</param>
     [TargetRpc]
     public virtual void TargetCopyCardData(NetworkConnection connection, Card originalCard) { }
+
+    public virtual void OnHover()
+    {
+        return;
+    }
+
+    public virtual void OnPointerExit()
+    {
+        return;
+    }
 }

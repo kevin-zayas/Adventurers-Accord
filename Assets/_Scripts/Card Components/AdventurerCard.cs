@@ -24,13 +24,14 @@ public class AdventurerCard : Card
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text costText;
+    [SerializeField] private Image disableScreen;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     #endregion
 
     #region Cached Components
-    private RectTransform _rectTransform;
+    private Player player;
     #endregion
 
     #region Constants
@@ -38,10 +39,10 @@ public class AdventurerCard : Card
     private const string QuestTag = "Quest";
     #endregion
 
-    private void Awake()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-    }
+    //private void Awake()
+    //{
+        
+    //}
 
     private void Start()
     {
@@ -49,6 +50,10 @@ public class AdventurerCard : Card
         {
             IsDraftCard = true;
         }
+        //else      //may need to add this back when putting it on dedicated server
+        //{
+        player = GameManager.Instance.Players[LocalConnection.ClientId];
+        //}
     }
 
     /// <summary>
@@ -101,13 +106,13 @@ public class AdventurerCard : Card
     /// <summary>
     /// Server-side RPC to set the card's owner and update related properties.
     /// </summary>
-    /// <param name="player">The player who will own the card.</param>
+    /// <param name="owningPlayer">The player who will own the card.</param>
     [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardOwner(Player player)
+    public void ServerSetCardOwner(Player owningPlayer)
     {
-        ControllingPlayer = player;
-        ControllingPlayerHand = player.controlledHand;
-        GiveOwnership(player.Owner);
+        ControllingPlayer = owningPlayer;
+        ControllingPlayerHand = owningPlayer.controlledHand;
+        GiveOwnership(owningPlayer.Owner);
         IsDraftCard = false;
     }
 
@@ -351,5 +356,27 @@ public class AdventurerCard : Card
         {
             Debug.Log("Invalid target");
         }
+    }
+
+    public override void OnHover()
+    {
+        if (!IsDraftCard && !IsOwner) disableScreen.gameObject.SetActive(true); // Prevent dragging non-draft cards if not owner
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) disableScreen.gameObject.SetActive(true);
+        if (!player.IsPlayerTurn) print("cant drag"); // Allow dragging only during player's turn
+        if (IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) disableScreen.gameObject.SetActive(true);
+
+        if (!IsDraftCard || player.Gold >= Cost)  // Check player gold if dragging a DraftCard
+        {
+            print("can drag");
+        }
+        else 
+        {
+            disableScreen.gameObject.SetActive(true);
+        }
+    }
+    
+    public override void OnPointerExit()
+    {
+        disableScreen.gameObject.SetActive(false);
     }
 }

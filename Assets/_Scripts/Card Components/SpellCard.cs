@@ -14,6 +14,7 @@ public class SpellCard : Card
     #region UI Elements
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private Image disableScreen;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
@@ -77,5 +78,27 @@ public class SpellCard : Card
         magicalPowerText.text = card.MagicalPower.ToString();
         nameText.text = card.CardName;
         descriptionText.text = card.CardDescription;
+    }
+
+    public override void OnHover()
+    {
+        if (transform.parent.CompareTag("Quest")) disableScreen.gameObject.SetActive(true); // Prevent dragging if the card is already in a quest lane
+
+        // Only allow dragging during the Dispatch or Magic phase
+        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch &&
+            GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
+        {
+            Debug.Log("Can't move spells during this phase");
+            disableScreen.gameObject.SetActive(true);
+        }
+        else
+        {
+            print("can drag");
+        }
+    }
+
+    public override void OnPointerExit()
+    {
+        disableScreen.gameObject.SetActive(false);
     }
 }
