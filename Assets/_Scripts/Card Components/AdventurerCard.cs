@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class AdventurerCard : Card
 {
     #region SyncVars
-    [field: SyncVar] public string AbilityName { get; private set; }
-    [field: SyncVar] public int Cost { get; private set; }
-    [field: SyncVar] public bool HasItem { get; private set; }
-    [field: SyncVar] public ItemCardHeader Item { get; private set; }
-    [field: SyncVar] public bool IsDraftCard { get; private set; }
-    [field: SyncVar] public int OriginalMagicalPower { get; private set; }
-    [field: SyncVar] public int OriginalPhysicalPower { get; private set; }
-    [field: SyncVar] public Transform ParentTransform { get; private set; }
+    public SyncVar<string> AbilityName { get; private set; }
+    public SyncVar<int> Cost { get; private set; }
+    public SyncVar<bool> HasItem { get; private set; }
+    public SyncVar<ItemCardHeader> Item { get; private set; }
+    public SyncVar<bool> IsDraftCard { get; private set; }
+    public SyncVar<int> OriginalMagicalPower { get; private set; }
+    public SyncVar<int> OriginalPhysicalPower { get; private set; }
+    public SyncVar<Transform> ParentTransform { get; private set; }
     #endregion
 
     #region UI Elements
@@ -45,9 +45,9 @@ public class AdventurerCard : Card
 
     private void Start()
     {
-        if (IsServer)
+        if (IsServerInitialized)
         {
-            IsDraftCard = true;
+            IsDraftCard.Value = true;
         }
         //else      //may need to add this back when putting it on dedicated server
         //{
@@ -66,15 +66,15 @@ public class AdventurerCard : Card
         ObserversSetCardParent(newParent, worldPositionStays);
         transform.SetParent(newParent, worldPositionStays);
 
-        if (ParentTransform != null && ParentTransform != newParent)
+        if (ParentTransform != null && ParentTransform.Value != newParent)
         {
-            if (ParentTransform.CompareTag(QuestTag)) OnQuestReturn(ParentTransform);
-            ParentTransform = newParent;
+            if (ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
+            ParentTransform.Value = newParent;
             if (newParent.CompareTag(QuestTag)) OnQuestDispatch(newParent);
         }
         else
         {
-            ParentTransform = newParent;
+            ParentTransform.Value = newParent;
         }
     }
 
@@ -109,10 +109,10 @@ public class AdventurerCard : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetCardOwner(Player owningPlayer)
     {
-        ControllingPlayer = owningPlayer;
-        ControllingPlayerHand = owningPlayer.controlledHand;
+        ControllingPlayer.Value = owningPlayer;
+        ControllingPlayerHand.Value = owningPlayer.controlledHand;
         GiveOwnership(owningPlayer.Owner);
-        IsDraftCard = false;
+        IsDraftCard.Value = false;
     }
 
     /// <summary>
@@ -123,14 +123,14 @@ public class AdventurerCard : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerEquipItem(bool hasItem, CardData itemCardData)
     {
-        HasItem = hasItem;
+        HasItem.Value = hasItem;
 
         var itemCardHeader = transform.GetChild(0).transform.GetChild(1).GetComponent<ItemCardHeader>();
         Spawn(itemCardHeader.gameObject);
         itemCardHeader.LoadCardData(itemCardData);
-        Item = itemCardHeader;
+        Item.Value = itemCardHeader;
 
-        if (CardName == Sorcerer) ResetPower();
+        if (CardName.Value == Sorcerer) ResetPower();
     }
 
     /// <summary>
@@ -150,12 +150,12 @@ public class AdventurerCard : Card
     [Server]
     public void ChangePhysicalPower(int power)
     {
-        if (ParentTransform == null || !ParentTransform.CompareTag(QuestTag)) return;
+        if (ParentTransform == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
-        if (OriginalPhysicalPower > 0)
+        if (OriginalPhysicalPower.Value > 0)
         {
-            PhysicalPower = Mathf.Max(0, PhysicalPower + power); // Clamping value
-            ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+            PhysicalPower.Value = Mathf.Max(0, PhysicalPower.Value + power); // Clamping value
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         }
     }
 
@@ -176,12 +176,12 @@ public class AdventurerCard : Card
     [Server]
     public void ChangeMagicalPower(int powerChange)
     {
-        if (ParentTransform == null || !ParentTransform.CompareTag(QuestTag)) return;
+        if (ParentTransform == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
-        if (OriginalMagicalPower > 0)
+        if (OriginalMagicalPower.Value > 0)
         {
-            MagicalPower = Mathf.Max(0, MagicalPower + powerChange); // Clamping value
-            ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+            MagicalPower.Value = Mathf.Max(0, MagicalPower.Value + powerChange); // Clamping value
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         }
     }
 
@@ -195,7 +195,7 @@ public class AdventurerCard : Card
     {
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
-        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower, OriginalMagicalPower);
+        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower.Value, OriginalMagicalPower.Value);
     }
 
     /// <summary>
@@ -205,8 +205,8 @@ public class AdventurerCard : Card
     /// <param name="magicalPower">The current magical power.</param>
     private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysical, int originalMagical)
     {
-        physicalPowerText.color = physicalPower > originalPhysical ? Color.green : physicalPower < OriginalPhysicalPower ? Color.red : Color.white;
-        magicalPowerText.color = magicalPower > originalMagical ? Color.green : magicalPower < OriginalMagicalPower ? Color.red : Color.white;
+        physicalPowerText.color = physicalPower > originalPhysical ? Color.green : physicalPower < OriginalPhysicalPower.Value ? Color.red : Color.white;
+        magicalPowerText.color = magicalPower > originalMagical ? Color.green : magicalPower < OriginalMagicalPower.Value ? Color.red : Color.white;
     }
 
     /// <summary>
@@ -219,9 +219,9 @@ public class AdventurerCard : Card
         PhysicalPower = OriginalPhysicalPower;
         MagicalPower = OriginalMagicalPower;
 
-        if (CardName == Sorcerer && HasItem && !Item.IsDisabled) MagicalPower += 2;
+        if (CardName.Value == Sorcerer && HasItem.Value && !Item.Value.IsDisabled.Value) MagicalPower.Value += 2;
 
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
     }
 
     /// <summary>
@@ -231,11 +231,11 @@ public class AdventurerCard : Card
     [Server]
     public void DisableItem(string disableType)
     {
-        if (!HasItem || Item.IsDisabled) return;
+        if (!HasItem.Value || Item.Value.IsDisabled.Value) return;
 
-        Item.DisableItem(disableType);
+        Item.Value.DisableItem(disableType);
 
-        if (CardName == Sorcerer) ResetPower();
+        if (CardName.Value == Sorcerer) ResetPower();
     }
 
     /// <summary>
@@ -255,10 +255,10 @@ public class AdventurerCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        OriginalPhysicalPower = cardData.OriginalPhysicalPower;
-        OriginalMagicalPower = cardData.OriginalMagicalPower;
-        Cost = cardData.Cost;
-        AbilityName = cardData.AbilityName;
+        OriginalPhysicalPower.Value = cardData.OriginalPhysicalPower;
+        OriginalMagicalPower.Value = cardData.OriginalMagicalPower;
+        Cost.Value = cardData.Cost;
+        AbilityName.Value = cardData.AbilityName;
 
         base.LoadCardData(cardData);
     }
@@ -293,17 +293,17 @@ public class AdventurerCard : Card
         isClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.CardName;
-        abilityNameText.text = card.AbilityName;
+        nameText.text = card.CardName.Value;
+        abilityNameText.text = card.AbilityName.Value;
         costText.text = card.Cost.ToString();
 
-        UpdatePowerTextColor(card.PhysicalPower, card.MagicalPower, card.OriginalPhysicalPower, card.OriginalMagicalPower);
+        UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
 
-        if (card.AbilityName == "") abilityNameObject.SetActive(false);
+        if (card.AbilityName.Value == "") abilityNameObject.SetActive(false);
     }
 
     /// <summary>
@@ -328,7 +328,7 @@ public class AdventurerCard : Card
     {
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
-        if (HasItem) Item.ResetPower();
+        if (HasItem.Value) Item.Value.ResetPower();
         ResetPower();
     }
 
@@ -341,14 +341,14 @@ public class AdventurerCard : Card
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
         if (ParentTransform == null) return;
 
-        QuestLane lane = ParentTransform.parent.GetComponent<QuestLane>();
+        QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
         if (!lane.QuestLocation.AllowResolution) return;
 
-        if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Rogue" && HasItem && !Item.IsDisabled)
+        if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Assassin" && !lane.ClericProtection && (MagicalPower > 0 || PhysicalPower > 0))
+        else if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Assassin" && !lane.ClericProtection && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
@@ -362,12 +362,12 @@ public class AdventurerCard : Card
     {
         if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
 
-        if (!IsDraftCard && !IsOwner) { ToggleDisableScreen(true); return; }  // Prevent dragging non-draft cards if not owner
+        if (!IsDraftCard.Value && !IsOwner) { ToggleDisableScreen(true); return; }  // Prevent dragging non-draft cards if not owner
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) { ToggleDisableScreen(true); return; }
         if (!player.IsPlayerTurn) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
-        if (IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
+        if (IsDraftCard.Value && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
 
-        if (!IsDraftCard || player.Gold >= Cost)  // Check player gold if dragging a DraftCard
+        if (!IsDraftCard.Value || player.Gold >= Cost.Value)  // Check player gold if dragging a DraftCard
         {
             print("can drag");
         }

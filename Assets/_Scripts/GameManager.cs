@@ -70,7 +70,7 @@ public class GameManager : NetworkBehaviour
 
         StartingTurn = 0;
 
-        foreach (var player in Players)
+        foreach (Player player in Players)
         {
             player.StartGame();
         }
@@ -89,7 +89,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void StopGame()
     {
-        foreach (var player in Players)
+        foreach (Player player in Players)
         {
             player.StopGame();
         }
@@ -128,7 +128,7 @@ public class GameManager : NetworkBehaviour
     private void BeginEndRound()
     {
         PlayerEndRoundStatus = new bool[Players.Count];
-        foreach (var player in Players)
+        foreach (Player player in Players)
         {
             player.SetIsPlayerTurn(false);
             player.UpdatePlayerView();
@@ -259,7 +259,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void SetPlayerTurn(Player currentPlayer)
     {
-        foreach (var player in Players)
+        foreach (Player player in Players)
         {
             player.SetIsPlayerTurn(player == currentPlayer);
             player.UpdatePlayerView();

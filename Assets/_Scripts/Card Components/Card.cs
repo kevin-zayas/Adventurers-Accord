@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public abstract class Card : NetworkBehaviour
 {
     #region SyncVars
-    [field: SyncVar] public string CardName { get; protected set; }
-    [field: SyncVar] public string CardDescription { get; protected set; }
-    [field: SyncVar] public int PhysicalPower { get; protected set; }
-    [field: SyncVar] public int MagicalPower { get; protected set; }
-    [field: SyncVar] public CardData Data { get; protected set; }
-    [field: SyncVar] public Player ControllingPlayer { get; protected set; }
-    [field: SyncVar] public Hand ControllingPlayerHand { get; protected set; }
+    public SyncVar<string> CardName { get; protected set; }
+    public SyncVar<string> CardDescription { get; protected set; }
+    public SyncVar<int> PhysicalPower { get; protected set; }
+    public SyncVar<int> MagicalPower { get; protected set; }
+    public SyncVar<CardData> Data { get; protected set; }
+    public SyncVar<Player> ControllingPlayer { get; protected set; }
+    public SyncVar<Hand> ControllingPlayerHand { get; protected set; }
     #endregion
 
     [SerializeField] protected Image disableScreen;
@@ -27,8 +27,8 @@ public abstract class Card : NetworkBehaviour
     [Server]
     public void SetCardOwner(Player player)
     {
-        ControllingPlayer = player;
-        ControllingPlayerHand = player.controlledHand;
+        ControllingPlayer.Value = player;
+        ControllingPlayerHand.Value = player.controlledHand;
         GiveOwnership(player.Owner);
     }
 
@@ -83,11 +83,11 @@ public abstract class Card : NetworkBehaviour
     [Server]
     public virtual void LoadCardData(CardData cardData)
     {
-        PhysicalPower = cardData.PhysicalPower;
-        MagicalPower = cardData.MagicalPower;
-        CardName = cardData.CardName;
-        CardDescription = cardData.CardDescription;
-        Data = cardData;
+        PhysicalPower.Value = cardData.PhysicalPower;
+        MagicalPower.Value = cardData.MagicalPower;
+        CardName.Value = cardData.CardName;
+        CardDescription.Value = cardData.CardDescription;
+        Data.Value = cardData;
 
         ObserversLoadCardData(cardData);
     }

@@ -14,11 +14,11 @@ namespace FishNet.Managing.Scened
         /// <summary>
         /// Currently active loading AsyncOperations.
         /// </summary>
-        protected List<AsyncOperation> LoadingAsyncOperations = new List<AsyncOperation>();
+        protected List<AsyncOperation> LoadingAsyncOperations = new();
         /// <summary>
         /// A collection of scenes used both for loading and unloading.
         /// </summary>
-        protected List<UnityScene> Scenes = new List<UnityScene>();
+        protected List<UnityScene> Scenes = new();
         /// <summary>
         /// Current AsyncOperation being processed.
         /// </summary>
@@ -65,7 +65,6 @@ namespace FishNet.Managing.Scened
         /// <param name="sceneName">Scene name to load.</param>
         public override void BeginLoadAsync(string sceneName, UnityEngine.SceneManagement.LoadSceneParameters parameters)
         {
-            print($"Scene Name: {sceneName}");
             AsyncOperation ao = UnitySceneManager.LoadSceneAsync(sceneName, parameters);
             LoadingAsyncOperations.Add(ao);
             
@@ -129,7 +128,7 @@ namespace FishNet.Managing.Scened
                 {
                     LoadingAsyncOperations[i].allowSceneActivation = true;
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
                     base.SceneManager.NetworkManager.LogError($"An error occured while activating scenes. {e.Message}");
                 }

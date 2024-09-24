@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SpellCard : Card
 {
     #region SyncVars
-    [field: SyncVar] public bool IsGreaseSpell { get; private set; }
+    public SyncVar<bool> IsGreaseSpell { get; private set; }
     #endregion
 
     #region UI Elements
@@ -41,7 +41,7 @@ public class SpellCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        IsGreaseSpell = cardData.IsGreaseSpell;
+        IsGreaseSpell.Value = cardData.IsGreaseSpell;
 
         base.LoadCardData(cardData);
     }
@@ -72,12 +72,12 @@ public class SpellCard : Card
         isClone = true;
         SpellCard card = originalCard as SpellCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.CardName;
-        descriptionText.text = card.CardDescription;
+        nameText.text = card.CardName.Value;
+        descriptionText.text = card.CardDescription.Value;
     }
 
     public override void OnHover()

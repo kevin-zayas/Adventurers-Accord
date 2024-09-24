@@ -7,10 +7,10 @@ using UnityEngine;
 public class ItemCardHeader : Card
 {
     #region SyncVars
-    [field: SyncVar] public bool IsDisabled { get; private set; }
-    [field: SyncVar] public int OriginalMagicalPower { get; private set; }
-    [field: SyncVar] public int OriginalPhysicalPower { get; private set; }
-    [field: SyncVar] public Transform ParentTransform { get; private set; }
+    public SyncVar<bool> IsDisabled { get; private set; }
+    public SyncVar<int> OriginalMagicalPower { get; private set; }
+    public SyncVar<int> OriginalPhysicalPower { get; private set; }
+    public SyncVar<Transform> ParentTransform { get; private set; }
     #endregion
 
     #region UI Elements
@@ -27,8 +27,8 @@ public class ItemCardHeader : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        OriginalPhysicalPower = cardData.OriginalPhysicalPower;
-        OriginalMagicalPower = cardData.OriginalMagicalPower;
+        OriginalPhysicalPower.Value = cardData.OriginalPhysicalPower;
+        OriginalMagicalPower.Value = cardData.OriginalMagicalPower;
 
         base.LoadCardData(cardData);
     }
@@ -52,8 +52,8 @@ public class ItemCardHeader : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangePhysicalPower(int powerDelta)
     {
-        if (!ParentTransform || !ParentTransform.parent.CompareTag("Quest")) return;
-        if (OriginalPhysicalPower > 0)
+        if (!ParentTransform.Value || !ParentTransform.Value.parent.CompareTag("Quest")) return;
+        if (OriginalPhysicalPower.Value > 0)
         {
             PhysicalPower += powerDelta;
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
@@ -67,8 +67,8 @@ public class ItemCardHeader : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerChangeMagicalPower(int powerDelta)
     {
-        if (!ParentTransform || !ParentTransform.parent.CompareTag("Quest")) return;
-        if (OriginalMagicalPower > 0)
+        if (!ParentTransform.Value || !ParentTransform.Value.parent.CompareTag("Quest")) return;
+        if (OriginalMagicalPower.Value > 0)
         {
             MagicalPower += powerDelta;
             ObserversUpdatePowerText(PhysicalPower, MagicalPower);
@@ -86,7 +86,7 @@ public class ItemCardHeader : Card
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
 
-        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower, OriginalMagicalPower);
+        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower.Value, OriginalMagicalPower.Value);
     }
 
     /// <summary>
@@ -111,11 +111,11 @@ public class ItemCardHeader : Card
     [Server]
     public void ResetPower()
     {
-        PhysicalPower = OriginalPhysicalPower;
-        MagicalPower = OriginalMagicalPower;
+        PhysicalPower = OriginalPhysicalPower.Value;
+        MagicalPower = OriginalMagicalPower.Value;
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
 
-        IsDisabled = false;
+        IsDisabled.Value = false;
         ObserversSetDisable(false);
     }
 
@@ -147,11 +147,11 @@ public class ItemCardHeader : Card
     [Server]
     public void DisableItem(string disableType)
     {
-        if (IsDisabled) return;
+        if (IsDisabled.Value) return;
 
         PhysicalPower = 0;
         MagicalPower = 0;
-        IsDisabled = true;
+        IsDisabled.Value = true;
 
         ObserversUpdatePowerText(PhysicalPower, MagicalPower);
         ObserversSetDisable(true);
@@ -194,6 +194,6 @@ public class ItemCardHeader : Card
         magicalPowerText.text = item.MagicalPower.ToString();
         nameText.text = item.CardName;
 
-        UpdatePowerTextColor(item.PhysicalPower, item.MagicalPower, item.OriginalPhysicalPower, item.OriginalMagicalPower);
+        UpdatePowerTextColor(item.PhysicalPower, item.MagicalPower, item.OriginalPhysicalPower.Value, item.OriginalMagicalPower.Value);
     }
 }

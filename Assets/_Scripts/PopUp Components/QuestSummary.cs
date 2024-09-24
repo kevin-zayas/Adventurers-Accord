@@ -1,4 +1,3 @@
-using FishNet.Demo.AdditiveScenes;
 using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
