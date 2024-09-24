@@ -85,6 +85,7 @@ public class ItemCard : Card
     [TargetRpc]
     public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
     {
+        isClone = true;
         cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName];
 
         physicalPowerText.text = itemHeader.PhysicalPower.ToString();

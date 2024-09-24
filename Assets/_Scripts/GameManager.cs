@@ -122,6 +122,20 @@ public class GameManager : NetworkBehaviour
     }
 
     /// <summary>
+    /// Prepares for the end of the round by resetting player statuses and updating player views.
+    /// </summary>
+    [Server]
+    private void BeginEndRound()
+    {
+        PlayerEndRoundStatus = new bool[Players.Count];
+        foreach (var player in Players)
+        {
+            player.SetIsPlayerTurn(false);
+            player.UpdatePlayerView();
+        }
+    }
+
+    /// <summary>
     /// Confirms that a player has ended their round and checks if all players have confirmed.
     /// Advances the game state if all players have confirmed.
     /// </summary>
@@ -157,19 +171,6 @@ public class GameManager : NetworkBehaviour
     private void ObserversEnableEndRoundButton()
     {
         GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundUI();
-    }
-
-    /// <summary>
-    /// Prepares for the end of the round by resetting player statuses and updating player views.
-    /// </summary>
-    [Server]
-    private void BeginEndRound()
-    {
-        PlayerEndRoundStatus = new bool[Players.Count];
-        foreach (var player in Players)
-        {
-            player.UpdatePlayerView();
-        }
     }
 
     /// <summary>

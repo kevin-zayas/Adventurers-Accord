@@ -186,6 +186,7 @@ public class ItemCardHeader : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
+        isClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
         ItemCardHeader item = card.Item;
 

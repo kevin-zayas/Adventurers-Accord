@@ -1,9 +1,8 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Card : NetworkBehaviour
 {
@@ -16,6 +15,10 @@ public abstract class Card : NetworkBehaviour
     [field: SyncVar] public Player ControllingPlayer { get; protected set; }
     [field: SyncVar] public Hand ControllingPlayerHand { get; protected set; }
     #endregion
+
+    [SerializeField] protected Image disableScreen;
+    protected bool isClone = false;
+    
 
     /// <summary>
     /// Sets the card's owner and updates the controlling player's hand.
@@ -112,5 +115,10 @@ public abstract class Card : NetworkBehaviour
     public virtual void OnPointerExit()
     {
         return;
+    }
+
+    protected void ToggleDisableScreen(bool toggle)
+    {
+        disableScreen.gameObject.SetActive(toggle);
     }
 }

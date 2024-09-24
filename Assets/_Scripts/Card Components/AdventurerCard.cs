@@ -24,7 +24,6 @@ public class AdventurerCard : Card
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text costText;
-    [SerializeField] private Image disableScreen;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
@@ -291,6 +290,7 @@ public class AdventurerCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
+        isClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
@@ -360,10 +360,12 @@ public class AdventurerCard : Card
 
     public override void OnHover()
     {
-        if (!IsDraftCard && !IsOwner) disableScreen.gameObject.SetActive(true); // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) disableScreen.gameObject.SetActive(true);
-        if (!player.IsPlayerTurn) print("cant drag"); // Allow dragging only during player's turn
-        if (IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) disableScreen.gameObject.SetActive(true);
+        if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
+
+        if (!IsDraftCard && !IsOwner) { ToggleDisableScreen(true); return; }  // Prevent dragging non-draft cards if not owner
+        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) { ToggleDisableScreen(true); return; }
+        if (!player.IsPlayerTurn) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
+        if (IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
 
         if (!IsDraftCard || player.Gold >= Cost)  // Check player gold if dragging a DraftCard
         {
@@ -371,12 +373,12 @@ public class AdventurerCard : Card
         }
         else 
         {
-            disableScreen.gameObject.SetActive(true);
+            ToggleDisableScreen(true);
         }
     }
     
     public override void OnPointerExit()
     {
-        disableScreen.gameObject.SetActive(false);
+        ToggleDisableScreen(false);
     }
 }

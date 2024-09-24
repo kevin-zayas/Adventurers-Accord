@@ -14,7 +14,6 @@ public class SpellCard : Card
     #region UI Elements
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private Image disableScreen;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
@@ -70,6 +69,7 @@ public class SpellCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
+        isClone = true;
         SpellCard card = originalCard as SpellCard;
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
@@ -82,14 +82,16 @@ public class SpellCard : Card
 
     public override void OnHover()
     {
-        if (transform.parent.CompareTag("Quest")) disableScreen.gameObject.SetActive(true); // Prevent dragging if the card is already in a quest lane
+        if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
+
+        if (transform.parent.CompareTag("Quest")) { ToggleDisableScreen(true); return; } // Prevent dragging if the card is already in a quest lane
 
         // Only allow dragging during the Dispatch or Magic phase
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch &&
             GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
         {
             Debug.Log("Can't move spells during this phase");
-            disableScreen.gameObject.SetActive(true);
+            ToggleDisableScreen(true);
         }
         else
         {
@@ -99,6 +101,6 @@ public class SpellCard : Card
 
     public override void OnPointerExit()
     {
-        disableScreen.gameObject.SetActive(false);
+        ToggleDisableScreen(false);
     }
 }
