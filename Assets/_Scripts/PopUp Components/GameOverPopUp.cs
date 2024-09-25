@@ -16,7 +16,7 @@ public class GameOverPopUp : NetworkBehaviour
 
     [field: SerializeField] public TMP_Text[] GuildRankings { get; private set; }
 
-    public SyncList<string> RankingTextList { get; private set; }
+    public SyncList<string> RankingTextList { get; }
     public int MaxReputation { get; private set; }
     public int MaxGold { get; private set; }
 
@@ -35,7 +35,7 @@ public class GameOverPopUp : NetworkBehaviour
         List<Player> playerList = new(GameManager.Instance.Players);
         playerList = playerList.OrderByDescending(x => x.Reputation).ThenByDescending(x => x.Gold).ToList();
 
-        RankingTextList = new();
+        RankingTextList.Clear();
         MaxReputation = playerList[0].Reputation.Value;
         MaxGold = playerList[0].Gold.Value;
         int prevRanking = 0;

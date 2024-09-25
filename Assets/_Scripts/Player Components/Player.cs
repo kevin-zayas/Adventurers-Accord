@@ -8,22 +8,22 @@ using UnityEngine.XR;
 public class Player : NetworkBehaviour
 {
     public static Player Instance { get; private set; }
-    public SyncVar<int> PlayerID { get; private set; }
-    [field: SerializeField] public SyncVar<bool> IsPlayerTurn { get; private set; }
-    [field: SerializeField] public SyncVar<bool> IsStartingPlayer { get; private set; }
-    public SyncVar<int> Gold { get; private set; }
-    public SyncVar<int> Reputation { get; private set; }
-    public SyncVar<bool> IsReady
-    {
-        get;
+    public SyncVar<int> PlayerID { get; }
+    [field: SerializeField] public SyncVar<bool> IsPlayerTurn { get;}
+    [field: SerializeField] public SyncVar<bool> IsStartingPlayer { get; }
+    public SyncVar<int> Gold { get; }
+    public SyncVar<int> Reputation { get; }
+    public SyncVar<bool> IsReady { get; }
+    //{
+    //    get;
 
-        [ServerRpc(RequireOwnership = false)]   //alternate way to set IsReady
-        set;
-    }
+    //    [ServerRpc(RequireOwnership = false)]   //alternate way to set IsReady
+    //    set;
+    //}
 
     [SerializeField] private Hand handPrefab;
 
-    public SyncVar<Hand> controlledHand;
+    public readonly SyncVar<Hand> controlledHand;
 
     public override void OnStartServer()
     {
@@ -129,7 +129,7 @@ public class Player : NetworkBehaviour
             return;
         }
 
-        if (controlledHand == null) print("hand is null");
+        if (controlledHand.Value == null) print("hand is null");
 
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas == null) print("Canvas not found");

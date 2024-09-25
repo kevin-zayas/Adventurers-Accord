@@ -8,23 +8,23 @@ using UnityEngine.UI;
 
 public class QuestLane : NetworkBehaviour
 {
-    [field: SerializeField] public SyncVar<QuestLocation> QuestLocation { get; private set; }
-    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; private set; }
+    [field: SerializeField] public SyncVar<QuestLocation> QuestLocation { get; }
+    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; }
     public Player Player { get; private set; }
     public GameObject DropZone { get; private set; }
     public GameObject SpellDropZone { get; private set; }
 
-    [field: SerializeField] public SyncVar<int> PhysicalPower { get; private set; }
-    [field: SerializeField] public SyncVar<int> MagicalPower { get; private set; }
-    [field: SerializeField] public SyncVar<int> SpellPhysicalPower { get; private set; }
-    [field: SerializeField] public SyncVar<int> SpellMagicalPower { get; private set; }
-    [field: SerializeField] public SyncVar<int> EffectiveTotalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> PhysicalPower { get; }
+    [field: SerializeField] public SyncVar<int> MagicalPower { get; }
+    [field: SerializeField] public SyncVar<int> SpellPhysicalPower { get; }
+    [field: SerializeField] public SyncVar<int> SpellMagicalPower { get; }
+    [field: SerializeField] public SyncVar<int> EffectiveTotalPower { get; }
     [field: SerializeField] public bool IsGreased { get; private set; }
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
-    [field: SerializeField] public SyncVar<int> BardBonus { get; private set; }
-    [field: SerializeField] public SyncVar<bool> ClericProtection { get; private set; }
+    [field: SerializeField] public SyncVar<int> BardBonus { get; }
+    [field: SerializeField] public SyncVar<bool> ClericProtection { get; }
 
     private bool EnchanterBuff;
     private bool TinkererBuff;

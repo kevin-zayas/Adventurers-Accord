@@ -1457,27 +1457,12 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
-  <CardName>k__BackingField: 
-  <CardDescription>k__BackingField: 
-  <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 0
-  <Data>k__BackingField: {fileID: 0}
-  <ControllingPlayer>k__BackingField: {fileID: 0}
-  <ControllingPlayerHand>k__BackingField: {fileID: 0}
-  <AbilityName>k__BackingField: 
-  <Cost>k__BackingField: 0
-  <HasItem>k__BackingField: 0
-  <Item>k__BackingField: {fileID: 6776071066952636260}
-  <IsDraftCard>k__BackingField: 0
-  <OriginalMagicalPower>k__BackingField: 0
-  <OriginalPhysicalPower>k__BackingField: 0
-  <ParentTransform>k__BackingField: {fileID: 0}
+  disableScreen: {fileID: 1188314931012720159}
   abilityNameObject: {fileID: 800517241531852951}
   abilityNameText: {fileID: 4004057442462621200}
   cardTypeText: {fileID: 1412657023948964493}
   cardImage: {fileID: 1177701720125259711}
   costText: {fileID: 1356007084095882162}
-  disableScreen: {fileID: 1188314931012720159}
   magicalPowerText: {fileID: 2611186758615107600}
   nameText: {fileID: 2728476821446806872}
   physicalPowerText: {fileID: 6897460745711348589}
@@ -1655,27 +1640,42 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
   - {fileID: 2375407051779204461}
   - {fileID: 2922969160115862960}
   - {fileID: 5300939677924261238}
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField:
+  - {fileID: -6211479231835834888}
+  <InitializedParentNetworkBehaviour>k__BackingField: {fileID: 0}
+  <InitializedNestedNetworkObjects>k__BackingField:
   - {fileID: 3856054117792817582}
-  SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
+  _isSpawnable: 1
   _isGlobal: 0
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 9
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 25
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 0
-  <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 3997806834779731644
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
 --- !u!222 &8006336252910119709
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2209,6 +2209,7 @@ GameObject:
   - component: {fileID: 1767898616476630919}
   - component: {fileID: 2031552084363209221}
   - component: {fileID: 2269509351507678995}
+  - component: {fileID: -6211479231835834888}
   m_Layer: 8
   m_Name: Outer Border
   m_TagString: Untagged
@@ -2275,6 +2276,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-6211479231835834888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7230011995689088734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 3
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 8948479971837407625}
 --- !u!1 &7458769641897504679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2572,6 +2588,10 @@ PrefabInstance:
       propertyPath: SerializedTransformProperties.Rotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
+      propertyPath: <InitializedParentNetworkBehaviour>k__BackingField
+      value: 
+      objectReference: {fileID: -6211479231835834888}
     - target: {fileID: 1298241252680445397, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: m_Name
       value: Item Card Header

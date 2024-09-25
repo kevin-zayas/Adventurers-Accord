@@ -1,8 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +8,7 @@ public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
 
-    [field: SerializeField] public SyncVar<QuestSummary>[] QuestSummaries { get; private set; }
+    [field: SerializeField] public SyncList<QuestSummary> QuestSummaries { get; }
 
     private int playerCount;
     private int totalPlayers;

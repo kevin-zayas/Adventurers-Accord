@@ -23,15 +23,15 @@ public class QuestLocation : NetworkBehaviour
 
     [field: SerializeField] private CardSlot questCardSlot;
 
-    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; private set; }
+    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; }
 
-    [field: SerializeField] public SyncVar<int> TotalPhysicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> TotalPhysicalPower { get; }
 
-    [field: SerializeField] public SyncVar<int> TotalMagicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> TotalMagicalPower { get; }
 
     [field: SerializeField] public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
 
-    [field: SerializeField] public SyncVar<bool> AllowResolution { get; private set; }
+    [field: SerializeField] public SyncVar<bool> AllowResolution { get; }
 
     private readonly Dictionary<int, Tuple<int,int>> bardBonusMap = new();
 

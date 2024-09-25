@@ -19,9 +19,9 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
 
-    [field: SerializeField] public SyncVar<ResolutionPopUp> CurrentResolutionPopUp { get; private set; }
+    [field: SerializeField] public SyncVar<ResolutionPopUp> CurrentResolutionPopUp { get; }
 
-    [field: SerializeField] public SyncVar<GameOverPopUp> GameOverPopUpInstance { get; private set; }
+    [field: SerializeField] public SyncVar<GameOverPopUp> GameOverPopUpInstance { get; }
 
     private void Awake()
     {

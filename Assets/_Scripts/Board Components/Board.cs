@@ -181,7 +181,7 @@ public class Board : NetworkBehaviour
 
         for (int i = 0; i < QuestLocations.Length; i++)
         {
-            QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i].Value);
+            QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
         }
 
         popUp.ObserversInitializeRoundSummaryPopUp();

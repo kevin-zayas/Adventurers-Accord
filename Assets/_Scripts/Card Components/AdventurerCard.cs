@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class AdventurerCard : Card
 {
     #region SyncVars
-    public SyncVar<string> AbilityName { get; private set; }
-    public SyncVar<int> Cost { get; private set; }
-    public SyncVar<bool> HasItem { get; private set; }
-    public SyncVar<ItemCardHeader> Item { get; private set; }
-    public SyncVar<bool> IsDraftCard { get; private set; }
-    public SyncVar<int> OriginalMagicalPower { get; private set; }
-    public SyncVar<int> OriginalPhysicalPower { get; private set; }
-    public SyncVar<Transform> ParentTransform { get; private set; }
+    public SyncVar<string> AbilityName { get; }
+    public SyncVar<int> Cost { get; }
+    public SyncVar<bool> HasItem { get; }
+    public SyncVar<ItemCardHeader> Item { get; }
+    public SyncVar<bool> IsDraftCard { get; }
+    public SyncVar<int> OriginalMagicalPower { get; }
+    public SyncVar<int> OriginalPhysicalPower { get; }
+    public SyncVar<Transform> ParentTransform { get; }
     #endregion
 
     #region UI Elements
@@ -216,8 +216,8 @@ public class AdventurerCard : Card
     [Server]
     public void ResetPower()
     {
-        PhysicalPower = OriginalPhysicalPower;
-        MagicalPower = OriginalMagicalPower;
+        PhysicalPower.Value = OriginalPhysicalPower.Value;
+        MagicalPower.Value = OriginalMagicalPower.Value;
 
         if (CardName.Value == Sorcerer && HasItem.Value && !Item.Value.IsDisabled.Value) MagicalPower.Value += 2;
 

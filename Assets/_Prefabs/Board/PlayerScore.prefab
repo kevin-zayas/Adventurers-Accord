@@ -383,27 +383,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 63
+  <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
   - {fileID: 2449725273452969227}
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField:
+  <InitializedParentNetworkBehaviour>k__BackingField: {fileID: 0}
+  <InitializedNestedNetworkObjects>k__BackingField:
   - {fileID: 2084680035684182592}
-  SerializedTransformProperties:
-    Position: {x: 0, y: 77.25, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
+  _isSpawnable: 1
   _isGlobal: 0
   _initializeOrder: 0
   _defaultDespawnType: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 28
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 7
   <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 979065644
-  <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10697965716857445081
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
 --- !u!1 &4009904735466527670
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,20 +926,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
-      value: 64
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+      propertyPath: NetworkBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 2940171850819960204}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
       objectReference: {fileID: 7343440687860504333}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: SerializedTransformProperties.Position.x
-      value: -186.25
+      value: -191.25
       objectReference: {fileID: 0}
+    - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+      propertyPath: <InitializedParentNetworkBehaviour>k__BackingField
+      value: 
+      objectReference: {fileID: 2449725273452969227}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5014001748736941400, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2940171850819960204}
   m_SourcePrefab: {fileID: 100100000, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
 --- !u!224 &1276916637293345322 stripped
 RectTransform:
@@ -937,6 +962,21 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5014001748736941400, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
   m_PrefabInstance: {fileID: 5832725693408759096}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2940171850819960204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542290573858918496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 2084680035684182592}
 --- !u!114 &2084680035684182592 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
