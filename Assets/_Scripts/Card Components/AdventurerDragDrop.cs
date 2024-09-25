@@ -12,7 +12,7 @@ public class AdventurerDragDrop : CardDragDrop
     {
         card = GetComponent<AdventurerCard>();
 
-        if (!IsClient) return;
+        if (!IsClientInitialized) return;
 
         if (player == null)
         {
@@ -40,12 +40,12 @@ public class AdventurerDragDrop : CardDragDrop
     protected override bool CanStartDrag()
     {
         if (!base.CanStartDrag()) return false;
-        if (!card.IsDraftCard && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
+        if (!card.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) return false;
-        if (!player.IsPlayerTurn) return false; // Allow dragging only during player's turn
-        if (card.IsDraftCard && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return false;
+        if (!player.IsPlayerTurn.Value) return false; // Allow dragging only during player's turn
+        if (card.IsDraftCard.Value && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return false;
 
-        return !card.IsDraftCard || player.Gold >= card.Cost; // Check player gold if dragging a DraftCard
+        return !card.IsDraftCard.Value || player.Gold.Value >= card.Cost.Value; // Check player gold if dragging a DraftCard
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class AdventurerDragDrop : CardDragDrop
     /// </summary>
     protected override void HandleEndDrag()
     {
-        if (card.IsDraftCard)
+        if (card.IsDraftCard.Value)
         {
             AssignDraftCardToPlayer();
         }
@@ -94,7 +94,7 @@ public class AdventurerDragDrop : CardDragDrop
         card.ServerSetCardParent(dropZone.transform, false);
         card.ServerSetCardOwner(player);
 
-        player.ServerChangePlayerGold(-card.Cost);
+        player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);
     }

@@ -8,15 +8,15 @@ using UnityEngine.UI;
 public class QuestCard : Card
 {
     #region SyncVars
-    [field: SyncVar] public string AbilityName { get; private set; }
-    [field: SyncVar] public bool BlockSpells { get; private set; }
-    [field: SyncVar] public bool DisableItems { get; private set; }
-    [field: SyncVar] public bool Drain { get; private set; }
-    [field: SyncVar] public int GoldReward { get; private set; }
-    [field: SyncVar] public int LootReward { get; private set; }
-    [field: SyncVar] public int MagicalDrain { get; private set; }
-    [field: SyncVar] public int PhysicalDrain { get; private set; }
-    [field: SyncVar] public int ReputationReward { get; private set; }
+    public SyncVar<string> AbilityName { get; private set; }
+    public SyncVar<bool> BlockSpells { get; private set; }
+    public SyncVar<bool> DisableItems { get; private set; }
+    public SyncVar<bool> Drain { get; private set; }
+    public SyncVar<int> GoldReward { get; private set; }
+    public SyncVar<int> LootReward { get; private set; }
+    public SyncVar<int> MagicalDrain { get; private set; }
+    public SyncVar<int> PhysicalDrain { get; private set; }
+    public SyncVar<int> ReputationReward { get; private set; }
     #endregion
 
     #region UI Elements
@@ -38,16 +38,16 @@ public class QuestCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        AbilityName = cardData.AbilityName;
-        GoldReward = cardData.GoldReward;
-        ReputationReward = cardData.ReputationReward;
-        LootReward = cardData.LootReward;
-        Drain = cardData.Drain;
-        PhysicalDrain = cardData.PhysicalDrain;
-        MagicalDrain = cardData.MagicalDrain;
-        DisableItems = cardData.DisableItems;
-        BlockSpells = cardData.BlockSpells;
-        Data = cardData;
+        AbilityName.Value = cardData.AbilityName;
+        GoldReward.Value = cardData.GoldReward;
+        ReputationReward.Value = cardData.ReputationReward;
+        LootReward.Value = cardData.LootReward;
+        Drain.Value = cardData.Drain;
+        PhysicalDrain.Value = cardData.PhysicalDrain;
+        MagicalDrain.Value = cardData.MagicalDrain;
+        DisableItems.Value = cardData.DisableItems;
+        BlockSpells.Value = cardData.BlockSpells;
+        Data.Value = cardData;
 
         base.LoadCardData(cardData);
     }
@@ -83,16 +83,16 @@ public class QuestCard : Card
         isClone = true;
         QuestCard card = originalCard as QuestCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.CardName;
-        abilityNameText.text = card.AbilityName;
+        nameText.text = card.CardName.Value;
+        abilityNameText.text = card.AbilityName.Value;
         goldRewardText.text = $"{card.GoldReward} GP";
         reputationRewardText.text = $"{card.ReputationReward} Rep.";
         lootRewardText.text = $"{card.LootReward} Loot";
 
-        if (card.CardDescription == "") abilityNameObject.SetActive(false);
+        if (card.CardDescription.Value == "") abilityNameObject.SetActive(false);
     }
 }

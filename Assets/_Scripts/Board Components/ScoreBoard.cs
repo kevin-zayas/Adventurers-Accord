@@ -1,10 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
@@ -17,10 +13,8 @@ public class ScoreBoard : NetworkBehaviour
 
     [SerializeField] private GameObject scoreboardPanel;
 
-    [SerializeField]
-    private GameObject turnMarker;
+    [SerializeField] private GameObject turnMarker;
 
-    [SyncVar]
     private int playerCount;
 
     [Server]

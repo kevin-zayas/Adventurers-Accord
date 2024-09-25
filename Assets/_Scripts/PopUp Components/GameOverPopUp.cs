@@ -14,17 +14,10 @@ public class GameOverPopUp : NetworkBehaviour
     [SerializeField] string rankingText;
     [SerializeField] Button restartServerButton;
 
-    [field: SerializeField]
-    public TMP_Text[] GuildRankings { get; private set; }
+    [field: SerializeField] public TMP_Text[] GuildRankings { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public List<string> RankingTextList { get; private set; }
-
-    [field: SerializeField]
+    public SyncList<string> RankingTextList { get; private set; }
     public int MaxReputation { get; private set; }
-
-    [field: SerializeField]
     public int MaxGold { get; private set; }
 
     private void Start()
@@ -43,8 +36,8 @@ public class GameOverPopUp : NetworkBehaviour
         playerList = playerList.OrderByDescending(x => x.Reputation).ThenByDescending(x => x.Gold).ToList();
 
         RankingTextList = new();
-        MaxReputation = playerList[0].Reputation;
-        MaxGold = playerList[0].Gold;
+        MaxReputation = playerList[0].Reputation.Value;
+        MaxGold = playerList[0].Gold.Value;
         int prevRanking = 0;
         int prevReputation = 0;
         int prevGold = 0;
@@ -52,20 +45,20 @@ public class GameOverPopUp : NetworkBehaviour
 
         foreach (Player player in playerList)
         {
-            if (player.Reputation != prevReputation || player.Gold != prevGold)
+            if (player.Reputation.Value != prevReputation || player.Gold.Value != prevGold)
             {
                 prevRanking++;
-                prevReputation = player.Reputation;
-                prevGold = player.Gold;
+                prevReputation = player.Reputation.Value;
+                prevGold = player.Gold.Value;
             }
-            RankingTextList.Add(string.Format(rankingText, prevRanking, player.PlayerID + 1, player.Reputation, player.Gold));
+            RankingTextList.Add(string.Format(rankingText, prevRanking, player.PlayerID.Value + 1, player.Reputation, player.Gold));
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerInitializeGameOverPopup(NetworkConnection network, Player player)
     {
-        TargetInitializeGameOverPopUp(network, player.Reputation == MaxReputation && player.Gold == MaxGold);
+        TargetInitializeGameOverPopUp(network, player.Reputation.Value == MaxReputation && player.Gold.Value == MaxGold);
     }
 
     [TargetRpc]

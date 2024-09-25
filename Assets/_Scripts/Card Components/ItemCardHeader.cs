@@ -55,8 +55,8 @@ public class ItemCardHeader : Card
         if (!ParentTransform.Value || !ParentTransform.Value.parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower.Value > 0)
         {
-            PhysicalPower += powerDelta;
-            ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+            PhysicalPower.Value += powerDelta;
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         }
     }
 
@@ -70,8 +70,8 @@ public class ItemCardHeader : Card
         if (!ParentTransform.Value || !ParentTransform.Value.parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower.Value > 0)
         {
-            MagicalPower += powerDelta;
-            ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+            MagicalPower.Value += powerDelta;
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         }
     }
 
@@ -111,9 +111,9 @@ public class ItemCardHeader : Card
     [Server]
     public void ResetPower()
     {
-        PhysicalPower = OriginalPhysicalPower.Value;
-        MagicalPower = OriginalMagicalPower.Value;
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+        PhysicalPower.Value = OriginalPhysicalPower.Value;
+        MagicalPower.Value = OriginalMagicalPower.Value;
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
 
         IsDisabled.Value = false;
         ObserversSetDisable(false);
@@ -149,11 +149,11 @@ public class ItemCardHeader : Card
     {
         if (IsDisabled.Value) return;
 
-        PhysicalPower = 0;
-        MagicalPower = 0;
+        PhysicalPower.Value = 0;
+        MagicalPower.Value = 0;
         IsDisabled.Value = true;
 
-        ObserversUpdatePowerText(PhysicalPower, MagicalPower);
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         ObserversSetDisable(true);
         ObserversSetDisableText(disableType);
     }
@@ -188,12 +188,12 @@ public class ItemCardHeader : Card
     {
         isClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
-        ItemCardHeader item = card.Item;
+        ItemCardHeader item = card.Item.Value;
 
         physicalPowerText.text = item.PhysicalPower.ToString();
         magicalPowerText.text = item.MagicalPower.ToString();
-        nameText.text = item.CardName;
+        nameText.text = item.CardName.Value;
 
-        UpdatePowerTextColor(item.PhysicalPower, item.MagicalPower, item.OriginalPhysicalPower.Value, item.OriginalMagicalPower.Value);
+        UpdatePowerTextColor(item.PhysicalPower.Value, item.MagicalPower.Value, item.OriginalPhysicalPower.Value, item.OriginalMagicalPower.Value);
     }
 }

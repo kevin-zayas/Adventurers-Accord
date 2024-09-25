@@ -4,50 +4,38 @@ using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class QuestLocation : NetworkBehaviour
 {
-    [SerializeField]
-    private QuestLane[] questLanes;
+    [SerializeField] private QuestLane[] questLanes;
 
     public enum QuestStatus { Default, Complete, Failed }
 
-    [field: SerializeField]
-    public QuestStatus Status { get; private set; }
+    [field: SerializeField] public QuestStatus Status { get; private set; }
 
-    [field: SerializeField]
     public QuestSummary QuestSummary { get; private set; }
 
-    [field: SerializeField]
-    private CardSlot questPreviewSlot;
+    [field: SerializeField] private CardSlot questPreviewSlot;
 
     private QuestCard previewQuestCard;
 
-    [field: SerializeField]
-    private CardSlot questCardSlot;
+    [field: SerializeField] private CardSlot questCardSlot;
 
-    [field: SerializeField, SyncVar]
-    public QuestCard QuestCard { get; private set; }
+    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; private set; }
 
-    [field: SerializeField, SyncVar]
-    public int TotalPhysicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> TotalPhysicalPower { get; private set; }
 
-    [field: SerializeField, SyncVar]
-    public int TotalMagicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> TotalMagicalPower { get; private set; }
 
-    [field: SerializeField]
-    public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
+    [field: SerializeField] public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
 
-    [field: SerializeField, SyncVar]
-    public bool AllowResolution { get; private set; }
+    [field: SerializeField] public SyncVar<bool> AllowResolution { get; private set; }
 
     private readonly Dictionary<int, Tuple<int,int>> bardBonusMap = new();
 
     [field: SerializeField] private TMP_Text totalPhysicalPowerText;
-
     [field: SerializeField] private TMP_Text totalMagicalPowerText;
 
     [Server]
@@ -99,7 +87,7 @@ public class QuestLocation : NetworkBehaviour
 
         questCard.SetCardParent(questCardSlot.transform, false);
         questCard.ObserversSetCardScale(new Vector2(1.15f, 1.15f));
-        QuestCard = questCard;
+        QuestCard.Value = questCard;
 
         foreach (QuestLane lane in questLanes) lane.AssignQuestCard(questCard);
     }
@@ -110,7 +98,7 @@ public class QuestLocation : NetworkBehaviour
         QuestCard previewCard = Instantiate(CardDatabase.Instance.questCardPrefab, Vector2.zero, Quaternion.identity);
         Spawn(previewCard.gameObject);
 
-        previewCard.LoadCardData(questCard.Data);
+        previewCard.LoadCardData(questCard.Data.Value);
         previewCard.SetCardParent(questPreviewSlot.transform, false);
         previewQuestCard = previewCard;
     }
@@ -120,23 +108,23 @@ public class QuestLocation : NetworkBehaviour
     {
         Despawn(previewQuestCard.gameObject);
 
-        Despawn(QuestCard.gameObject);
+        Despawn(QuestCard.Value.gameObject);
         Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
     }
 
     [Server]
     public void UpdateTotalPower()
     {
-        TotalPhysicalPower = 0;
-        TotalMagicalPower = 0;
+        TotalPhysicalPower.Value = 0;
+        TotalMagicalPower.Value = 0;
 
         for (int i = 0; i < questLanes.Length; i++)
         {
-            TotalPhysicalPower += questLanes[i].PhysicalPower + questLanes[i].SpellPhysicalPower;
-            TotalMagicalPower += questLanes[i].MagicalPower + questLanes[i].SpellMagicalPower;
+            TotalPhysicalPower.Value += questLanes[i].PhysicalPower.Value + questLanes[i].SpellPhysicalPower.Value;
+            TotalMagicalPower.Value += questLanes[i].MagicalPower.Value + questLanes[i].SpellMagicalPower.Value;
         }
 
-        ObserversUpdateTotalPower(TotalPhysicalPower, TotalMagicalPower);
+        ObserversUpdateTotalPower(TotalPhysicalPower.Value, TotalMagicalPower.Value);
     }
 
     [ObserversRpc]
@@ -150,10 +138,10 @@ public class QuestLocation : NetworkBehaviour
     public bool MeetsQuestRequirements()
     {
         // Check if the Physical Power requirement is met or if no Physical Power is required
-        bool physicalRequirementMet = (QuestCard.PhysicalPower == 0 || TotalPhysicalPower >= QuestCard.PhysicalPower);
+        bool physicalRequirementMet = (QuestCard.Value.PhysicalPower.Value == 0 || TotalPhysicalPower.Value >= QuestCard.Value.PhysicalPower.Value);
 
         // Check if the Magical Power requirement is met or if no Magical Power is required
-        bool magicalRequirementMet = (QuestCard.MagicalPower == 0 || TotalMagicalPower >= QuestCard.MagicalPower);
+        bool magicalRequirementMet = (QuestCard.Value.MagicalPower.Value == 0 || TotalMagicalPower.Value >= QuestCard.Value.MagicalPower.Value);
 
         return physicalRequirementMet && magicalRequirementMet; ;
 
@@ -168,7 +156,7 @@ public class QuestLocation : NetworkBehaviour
 
         if (MeetsQuestRequirements())
         {
-            QuestSummary.ObserversSetQuestInfo(QuestCard.CardName, "Complete!", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+            QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Complete!", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
             CalculateQuestContributions(true);
             DistributeBardBonus();
 
@@ -180,7 +168,7 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.DropZone.transform.childCount > 0)
                 {
-                    QuestSummary.ObserversSetQuestInfo(QuestCard.CardName, "Failed", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+                    QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Failed", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
                     CalculateFailedQuestPenalty();
                     ReplaceQuestCard();
 
@@ -188,7 +176,7 @@ public class QuestLocation : NetworkBehaviour
                 }
             }
 
-            QuestSummary.ObserversSetQuestInfo(QuestCard.CardName, "Unchallenged", TotalPhysicalPower, QuestCard.PhysicalPower, TotalMagicalPower, QuestCard.MagicalPower);
+            QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Unchallenged", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
             return;
 
         }
@@ -198,7 +186,7 @@ public class QuestLocation : NetworkBehaviour
     public void CalculateQuestContributions(bool isQuestComplete)
     {
         List<QuestLane> laneList = new(questLanes);
-        laneList.Sort((a, b) => b.EffectiveTotalPower.CompareTo(a.EffectiveTotalPower));
+        laneList.Sort((a, b) => b.EffectiveTotalPower.Value.CompareTo(a.EffectiveTotalPower.Value));
 
         List<QuestLane> primaryContributors = new();
         List<QuestLane> secondaryContributors = new();
@@ -211,7 +199,7 @@ public class QuestLocation : NetworkBehaviour
             }
             else
             {
-                if (lane.EffectiveTotalPower > 0) secondaryContributors.Add(lane);
+                if (lane.EffectiveTotalPower.Value > 0) secondaryContributors.Add(lane);
             }
         }
         CalculateQuestRwards(primaryContributors, secondaryContributors, isQuestComplete);
@@ -220,8 +208,8 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private bool CheckPrimaryContributor(QuestLane lane)
     {
-        if (QuestCard.PhysicalPower > 0 && lane.PhysicalPower + lane.SpellPhysicalPower < QuestCard.PhysicalPower) return false;
-        if (QuestCard.MagicalPower > 0 && lane.MagicalPower + lane.SpellMagicalPower < QuestCard.MagicalPower) return false;
+        if (QuestCard.Value.PhysicalPower.Value > 0 && lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value < QuestCard.Value.PhysicalPower.Value) return false;
+        if (QuestCard.Value.MagicalPower.Value > 0 && lane.MagicalPower.Value + lane.SpellMagicalPower.Value < QuestCard.Value.MagicalPower.Value) return false;
  
         return true;
     }
@@ -251,11 +239,11 @@ public class QuestLocation : NetworkBehaviour
             }
 
             if (secondaryContributors.Count == 0) return;
-            int topSecondaryPower = secondaryContributors[0].EffectiveTotalPower;
+            int topSecondaryPower = secondaryContributors[0].EffectiveTotalPower.Value;
 
             foreach (QuestLane lane in secondaryContributors)
             {
-                if (lane.EffectiveTotalPower == topSecondaryPower)
+                if (lane.EffectiveTotalPower.Value == topSecondaryPower)
                 {
                     if (isQuestComplete) DistributeQuestRewards(lane, false);
                     else lane.ObserversUpdateRewardIndicator("silver");
@@ -279,24 +267,24 @@ public class QuestLocation : NetworkBehaviour
 
         if (primaryContributor)
         {
-            goldReward = QuestCard.GoldReward;
-            reputationReward = QuestCard.ReputationReward;
-            lootReward = QuestCard.LootReward;
+            goldReward = QuestCard.Value.GoldReward.Value;
+            reputationReward = QuestCard.Value.ReputationReward.Value;
+            lootReward = QuestCard.Value.LootReward.Value;
             //could set bool here to indicate player is primary contributor, which can be used to add a gold metal vs silver metal to the player's summary
         }
         else
         {
-            goldReward = QuestCard.GoldReward / 2;
-            reputationReward = QuestCard.ReputationReward / 2;
-            lootReward = (int)Mathf.Floor(QuestCard.LootReward / 2);
+            goldReward = QuestCard.Value.GoldReward.Value / 2;
+            reputationReward = QuestCard.Value.ReputationReward.Value / 2;
+            lootReward = (int)Mathf.Floor(QuestCard.Value.LootReward.Value / 2);
         }
 
         player.ChangePlayerGold(goldReward);
         player.ChangePlayerReputation(reputationReward);
         Board.Instance.RewardLoot(player, lootReward);
 
-        print($"Player {player.PlayerID} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
-        QuestSummary.ObserversSetPlayerSummary(player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, goldReward, reputationReward, lootReward);
+        print($"Player {player.PlayerID.Value} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
+        QuestSummary.ObserversSetPlayerSummary(player.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, goldReward, reputationReward, lootReward);
 
     }
 
@@ -307,12 +295,12 @@ public class QuestLocation : NetworkBehaviour
         int bardBonusReputation;
         foreach (QuestLane lane in questLanes)
         {
-            if (lane.BardBonus > 0)
+            if (lane.BardBonus.Value > 0)
             {
-                (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus];
+                (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
                 lane.Player.ChangePlayerGold(bardBonusGold);
                 lane.Player.ChangePlayerReputation(bardBonusReputation);
-                QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, bardBonusGold, bardBonusReputation);
+                QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, bardBonusGold, bardBonusReputation);
             }
         }
     }
@@ -326,8 +314,8 @@ public class QuestLocation : NetworkBehaviour
             if (adventurerCount > 0)
             {
                 lane.Player.ChangePlayerReputation(-adventurerCount);
-                QuestSummary.ObserversSetPlayerSummary(lane.Player.PlayerID, lane.PhysicalPower + lane.SpellPhysicalPower, lane.MagicalPower + lane.SpellMagicalPower, -adventurerCount);
-                print($"Player {lane.Player.PlayerID} loses {adventurerCount} Rep. for failing the quest");
+                QuestSummary.ObserversSetPlayerSummary(lane.Player.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, -adventurerCount);
+                print($"Player {lane.Player.PlayerID.Value} loses {adventurerCount} Rep. for failing the quest");
             }
         }
     }
@@ -335,8 +323,8 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public void ResetQuestLocation()
     {
-        TotalPhysicalPower = 0;
-        TotalMagicalPower = 0;
+        TotalPhysicalPower.Value = 0;
+        TotalMagicalPower.Value = 0;
 
         for (int i = 0; i < questLanes.Length; i++)
         {
@@ -363,7 +351,7 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private void ResolveCard(AdventurerCard card)
     {
-        print("Resolving card: " + card.CardName);
+        print("Resolving card: " + card.CardName.Value);
         if (!CheckResolutionValid(card))
         {
             GameManager.Instance.ServerCheckForUnresolvedCards();
@@ -373,15 +361,15 @@ public class QuestLocation : NetworkBehaviour
         ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
 
         Spawn(popUp.gameObject);
-        GameManager.Instance.SetPlayerTurn(card.ControllingPlayer);
-        TargetResolveCard(card.Owner, popUp, card.CardName);
+        GameManager.Instance.SetPlayerTurn(card.ControllingPlayer.Value);
+        TargetResolveCard(card.Owner, popUp, card.CardName.Value);
         
     }
 
     [Server]
     private bool CheckResolutionValid(AdventurerCard card)
     {   
-        if (card.CardName == "Rogue")
+        if (card.CardName.Value == "Rogue")
         {
             //check for magic items in Quest Location
             foreach (QuestLane lane in questLanes)
@@ -392,7 +380,7 @@ public class QuestLocation : NetworkBehaviour
 
                     if (childCard == card) continue;
 
-                    if (childCard.HasItem)
+                    if (childCard.HasItem.Value)
                     {
                         return true;
                     }
@@ -413,6 +401,6 @@ public class QuestLocation : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetAllowResolution(bool value)
     {
-        AllowResolution = value;
+        AllowResolution.Value = value;
     }
 }

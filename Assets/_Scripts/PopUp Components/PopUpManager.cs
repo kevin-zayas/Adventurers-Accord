@@ -19,13 +19,9 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public ResolutionPopUp CurrentResolutionPopUp { get; private set; }
+    [field: SerializeField] public SyncVar<ResolutionPopUp> CurrentResolutionPopUp { get; private set; }
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public GameOverPopUp GameOverPopUpInstance { get; private set; }
+    [field: SerializeField] public SyncVar<GameOverPopUp> GameOverPopUpInstance { get; private set; }
 
     private void Awake()
     {
@@ -37,7 +33,7 @@ public class PopUpManager : NetworkBehaviour
     {
         print("Creating PopUp");
         ResolutionPopUp popUp = Instantiate(ResolutionPopUpPrefab);
-        CurrentResolutionPopUp = popUp;
+        CurrentResolutionPopUp.Value = popUp;
         return popUp;
     }
 
@@ -77,7 +73,7 @@ public class PopUpManager : NetworkBehaviour
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver)
         {
             Player player = GameManager.Instance.Players[LocalConnection.ClientId];
-            this.GameOverPopUpInstance.ServerInitializeGameOverPopup(networkConnection, player);
+            this.GameOverPopUpInstance.Value.ServerInitializeGameOverPopup(networkConnection, player);
         }
 
     }
@@ -87,7 +83,7 @@ public class PopUpManager : NetworkBehaviour
     {
         print("Creating GameOver PopUp");
         GameOverPopUp popUp = Instantiate(GameOverPopUpPrefab);
-        GameOverPopUpInstance = popUp;
+        GameOverPopUpInstance.Value = popUp;
         return popUp;
     }
 

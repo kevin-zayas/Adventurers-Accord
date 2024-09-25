@@ -16,10 +16,10 @@ public class LobbyView : View
     {
         howToPlayButton.onClick.AddListener(() => PopUpManager.Instance.CreateHowToPlayPopUp());
 
-        readyButton.onClick.AddListener(() => Player.Instance.IsReady = !Player.Instance.IsReady);
+        readyButton.onClick.AddListener(() => Player.Instance.IsReady.Value = !Player.Instance.IsReady.Value);
 
         //if (InstanceFinder.IsServer)
-        if (Player.Instance.IsStartingPlayer) // could just check is player 1
+        if (Player.Instance.IsStartingPlayer.Value) // could just check is player 1
         {
             startButton.onClick.AddListener(() => GameManager.Instance.ServerStartGame());
         }
@@ -43,14 +43,14 @@ public class LobbyView : View
         {
             Player player = GameManager.Instance.Players[i];
 
-            if (player.IsReady) playerListText += $"Player {player.OwnerId+1} - Ready";
+            if (player.IsReady.Value) playerListText += $"Player {player.OwnerId+1} - Ready";
             else playerListText += $"Player {player.OwnerId + 1} - Not Ready";
 
             if (i < playerCount - 1) playerListText += "\r\n";
         }
         playerList.text = playerListText;
 
-        readyButtonText.color = Player.Instance.IsReady ? Color.green : Color.red;
+        readyButtonText.color = Player.Instance.IsReady.Value ? Color.green : Color.red;
 
         startButton.interactable = GameManager.Instance.CanStart;
     }

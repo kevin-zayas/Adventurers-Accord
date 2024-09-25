@@ -51,7 +51,7 @@ public class SpellDragDrop : CardDragDrop
     {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
 
-        if (questLane.QuestCard.BlockSpells)
+        if (questLane.QuestCard.Value.BlockSpells.Value)
         {
             Debug.Log("Spells can't be used on this Quest");
             ResetCardPosition();

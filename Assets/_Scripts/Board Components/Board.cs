@@ -181,7 +181,7 @@ public class Board : NetworkBehaviour
 
         for (int i = 0; i < QuestLocations.Length; i++)
         {
-            QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
+            QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i].Value);
         }
 
         popUp.ObserversInitializeRoundSummaryPopUp();
@@ -221,7 +221,7 @@ public class Board : NetworkBehaviour
                 Spawn(itemCard.gameObject);
                 itemCard.LoadCardData(randomLootData);
                 itemCard.SetCardOwner(player);
-                itemCard.SetCardParent(player.controlledHand.transform, false);
+                itemCard.SetCardParent(player.controlledHand.Value.transform, false);
             }
             else
             {
@@ -230,7 +230,7 @@ public class Board : NetworkBehaviour
                 Spawn(spellCard.gameObject);
                 spellCard.LoadCardData(randomLootData);
                 spellCard.SetCardOwner(player);
-                spellCard.SetCardParent(player.controlledHand.transform, false);
+                spellCard.SetCardParent(player.controlledHand.Value.transform, false);
             }
 
             LootDeck.Remove(randomLootData);

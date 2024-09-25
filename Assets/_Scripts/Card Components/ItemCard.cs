@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ItemCard : Card
 {
     #region SyncVars
-    [SyncVar] private string SubDescription;
+    private SyncVar<string> SubDescription;
     #endregion
 
     #region UI Elements
@@ -36,8 +36,8 @@ public class ItemCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        SubDescription = cardData.CardSubDescription;
-        Data = cardData;
+        SubDescription.Value = cardData.CardSubDescription;
+        Data.Value = cardData;
 
         base.LoadCardData(cardData);
     }
@@ -68,13 +68,13 @@ public class ItemCard : Card
     {
         ItemCard card = originalCard as ItemCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.ToString();
         magicalPowerText.text = card.MagicalPower.ToString();
-        nameText.text = card.CardName;
-        descriptionText.text = card.CardDescription;
-        subDescriptionText.text = card.SubDescription;
+        nameText.text = card.CardName.Value;
+        descriptionText.text = card.CardDescription.Value;
+        subDescriptionText.text = card.SubDescription.Value;
     }
 
     /// <summary>
@@ -86,15 +86,15 @@ public class ItemCard : Card
     public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
     {
         isClone = true;
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName];
+        cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName.Value];
 
         physicalPowerText.text = itemHeader.PhysicalPower.ToString();
         magicalPowerText.text = itemHeader.MagicalPower.ToString();
-        nameText.text = itemHeader.CardName;
-        descriptionText.text = itemHeader.CardDescription;
-        subDescriptionText.text = itemHeader.Data.CardSubDescription;
+        nameText.text = itemHeader.CardName.Value;
+        descriptionText.text = itemHeader.CardDescription.Value;
+        subDescriptionText.text = itemHeader.Data.Value.CardSubDescription;
 
-        UpdatePowerTextColor(itemHeader.PhysicalPower, itemHeader.MagicalPower, itemHeader.Data.OriginalPhysicalPower, itemHeader.Data.MagicalPower);
+        UpdatePowerTextColor(itemHeader.PhysicalPower.Value, itemHeader.MagicalPower.Value, itemHeader.Data.Value.OriginalPhysicalPower, itemHeader.Data.Value.MagicalPower);
     }
 
     /// <summary>

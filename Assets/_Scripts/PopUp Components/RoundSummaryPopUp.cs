@@ -10,19 +10,17 @@ public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
 
-    [field: SerializeField]
-    [field: SyncVar]
-    public QuestSummary[] QuestSummaries { get; private set; }
+    [field: SerializeField] public SyncVar<QuestSummary>[] QuestSummaries { get; private set; }
 
-    [SyncVar] private int playerCount;
-    [SyncVar] private int totalPlayers;
+    private int playerCount;
+    private int totalPlayers;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        if (IsServer) totalPlayers = GameManager.Instance.Players.Count;
+        if (IsServerInitialized) totalPlayers = GameManager.Instance.Players.Count;
 
         closeButton.onClick.AddListener(() =>
         {

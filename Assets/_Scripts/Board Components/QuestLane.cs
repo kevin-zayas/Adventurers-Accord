@@ -1,53 +1,30 @@
+using FishNet.CodeGenerating;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class QuestLane : NetworkBehaviour
 {
-    [field: SerializeField, SyncVar]
-    public QuestLocation QuestLocation { get; private set; }
-
-    [field: SerializeField, SyncVar]
-    public QuestCard QuestCard { get; private set; }
-
-    [field: SerializeField]
+    [field: SerializeField] public SyncVar<QuestLocation> QuestLocation { get; private set; }
+    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; private set; }
     public Player Player { get; private set; }
-
-    [field: SerializeField]
     public GameObject DropZone { get; private set; }
-
-    [field: SerializeField]
     public GameObject SpellDropZone { get; private set; }
 
-    [field: SerializeField, SyncVar]
-    public int PhysicalPower { get; private set; }
-
-    [field: SerializeField, SyncVar]
-    public int MagicalPower { get; private set; }
-
-    [field: SerializeField, SyncVar]
-    public int SpellPhysicalPower { get; private set; }
-
-    [field: SerializeField, SyncVar]
-    public int SpellMagicalPower { get; private set; }
-
-    [field: SerializeField, SyncVar]
-    public int EffectiveTotalPower { get; private set; }
-
-    [field: SerializeField]
-    public bool IsGreased { get; private set; }
+    [field: SerializeField] public SyncVar<int> PhysicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> MagicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> SpellPhysicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> SpellMagicalPower { get; private set; }
+    [field: SerializeField] public SyncVar<int> EffectiveTotalPower { get; private set; }
+    [field: SerializeField] public bool IsGreased { get; private set; }
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
-    [field: SerializeField, SyncVar]
-    public int BardBonus { get; private set; }
-
-    [field: SerializeField, SyncVar]
-    public bool ClericProtection { get; private set; }
+    [field: SerializeField] public SyncVar<int> BardBonus { get; private set; }
+    [field: SerializeField] public SyncVar<bool> ClericProtection { get; private set; }
 
     private bool EnchanterBuff;
     private bool TinkererBuff;
@@ -66,41 +43,41 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AssignQuestCard(QuestCard questCard)
     {
-        QuestCard = questCard;
+        QuestCard.Value = questCard;
     }
 
     [Server]
     public void UpdateQuestLanePower()
     {
-        PhysicalPower = 0;
-        MagicalPower = 0;
-        EffectiveTotalPower = 0;
+        PhysicalPower.Value = 0;
+        MagicalPower.Value = 0;
+        EffectiveTotalPower.Value = 0;
 
         for (int i = 0; i < DropZone.transform.childCount; i++)
         {
             Transform cardTransform = DropZone.transform.GetChild(i);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-            if (IsGreased && card.HasItem) card.DisableItem("Greased");
-            if (QuestCard.DisableItems && card.HasItem) card.DisableItem("Nullified");
+            if (IsGreased && card.HasItem.Value) card.DisableItem("Greased");
+            if (QuestCard.Value.DisableItems.Value && card.HasItem.Value) card.DisableItem("Nullified");
 
-            PhysicalPower += card.PhysicalPower;
-            MagicalPower += card.MagicalPower;
+            PhysicalPower.Value += card.PhysicalPower.Value;
+            MagicalPower.Value += card.MagicalPower.Value;
 
-            if (!IsGreased && card.HasItem)
+            if (!IsGreased && card.HasItem.Value)
             {
-                PhysicalPower += card.Item.PhysicalPower;
-                MagicalPower += card.Item.MagicalPower;
+                PhysicalPower.Value += card.Item.Value.PhysicalPower.Value;
+                MagicalPower.Value += card.Item.Value.MagicalPower.Value;
             }
         }
 
-        if (QuestCard.PhysicalPower > 0) EffectiveTotalPower += PhysicalPower + SpellPhysicalPower;
-        if (QuestCard.MagicalPower > 0) EffectiveTotalPower += MagicalPower + SpellMagicalPower;
+        if (QuestCard.Value.PhysicalPower.Value > 0) EffectiveTotalPower.Value += PhysicalPower.Value + SpellPhysicalPower.Value;
+        if (QuestCard.Value.MagicalPower.Value > 0) EffectiveTotalPower.Value += MagicalPower.Value + SpellMagicalPower.Value;
 
-        ObserversUpdatePower(PhysicalPower + SpellPhysicalPower, MagicalPower + SpellMagicalPower);
-        QuestLocation.UpdateTotalPower();
+        ObserversUpdatePower(PhysicalPower.Value + SpellPhysicalPower.Value, MagicalPower.Value + SpellMagicalPower.Value);
+        QuestLocation.Value.UpdateTotalPower();
 
-        QuestLocation.CalculateQuestContributions(false);
+        QuestLocation.Value.CalculateQuestContributions(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -112,18 +89,18 @@ public class QuestLane : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerUpdateSpellEffects()
     {
-        SpellPhysicalPower = 0;
-        SpellMagicalPower = 0;
+        SpellPhysicalPower.Value = 0;
+        SpellMagicalPower.Value = 0;
 
         for (int i = 0; i < SpellDropZone.transform.childCount; i++)
         {
             Transform spellCardTransform = SpellDropZone.transform.GetChild(i);
             SpellCard spellCard = spellCardTransform.GetComponent<SpellCard>();
 
-            SpellPhysicalPower += spellCard.PhysicalPower;
-            SpellMagicalPower += spellCard.MagicalPower;
+            SpellPhysicalPower.Value += spellCard.PhysicalPower.Value;
+            SpellMagicalPower.Value += spellCard.MagicalPower.Value;
 
-            if (spellCard.IsGreaseSpell) IsGreased = true;
+            if (spellCard.IsGreaseSpell.Value) IsGreased = true;
         }
 
         UpdateQuestLanePower();
@@ -145,26 +122,26 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void ResetQuestLane()
     {
-        PhysicalPower = 0;
-        MagicalPower = 0;
-        SpellPhysicalPower = 0;
-        SpellMagicalPower = 0;
-        EffectiveTotalPower = 0;
+        PhysicalPower.Value = 0;
+        MagicalPower.Value = 0;
+        SpellPhysicalPower.Value = 0;
+        SpellMagicalPower.Value = 0;
+        EffectiveTotalPower.Value = 0;
 
         while (DropZone.transform.childCount > 0)
         {
             Transform cardTransform = DropZone.transform.GetChild(0);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-            if (card.CardName == "Wolf")
+            if (card.CardName.Value == "Wolf")
             {
                 SummonWolfCompanion(true);
                 continue;
             }
-            card.SetCardParent(card.ControllingPlayerHand.transform, false);
+            card.SetCardParent(card.ControllingPlayerHand.Value.transform, false);
         }
         ClearSpellEffects();
-        ObserversUpdatePower(PhysicalPower, MagicalPower);
+        ObserversUpdatePower(PhysicalPower.Value, MagicalPower.Value);
     }
 
     [Server]
@@ -183,11 +160,11 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AddAdventurerToQuestLane(AdventurerCard card)
     {
-        if (QuestCard.Drain && !ClericProtection)
+        if (QuestCard.Value.Drain.Value && !ClericProtection.Value)
         {
             print("Applying drain");
-            card.ChangePhysicalPower(-QuestCard.PhysicalDrain);
-            card.ChangeMagicalPower(-QuestCard.MagicalDrain);
+            card.ChangePhysicalPower(-QuestCard.Value.PhysicalDrain.Value);
+            card.ChangeMagicalPower(-QuestCard.Value.MagicalDrain.Value);
         }
 
         if (EnchanterBuff)
@@ -196,27 +173,27 @@ public class QuestLane : NetworkBehaviour
             card.ChangeMagicalPower(adventurerEffects["Enchanter"]);
         }
 
-        if (TinkererBuff && card.HasItem)
+        if (TinkererBuff && card.HasItem.Value)
         {
-            card.Item.ServerChangePhysicalPower(adventurerEffects["Tinkerer"]);
-            card.Item.ServerChangeMagicalPower(adventurerEffects["Tinkerer"]);
+            card.Item.Value.ServerChangePhysicalPower(adventurerEffects["Tinkerer"]);
+            card.Item.Value.ServerChangeMagicalPower(adventurerEffects["Tinkerer"]);
         }
 
 
-        if (adventurerEffects.ContainsKey(card.CardName)) adventurerEffects[card.CardName]++;
+        if (adventurerEffects.ContainsKey(card.CardName.Value)) adventurerEffects[card.CardName.Value]++;
 
-        switch (card.CardName)
+        switch (card.CardName.Value)
         {
             case "Bard":
-                BardBonus++;
+                BardBonus.Value++;
                 break;
             case "Cleric":
-                ClericProtection = true;
+                ClericProtection.Value = true;
                 if (adventurerEffects["Cleric"] == 1) UpdateDrainEffects();
                 break;
             case "Rogue":
             case "Assassin":
-                QuestLocation.CardsToResolvePerLane[Player.PlayerID].Add(card);
+                QuestLocation.Value.CardsToResolvePerLane[Player.PlayerID.Value].Add(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
@@ -238,23 +215,23 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void RemoveAdventurerFromQuestLane(AdventurerCard card)
     {
-        if (adventurerEffects.ContainsKey(card.CardName)) adventurerEffects[card.CardName]--;
+        if (adventurerEffects.ContainsKey(card.CardName.Value)) adventurerEffects[card.CardName.Value]--;
 
-        switch (card.CardName)
+        switch (card.CardName.Value)
         {
             case "Bard":
-                BardBonus--;
+                BardBonus.Value--;
                 break;
             case "Cleric":
                 if (adventurerEffects["Cleric"] == 0)
                 {
-                    ClericProtection = false;
+                    ClericProtection.Value = false;
                     UpdateDrainEffects();
                 }
                 break;
             case "Rogue":
             case "Assassin":
-                QuestLocation.CardsToResolvePerLane[Player.PlayerID].Remove(card);
+                QuestLocation.Value.CardsToResolvePerLane[Player.PlayerID.Value].Remove(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
@@ -278,23 +255,23 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void UpdateDrainEffects()
     {
-        if (!QuestCard.Drain) return;
+        if (!QuestCard.Value.Drain.Value) return;
 
         foreach (Transform cardTransform in DropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             //if (card.Name == "Cleric") continue;          // only need this if applying drain after updating ClericProtection bool in AddAdventurerToQuestLane
 
-            if (ClericProtection)
+            if (ClericProtection.Value)
             {
-                card.ChangePhysicalPower(QuestCard.PhysicalDrain);      //reverse drain
-                card.ChangeMagicalPower(QuestCard.MagicalDrain);    
+                card.ChangePhysicalPower(QuestCard.Value.PhysicalDrain.Value);      //reverse drain
+                card.ChangeMagicalPower(QuestCard.Value.MagicalDrain.Value);    
             }
             else
             {
                 print("Applying Drain");
-                card.ChangePhysicalPower(-QuestCard.PhysicalDrain);
-                card.ChangeMagicalPower(-QuestCard.MagicalDrain);
+                card.ChangePhysicalPower(-QuestCard.Value.PhysicalDrain.Value);
+                card.ChangeMagicalPower(-QuestCard.Value.MagicalDrain.Value);
             }
         }
     }
@@ -305,7 +282,7 @@ public class QuestLane : NetworkBehaviour
         foreach (Transform cardTransform in DropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
-            if (card.CardName == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
+            if (card.CardName.Value == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
 
             card.ChangePhysicalPower(buffDelta);
             card.ChangeMagicalPower(buffDelta);
@@ -318,10 +295,10 @@ public class QuestLane : NetworkBehaviour
         foreach (Transform cardTransform in DropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
-            if (!card.HasItem) continue;
+            if (!card.HasItem.Value) continue;
             print($"{card.CardName} changing item power by {buffDelta}");
-            card.Item.ServerChangePhysicalPower(buffDelta);
-            card.Item.ServerChangeMagicalPower(buffDelta);
+            card.Item.Value.ServerChangePhysicalPower(buffDelta);
+            card.Item.Value.ServerChangeMagicalPower(buffDelta);
         }
     }
 
@@ -333,7 +310,7 @@ public class QuestLane : NetworkBehaviour
             foreach (Transform cardTransform in DropZone.transform)
             {
                 AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
-                if (card.CardName == "Wolf")
+                if (card.CardName.Value == "Wolf")
                 {
                     card.transform.SetParent(null);
                     card.Despawn();
@@ -348,7 +325,7 @@ public class QuestLane : NetworkBehaviour
 
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
-        wolfCard.SetCardParent(Player.controlledHand.transform,false);
+        wolfCard.SetCardParent(Player.controlledHand.Value.transform,false);
         wolfCard.SetCardParent(DropZone.transform, false);
     }
 

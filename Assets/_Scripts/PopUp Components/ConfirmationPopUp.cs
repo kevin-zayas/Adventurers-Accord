@@ -65,18 +65,18 @@ public class ConfirmationPopUp : MonoBehaviour
         cancelButton.onClick.AddListener(() =>
         {
             ItemCard itemCard = itemCardObject.GetComponent<ItemCard>();
-            itemCard.ServerSetCardParent(itemCard.ControllingPlayerHand.transform, true);
+            itemCard.ServerSetCardParent(itemCard.ControllingPlayerHand.Value.transform, true);
             Destroy(gameObject);
         });
 
         confirmButton.onClick.AddListener(() =>
         {
-            adventurerCard.ServerEquipItem(true, itemCardObject.GetComponent<ItemCard>().Data);
+            adventurerCard.ServerEquipItem(true, itemCardObject.GetComponent<ItemCard>().Data.Value);
             itemCardObject.GetComponent<ItemCard>().ServerDespawnItem();
             Destroy(gameObject);
         });
 
-        titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().CardName, card.CardName);
+        titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().CardName, card.CardName.Value);
         messageText.text = equipItemMessage;
 
         //RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff

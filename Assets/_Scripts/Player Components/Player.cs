@@ -8,26 +8,12 @@ using UnityEngine.XR;
 public class Player : NetworkBehaviour
 {
     public static Player Instance { get; private set; }
-
-    [field: SyncVar]
-    public int PlayerID { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool IsPlayerTurn { get; private set; }
-
-    [field: SerializeField]
-    [field: SyncVar]
-    public bool IsStartingPlayer { get; private set; }
-
-    [field: SyncVar]
-    public int Gold { get; private set; }
-
-    [field: SyncVar]
-    public int Reputation { get; private set; }
-
-    [field: SyncVar]
-    public bool IsReady
+    public SyncVar<int> PlayerID { get; private set; }
+    [field: SerializeField] public SyncVar<bool> IsPlayerTurn { get; private set; }
+    [field: SerializeField] public SyncVar<bool> IsStartingPlayer { get; private set; }
+    public SyncVar<int> Gold { get; private set; }
+    public SyncVar<int> Reputation { get; private set; }
+    public SyncVar<bool> IsReady
     {
         get;
 
@@ -35,19 +21,18 @@ public class Player : NetworkBehaviour
         set;
     }
 
-    [SerializeField]
-    private Hand handPrefab;
+    [SerializeField] private Hand handPrefab;
 
-    [SyncVar(OnChange =nameof(RenderHand))]
-    public Hand controlledHand;
+    public SyncVar<Hand> controlledHand;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
-        IsStartingPlayer = GameManager.Instance.Players.Count == 0;
+        controlledHand.OnChange += RenderHand;
+        IsStartingPlayer.Value = GameManager.Instance.Players.Count == 0;
 
         GameManager.Instance.Players.Add(this);
-        Gold = GameManager.Instance.StartingGold;
+        Gold.Value = GameManager.Instance.StartingGold;
     }
 
     public override void OnStopServer()
@@ -69,19 +54,19 @@ public class Player : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        PlayerID = GameManager.Instance.Players.IndexOf(this);
+        PlayerID.Value = GameManager.Instance.Players.IndexOf(this);
         print("Start Game");
         print("Player ID: " + PlayerID);
         print("Client ID: " + Owner.ClientId);
 
         Hand handInstance = Instantiate(handPrefab, new Vector2(0f, 0f), Quaternion.identity);
 
-        controlledHand = handInstance;
-        handInstance.controllingPlayer = this;
-        handInstance.playerID = PlayerID;
+        controlledHand.Value = handInstance;
+        handInstance.controllingPlayer.Value = this;
+        handInstance.playerID.Value = PlayerID.Value;
         Spawn(handInstance.gameObject, Owner);
 
-        ObserversUpdateGoldText(this.Gold);
+        ObserversUpdateGoldText(this.Gold.Value);
     }
 
     [Server]
@@ -93,13 +78,13 @@ public class Player : NetworkBehaviour
     [Server]
     public void SetIsPlayerTurn(bool value)
     {
-        IsPlayerTurn = value;
+        IsPlayerTurn.Value = value;
     }
 
     [Server]
     public void UpdatePlayerView()
     {
-        TargetUpdatePlayerView(Owner, IsPlayerTurn, GameManager.Instance.CurrentPhase);
+        TargetUpdatePlayerView(Owner, IsPlayerTurn.Value, GameManager.Instance.CurrentPhase);
     }
 
     [TargetRpc]
@@ -125,7 +110,7 @@ public class Player : NetworkBehaviour
 
             case GameManager.Phase.Magic:
                 ViewManager.Instance.Show<EndRoundView>();
-                GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = PlayerID;
+                GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = PlayerID.Value;
                 break;
 
             case GameManager.Phase.GameOver:
@@ -149,15 +134,15 @@ public class Player : NetworkBehaviour
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas == null) print("Canvas not found");
 
-        controlledHand.transform.SetParent(canvas.transform, false);
+        controlledHand.Value.transform.SetParent(canvas.transform, false);
     }
 
     [Server]
     public void ChangePlayerGold(int value)
     {
-        this.Gold += value;
-        GameManager.Instance.Scoreboard.UpdatePlayerGold(PlayerID, this.Gold);
-        ObserversUpdateGoldText(this.Gold);
+        this.Gold.Value += value;
+        GameManager.Instance.Scoreboard.UpdatePlayerGold(PlayerID.Value, this.Gold.Value);
+        ObserversUpdateGoldText(this.Gold.Value);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -169,11 +154,11 @@ public class Player : NetworkBehaviour
     [Server]
     public void ChangePlayerReputation(int value)
     {
-        this.Reputation += value;
-        GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID, this.Reputation);
-        ObserversUpdateReputationText(this.Reputation);
+        this.Reputation.Value += value;
+        GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID.Value, this.Reputation.Value);
+        ObserversUpdateReputationText(this.Reputation.Value);
 
-        if (Reputation >= GameManager.Instance.ReputationGoal) GameManager.Instance.SetPhaseGameOver();
+        if (Reputation.Value >= GameManager.Instance.ReputationGoal) GameManager.Instance.SetPhaseGameOver();
     }
 
     [ServerRpc(RequireOwnership = false)]

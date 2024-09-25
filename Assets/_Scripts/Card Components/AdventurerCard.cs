@@ -110,7 +110,7 @@ public class AdventurerCard : Card
     public void ServerSetCardOwner(Player owningPlayer)
     {
         ControllingPlayer.Value = owningPlayer;
-        ControllingPlayerHand.Value = owningPlayer.controlledHand;
+        ControllingPlayerHand.Value = owningPlayer.controlledHand.Value;
         GiveOwnership(owningPlayer.Owner);
         IsDraftCard.Value = false;
     }
@@ -338,19 +338,19 @@ public class AdventurerCard : Card
     public void OnResolutionClick()
     {
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Resolution) return;
-        if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn) return;
+        if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn.Value) return;
         if (ParentTransform == null) return;
 
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
-        if (!lane.QuestLocation.AllowResolution) return;
+        if (!lane.QuestLocation.Value.AllowResolution.Value) return;
 
-        if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
+        if (PopUpManager.Instance.CurrentResolutionPopUp.Value.ResolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
         {
-            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionPopUp.ResolutionType == "Assassin" && !lane.ClericProtection && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        else if (PopUpManager.Instance.CurrentResolutionPopUp.Value.ResolutionType == "Assassin" && !lane.ClericProtection.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
         {
-            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }
         else
         {
@@ -364,10 +364,10 @@ public class AdventurerCard : Card
 
         if (!IsDraftCard.Value && !IsOwner) { ToggleDisableScreen(true); return; }  // Prevent dragging non-draft cards if not owner
         if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) { ToggleDisableScreen(true); return; }
-        if (!player.IsPlayerTurn) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
+        if (!player.IsPlayerTurn.Value) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
         if (IsDraftCard.Value && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
 
-        if (!IsDraftCard.Value || player.Gold >= Cost.Value)  // Check player gold if dragging a DraftCard
+        if (!IsDraftCard.Value || player.Gold.Value >= Cost.Value)  // Check player gold if dragging a DraftCard
         {
             print("can drag");
         }

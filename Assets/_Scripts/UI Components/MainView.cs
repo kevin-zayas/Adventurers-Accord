@@ -15,7 +15,7 @@ public class MainView : View
 
         endTurnButton.onClick.AddListener(() =>
         {
-            if (gm.CurrentPhase == GameManager.Phase.Recruit && gm.Players[gm.Turn].Gold < 5)
+            if (gm.CurrentPhase == GameManager.Phase.Recruit && gm.Players[gm.Turn].Gold.Value < 5)
             {
                 gm.EndTurn(true);
                 return;

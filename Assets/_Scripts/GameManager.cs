@@ -14,18 +14,18 @@ public class GameManager : NetworkBehaviour
     #region Serialized Fields
     [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
 
-    [field: SerializeField, SyncObject] public SyncList<Player> Players { get; } = new SyncList<Player>();
+    [field: SerializeField] public SyncList<Player> Players { get; } = new SyncList<Player>();
 
-    [field: SerializeField, SyncVar] public bool CanStart { get; private set; }
-    [field: SerializeField, SyncVar] public bool DidStart { get; private set; }
-    [field: SerializeField, SyncVar] public int Turn { get; private set; }
-    [field: SerializeField, SyncVar] public Phase CurrentPhase { get; private set; }
-    [field: SerializeField, SyncVar] public int StartingTurn { get; private set; }
-    [field: SerializeField, SyncVar] public int StartingGold { get; private set; }
-    [field: SerializeField, SyncVar] public int StartingLoot { get; private set; }
-    [field: SerializeField, SyncVar] public int ReputationGoal { get; private set; }
-    [field: SerializeField, SyncVar] public bool[] PlayerSkipTurnStatus { get; private set; }
-    [field: SerializeField, SyncVar] public bool[] PlayerEndRoundStatus { get; private set; }
+    [field: SerializeField] public bool CanStart { get; private set; }
+    [field: SerializeField] public bool DidStart { get; private set; }
+    [field: SerializeField] public int Turn { get; private set; }
+    [field: SerializeField] public Phase CurrentPhase { get; private set; }
+    [field: SerializeField] public int StartingTurn { get; private set; }
+    [field: SerializeField] public int StartingGold { get; private set; }
+    [field: SerializeField] public int StartingLoot { get; private set; }
+    [field: SerializeField] public int ReputationGoal { get; private set; }
+    [field: SerializeField] public bool[] PlayerSkipTurnStatus { get; private set; }
+    [field: SerializeField] public bool[] PlayerEndRoundStatus { get; private set; }
     #endregion
 
     #region Game Phases
@@ -39,9 +39,9 @@ public class GameManager : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsServer) return;
+        if (!IsServerInitialized) return;
 
-        CanStart = Players.All(player => player.IsReady);
+        CanStart = Players.All(player => player.IsReady.Value);
 
         if (DidStart && Players.Count == 0)
         {
@@ -265,7 +265,7 @@ public class GameManager : NetworkBehaviour
             player.UpdatePlayerView();
         }
 
-        Scoreboard.ObserversUpdateTurnMarker(currentPlayer.PlayerID);
+        Scoreboard.ObserversUpdateTurnMarker(currentPlayer.PlayerID.Value);
     }
 
     /// <summary>

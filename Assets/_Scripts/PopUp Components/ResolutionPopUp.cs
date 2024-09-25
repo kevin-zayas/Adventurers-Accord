@@ -91,7 +91,7 @@ public class ResolutionPopUp : NetworkBehaviour
         leftButtonText.text = "Cancel";
         rightButtonText.text = buttonText;
 
-        if (ResolutionType == "Rogue") message.text = string.Format(confirmSelectionText, card.CardName, card.Item.CardName);
+        if (ResolutionType == "Rogue") message.text = string.Format(confirmSelectionText, card.CardName, card.Item.Value.CardName.Value);
         else if (ResolutionType == "Assassin") message.text = string.Format(confirmSelectionText, card.CardName);
 
 
@@ -106,16 +106,16 @@ public class ResolutionPopUp : NetworkBehaviour
             if (ResolutionType == "Rogue") card.ServerDisableItem("Stolen");
             else if (ResolutionType == "Assassin")
             {
-                if (card.PhysicalPower > 0 && card.MagicalPower == 0) card.ServerChangePhysicalPower(-2);
-                else if (card.PhysicalPower == 0 && card.MagicalPower > 0) card.ServerChangeMagicalPower(-2);
-                else if (card.PhysicalPower > 0 && card.MagicalPower > 0)
+                if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value == 0) card.ServerChangePhysicalPower(-2);
+                else if (card.PhysicalPower.Value == 0 && card.MagicalPower.Value > 0) card.ServerChangeMagicalPower(-2);
+                else if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value > 0)
                 {
                     SetAssassinConfirmStatPopupState(card);
                     return;
                 }
             }
             
-            card.ParentTransform.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
@@ -169,7 +169,7 @@ public class ResolutionPopUp : NetworkBehaviour
         leftButton.onClick.AddListener(() =>
         {
             card.ServerChangePhysicalPower(-2);
-            card.ParentTransform.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
@@ -179,7 +179,7 @@ public class ResolutionPopUp : NetworkBehaviour
         rightButton.onClick.AddListener(() =>
         {
             card.ServerChangeMagicalPower(-2);
-            card.ParentTransform.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);

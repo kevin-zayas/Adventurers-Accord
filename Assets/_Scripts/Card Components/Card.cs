@@ -28,7 +28,7 @@ public abstract class Card : NetworkBehaviour
     public void SetCardOwner(Player player)
     {
         ControllingPlayer.Value = player;
-        ControllingPlayerHand.Value = player.controlledHand;
+        ControllingPlayerHand.Value = player.controlledHand.Value;
         GiveOwnership(player.Owner);
     }
 

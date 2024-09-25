@@ -169,10 +169,10 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         }
 
         // Copy data into Adventurer Card's Item Header
-        if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem)
+        if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem.Value)
         {
-            adventurerCard.Item.TargetCopyCardData(connection, originalCard);
-            adventurerCard.Item.GetComponent<SpotlightCard>().referenceCard = originalCard.GetComponent<AdventurerCard>().Item.gameObject;
+            adventurerCard.Item.Value.TargetCopyCardData(connection, originalCard);
+            adventurerCard.Item.Value.GetComponent<SpotlightCard>().referenceCard = originalCard.GetComponent<AdventurerCard>().Item.Value.gameObject;
         }
     }
 
@@ -188,7 +188,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         SpotlightCard spotlightCard = newCardObject.GetComponent<SpotlightCard>();
         spotlightCard.isSpotlightCard = true;
 
-        if (!string.IsNullOrEmpty(originalCardObject.GetComponent<Card>().CardDescription))
+        if (!string.IsNullOrEmpty(originalCardObject.GetComponent<Card>().CardDescription.Value))
         {
             ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
         }
@@ -221,11 +221,11 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         Spawn(spotlightDescription.gameObject);
         spotlightDescription.TargetSetParent(connection, spotlightCard);
 
-        string cardDescription = originalCardObject.GetComponent<Card>().CardDescription;
+        string cardDescription = originalCardObject.GetComponent<Card>().CardDescription.Value;
         spotlightDescription.TargetSetDescriptionText(connection, cardDescription);
 
         // check database for keywords that need a description
-        List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().CardName);
+        List<string> keywordList = CardDatabase.Instance.GetCardKeywords(originalCardObject.GetComponent<Card>().CardName.Value);
         if (keywordList == null) return;
 
         // if there are any keywords, create and spawn description grouper
