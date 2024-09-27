@@ -1,5 +1,6 @@
 using FishNet;
 using FishNet.Transporting;
+using FishNet.Transporting.Bayou;
 using FishNet.Transporting.Tugboat;
 using UnityEditor;
 using UnityEngine;
@@ -9,15 +10,23 @@ public class ConnectionStarter : MonoBehaviour
     [SerializeField] private ConnectionType _connectionType;
 
     private Tugboat _tugboat;
-    //private Bayou _bayou;
+    private Bayou _bayou;
 
     private void Awake()
     {
-        if (TryGetComponent(out Tugboat tugboat))
-            _tugboat = tugboat;
+        //if (TryGetComponent(out Tugboat tugboat))
+        //    _tugboat = tugboat;
+        //else
+        //{
+        //    Debug.LogError("Tugboat not found", gameObject);
+        //    return;
+        //}
+
+        if (TryGetComponent(out Bayou bayou))
+            _bayou = bayou;
         else
         {
-            Debug.LogError("Tugboat not found", gameObject);
+            Debug.LogError("Bayou not found", gameObject);
             return;
         }
 #if UNITY_EDITOR
@@ -31,7 +40,8 @@ public class ConnectionStarter : MonoBehaviour
             else
             {
                 print("Host: starting server only");
-                _tugboat.StartConnection(true);
+                //_tugboat.StartConnection(true);
+                _bayou.StartConnection(true);
             }
 
             return;
