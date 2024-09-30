@@ -12,7 +12,7 @@ public class AdventurerDragDrop : CardDragDrop
     {
         card = GetComponent<AdventurerCard>();
 
-        if (!IsClientInitialized) return;
+        if (!IsClientStarted) return;
 
         if (player == null)
         {

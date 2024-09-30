@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public abstract class Card : NetworkBehaviour
 {
     #region SyncVars
-    public SyncVar<string> CardName { get; }
-    public SyncVar<string> CardDescription { get; }
-    public SyncVar<int> PhysicalPower { get; }
-    public SyncVar<int> MagicalPower { get; }
-    public SyncVar<CardData> Data { get; }
-    public SyncVar<Player> ControllingPlayer { get; }
-    public SyncVar<Hand> ControllingPlayerHand { get; }
+    public readonly SyncVar<string> CardName = new();
+    public readonly SyncVar<string> CardDescription = new();
+    public readonly SyncVar<int> PhysicalPower = new();
+    public readonly SyncVar<int> MagicalPower = new();
+    public readonly SyncVar<CardData> Data = new();
+    public readonly SyncVar<Player> ControllingPlayer = new();
+    public readonly SyncVar<Hand> ControllingPlayerHand = new();
     #endregion
 
     [SerializeField] protected Image disableScreen;

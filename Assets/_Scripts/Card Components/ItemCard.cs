@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class ItemCard : Card
 {
     #region SyncVars
-    private readonly SyncVar<string> SubDescription;
+    private readonly SyncVar<string> SubDescription = new();
     #endregion
 
     #region UI Elements

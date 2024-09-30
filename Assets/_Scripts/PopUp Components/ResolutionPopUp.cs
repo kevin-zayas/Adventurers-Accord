@@ -37,8 +37,7 @@ public class ResolutionPopUp : NetworkBehaviour
 
     [SerializeField] QuestLocation QuestLocation;
     
-    [field:SerializeField]
-    public string ResolutionType { get; private set; }
+    [field:SerializeField] public string ResolutionType { get; private set; }
 
     string titleText;
     string defaultMessageText;

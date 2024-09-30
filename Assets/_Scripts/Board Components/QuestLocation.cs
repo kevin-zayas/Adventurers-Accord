@@ -23,15 +23,15 @@ public class QuestLocation : NetworkBehaviour
 
     [field: SerializeField] private CardSlot questCardSlot;
 
-    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; }
+    public readonly SyncVar<QuestCard> QuestCard = new();
 
-    [field: SerializeField] public SyncVar<int> TotalPhysicalPower { get; }
+    public readonly SyncVar<int> TotalPhysicalPower = new();
 
-    [field: SerializeField] public SyncVar<int> TotalMagicalPower { get; }
+    public readonly SyncVar<int> TotalMagicalPower = new();
 
     [field: SerializeField] public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
 
-    [field: SerializeField] public SyncVar<bool> AllowResolution { get; }
+    public readonly SyncVar<bool> AllowResolution = new();
 
     private readonly Dictionary<int, Tuple<int,int>> bardBonusMap = new();
 
@@ -68,8 +68,8 @@ public class QuestLocation : NetworkBehaviour
 
             if (LocalConnection.ClientId == i)
             {
-                questLanes[i].DropZone.GetComponent<BoxCollider2D>().enabled = true;
-                questLanes[i].DropZone.GetComponent<Image>().color = Color.white;
+                questLanes[i].QuestDropZone.GetComponent<BoxCollider2D>().enabled = true;
+                questLanes[i].QuestDropZone.GetComponent<Image>().color = Color.white;
 
                 questLanes[i].ServerSetQuestLanePlayer(GameManager.Instance.Players[i]);
             }
@@ -166,7 +166,7 @@ public class QuestLocation : NetworkBehaviour
         {
             foreach (QuestLane lane in questLanes)
             {
-                if (lane.DropZone.transform.childCount > 0)
+                if (lane.QuestDropZone.transform.childCount > 0)
                 {
                     QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Failed", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
                     CalculateFailedQuestPenalty();
@@ -310,7 +310,7 @@ public class QuestLocation : NetworkBehaviour
     {
         foreach (QuestLane lane in questLanes)
         {
-            int adventurerCount = lane.DropZone.transform.childCount;
+            int adventurerCount = lane.QuestDropZone.transform.childCount;
             if (adventurerCount > 0)
             {
                 lane.Player.ChangePlayerReputation(-adventurerCount);
@@ -374,7 +374,7 @@ public class QuestLocation : NetworkBehaviour
             //check for magic items in Quest Location
             foreach (QuestLane lane in questLanes)
             {
-                foreach (Transform cardTransform in lane.DropZone.transform)
+                foreach (Transform cardTransform in lane.QuestDropZone.transform)
                 {
                     AdventurerCard childCard = cardTransform.GetComponent<AdventurerCard>();
 

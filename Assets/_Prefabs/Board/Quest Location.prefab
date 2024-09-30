@@ -982,6 +982,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1653833650406721792, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: QuestLocation._value
+      value: 
+      objectReference: {fileID: 3257947637563943034}
+    - target: {fileID: 1653833650406721792, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <QuestLocation>k__BackingField
       value: 
       objectReference: {fileID: 3257947637563943034}
@@ -1005,6 +1009,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2945584945709416935, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: QuestLocation._value
+      value: 
+      objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 2945584945709416935, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <QuestLocation>k__BackingField
       value: 
@@ -1049,6 +1057,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4983060014284789577, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: QuestLocation._value
+      value: 
+      objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 4983060014284789577, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <QuestLocation>k__BackingField
       value: 
@@ -1109,6 +1121,10 @@ PrefabInstance:
       propertyPath: <ComponentIndex>k__BackingField
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 8192288886525444252, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
+      propertyPath: QuestLocation._value
+      value: 
+      objectReference: {fileID: 3257947637563943034}
     - target: {fileID: 8192288886525444252, guid: 804328fb77a8fb64ab8ce028f4abc35c, type: 3}
       propertyPath: <QuestLocation>k__BackingField
       value: 

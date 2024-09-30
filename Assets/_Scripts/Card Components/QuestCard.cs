@@ -8,15 +8,15 @@ using UnityEngine.UI;
 public class QuestCard : Card
 {
     #region SyncVars
-    public SyncVar<string> AbilityName { get; }
-    public SyncVar<bool> BlockSpells { get; }
-    public SyncVar<bool> DisableItems { get; }
-    public SyncVar<bool> Drain { get; }
-    public SyncVar<int> GoldReward { get; }
-    public SyncVar<int> LootReward { get; }
-    public SyncVar<int> MagicalDrain { get; }
-    public SyncVar<int> PhysicalDrain { get; }
-    public SyncVar<int> ReputationReward { get; }
+    public readonly SyncVar<string> AbilityName = new();
+    public readonly SyncVar<bool> BlockSpells = new();
+    public readonly SyncVar<bool> DisableItems = new();
+    public readonly SyncVar<bool> Drain = new();
+    public readonly SyncVar<int> GoldReward = new();
+    public readonly SyncVar<int> LootReward = new();
+    public readonly SyncVar<int> MagicalDrain = new();
+    public readonly SyncVar<int> PhysicalDrain = new();
+    public readonly SyncVar<int> ReputationReward = new();
     #endregion
 
     #region UI Elements

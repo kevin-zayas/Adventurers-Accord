@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Hand : NetworkBehaviour
 {
-    public readonly SyncVar<Player> controllingPlayer;
+    public readonly SyncVar<Player> controllingPlayer = new();
 
-    public readonly SyncVar<int> playerID;
+    public readonly SyncVar<int> playerID = new();
 }

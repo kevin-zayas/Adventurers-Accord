@@ -8,7 +8,7 @@ public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
 
-    [field: SerializeField] public SyncList<QuestSummary> QuestSummaries { get; }
+    public readonly SyncList<QuestSummary> QuestSummaries = new();
 
     private int playerCount;
     private int totalPlayers;

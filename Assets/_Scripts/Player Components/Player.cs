@@ -1,19 +1,17 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using TMPro;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class Player : NetworkBehaviour
 {
     public static Player Instance { get; private set; }
-    public SyncVar<int> PlayerID { get; }
-    [field: SerializeField] public SyncVar<bool> IsPlayerTurn { get;}
-    [field: SerializeField] public SyncVar<bool> IsStartingPlayer { get; }
-    public SyncVar<int> Gold { get; }
-    public SyncVar<int> Reputation { get; }
-    public SyncVar<bool> IsReady { get; }
+    public readonly SyncVar<int> PlayerID = new();
+    public readonly SyncVar<bool> IsPlayerTurn = new();
+    public readonly SyncVar<bool> IsStartingPlayer = new();
+    public readonly SyncVar<int> Gold = new();
+    public readonly SyncVar<int> Reputation = new();
+    public readonly SyncVar<bool> IsReady = new();
     //{
     //    get;
 
@@ -23,7 +21,7 @@ public class Player : NetworkBehaviour
 
     [SerializeField] private Hand handPrefab;
 
-    public readonly SyncVar<Hand> controlledHand;
+    public readonly SyncVar<Hand> controlledHand = new();
 
     public override void OnStartServer()
     {
@@ -56,7 +54,7 @@ public class Player : NetworkBehaviour
     {
         PlayerID.Value = GameManager.Instance.Players.IndexOf(this);
         print("Start Game");
-        print("Player ID: " + PlayerID);
+        print("Player ID: " + PlayerID.Value);
         print("Client ID: " + Owner.ClientId);
 
         Hand handInstance = Instantiate(handPrefab, new Vector2(0f, 0f), Quaternion.identity);

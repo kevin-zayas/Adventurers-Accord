@@ -16,7 +16,7 @@ public class GameOverPopUp : NetworkBehaviour
 
     [field: SerializeField] public TMP_Text[] GuildRankings { get; private set; }
 
-    public SyncList<string> RankingTextList { get; }
+    public readonly SyncList<string> RankingTextList = new();
     public int MaxReputation { get; private set; }
     public int MaxGold { get; private set; }
 

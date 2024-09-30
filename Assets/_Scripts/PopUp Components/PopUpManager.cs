@@ -1,9 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class PopUpManager : NetworkBehaviour
@@ -19,9 +16,8 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
 
-    [field: SerializeField] public SyncVar<ResolutionPopUp> CurrentResolutionPopUp { get; }
-
-    [field: SerializeField] public SyncVar<GameOverPopUp> GameOverPopUpInstance { get; }
+    public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
+    public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
 
     private void Awake()
     {

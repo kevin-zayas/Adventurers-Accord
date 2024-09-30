@@ -704,6 +704,12 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5648548999079657597}
   _networkObjectCache: {fileID: 5648548999079657597}
+  QuestLocation:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: {fileID: 0}
+  <QuestDropZone>k__BackingField: {fileID: 9205107535061240866}
+  <SpellDropZone>k__BackingField: {fileID: 3799721727428252521}
   <IsGreased>k__BackingField: 0
   physicalPowerText: {fileID: 4129425861735006748}
   magicalPowerText: {fileID: 3172343994968927532}
@@ -939,7 +945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
+  _addedNetworkObject: {fileID: 2119475767431536679}
   _networkObjectCache: {fileID: 2119475767431536679}
 --- !u!1001 &7586333397495116469
 PrefabInstance:
@@ -1092,7 +1098,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
+  _addedNetworkObject: {fileID: 8658483110098520777}
   _networkObjectCache: {fileID: 8658483110098520777}
 --- !u!114 &8658483110098520777 stripped
 MonoBehaviour:

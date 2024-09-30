@@ -58,7 +58,7 @@ public class SpellDragDrop : CardDragDrop
             return;
         }
 
-        if (questLane.DropZone.transform.childCount == 0)
+        if (questLane.QuestDropZone.transform.childCount == 0)
         {
             Debug.Log("Spells can't be used on a lane with no Adventurers");
             ResetCardPosition();

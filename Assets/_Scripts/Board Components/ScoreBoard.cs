@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
 {
-    [field: SerializeField]
-    public PlayerScore[] PlayerScores { get; private set; }
+    [field: SerializeField] public PlayerScore[] PlayerScores { get; private set; }
 
     //[SerializeField] GameObject scoreboardPanelPrefab;
     [SerializeField] GameObject turnMarkerPrefab;

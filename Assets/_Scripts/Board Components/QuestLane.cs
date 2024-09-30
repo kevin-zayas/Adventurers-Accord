@@ -8,23 +8,25 @@ using UnityEngine.UI;
 
 public class QuestLane : NetworkBehaviour
 {
-    [field: SerializeField] public SyncVar<QuestLocation> QuestLocation { get; }
-    [field: SerializeField] public SyncVar<QuestCard> QuestCard { get; }
-    public Player Player { get; private set; }
-    public GameObject DropZone { get; private set; }
-    public GameObject SpellDropZone { get; private set; }
+    //allowmutablesynctypeattribute?
+    [AllowMutableSyncTypeAttribute] public SyncVar<QuestLocation> QuestLocation = new();
 
-    [field: SerializeField] public SyncVar<int> PhysicalPower { get; }
-    [field: SerializeField] public SyncVar<int> MagicalPower { get; }
-    [field: SerializeField] public SyncVar<int> SpellPhysicalPower { get; }
-    [field: SerializeField] public SyncVar<int> SpellMagicalPower { get; }
-    [field: SerializeField] public SyncVar<int> EffectiveTotalPower { get; }
+    public readonly SyncVar<QuestCard> QuestCard = new();
+    public Player Player { get; private set; }
+    [field: SerializeField] public GameObject QuestDropZone { get; private set; }
+    [field: SerializeField] public GameObject SpellDropZone { get; private set; }
+
+    public readonly SyncVar<int> PhysicalPower = new();
+    public readonly SyncVar<int> MagicalPower = new();
+    public readonly SyncVar<int> SpellPhysicalPower = new();
+    public readonly SyncVar<int> SpellMagicalPower = new();
+    public readonly SyncVar<int> EffectiveTotalPower = new();
     [field: SerializeField] public bool IsGreased { get; private set; }
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
-    [field: SerializeField] public SyncVar<int> BardBonus { get; }
-    [field: SerializeField] public SyncVar<bool> ClericProtection { get; }
+    public readonly SyncVar<int> BardBonus = new();
+    public readonly SyncVar<bool> ClericProtection = new();
 
     private bool EnchanterBuff;
     private bool TinkererBuff;
@@ -53,9 +55,9 @@ public class QuestLane : NetworkBehaviour
         MagicalPower.Value = 0;
         EffectiveTotalPower.Value = 0;
 
-        for (int i = 0; i < DropZone.transform.childCount; i++)
+        for (int i = 0; i < QuestDropZone.transform.childCount; i++)
         {
-            Transform cardTransform = DropZone.transform.GetChild(i);
+            Transform cardTransform = QuestDropZone.transform.GetChild(i);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
             if (IsGreased && card.HasItem.Value) card.DisableItem("Greased");
@@ -128,9 +130,9 @@ public class QuestLane : NetworkBehaviour
         SpellMagicalPower.Value = 0;
         EffectiveTotalPower.Value = 0;
 
-        while (DropZone.transform.childCount > 0)
+        while (QuestDropZone.transform.childCount > 0)
         {
-            Transform cardTransform = DropZone.transform.GetChild(0);
+            Transform cardTransform = QuestDropZone.transform.GetChild(0);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
             if (card.CardName.Value == "Wolf")
@@ -246,8 +248,8 @@ public class QuestLane : NetworkBehaviour
                 break;
 
         }
-        print(DropZone.transform.childCount);
-        if (DropZone.transform.childCount == 0) ObserversUpdateRewardIndicator("blank");
+        print(QuestDropZone.transform.childCount);
+        if (QuestDropZone.transform.childCount == 0) ObserversUpdateRewardIndicator("blank");
         
         UpdateQuestLanePower();
     }
@@ -257,7 +259,7 @@ public class QuestLane : NetworkBehaviour
     {
         if (!QuestCard.Value.Drain.Value) return;
 
-        foreach (Transform cardTransform in DropZone.transform)
+        foreach (Transform cardTransform in QuestDropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             //if (card.Name == "Cleric") continue;          // only need this if applying drain after updating ClericProtection bool in AddAdventurerToQuestLane
@@ -279,7 +281,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void UpdateEnchanterBuff(int buffDelta) 
     {
-        foreach (Transform cardTransform in DropZone.transform)
+        foreach (Transform cardTransform in QuestDropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
             if (card.CardName.Value == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
@@ -292,7 +294,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void UpdateTinkererBuff(int buffDelta)
     {
-        foreach (Transform cardTransform in DropZone.transform)
+        foreach (Transform cardTransform in QuestDropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem.Value) continue;
@@ -307,7 +309,7 @@ public class QuestLane : NetworkBehaviour
     {
         if (despawn)
         {
-            foreach (Transform cardTransform in DropZone.transform)
+            foreach (Transform cardTransform in QuestDropZone.transform)
             {
                 AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
                 if (card.CardName.Value == "Wolf")
@@ -326,7 +328,7 @@ public class QuestLane : NetworkBehaviour
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
         wolfCard.SetCardParent(Player.controlledHand.Value.transform,false);
-        wolfCard.SetCardParent(DropZone.transform, false);
+        wolfCard.SetCardParent(QuestDropZone.transform, false);
     }
 
     [ObserversRpc]

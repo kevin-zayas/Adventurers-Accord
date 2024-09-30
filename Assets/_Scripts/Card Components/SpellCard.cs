@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SpellCard : Card
 {
     #region SyncVars
-    public SyncVar<bool> IsGreaseSpell { get; }
+    public readonly SyncVar<bool> IsGreaseSpell = new();
     #endregion
 
     #region UI Elements

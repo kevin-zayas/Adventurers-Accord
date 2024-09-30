@@ -7,10 +7,10 @@ using UnityEngine;
 public class ItemCardHeader : Card
 {
     #region SyncVars
-    public SyncVar<bool> IsDisabled { get; }
-    public SyncVar<int> OriginalMagicalPower { get; }
-    public SyncVar<int> OriginalPhysicalPower { get; }
-    public SyncVar<Transform> ParentTransform { get; }
+    public readonly SyncVar<bool> IsDisabled = new();
+    public readonly SyncVar<int> OriginalMagicalPower = new();
+    public readonly SyncVar<int> OriginalPhysicalPower = new();
+    public readonly SyncVar<Transform> ParentTransform = new();
     #endregion
 
     #region UI Elements

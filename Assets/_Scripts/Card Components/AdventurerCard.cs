@@ -8,14 +8,14 @@ using UnityEngine.UI;
 public class AdventurerCard : Card
 {
     #region SyncVars
-    public SyncVar<string> AbilityName { get; }
-    public SyncVar<int> Cost { get; }
-    public SyncVar<bool> HasItem { get; }
-    public SyncVar<ItemCardHeader> Item { get; }
-    public SyncVar<bool> IsDraftCard { get; }
-    public SyncVar<int> OriginalMagicalPower { get; }
-    public SyncVar<int> OriginalPhysicalPower { get; }
-    public SyncVar<Transform> ParentTransform { get; }
+    public readonly SyncVar<string> AbilityName = new();
+    public readonly SyncVar<int> Cost = new();
+    public readonly SyncVar<bool> HasItem = new();
+    public readonly SyncVar<ItemCardHeader> Item = new();
+    public readonly SyncVar<bool> IsDraftCard = new();
+    public readonly SyncVar<int> OriginalMagicalPower = new();
+    public readonly SyncVar<int> OriginalPhysicalPower = new();
+    public readonly SyncVar<Transform> ParentTransform = new();
     #endregion
 
     #region UI Elements
@@ -66,7 +66,7 @@ public class AdventurerCard : Card
         ObserversSetCardParent(newParent, worldPositionStays);
         transform.SetParent(newParent, worldPositionStays);
 
-        if (ParentTransform != null && ParentTransform.Value != newParent)
+        if (ParentTransform.Value != null && ParentTransform.Value != newParent)
         {
             if (ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
             ParentTransform.Value = newParent;
@@ -150,7 +150,7 @@ public class AdventurerCard : Card
     [Server]
     public void ChangePhysicalPower(int power)
     {
-        if (ParentTransform == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
+        if (ParentTransform.Value == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
         if (OriginalPhysicalPower.Value > 0)
         {
@@ -176,7 +176,7 @@ public class AdventurerCard : Card
     [Server]
     public void ChangeMagicalPower(int powerChange)
     {
-        if (ParentTransform == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
+        if (ParentTransform.Value == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
         if (OriginalMagicalPower.Value > 0)
         {
@@ -339,7 +339,7 @@ public class AdventurerCard : Card
     {
         if (GameManager.Instance.CurrentPhase != GameManager.Phase.Resolution) return;
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn.Value) return;
-        if (ParentTransform == null) return;
+        if (ParentTransform.Value == null) return;
 
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
         if (!lane.QuestLocation.Value.AllowResolution.Value) return;

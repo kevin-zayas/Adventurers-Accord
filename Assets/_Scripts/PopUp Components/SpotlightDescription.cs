@@ -1,9 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpotlightDescription : NetworkBehaviour
