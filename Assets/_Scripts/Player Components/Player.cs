@@ -35,7 +35,7 @@ public class Player : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        controlledHand.OnChange += RenderHand;
+        //controlledHand.OnChange += RenderHand;
         if (!IsOwner) return;
 
         Instance = this;
@@ -50,12 +50,13 @@ public class Player : NetworkBehaviour
         print("Player ID: " + PlayerID.Value);
         print("Client ID: " + Owner.ClientId);
 
-        Hand handInstance = Instantiate(handPrefab, new Vector2(0f, 0f), Quaternion.identity);
+        Hand newHandObject = Instantiate(handPrefab, Vector2.zero, Quaternion.identity);
+        Spawn(newHandObject.gameObject, Owner);
 
-        controlledHand.Value = handInstance;
-        handInstance.controllingPlayer.Value = this;
-        handInstance.playerID.Value = PlayerID.Value;
-        Spawn(handInstance.gameObject, Owner);
+        controlledHand.Value = newHandObject;
+        newHandObject.controllingPlayer.Value = this;
+        newHandObject.playerID.Value = PlayerID.Value;
+        ObserversRenderHand(newHandObject);
 
         ObserversUpdateGoldText(this.Gold.Value);
     }
@@ -64,6 +65,22 @@ public class Player : NetworkBehaviour
     public void StopGame()
     {
         //if (controlledPawn != null) controlledPawn.Despawn();
+    }
+
+    [ObserversRpc]
+    public void ObserversRenderHand(Hand hand)
+    {
+        if (!IsOwner)
+        {
+            hand.GetComponent<BoxCollider2D>().enabled = false;
+            hand.gameObject.SetActive(false);
+            return;
+        }
+
+        GameObject canvas = GameObject.Find("Canvas");
+        if (canvas == null) print("Canvas not found");
+
+        hand.transform.SetParent(canvas.transform, false);
     }
 
     [Server]
@@ -114,25 +131,6 @@ public class Player : NetworkBehaviour
                 ViewManager.Instance.Show<ResolutionView>();        //blank view with no buttons
                 break;
         }
-    }
-
-    public void RenderHand(Hand prevHand, Hand newHand, bool asSever)
-    {
-        print("rendering hand");
-        if (asSever) return;
-
-        if (!IsOwner)
-        {
-            newHand.GetComponent<BoxCollider2D>().enabled = false;
-            return;
-        }
-
-        if (controlledHand.Value == null) print("hand is null");
-
-        GameObject canvas = GameObject.Find("Canvas");
-        if (canvas == null) print("Canvas not found");
-
-        controlledHand.Value.transform.SetParent(canvas.transform, false);
     }
 
     [Server]

@@ -90,8 +90,8 @@ public class ResolutionPopUp : NetworkBehaviour
         leftButtonText.text = "Cancel";
         rightButtonText.text = buttonText;
 
-        if (ResolutionType == "Rogue") message.text = string.Format(confirmSelectionText, card.CardName, card.Item.Value.CardName.Value);
-        else if (ResolutionType == "Assassin") message.text = string.Format(confirmSelectionText, card.CardName);
+        if (ResolutionType == "Rogue") message.text = string.Format(confirmSelectionText, card.CardName.Value, card.Item.Value.CardName.Value);
+        else if (ResolutionType == "Assassin") message.text = string.Format(confirmSelectionText, card.CardName.Value);
 
 
         leftButton.onClick.AddListener(() =>
@@ -163,7 +163,7 @@ public class ResolutionPopUp : NetworkBehaviour
         leftButtonText.text = "Physical";
         rightButtonText.text = "Magical";
 
-        message.text = string.Format(AssassinConfirmStatText,card.CardName);
+        message.text = string.Format(AssassinConfirmStatText,card.CardName.Value);
 
         leftButton.onClick.AddListener(() =>
         {
