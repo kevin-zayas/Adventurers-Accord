@@ -19,7 +19,8 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public bool CanStart { get; private set; }
     [field: SerializeField] public bool DidStart { get; private set; }
     [field: SerializeField] public int Turn { get; private set; }
-    [field: SerializeField] public Phase CurrentPhase { get; private set; }
+
+    public readonly SyncVar<Phase> CurrentPhase = new(new SyncTypeSettings(WritePermission.ServerOnly));
     [field: SerializeField] public int StartingTurn { get; private set; }
     [field: SerializeField] public int StartingGold { get; private set; }
     [field: SerializeField] public int StartingLoot { get; private set; }
@@ -65,7 +66,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        CurrentPhase = Phase.Recruit;
+        CurrentPhase.Value = Phase.Recruit;
         Board.Instance.ObserversUpdatePhaseText("Recruit");
 
         StartingTurn = 0;
@@ -180,23 +181,23 @@ public class GameManager : NetworkBehaviour
     public void EndPhase()
     {
         PlayerSkipTurnStatus = new bool[Players.Count];
-        switch (CurrentPhase)
+        switch (CurrentPhase.Value)
         {
             case Phase.Recruit:
-                CurrentPhase = Phase.Dispatch;
+                CurrentPhase.Value = Phase.Dispatch;
                 Board.Instance.ObserversUpdatePhaseText("Dispatch");
                 Turn = StartingTurn;
                 SetPlayerTurn(Players[Turn]);
                 break;
 
             case Phase.Dispatch:
-                CurrentPhase = Phase.Resolution;
+                CurrentPhase.Value = Phase.Resolution;
                 Board.Instance.ObserversUpdatePhaseText("Resolution");
                 CheckForUnresolvedCards();
                 break;
 
             case Phase.Resolution:
-                CurrentPhase = Phase.Magic;
+                CurrentPhase.Value = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
                 BeginEndRound();
                 Scoreboard.ObserversEnableAllTurnMarkers();
@@ -206,13 +207,13 @@ public class GameManager : NetworkBehaviour
                 Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
 
-                if (CurrentPhase == Phase.GameOver)
+                if (CurrentPhase.Value == Phase.GameOver)
                 {
                     EndGame();
                     break;
                 }
 
-                CurrentPhase = Phase.Recruit;
+                CurrentPhase.Value = Phase.Recruit;
                 Board.Instance.ObserversUpdatePhaseText("Recruit");
 
                 StartingTurn = (StartingTurn + 1) % Players.Count;
@@ -274,7 +275,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void SetPhaseGameOver()
     {
-        CurrentPhase = Phase.GameOver;
+        CurrentPhase.Value = Phase.GameOver;
     }
 
     /// <summary>
@@ -293,7 +294,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void LaunchGameOverPopUp()
     {
-        if (CurrentPhase != Phase.GameOver) return;
+        if (CurrentPhase.Value != Phase.GameOver) return;
 
         GameOverPopUp popUp = PopUpManager.Instance.CreateGameOverPopUp();
         Spawn(popUp.gameObject);

@@ -337,7 +337,7 @@ public class AdventurerCard : Card
     /// </summary>
     public void OnResolutionClick()
     {
-        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Resolution) return;
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Resolution) return;
         if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn.Value) return;
         if (ParentTransform.Value == null) return;
 
@@ -363,9 +363,9 @@ public class AdventurerCard : Card
         if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
 
         if (!IsDraftCard.Value && !IsOwner) { ToggleDisableScreen(true); return; }  // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) { ToggleDisableScreen(true); return; }
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) { ToggleDisableScreen(true); return; }
         if (!player.IsPlayerTurn.Value) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
-        if (IsDraftCard.Value && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
+        if (IsDraftCard.Value && GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
 
         if (!IsDraftCard.Value || player.Gold.Value >= Cost.Value)  // Check player gold if dragging a DraftCard
         {

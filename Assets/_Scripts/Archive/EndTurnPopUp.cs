@@ -28,7 +28,7 @@ public class EndTurnPopUp : MonoBehaviour
             Destroy(gameObject);
         });
 
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Recruit) messageText.text = draftPhaseMessage;
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Recruit) messageText.text = draftPhaseMessage;
         else messageText.text = dispatchPhaseMessage;
     }
 

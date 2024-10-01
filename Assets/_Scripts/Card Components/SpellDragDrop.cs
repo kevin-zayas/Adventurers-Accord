@@ -23,8 +23,8 @@ public class SpellDragDrop : CardDragDrop
         if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
 
         // Only allow dragging during the Dispatch or Magic phase
-        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch &&
-            GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch &&
+            GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic)
         {
             Debug.Log("Can't move spells during this phase");
             return false;
@@ -86,7 +86,7 @@ public class SpellDragDrop : CardDragDrop
         spellCard.ServerSetCardParent(dropZone.transform, false);
         questLane.ServerUpdateSpellEffects();
 
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Magic)
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
         {
             GameManager.Instance.RefreshEndRoundStatus();
         }

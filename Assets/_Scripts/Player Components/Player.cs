@@ -12,12 +12,6 @@ public class Player : NetworkBehaviour
     public readonly SyncVar<int> Gold = new();
     public readonly SyncVar<int> Reputation = new();
     public readonly SyncVar<bool> IsReady = new();
-    //{
-    //    get;
-
-    //    [ServerRpc(RequireOwnership = false)]   //alternate way to set IsReady
-    //    set;
-    //}
 
     [SerializeField] private Hand handPrefab;
 
@@ -26,7 +20,6 @@ public class Player : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        controlledHand.OnChange += RenderHand;
         IsStartingPlayer.Value = GameManager.Instance.Players.Count == 0;
 
         GameManager.Instance.Players.Add(this);
@@ -42,7 +35,7 @@ public class Player : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-
+        controlledHand.OnChange += RenderHand;
         if (!IsOwner) return;
 
         Instance = this;
@@ -88,7 +81,7 @@ public class Player : NetworkBehaviour
     [Server]
     public void UpdatePlayerView()
     {
-        TargetUpdatePlayerView(Owner, IsPlayerTurn.Value, GameManager.Instance.CurrentPhase);
+        TargetUpdatePlayerView(Owner, IsPlayerTurn.Value, GameManager.Instance.CurrentPhase.Value);
     }
 
     [TargetRpc]
@@ -125,6 +118,7 @@ public class Player : NetworkBehaviour
 
     public void RenderHand(Hand prevHand, Hand newHand, bool asSever)
     {
+        print("rendering hand");
         if (asSever) return;
 
         if (!IsOwner)

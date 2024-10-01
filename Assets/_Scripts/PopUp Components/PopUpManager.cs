@@ -66,7 +66,7 @@ public class PopUpManager : NetworkBehaviour
         print("closing round summary pop up");
         popUp.SetActive(false);
 
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.GameOver)
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver)
         {
             Player player = GameManager.Instance.Players[LocalConnection.ClientId];
             this.GameOverPopUpInstance.Value.ServerInitializeGameOverPopup(networkConnection, player);

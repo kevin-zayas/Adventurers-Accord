@@ -87,9 +87,10 @@ public class SpellCard : Card
         if (transform.parent.CompareTag("Quest")) { ToggleDisableScreen(true); return; } // Prevent dragging if the card is already in a quest lane
 
         // Only allow dragging during the Dispatch or Magic phase
-        if (GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch &&
-            GameManager.Instance.CurrentPhase != GameManager.Phase.Magic)
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch &&
+            GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic)
         {
+            print(GameManager.Instance.CurrentPhase.Value);
             Debug.Log("Can't move spells during this phase");
             ToggleDisableScreen(true);
         }

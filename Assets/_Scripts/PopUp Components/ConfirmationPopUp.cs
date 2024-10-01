@@ -53,7 +53,7 @@ public class ConfirmationPopUp : MonoBehaviour
         });
 
         titleText.text = endTurnTitle;
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Recruit) messageText.text = recruitEndTurnMessage;
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Recruit) messageText.text = recruitEndTurnMessage;
         else messageText.text = dispatchEndTurnMessage;
     }
 

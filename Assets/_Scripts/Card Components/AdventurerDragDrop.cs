@@ -27,7 +27,7 @@ public class AdventurerDragDrop : CardDragDrop
     protected override void OnCollisionEnter2D(Collision2D collision)
     {   
         //revisit after tuning dragging logic. this may not even be possible if you can only drag cards during dispatch.
-        if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase != GameManager.Phase.Dispatch) return;
+        if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return; // Prevent dragging onto Magic Item
 
         base.OnCollisionEnter2D(collision);
@@ -41,9 +41,9 @@ public class AdventurerDragDrop : CardDragDrop
     {
         if (!base.CanStartDrag()) return false;
         if (!card.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase == GameManager.Phase.Resolution) return false;
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
         if (!player.IsPlayerTurn.Value) return false; // Allow dragging only during player's turn
-        if (card.IsDraftCard.Value && GameManager.Instance.CurrentPhase != GameManager.Phase.Recruit) return false;
+        if (card.IsDraftCard.Value && GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Recruit) return false;
 
         return !card.IsDraftCard.Value || player.Gold.Value >= card.Cost.Value; // Check player gold if dragging a DraftCard
     }
