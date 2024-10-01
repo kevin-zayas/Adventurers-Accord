@@ -79,6 +79,12 @@ public class Player : NetworkBehaviour
         IsPlayerTurn.Value = value;
     }
 
+    [ServerRpc]
+    public void TogglePlayerIsReady()
+    {
+        IsReady.Value = !IsReady.Value;
+    }
+
     [Server]
     public void UpdatePlayerView()
     {

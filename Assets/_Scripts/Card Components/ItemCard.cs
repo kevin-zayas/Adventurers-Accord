@@ -70,8 +70,8 @@ public class ItemCard : Card
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
-        physicalPowerText.text = card.PhysicalPower.ToString();
-        magicalPowerText.text = card.MagicalPower.ToString();
+        physicalPowerText.text = card.PhysicalPower.Value.ToString();
+        magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         descriptionText.text = card.CardDescription.Value;
         subDescriptionText.text = card.SubDescription.Value;
@@ -88,8 +88,8 @@ public class ItemCard : Card
         isClone = true;
         cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName.Value];
 
-        physicalPowerText.text = itemHeader.PhysicalPower.ToString();
-        magicalPowerText.text = itemHeader.MagicalPower.ToString();
+        physicalPowerText.text = itemHeader.PhysicalPower.Value.ToString();
+        magicalPowerText.text = itemHeader.MagicalPower.Value.ToString();
         nameText.text = itemHeader.CardName.Value;
         descriptionText.text = itemHeader.CardDescription.Value;
         subDescriptionText.text = itemHeader.Data.Value.CardSubDescription;

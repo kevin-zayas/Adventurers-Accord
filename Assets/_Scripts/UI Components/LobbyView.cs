@@ -16,7 +16,7 @@ public class LobbyView : View
     {
         howToPlayButton.onClick.AddListener(() => PopUpManager.Instance.CreateHowToPlayPopUp());
 
-        readyButton.onClick.AddListener(() => Player.Instance.IsReady.Value = !Player.Instance.IsReady.Value);
+        readyButton.onClick.AddListener(() => Player.Instance.TogglePlayerIsReady());
 
         //if (InstanceFinder.IsServer)
         if (Player.Instance.IsStartingPlayer.Value) // could just check is player 1

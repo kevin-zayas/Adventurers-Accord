@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -8,7 +9,7 @@ public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
 
-    public readonly SyncList<QuestSummary> QuestSummaries = new();
+    [AllowMutableSyncTypeAttribute] public SyncList<QuestSummary> QuestSummaries = new();
 
     private int playerCount;
     private int totalPlayers;

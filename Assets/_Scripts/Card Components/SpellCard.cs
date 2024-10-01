@@ -74,8 +74,8 @@ public class SpellCard : Card
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
-        physicalPowerText.text = card.PhysicalPower.ToString();
-        magicalPowerText.text = card.MagicalPower.ToString();
+        physicalPowerText.text = card.PhysicalPower.Value.ToString();
+        magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         descriptionText.text = card.CardDescription.Value;
     }

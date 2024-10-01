@@ -37,7 +37,7 @@ public class EquipItemPopUp : MonoBehaviour
         adventurerCard = card;
         itemCardObject = item;
 
-        titleText.text = string.Format(titleTextString, item.GetComponent<ItemCard>().CardName, card.CardName);
+        titleText.text = string.Format(titleTextString, item.GetComponent<ItemCard>().CardName.Value, card.CardName.Value);
 
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;

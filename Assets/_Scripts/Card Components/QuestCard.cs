@@ -85,13 +85,13 @@ public class QuestCard : Card
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
-        physicalPowerText.text = card.PhysicalPower.ToString();
-        magicalPowerText.text = card.MagicalPower.ToString();
+        physicalPowerText.text = card.PhysicalPower.Value.ToString();
+        magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         abilityNameText.text = card.AbilityName.Value;
-        goldRewardText.text = $"{card.GoldReward} GP";
-        reputationRewardText.text = $"{card.ReputationReward} Rep.";
-        lootRewardText.text = $"{card.LootReward} Loot";
+        goldRewardText.text = $"{card.GoldReward.Value} GP";
+        reputationRewardText.text = $"{card.ReputationReward.Value} Rep.";
+        lootRewardText.text = $"{card.LootReward.Value} Loot";
 
         if (card.CardDescription.Value == "") abilityNameObject.SetActive(false);
     }

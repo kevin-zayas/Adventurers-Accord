@@ -76,7 +76,7 @@ public class ConfirmationPopUp : MonoBehaviour
             Destroy(gameObject);
         });
 
-        titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().CardName, card.CardName.Value);
+        titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().CardName.Value, card.CardName.Value);
         messageText.text = equipItemMessage;
 
         //RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff

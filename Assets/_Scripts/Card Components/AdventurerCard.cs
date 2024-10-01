@@ -295,11 +295,11 @@ public class AdventurerCard : Card
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
 
-        physicalPowerText.text = card.PhysicalPower.ToString();
-        magicalPowerText.text = card.MagicalPower.ToString();
+        physicalPowerText.text = card.PhysicalPower.Value.ToString();
+        magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         abilityNameText.text = card.AbilityName.Value;
-        costText.text = card.Cost.ToString();
+        costText.text = card.Cost.Value.ToString();
 
         UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
 
