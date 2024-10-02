@@ -14,14 +14,14 @@ public class KeywordGrouper : NetworkBehaviour
     {
         SpotlightDescription spotlightDescription = Instantiate(keywordDescriptionPrefab);
         Spawn(spotlightDescription.gameObject);
-        spotlightDescription.TargetSetParent(connection, layoutGroupObject);
+        spotlightDescription.ObserversSetParent(connection, layoutGroupObject);
         spotlightDescription.TargetSetTitleText(connection, keyword);
         spotlightDescription.TargetSetDescriptionText(connection, CardDatabase.Instance.GetKeywordDefinition(keyword));
 
     }
 
-    [TargetRpc]
-    public void TargetSetParent(NetworkConnection connection, GameObject parent)
+    [ObserversRpc]
+    public void ObserversSetParent(NetworkConnection connection, GameObject parent)
     {
         GetComponent<RectTransform>().SetParent(parent.transform, true);
         GetComponent<RectTransform>().anchoredPosition = new Vector2(90, 0);

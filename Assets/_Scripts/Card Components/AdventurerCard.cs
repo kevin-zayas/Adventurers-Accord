@@ -369,7 +369,7 @@ public class AdventurerCard : Card
 
         if (!IsDraftCard.Value || player.Gold.Value >= Cost.Value)  // Check player gold if dragging a DraftCard
         {
-            print("can drag");
+            //print("can drag");
         }
         else 
         {

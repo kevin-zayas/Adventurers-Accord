@@ -36,7 +36,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         dropZone = collision.gameObject;
-        print(dropZone);
+        //print(dropZone);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public abstract class CardDragDrop : NetworkBehaviour
         if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
         {
             dropZone = null;
-            print("exiting dropzone");
+            //print("exiting dropzone");
         }
     }
 
@@ -83,7 +83,7 @@ public abstract class CardDragDrop : NetworkBehaviour
         if (!isDragging) return;
 
         isDragging = false;
-        print(dropZone);
+        //print(dropZone);
         if (dropZone == null || startParentTransform == dropZone.transform)
         {
             Debug.Log("Not over a valid drop zone or still in the starting zone");

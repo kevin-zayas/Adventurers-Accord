@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using GameKit.Dependencies.Utilities;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
@@ -73,7 +74,7 @@ public class Player : NetworkBehaviour
         if (!IsOwner)
         {
             hand.GetComponent<BoxCollider2D>().enabled = false;
-            hand.gameObject.SetActive(false);
+            hand.gameObject.transform.SetPosition(true, new Vector2(960,-300));
             return;
         }
 

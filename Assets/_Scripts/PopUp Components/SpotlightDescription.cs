@@ -27,8 +27,8 @@ public class SpotlightDescription : NetworkBehaviour
         titleText.text = text;
     }
 
-    [TargetRpc]
-    public void TargetSetParent(NetworkConnection connection, GameObject parent)
+    [ObserversRpc]
+    public void ObserversSetParent(NetworkConnection connection, GameObject parent)
     {
         GetComponent<RectTransform>().SetParent(parent.transform, true);
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -140);

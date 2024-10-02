@@ -90,13 +90,12 @@ public class SpellCard : Card
         if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch &&
             GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic)
         {
-            print(GameManager.Instance.CurrentPhase.Value);
             Debug.Log("Can't move spells during this phase");
             ToggleDisableScreen(true);
         }
         else
         {
-            print("can drag");
+            //print("can drag");
         }
     }
 

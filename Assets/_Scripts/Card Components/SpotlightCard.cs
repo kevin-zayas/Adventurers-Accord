@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using GameKit.Dependencies.Utilities;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -105,11 +106,11 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         if (isSpotlight)
         {
-            TargetRenderSpotlightCard(connection, newCardObject, originalCard);
+            ObserversRenderSpotlightCard(connection, newCardObject, originalCard);
         }
         else
         {
-            TargetRenderEnlargedCard(connection, newCardObject);
+            ObserversRenderEnlargedCard(connection, newCardObject);
         }
     }
 
@@ -134,11 +135,11 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         if (isSpotlight)
         {
-            TargetRenderSpotlightCard(connection, newItem.gameObject, originalItemHeader.gameObject);
+            ObserversRenderSpotlightCard(connection, newItem.gameObject, originalItemHeader.gameObject);
         }
         else
         {
-            TargetRenderEnlargedCard(connection, newItem.gameObject);
+            ObserversRenderEnlargedCard(connection, newItem.gameObject);
         }
     }
 
@@ -182,9 +183,14 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     /// <param name="connection">The network connection of the target client.</param>
     /// <param name="newCardObject">The new card object to be rendered as a spotlight card.</param>
     /// <param name="originalCardObject">The original card object for reference.</param>
-    [TargetRpc]
-    private void TargetRenderSpotlightCard(NetworkConnection connection, GameObject newCardObject, GameObject originalCardObject)
+    [ObserversRpc]
+    private void ObserversRenderSpotlightCard(NetworkConnection connection, GameObject newCardObject, GameObject originalCardObject)
     {
+        if (LocalConnection != connection)
+        {
+            newCardObject.transform.SetPosition(true, new Vector2(960, -300));  //this prevents collisions with another player's spotlight card
+            return;
+        }
         SpotlightCard spotlightCard = newCardObject.GetComponent<SpotlightCard>();
         spotlightCard.isSpotlightCard = true;
 
@@ -219,7 +225,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     {
         SpotlightDescription spotlightDescription = Instantiate(spotlightDescriptionPrefab);
         Spawn(spotlightDescription.gameObject);
-        spotlightDescription.TargetSetParent(connection, spotlightCard);
+        spotlightDescription.ObserversSetParent(connection, spotlightCard);
 
         string cardDescription = originalCardObject.GetComponent<Card>().CardDescription.Value;
         spotlightDescription.TargetSetDescriptionText(connection, cardDescription);
@@ -231,7 +237,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         // if there are any keywords, create and spawn description grouper
         KeywordGrouper keywordGrouper = Instantiate(keywordGrouperPrefab);
         Spawn(keywordGrouper.gameObject);
-        keywordGrouper.TargetSetParent(connection, spotlightCard);
+        keywordGrouper.ObserversSetParent(connection, spotlightCard);
 
         foreach (string keyword in keywordList)
         {
@@ -246,12 +252,18 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     /// </summary>
     /// <param name="connection">The network connection of the target client.</param>
     /// <param name="card">The card object to be rendered as an enlarged card.</param>
-    [TargetRpc]
-    private void TargetRenderEnlargedCard(NetworkConnection connection, GameObject card)
+    [ObserversRpc]
+    private void ObserversRenderEnlargedCard(NetworkConnection connection, GameObject card)
     {
         if (isDragging)
         {
             ServerDespawnCard(card);
+            return;
+        }
+
+        if (LocalConnection != connection)
+        {
+            card.transform.SetPosition(true, new Vector2(960, -300));  //this prevents collisions with another player's enlarged card
             return;
         }
 
