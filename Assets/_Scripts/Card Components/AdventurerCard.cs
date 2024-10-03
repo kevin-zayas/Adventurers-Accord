@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -10,8 +11,8 @@ public class AdventurerCard : Card
     #region SyncVars
     public readonly SyncVar<string> AbilityName = new();
     public readonly SyncVar<int> Cost = new();
-    public readonly SyncVar<bool> HasItem = new();
-    public readonly SyncVar<ItemCardHeader> Item = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
     public readonly SyncVar<bool> IsDraftCard = new();
     public readonly SyncVar<int> OriginalMagicalPower = new();
     public readonly SyncVar<int> OriginalPhysicalPower = new();

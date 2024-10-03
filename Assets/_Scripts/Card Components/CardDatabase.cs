@@ -106,17 +106,11 @@ public class CardDatabase : NetworkBehaviour
 
     public List<string> GetCardKeywords(string cardName)
     {
-        print(cardName);
-        print(CardKeywordMap.GetValueOrDefault(cardName));
         return CardKeywordMap.GetValueOrDefault(cardName);
-        //return new List<string> { "Poison" };
     }
 
     public string GetKeywordDefinition(string keyword)
     {
-        //return KeywordDefinitionMap[keyword];
-        print(keyword);
-        print(KeywordDefinitionMap.GetValueOrDefault(keyword));
         return KeywordDefinitionMap.GetValueOrDefault(keyword);
     }
 

@@ -190,8 +190,8 @@ public class ItemCardHeader : Card
         AdventurerCard card = originalCard as AdventurerCard;
         ItemCardHeader item = card.Item.Value;
 
-        physicalPowerText.text = item.PhysicalPower.ToString();
-        magicalPowerText.text = item.MagicalPower.ToString();
+        physicalPowerText.text = item.PhysicalPower.Value.ToString();
+        magicalPowerText.text = item.MagicalPower.Value.ToString();
         nameText.text = item.CardName.Value;
 
         UpdatePowerTextColor(item.PhysicalPower.Value, item.MagicalPower.Value, item.OriginalPhysicalPower.Value, item.OriginalMagicalPower.Value);
