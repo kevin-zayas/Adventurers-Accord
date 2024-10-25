@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -12,7 +13,7 @@ public class Player : NetworkBehaviour
     public readonly SyncVar<bool> IsStartingPlayer = new();
     public readonly SyncVar<int> Gold = new();
     public readonly SyncVar<int> Reputation = new();
-    public readonly SyncVar<bool> IsReady = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsReady = new();
 
     [SerializeField] private Hand handPrefab;
 

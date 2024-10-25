@@ -10,25 +10,25 @@ public class ConnectionStarter : MonoBehaviour
     [SerializeField] private ConnectionType _connectionType;
 
     private Tugboat _tugboat;
-    private Bayou _bayou;
+    //private Bayou _bayou;
 
     private void Awake()
     {
-        //if (TryGetComponent(out Tugboat tugboat))
-        //    _tugboat = tugboat;
-        //else
-        //{
-        //    Debug.LogError("Tugboat not found", gameObject);
-        //    return;
-        //}
-
-        if (TryGetComponent(out Bayou bayou))
-            _bayou = bayou;
+        if (TryGetComponent(out Tugboat tugboat))
+            _tugboat = tugboat;
         else
         {
-            Debug.LogError("Bayou not found", gameObject);
+            Debug.LogError("Tugboat not found", gameObject);
             return;
         }
+
+        //if (TryGetComponent(out Bayou bayou))
+        //    _bayou = bayou;
+        //else
+        //{
+        //    Debug.LogError("Bayou not found", gameObject);
+        //    return;
+        //}
 #if UNITY_EDITOR
         if (_connectionType == ConnectionType.Host)
         {
@@ -40,8 +40,8 @@ public class ConnectionStarter : MonoBehaviour
             else
             {
                 print("Host: starting server only");
-                //_tugboat.StartConnection(true);
-                _bayou.StartConnection(true);
+                _tugboat.StartConnection(true);
+                //_bayou.StartConnection(true);
             }
 
             return;
@@ -52,7 +52,7 @@ public class ConnectionStarter : MonoBehaviour
 #endif
 #if !UNITY_EDITOR
         //_bayou.StartConnection(true);
-        //_tugboat.StartConnection(true);
+        _tugboat.StartConnection(true);
 #endif
     }
 
