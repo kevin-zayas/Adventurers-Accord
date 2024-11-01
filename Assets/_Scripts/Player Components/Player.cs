@@ -24,11 +24,8 @@ public class Player : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        if (GameManager.Instance.Players.Count == 0)
-        {
-            IsStartingPlayer.Value = true;
-            GameManager.Instance.SetStartingPlayer(this);
-        }
+        IsStartingPlayer.Value = GameManager.Instance.Players.Count == 0;
+        //print("new build uploaded");
 
         GameManager.Instance.Players.Add(this);
         Gold.Value = GameManager.Instance.StartingGold;
@@ -108,12 +105,12 @@ public class Player : NetworkBehaviour
             if (GameManager.Instance.Players.All(player => player.IsReady.Value))
             {
                 print("All Players Ready");
-                GameManager.Instance.SetCanStartGame(true);
+                GameManager.Instance.ObserversSetCanStartGame(true);
             }
         }
         else
         {
-            GameManager.Instance.SetCanStartGame(false);
+            GameManager.Instance.ObserversSetCanStartGame(false);
         }
     }
 

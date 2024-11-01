@@ -14,7 +14,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
 
     [field: SerializeField] public SyncList<Player> Players { get; } = new SyncList<Player>();
-    public readonly SyncVar<Player> StartingPlayer = new();
+    [field: SerializeField] public bool CanStartGame { get; private set; }
     [field: SerializeField] public bool DidStartGame { get; private set; }
     [field: SerializeField] public int Turn { get; private set; }
 
@@ -47,21 +47,11 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    //[ServerRpc(RequireOwnership = false)]
-    //Try Setting this To Server and Using CanStartGame again
-    public void SetCanStartGame(bool value)
+    [ObserversRpc]
+    public void ObserversSetCanStartGame(bool value)
     {
-        print("Setting Can Start Game Value");
-        StartingPlayer.Value.CanStartGame.Value = value;
-        print("New Value : " + StartingPlayer.Value.CanStartGame);
-    }
-
-    [Server]
-    public void SetStartingPlayer(Player startingPlayer)
-    {
-        print("Setting Starting Player");
-        StartingPlayer.Value = startingPlayer;
-        print("New Value : " + StartingPlayer.Value);
+        print("Setting CanStartGame value to : " + value);
+        CanStartGame = value;
     }
 
     /// <summary>
