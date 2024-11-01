@@ -3,6 +3,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using GameKit.Dependencies.Utilities;
+using System.Linq;
 using UnityEngine;
 
 public class Player : NetworkBehaviour
@@ -14,6 +15,7 @@ public class Player : NetworkBehaviour
     public readonly SyncVar<int> Gold = new();
     public readonly SyncVar<int> Reputation = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsReady = new();
+    public readonly SyncVar<bool> CanStartGame = new();
 
     [SerializeField] private Hand handPrefab;
 
@@ -22,7 +24,11 @@ public class Player : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        IsStartingPlayer.Value = GameManager.Instance.Players.Count == 0;
+        if (GameManager.Instance.Players.Count == 0)
+        {
+            IsStartingPlayer.Value = true;
+            GameManager.Instance.SetStartingPlayer(this);
+        }
 
         GameManager.Instance.Players.Add(this);
         Gold.Value = GameManager.Instance.StartingGold;
@@ -95,6 +101,20 @@ public class Player : NetworkBehaviour
     public void TogglePlayerIsReady()
     {
         IsReady.Value = !IsReady.Value;
+
+        if (IsReady.Value)
+        {
+            print("Player Is Ready");
+            if (GameManager.Instance.Players.All(player => player.IsReady.Value))
+            {
+                print("All Players Ready");
+                GameManager.Instance.SetCanStartGame(true);
+            }
+        }
+        else
+        {
+            GameManager.Instance.SetCanStartGame(false);
+        }
     }
 
     [Server]

@@ -52,6 +52,6 @@ public class LobbyView : View
 
         readyButtonText.color = Player.Instance.IsReady.Value ? Color.green : Color.red;
 
-        startButton.interactable = GameManager.Instance.CanStart;
+        startButton.interactable = GameManager.Instance.StartingPlayer.Value.CanStartGame.Value;
     }
 }

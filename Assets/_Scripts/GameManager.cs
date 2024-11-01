@@ -1,7 +1,6 @@
-using FishNet.Connection;
+using FishNet.CodeGenerating;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,9 +14,8 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
 
     [field: SerializeField] public SyncList<Player> Players { get; } = new SyncList<Player>();
-
-    [field: SerializeField] public bool CanStart { get; private set; }
-    [field: SerializeField] public bool DidStart { get; private set; }
+    public readonly SyncVar<Player> StartingPlayer = new();
+    [field: SerializeField] public bool DidStartGame { get; private set; }
     [field: SerializeField] public int Turn { get; private set; }
 
     public readonly SyncVar<Phase> CurrentPhase = new(new SyncTypeSettings(WritePermission.ServerOnly));
@@ -42,13 +40,28 @@ public class GameManager : NetworkBehaviour
     {
         if (!IsServerInitialized) return;
 
-        CanStart = Players.All(player => player.IsReady.Value);
-
-        if (DidStart && Players.Count == 0)
+        if (DidStartGame && Players.Count == 0)
         {
             ApiManager.Instance.RestartGameServer();
-            DidStart = false;
+            DidStartGame = false;
         }
+    }
+
+    //[ServerRpc(RequireOwnership = false)]
+    //Try Setting this To Server and Using CanStartGame again
+    public void SetCanStartGame(bool value)
+    {
+        print("Setting Can Start Game Value");
+        StartingPlayer.Value.CanStartGame.Value = value;
+        print("New Value : " + StartingPlayer.Value.CanStartGame);
+    }
+
+    [Server]
+    public void SetStartingPlayer(Player startingPlayer)
+    {
+        print("Setting Starting Player");
+        StartingPlayer.Value = startingPlayer;
+        print("New Value : " + StartingPlayer.Value);
     }
 
     /// <summary>
@@ -78,7 +91,7 @@ public class GameManager : NetworkBehaviour
 
         Board.Instance.StartGame();
         Scoreboard.StartGame(StartingGold);
-        DidStart = true;
+        DidStartGame = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
         SetPlayerTurn(Players[Turn]);
@@ -94,7 +107,7 @@ public class GameManager : NetworkBehaviour
         {
             player.StopGame();
         }
-        DidStart = false;
+        DidStartGame = false;
     }
 
     /// <summary>
