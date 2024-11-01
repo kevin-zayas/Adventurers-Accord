@@ -5540,7 +5540,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Player 1 - Not Ready
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -5567,7 +5567,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7241,14 +7241,13 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1927639718}
   _networkObjectCache: {fileID: 1927639718}
   <Scoreboard>k__BackingField: {fileID: 2782648120714730304}
-  <CanStart>k__BackingField: 0
-  <DidStart>k__BackingField: 0
+  <CanStartGame>k__BackingField: 0
+  <DidStartGame>k__BackingField: 0
   <Turn>k__BackingField: 0
-  <CurrentPhase>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
   <StartingGold>k__BackingField: 30
   <StartingLoot>k__BackingField: 6
-  <ReputationGoal>k__BackingField: 25
+  <ReputationGoal>k__BackingField: 3
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 
 --- !u!114 &1927639718

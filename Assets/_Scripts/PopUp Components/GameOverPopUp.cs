@@ -33,7 +33,7 @@ public class GameOverPopUp : NetworkBehaviour
     public void CalculateRankings()
     {
         List<Player> playerList = new(GameManager.Instance.Players);
-        playerList = playerList.OrderByDescending(x => x.Reputation).ThenByDescending(x => x.Gold).ToList();
+        playerList = playerList.OrderByDescending(x => x.Reputation.Value).ThenByDescending(x => x.Gold.Value).ToList();
 
         RankingTextList.Clear();
         MaxReputation = playerList[0].Reputation.Value;
@@ -51,7 +51,7 @@ public class GameOverPopUp : NetworkBehaviour
                 prevReputation = player.Reputation.Value;
                 prevGold = player.Gold.Value;
             }
-            RankingTextList.Add(string.Format(rankingText, prevRanking, player.PlayerID.Value + 1, player.Reputation, player.Gold));
+            RankingTextList.Add(string.Format(rankingText, prevRanking, player.PlayerID.Value + 1, player.Reputation.Value, player.Gold.Value));
         }
     }
 

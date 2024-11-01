@@ -50,10 +50,10 @@ public class AdventurerCard : Card
         {
             IsDraftCard.Value = true;
         }
-        else      //may need to add this back when putting it on dedicated server
-        {
+        //else      //may need to add this back when putting it on dedicated server
+        //{
             player = GameManager.Instance.Players[LocalConnection.ClientId];
-        }
+        //}
     }
 
     /// <summary>
