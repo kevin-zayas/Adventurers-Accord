@@ -51,6 +51,11 @@ public class MultiplayerMenuView : View
         base.Initialize();
     }
 
+    private void Start()
+    {
+        DeploymentManager.Instance.InitiateDeploymentCheck();
+    }
+
     public void Quit()
     {
 #if (UNITY_EDITOR || DEVELOPMENT_BUILD)

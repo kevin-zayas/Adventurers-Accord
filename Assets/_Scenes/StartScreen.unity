@@ -387,6 +387,7 @@ GameObject:
   m_Component:
   - component: {fileID: 294784625}
   - component: {fileID: 294784624}
+  - component: {fileID: 294784626}
   m_Layer: 0
   m_Name: ApiManager
   m_TagString: Untagged
@@ -421,6 +422,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &294784626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294784623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7897dbd3a530d6d44a43536df83e3cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  networkManagerObject: {fileID: 2084902069}
 --- !u!1 &336555264
 GameObject:
   m_ObjectHideFlags: 0
