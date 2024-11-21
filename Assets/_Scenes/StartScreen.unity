@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joinGameButton: {fileID: 336555266}
-  joinGameText: {fileID: 2015104876}
+  joinGameButtonText: {fileID: 2015104876}
   networkManagerObject: {fileID: 2084902069}
 --- !u!1 &336555264
 GameObject:

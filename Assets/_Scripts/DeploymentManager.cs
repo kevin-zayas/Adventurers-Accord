@@ -8,8 +8,7 @@ using UnityEngine.UI;
 
 public class DeploymentManager : MonoBehaviour
 {
-    private static readonly string deploymentApiUrl = "https://api.edgegap.com/v1/deploy";
-    private static readonly string deploymentsStatusApiUrl = "https://api.edgegap.com/v1/deployments";
+    private static readonly string apiUrl = "https://api.edgegap.com/v1/";
     private static readonly string authToken = "63cd9a6e-131d-4fe7-893b-c6c750c44b58";
 
     private static readonly string appName = "adventurers-accord";
@@ -17,7 +16,7 @@ public class DeploymentManager : MonoBehaviour
     private static readonly string[] ipList = { "192.168.1.1" };
 
     [SerializeField] private Button joinGameButton;
-    [SerializeField] private TMP_Text joinGameText;
+    [SerializeField] private TMP_Text joinGameButtonText;
 
     [SerializeField] private GameObject networkManagerObject;
     private Tugboat tugboatComponent;
@@ -34,17 +33,20 @@ public class DeploymentManager : MonoBehaviour
         tugboatComponent = networkManagerObject.GetComponent<Tugboat>();
     }
 
-    // Entry point for deployment management
+    /// <summary>
+    /// Starts the deployment management process.
+    /// </summary>
     public void InitiateDeploymentCheck()
     {
         StartCoroutine(CheckAndManageDeploymentCoroutine());
     }
 
-    // Coroutine to check and manage deployment state
+    /// <summary>
+    /// Manages the deployment lifecycle by checking for active deployments or creating a new one.
+    /// </summary>
     private IEnumerator CheckAndManageDeploymentCoroutine()
     {
-        // Step 1: Check if there are any active deployments
-        UnityWebRequest statusRequest = CreateRequest(deploymentsStatusApiUrl, "GET");
+        UnityWebRequest statusRequest = CreateWebRequest(apiUrl + "deployments", "GET");
         yield return statusRequest.SendWebRequest();
 
         if (statusRequest.result == UnityWebRequest.Result.Success)
@@ -52,56 +54,101 @@ public class DeploymentManager : MonoBehaviour
             string response = statusRequest.downloadHandler.text;
             Debug.Log($"Active Deployments: {response}");
 
-            // Step 2: Check if any active deployment exists
             if (IsDeploymentActive(response, out string clientAddress, out int gamePort))
             {
-                Debug.Log($"Active deployment found. Host: {clientAddress}, Game Port: {gamePort}");
-
-                tugboatComponent.SetClientAddress(clientAddress);
-                tugboatComponent.SetPort((ushort)gamePort);
-
-                Debug.Log($"Client Adress set to: {clientAddress}");
-                Debug.Log($"Game Port set to: {gamePort}");
-
-                joinGameButton.interactable = true;
-                joinGameText.text = "Join Game";
+                SetNetworkConfiguration(clientAddress, gamePort);
+                SetJoinGameButton(true, "Join Game");
             }
             else
             {
                 Debug.Log("No active deployments found. Creating a new deployment...");
-                // Step 3: Create a new deployment if none exists
                 yield return CreateNewDeployment();
             }
         }
         else
         {
-            Debug.LogError($"Failed to check active deployments: {statusRequest.error}");
+            LogError("Failed to check active deployments", statusRequest);
         }
     }
 
-    // Helper method to check if the deployment is active and extract relevant data
-    private bool IsDeploymentActive(string response, out string fqdn, out int portNumber)
+    /// <summary>
+    /// Checks if the deployment is active and extracts relevant data
+    /// </summary>
+    private bool IsDeploymentActive(string response, out string clientAddress, out int gamePort)
     {
-        fqdn = null;
-        portNumber = 0;
+        clientAddress = ExtractValueFromJson(response, "fqdn");
+        gamePort = int.TryParse(ExtractValueFromJson(response, "external"), out int port) ? port : 0;
 
-        // Check if the response contains active deployments
-        if (response.Contains("\"total_count\": 1"))
-        {
-            fqdn = GetDeploymentClientAddress(response);
-            portNumber = GetDeploymentPortNumber(response);
-
-            return true;
-        }
-        return false;
+        return response.Contains("\"total_count\": 1");
     }
 
-    // Create a request with the appropriate method and URL
-    private UnityWebRequest CreateRequest(string url, string method)
+    /// <summary>
+    /// Creates a new deployment and waits for it to become ready.
+    /// </summary>
+    private IEnumerator CreateNewDeployment()
+    {
+        string jsonPayload = $"{{\"app_name\":\"{appName}\",\"version_name\":\"{appVersion}\",\"ip_list\":[\"{string.Join("\",\"", ipList)}\"]}}";
+
+        UnityWebRequest request = CreateWebRequest(apiUrl + "deploy", "POST", jsonPayload);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string response = request.downloadHandler.text;
+            Debug.Log($"Deployment Created Successfully: {response}");
+
+            string requestId = ExtractValueFromJson(response, "request_id");
+            print(requestId);
+            yield return FetchDeploymentStatus(requestId);
+        }
+        else
+        {
+            LogError("Failed to create deployment", request);
+        }
+    }
+
+    /// <summary>
+    /// Fetches the deployment status until it becomes ready.
+    /// </summary>
+    private IEnumerator FetchDeploymentStatus(string requestId)
+    {
+        string statusUrl = $"{apiUrl}/status/{requestId}";
+        while (true)
+        {
+            UnityWebRequest statusRequest = CreateWebRequest(statusUrl, "GET");
+            yield return statusRequest.SendWebRequest();
+
+            if (statusRequest.result == UnityWebRequest.Result.Success)
+            {
+                string response = statusRequest.downloadHandler.text;
+                string currentStatus = ExtractValueFromJson(response, "current_status");
+
+                if (currentStatus == "Status.READY")
+                {
+                    string clientAddress = ExtractValueFromJson(response, "fqdn");
+                    int gamePort = int.Parse(ExtractValueFromJson(response, "external"));
+                    SetNetworkConfiguration(clientAddress, gamePort);
+                    SetJoinGameButton(true, "Join Game");
+                    yield break;
+                }
+            }
+            else
+            {
+                LogError("Failed to fetch deployment status", statusRequest);
+            }
+
+            yield return new WaitForSeconds(5);
+        }
+    }
+
+    /// <summary>
+    /// Creates a UnityWebRequest with the specified method, URL, and optional payload.
+    /// </summary>
+    private UnityWebRequest CreateWebRequest(string url, string method, string jsonPayload = "{}")
     {
         UnityWebRequest request = new UnityWebRequest(url, method)
         {
-            uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes("{}")),
+            uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonPayload)),
             downloadHandler = new DownloadHandlerBuffer()
         };
         request.SetRequestHeader("Authorization", $"token {authToken}");
@@ -109,132 +156,42 @@ public class DeploymentManager : MonoBehaviour
         return request;
     }
 
-    // Create a new deployment and store the request_id for later
-    private IEnumerator CreateNewDeployment()
+    /// <summary>
+    /// Sets the client address and port for the Tugboat component.
+    /// </summary>
+    private void SetNetworkConfiguration(string clientAddress, int port)
     {
-        // Manually create JSON payload
-        string jsonPayload = $"{{\"app_name\":\"{appName}\",\"version_name\":\"{appVersion}\",\"ip_list\":[\"{string.Join("\",\"", ipList)}\"]}}";
-
-        Debug.Log($"Payload: {jsonPayload}"); // Log the payload to verify its structure
-
-        // Configure UnityWebRequest
-        UnityWebRequest request = new UnityWebRequest(deploymentApiUrl, "POST");
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonPayload);
-        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = new DownloadHandlerBuffer();
-
-        // Set headers
-        request.SetRequestHeader("Authorization", $"token {authToken}");
-        request.SetRequestHeader("Content-Type", "application/json");
-
-        yield return request.SendWebRequest();
-
-        // Handle response
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            string response = request.downloadHandler.text;
-            Debug.Log($"Deployment Created Successfully: {response}");
-
-            string requestId = GetDeploymentRequestId(response);
-            Debug.Log($"Request ID stored: {requestId}");
-
-            // Now fetch the status of the deployment
-            yield return FetchDeploymentStatus(requestId);
-        }
-        else
-        {
-            Debug.LogError($"Error: {request.error}");
-            Debug.LogError($"Response Code: {request.responseCode}");
-            Debug.LogError($"Response Body: {request.downloadHandler.text}");
-        }
-    }
-
-    // Fetch the status of the deployment using the given request_id
-    private IEnumerator FetchDeploymentStatus(string requestId)
-    {
-        string statusUrl = $"https://api.edgegap.com/v1/status/{requestId}";
-        string currentStatus = null;
-        string clientAddress = null;
-        int gamePort = 0;
-
-        while (true)
-        {
-            UnityWebRequest statusRequest = CreateRequest(statusUrl, "GET");
-            yield return statusRequest.SendWebRequest();
-
-            if (statusRequest.result == UnityWebRequest.Result.Success)
-            {
-                string response = statusRequest.downloadHandler.text;
-                Debug.Log($"Deployment Status: {response}");
-
-                // Extract the current status
-                currentStatus = GetDeploymentCurrentStatus(response);
-                Debug.Log($"Current Status: {currentStatus}");
-
-                // Check if the deployment is ready
-                if (currentStatus == "Status.READY")
-                {
-                    Debug.Log("Deployment is ready!");
-
-                    clientAddress = GetDeploymentClientAddress(response);
-                    gamePort = GetDeploymentPortNumber(response);
-                    break;
-                }
-            }
-            else
-            {
-                Debug.LogError($"Failed to fetch deployment status: {statusRequest.error}");
-            }
-
-            // Wait for a few seconds before the next check
-            yield return new WaitForSeconds(5);
-        }
-
-        // Set the client address and port once ready
         tugboatComponent.SetClientAddress(clientAddress);
-        tugboatComponent.SetPort((ushort)gamePort);
-
-        Debug.Log($"Client Address set to: {clientAddress}");
-        Debug.Log($"Game Port set to: {gamePort}");
-
-        joinGameButton.interactable = true;
-        joinGameText.text = "Join Game";
+        tugboatComponent.SetPort((ushort)port);
+        Debug.Log($"Client Address set to: {clientAddress}, Game Port set to: {port}");
     }
 
-    // Extracts the current status from the response
-    private string GetDeploymentCurrentStatus(string response)
+    /// <summary>
+    /// Configures the Join Game button.
+    /// </summary>
+    private void SetJoinGameButton(bool interactable, string buttonText)
     {
-        int statusStartIndex = response.IndexOf("\"current_status\": \"") + "\"current_status\": \"".Length;
-        int statusEndIndex = response.IndexOf("\"", statusStartIndex);
-        string status = response[statusStartIndex..statusEndIndex];
-        return status;
+        joinGameButton.interactable = interactable;
+        joinGameButtonText.text = buttonText;
     }
 
-    private string GetDeploymentClientAddress(string response)
+    /// <summary>
+    /// Extracts a value from JSON using a key.
+    /// </summary>
+    private string ExtractValueFromJson(string json, string key)
     {
-        int fqdnStartIndex = response.IndexOf("\"fqdn\": \"") + "\"fqdn\": \"".Length;
-        int fqdnEndIndex = response.IndexOf("\"", fqdnStartIndex);
-        string fqdn = response[fqdnStartIndex..fqdnEndIndex];
-
-        return fqdn;
+        int startIndex = json.IndexOf($"\"{key}\": ") + $"\"{key}\": ".Length;
+        int endIndex = json.IndexOf(',' , startIndex);
+        return json[startIndex..endIndex].Trim('"');
     }
 
-    private int GetDeploymentPortNumber(string response)
+    /// <summary>
+    /// Logs an error with the details of the UnityWebRequest failure.
+    /// </summary>
+    private void LogError(string message, UnityWebRequest request)
     {
-        int gamePortStartIndex = response.IndexOf("\"external\": ") + "\"external\": ".Length;
-        int gamePortEndIndex = response.IndexOf(",", gamePortStartIndex);
-        string gamePortString = response[gamePortStartIndex..gamePortEndIndex];
-        int gamePort = int.Parse(gamePortString);
-
-        return gamePort;
-    }
-
-    private string GetDeploymentRequestId(string response)
-    {
-        int requestIdStartIndex = response.IndexOf("\"request_id\": \"") + "\"request_id\": \"".Length;
-        int requestIdEndIndex = response.IndexOf("\"", requestIdStartIndex);
-        string requestId = response[requestIdStartIndex..requestIdEndIndex];
-
-        return requestId;
+        Debug.LogError($"{message}: {request.error}");
+        Debug.LogError($"Response Code: {request.responseCode}");
+        Debug.LogError($"Response Body: {request.downloadHandler.text}");
     }
 }
