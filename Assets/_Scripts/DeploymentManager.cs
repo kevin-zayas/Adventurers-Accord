@@ -1,9 +1,10 @@
 using FishNet.Transporting.Tugboat;
 using System.Collections;
 using System.Text;
-using Unity.VisualScripting.FullSerializer;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class DeploymentManager : MonoBehaviour
 {
@@ -15,11 +16,11 @@ public class DeploymentManager : MonoBehaviour
     private static readonly string appVersion = "1.0.0.5";
     private static readonly string[] ipList = { "192.168.1.1" };
 
-    public GameObject networkManagerObject;
-    private Tugboat tugboatComponent;
+    [SerializeField] private Button joinGameButton;
+    [SerializeField] private TMP_Text joinGameText;
 
-    // Store the request_id for later use
-    private string currentRequestId;
+    [SerializeField] private GameObject networkManagerObject;
+    private Tugboat tugboatComponent;
 
     public static DeploymentManager Instance { get; private set; }
 
@@ -61,6 +62,9 @@ public class DeploymentManager : MonoBehaviour
 
                 Debug.Log($"Client Adress set to: {clientAddress}");
                 Debug.Log($"Game Port set to: {gamePort}");
+
+                joinGameButton.interactable = true;
+                joinGameText.text = "Join Game";
             }
             else
             {
@@ -192,6 +196,9 @@ public class DeploymentManager : MonoBehaviour
 
         Debug.Log($"Client Address set to: {clientAddress}");
         Debug.Log($"Game Port set to: {gamePort}");
+
+        joinGameButton.interactable = true;
+        joinGameText.text = "Join Game";
     }
 
     // Extracts the current status from the response

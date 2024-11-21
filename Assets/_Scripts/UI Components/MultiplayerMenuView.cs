@@ -1,28 +1,21 @@
 using FishNet;
-using System.Collections;
-using Unity.VisualScripting.Antlr3.Runtime;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class MultiplayerMenuView : View
 {
-    [SerializeField]
-    private Button hostButton;
-
-    [SerializeField]
-    private Button startGameButton;
-
-    [SerializeField]
-    private Button exitButton;
-
-    [SerializeField]
-    private Button creditsButton;
-
-    [SerializeField]
-    private Button restartServerButton;
+    [SerializeField] private Button hostButton;
+    [SerializeField] private Button joinGameButton;
+    [SerializeField] private TMP_Text joinGameText;
+    [SerializeField] private Button exitButton;
+    [SerializeField] private Button creditsButton;
+    [SerializeField] private Button restartServerButton;
 
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
+
+    [SerializeField] private bool usingRemoteServer;
+
 
     public override void Initialize()
     {
@@ -32,7 +25,7 @@ public class MultiplayerMenuView : View
             InstanceFinder.ClientManager.StartConnection();
         });
 
-        startGameButton.onClick.AddListener(() => InstanceFinder.ClientManager.StartConnection());
+        joinGameButton.onClick.AddListener(() => InstanceFinder.ClientManager.StartConnection());
 
         exitButton.onClick.AddListener(() => Quit());
 
@@ -48,12 +41,19 @@ public class MultiplayerMenuView : View
             ApiManager.Instance.RestartGameServer();
         });
 
+        if (usingRemoteServer)
+        {
+            hostButton.gameObject.SetActive(false);
+            joinGameButton.interactable = false;
+            joinGameText.text = "Launching Game";
+        }
+
         base.Initialize();
     }
 
     private void Start()
     {
-        DeploymentManager.Instance.InitiateDeploymentCheck();
+        if (usingRemoteServer) DeploymentManager.Instance.InitiateDeploymentCheck();
     }
 
     public void Quit()

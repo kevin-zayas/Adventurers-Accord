@@ -334,11 +334,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hostButton: {fileID: 1658238227}
-  startGameButton: {fileID: 336555266}
+  joinGameButton: {fileID: 336555266}
+  joinGameText: {fileID: 2015104876}
   exitButton: {fileID: 1594816352}
   creditsButton: {fileID: 1583678167}
   restartServerButton: {fileID: 771582458}
   CreditsPopUpPrefab: {fileID: 5221712264653024010, guid: 92696417085daf043bc8375e0b57866c, type: 3}
+  usingRemoteServer: 1
 --- !u!114 &285254872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +436,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7897dbd3a530d6d44a43536df83e3cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joinGameButton: {fileID: 336555266}
+  joinGameText: {fileID: 2015104876}
   networkManagerObject: {fileID: 2084902069}
 --- !u!1 &336555264
 GameObject:
