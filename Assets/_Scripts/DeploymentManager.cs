@@ -145,31 +145,62 @@ public class DeploymentManager : MonoBehaviour
         }
     }
 
-    // Fetch the status of the deployment using the stored request_id
+    // Fetch the status of the deployment using the given request_id
     private IEnumerator FetchDeploymentStatus(string requestId)
     {
         string statusUrl = $"https://api.edgegap.com/v1/status/{requestId}";
-        UnityWebRequest statusRequest = CreateRequest(statusUrl, "GET");
-        yield return statusRequest.SendWebRequest();
+        string currentStatus = null;
+        string clientAddress = null;
+        int gamePort = 0;
 
-        if (statusRequest.result == UnityWebRequest.Result.Success)
+        while (true)
         {
-            string response = statusRequest.downloadHandler.text;
-            Debug.Log($"Deployment Status: {response}");
+            UnityWebRequest statusRequest = CreateRequest(statusUrl, "GET");
+            yield return statusRequest.SendWebRequest();
 
-            string clientAdress = GetDeploymentClientAddress(response);
-            int gamePort = GetDeploymentPortNumber(response);
+            if (statusRequest.result == UnityWebRequest.Result.Success)
+            {
+                string response = statusRequest.downloadHandler.text;
+                Debug.Log($"Deployment Status: {response}");
 
-            tugboatComponent.SetClientAddress(clientAdress);
-            tugboatComponent.SetPort((ushort)gamePort);
+                // Extract the current status
+                currentStatus = GetDeploymentCurrentStatus(response);
+                Debug.Log($"Current Status: {currentStatus}");
 
-            Debug.Log($"Client Adress set to: {clientAdress}");
-            Debug.Log($"Game Port set to: {gamePort}");
+                // Check if the deployment is ready
+                if (currentStatus == "Status.READY")
+                {
+                    Debug.Log("Deployment is ready!");
+
+                    clientAddress = GetDeploymentClientAddress(response);
+                    gamePort = GetDeploymentPortNumber(response);
+                    break;
+                }
+            }
+            else
+            {
+                Debug.LogError($"Failed to fetch deployment status: {statusRequest.error}");
+            }
+
+            // Wait for a few seconds before the next check
+            yield return new WaitForSeconds(5);
         }
-        else
-        {
-            Debug.LogError($"Failed to fetch deployment status: {statusRequest.error}");
-        }
+
+        // Set the client address and port once ready
+        tugboatComponent.SetClientAddress(clientAddress);
+        tugboatComponent.SetPort((ushort)gamePort);
+
+        Debug.Log($"Client Address set to: {clientAddress}");
+        Debug.Log($"Game Port set to: {gamePort}");
+    }
+
+    // Extracts the current status from the response
+    private string GetDeploymentCurrentStatus(string response)
+    {
+        int statusStartIndex = response.IndexOf("\"current_status\": \"") + "\"current_status\": \"".Length;
+        int statusEndIndex = response.IndexOf("\"", statusStartIndex);
+        string status = response[statusStartIndex..statusEndIndex];
+        return status;
     }
 
     private string GetDeploymentClientAddress(string response)
