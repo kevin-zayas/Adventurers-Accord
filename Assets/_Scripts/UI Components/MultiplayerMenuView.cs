@@ -16,7 +16,10 @@ public class MultiplayerMenuView : View
 
     [SerializeField] private bool usingRemoteServer;
 
-
+    private void Start()
+    {
+        if (usingRemoteServer) DeploymentManager.Instance.InitiateDeploymentCheck();
+    }
     public override void Initialize()
     {
         hostButton.onClick.AddListener(() =>
@@ -38,22 +41,26 @@ public class MultiplayerMenuView : View
 
         restartServerButton.onClick.AddListener(() =>
         {
-            ApiManager.Instance.RestartGameServer();
+            if (usingRemoteServer)
+            {
+                DeploymentManager.Instance.InitiateServerRestart();
+                ToggleLaunchingGame();
+            }
         });
 
         if (usingRemoteServer)
         {
             hostButton.gameObject.SetActive(false);
-            joinGameButton.interactable = false;
-            joinGameText.text = "Launching Game";
+            ToggleLaunchingGame();
         }
 
         base.Initialize();
     }
 
-    private void Start()
+    private void ToggleLaunchingGame()
     {
-        if (usingRemoteServer) DeploymentManager.Instance.InitiateDeploymentCheck();
+        joinGameButton.interactable = false;
+        joinGameText.text = "Launching Game";
     }
 
     public void Quit()

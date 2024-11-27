@@ -388,27 +388,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 294784625}
-  - component: {fileID: 294784624}
   - component: {fileID: 294784626}
   m_Layer: 0
-  m_Name: ApiManager
+  m_Name: DeploymentManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &294784624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 294784623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c547aafd70f7834ab54f41b47ff6341, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &294784625
 Transform:
   m_ObjectHideFlags: 0

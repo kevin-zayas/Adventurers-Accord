@@ -42,7 +42,7 @@ public class GameManager : NetworkBehaviour
 
         if (DidStartGame && Players.Count == 0)
         {
-            ApiManager.Instance.RestartGameServer();
+            DeploymentManager.Instance.InitiateServerRestart();
             DidStartGame = false;
         }
     }

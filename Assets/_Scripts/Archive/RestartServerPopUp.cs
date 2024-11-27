@@ -18,8 +18,7 @@ public class RestartServerPopUp : MonoBehaviour
 
         confirmButton.onClick.AddListener(() =>
         {
-            ApiManager.Instance.RestartGameServer();
-            //Destroy(gameObject);
+            DeploymentManager.Instance.InitiateServerRestart();
         });
 
     }

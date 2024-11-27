@@ -30,7 +30,7 @@ public class DeploymentManager : MonoBehaviour
 
     private void Start()
     {
-        tugboatComponent = networkManagerObject.GetComponent<Tugboat>();
+        if (networkManagerObject) tugboatComponent = networkManagerObject.GetComponent<Tugboat>();
     }
 
     /// <summary>
@@ -42,19 +42,24 @@ public class DeploymentManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Starts the deployment restart process.
+    /// </summary>
+    public void InitiateServerRestart()
+    {
+        StartCoroutine(CheckAndDeleteDeploymentCoroutine());
+    }
+
+    /// <summary>
     /// Manages the deployment lifecycle by checking for active deployments or creating a new one.
     /// </summary>
     private IEnumerator CheckAndManageDeploymentCoroutine()
     {
-        UnityWebRequest statusRequest = CreateWebRequest(apiUrl + "deployments", "GET");
-        yield return statusRequest.SendWebRequest();
+        string deploymentsList = null;
+        yield return StartCoroutine(GetDeploymentsList(result => deploymentsList = result));
 
-        if (statusRequest.result == UnityWebRequest.Result.Success)
+        if (!string.IsNullOrEmpty(deploymentsList))
         {
-            string response = statusRequest.downloadHandler.text;
-            Debug.Log($"Active Deployments: {response}");
-
-            if (IsDeploymentActive(response, out string clientAddress, out int gamePort))
+            if (IsDeploymentActive(deploymentsList, out string clientAddress, out int gamePort))
             {
                 SetNetworkConfiguration(clientAddress, gamePort);
                 SetJoinGameButton(true, "Join Game");
@@ -67,7 +72,28 @@ public class DeploymentManager : MonoBehaviour
         }
         else
         {
-            LogError("Failed to check active deployments", statusRequest);
+            Debug.LogError("Failed to retrieve deployments; cannot proceed.");
+        }
+    }
+
+    /// <summary>
+    /// Retrieves a list of deployments
+    /// </summary>
+    private IEnumerator GetDeploymentsList(System.Action<string> onCompleted)
+    {
+        UnityWebRequest statusRequest = CreateWebRequest(apiUrl + "deployments", "GET");
+        yield return statusRequest.SendWebRequest();
+
+        if (statusRequest.result == UnityWebRequest.Result.Success)
+        {
+            string response = statusRequest.downloadHandler.text;
+            Debug.Log($"Deployments List: {response}");
+            onCompleted?.Invoke(response); // Call the callback with the response
+        }
+        else
+        {
+            LogError("Failed to get deployments list", statusRequest);
+            onCompleted?.Invoke(null); // Return null if failed
         }
     }
 
@@ -99,7 +125,7 @@ public class DeploymentManager : MonoBehaviour
 
             string requestId = ExtractValueFromJson(response, "request_id");
             print(requestId);
-            yield return FetchDeploymentStatus(requestId);
+            yield return CheckDeploymentStatus(requestId, "Status.READY");
         }
         else
         {
@@ -108,11 +134,12 @@ public class DeploymentManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Fetches the deployment status until it becomes ready.
+    /// Fetches the deployment status periodically until it matches the desired status, and performs corresponding logic.
     /// </summary>
-    private IEnumerator FetchDeploymentStatus(string requestId)
+    private IEnumerator CheckDeploymentStatus(string requestId, string desiredStatus)
     {
         string statusUrl = $"{apiUrl}/status/{requestId}";
+
         while (true)
         {
             UnityWebRequest statusRequest = CreateWebRequest(statusUrl, "GET");
@@ -123,13 +150,39 @@ public class DeploymentManager : MonoBehaviour
                 string response = statusRequest.downloadHandler.text;
                 string currentStatus = ExtractValueFromJson(response, "current_status");
 
-                if (currentStatus == "Status.READY")
+                Debug.Log($"Current status: {currentStatus}");
+
+                switch (currentStatus)
                 {
-                    string clientAddress = ExtractValueFromJson(response, "fqdn");
-                    int gamePort = int.Parse(ExtractValueFromJson(response, "external"));
-                    SetNetworkConfiguration(clientAddress, gamePort);
-                    SetJoinGameButton(true, "Join Game");
-                    yield break;
+                    case "Status.READY":
+                        Debug.Log("Deployment is ready.");
+                        if (desiredStatus == "Status.READY")
+                        {
+                            string clientAddress = ExtractValueFromJson(response, "fqdn");
+                            int gamePort = int.Parse(ExtractValueFromJson(response, "external"));
+                            SetNetworkConfiguration(clientAddress, gamePort);
+                            SetJoinGameButton(true, "Join Game");
+                            yield break; // Exit the coroutine
+                        }
+                        break;
+
+                    case "Status.TERMINATED":
+                        Debug.Log("Deployment is terminated.");
+                        if (desiredStatus == "Status.TERMINATED")
+                        {
+                            StartCoroutine(CheckAndManageDeploymentCoroutine());
+                            yield break; // Exit the coroutine
+                        }
+                        break;
+
+                    case "Status.PENDING":
+                        Debug.Log("Deployment is pending...");
+                        // Add logic for pending state if needed
+                        break;
+
+                    default:
+                        Debug.LogWarning($"Unhandled deployment status: {currentStatus}");
+                        break;
                 }
             }
             else
@@ -137,7 +190,40 @@ public class DeploymentManager : MonoBehaviour
                 LogError("Failed to fetch deployment status", statusRequest);
             }
 
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(5); // Retry after delay
+        }
+    }
+
+    /// <summary>
+    /// Checks for Deployments and deletes them
+    /// </summary>
+    public IEnumerator CheckAndDeleteDeploymentCoroutine()
+    {
+        string response = null;
+        yield return StartCoroutine(GetDeploymentsList(result => response = result));
+
+        string requestId = ExtractValueFromJson(response, "request_id");
+        StartCoroutine(DeleteDeployment(requestId));
+    }
+
+    /// <summary>
+    /// Finds the Deployment corresponding to the given request ID and deletes it
+    /// </summary>
+    private IEnumerator DeleteDeployment(string requestId)
+    {
+        UnityWebRequest request = CreateWebRequest($"{apiUrl}/stop/{requestId}", "DELETE");
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string response = request.downloadHandler.text;
+            Debug.Log($"Deployment Deleted Successfully: {response}");
+
+            yield return CheckDeploymentStatus(requestId, "Status.TERMINATED");
+        }
+        else
+        {
+            LogError("Failed to Delete deployment", request);
         }
     }
 

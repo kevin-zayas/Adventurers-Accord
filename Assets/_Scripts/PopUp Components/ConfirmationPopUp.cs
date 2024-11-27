@@ -97,8 +97,7 @@ public class ConfirmationPopUp : MonoBehaviour
 
         confirmButton.onClick.AddListener(() =>
         {
-            ApiManager.Instance.RestartGameServer();
-            //Destroy(gameObject);
+            DeploymentManager.Instance.InitiateServerRestart();
         });
 
         titleText.text = restartServerTitle;
