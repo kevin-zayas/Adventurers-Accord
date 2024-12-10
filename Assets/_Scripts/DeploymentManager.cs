@@ -12,7 +12,7 @@ public class DeploymentManager : MonoBehaviour
     private static readonly string authToken = "63cd9a6e-131d-4fe7-893b-c6c750c44b58";
 
     private static readonly string appName = "adventurers-accord";
-    private static readonly string appVersion = "1.0.0.5";
+    private static readonly string appVersion = "1.0.0.1";
     private static readonly string[] ipList = { "192.168.1.1" };
 
     [SerializeField] private Button joinGameButton;
@@ -175,13 +175,8 @@ public class DeploymentManager : MonoBehaviour
                         }
                         break;
 
-                    case "Status.PENDING":
-                        Debug.Log("Deployment is pending...");
-                        // Add logic for pending state if needed
-                        break;
-
                     default:
-                        Debug.LogWarning($"Unhandled deployment status: {currentStatus}");
+                        Debug.Log($"Unhandled deployment status: {currentStatus}");
                         break;
                 }
             }
@@ -276,6 +271,7 @@ public class DeploymentManager : MonoBehaviour
     /// </summary>
     private void LogError(string message, UnityWebRequest request)
     {
+        Debug.LogError($"Response Code: {request.responseCode}");
         Debug.LogError($"{message}: {request.error}");
         Debug.LogError($"Response Code: {request.responseCode}");
         Debug.LogError($"Response Body: {request.downloadHandler.text}");

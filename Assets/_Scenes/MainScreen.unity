@@ -7261,9 +7261,9 @@ MonoBehaviour:
   <DidStartGame>k__BackingField: 0
   <Turn>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 30
-  <StartingLoot>k__BackingField: 6
-  <ReputationGoal>k__BackingField: 3
+  <StartingGold>k__BackingField: 10
+  <StartingLoot>k__BackingField: 3
+  <ReputationGoal>k__BackingField: 25
   <PlayerSkipTurnStatus>k__BackingField: 
   <PlayerEndRoundStatus>k__BackingField: 
 --- !u!114 &1927639718

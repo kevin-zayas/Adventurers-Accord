@@ -44,6 +44,7 @@ public class GameManager : NetworkBehaviour
         {
             DeploymentManager.Instance.InitiateServerRestart();
             DidStartGame = false;
+            print("restarting server");
         }
     }
 
