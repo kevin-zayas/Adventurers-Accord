@@ -1,5 +1,8 @@
+using FishNet.Transporting;
 using FishNet.Transporting.Tugboat;
+using Newtonsoft.Json;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -9,11 +12,15 @@ using UnityEngine.UI;
 public class DeploymentManager : MonoBehaviour
 {
     private static readonly string apiUrl = "https://api.edgegap.com/v1/";
-    private static readonly string authToken = "63cd9a6e-131d-4fe7-893b-c6c750c44b58";
+    //private static readonly string oldAuthToken = "63cd9a6e-131d-4fe7-893b-c6c750c44b58";
 
     private static readonly string appName = "adventurers-accord";
     private static readonly string appVersion = "1.0.0.1";
     private static readonly string[] ipList = { "192.168.1.1" };
+
+    private static readonly string baseUrl = "https://om-7wjh0llgan.edgegap.net";
+    private static readonly string authToken = "f0d40dca-662c-4d64-9dc2-9c44327d2cca";
+
 
     [SerializeField] private Button joinGameButton;
     [SerializeField] private TMP_Text joinGameButtonText;
@@ -31,6 +38,224 @@ public class DeploymentManager : MonoBehaviour
     private void Start()
     {
         if (networkManagerObject) tugboatComponent = networkManagerObject.GetComponent<Tugboat>();
+    }
+
+    /// <summary>
+    /// Starts the deployment management process.
+    /// </summary>
+    public void InitiateMatchmaking()
+    {
+        StartCoroutine(CreateMatchmakingTicket());
+    }
+
+    /// <summary>
+    /// Creates a matchmaking ticket by sending a POST request to the matchmaking API.
+    /// </summary>
+    /// <returns>Coroutine for the matchmaking ticket request.</returns>
+    public IEnumerator CreateMatchmakingTicket()
+    {
+        string url = $"{baseUrl}/tickets";
+
+        // Construct the request body using defined classes
+        var requestBodyObject = new MatchmakingRequest
+        {
+            player_ip = null,
+            profile = "simple-example",
+            attributes = new Attributes
+            {
+                beacons = new Beacons
+                {
+                    Montreal = 12.3f,
+                    Toronto = 45.6f,
+                    Quebec = 78.9f
+                }
+            }
+        };
+
+        // Serialize the object to JSON
+        //string requestBody = JsonUtility.ToJson(requestBodyObject);
+        string requestBody = JsonConvert.SerializeObject(requestBodyObject,
+        new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Include
+        });
+
+        UnityWebRequest request = CreateWebRequest(url, "POST", requestBody);
+        print(url);
+        print(requestBody);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            string responseText = request.downloadHandler.text;
+
+            // Use a custom class to parse the response JSON
+            var response = JsonUtility.FromJson<MatchmakingResponse>(responseText);
+
+            if (response.status == "SEARCHING")
+            {
+                string ticketId = response.id;
+                Debug.Log($"Matchmaking ticket created. ID: {ticketId}");
+
+                yield return GetMatchmakingTicketStatus(ticketId);
+            }
+            else
+            {
+                Debug.Log($"Unhandled status: {response.status}");
+            }
+        }
+        else
+        {
+            LogError("Failed to create matchmaking ticket", request);
+            print(request);
+        }
+    }
+
+    /// <summary>
+    /// Periodically fetches the matchmaking ticket status and performs actions based on the status.
+    /// </summary>
+    /// <param name="ticketId">The ID of the matchmaking ticket.</param>
+    private IEnumerator GetMatchmakingTicketStatus(string ticketId)
+    {
+        string url = $"{baseUrl}/tickets/{ticketId}";
+
+        while (true)
+        {
+            UnityWebRequest statusRequest = CreateWebRequest(url, "GET");
+            yield return statusRequest.SendWebRequest();
+
+            if (statusRequest.result == UnityWebRequest.Result.Success)
+            {
+                string responseText = statusRequest.downloadHandler.text;
+                Debug.Log($"Matchmaking status response: {responseText}");
+
+                //var response = JsonUtility.FromJson<MatchmakingStatusResponse>(responseText);
+                MatchmakingStatusResponse response = JsonConvert.DeserializeObject<MatchmakingStatusResponse>(responseText);
+
+                switch (response.status)
+                {
+                    case "HOST_ASSIGNED":
+                        if (response.assignment != null)
+                        {
+                            print(response.assignment.ports);
+                            string fqdn = response.assignment.fqdn;
+                            int externalPort = response.assignment.ports["Game Port"].external;
+
+
+                            SetNetworkConfiguration(fqdn, externalPort);
+                            SetJoinGameButton(true, "Join Game");
+
+                            Debug.Log($"Host assigned. FQDN: {fqdn}, External Port: {externalPort}");
+                            yield break; // Exit the coroutine
+                        }
+                        else
+                        {
+                            Debug.LogWarning("HOST_ASSIGNED status received but no assignment details found.");
+                        }
+                        break;
+
+                    case "MATCH_FOUND":
+                        Debug.Log("Match found.");
+                        break;
+
+                    default:
+                        Debug.Log($"Unhandled status: {response.status}");
+                        break;
+                }
+            }
+            else
+            {
+                LogError("Failed to fetch matchmaking status", statusRequest);
+            }
+
+            yield return new WaitForSeconds(5); // Retry after delay
+        }
+    }
+
+    [System.Serializable]
+    public class MatchmakingRequest
+    {
+        public string player_ip;
+        public string profile;
+        public Attributes attributes;
+    }
+
+    [System.Serializable]
+    public class Attributes
+    {
+        public Beacons beacons;
+    }
+
+    [System.Serializable]
+    public class Beacons
+    {
+        public float Montreal;
+        public float Toronto;
+        public float Quebec;
+    }
+
+    /// <summary>
+    /// Data structure to parse the matchmaking ticket response.
+    /// </summary>
+    [System.Serializable]
+    private class MatchmakingResponse
+    {
+        public string id;
+        public string profile;
+        public string group_id;
+        public string player_ip;
+        public string assignment;
+        public string created_at;
+        public string status;
+    }
+
+    /// <summary>
+    /// Data structure for parsing matchmaking status response.
+    /// </summary>
+    private class MatchmakingStatusResponse
+    {
+        public string id { get; set; }
+        public string profile { get; set; }
+        public string group_id { get; set; }
+        public string player_ip { get; set; }
+        public MatchmakingAssignment assignment { get; set; }
+        public string created_at { get; set; }
+        public string status { get; set; }
+    }
+
+    /// <summary>
+    /// Data structure for assignment details in the matchmaking response.
+    /// </summary>
+    private class MatchmakingAssignment
+    {
+        public string fqdn { get; set; }
+        public string public_ip { get; set; }
+        public Dictionary<string, MatchmakingPort> ports { get; set; }
+        public MatchmakingLocation location { get; set; }
+    }
+
+    /// <summary>
+    /// Data structure for port details in the assignment.
+    /// </summary>
+    private class MatchmakingPort
+    {
+        [JsonProperty("internal")] // Map "internal" field to avoid conflicts with the C# keyword.
+        public int internalPort { get; set; }
+        public int external { get; set; }
+        public string link { get; set; }
+        public string protocol { get; set; }
+    }
+
+    /// <summary>
+    /// Data structure for location details in the assignment.
+    /// </summary>
+    private class MatchmakingLocation
+    {
+        public string city { get; set; }
+        public string country { get; set; }
+        public string continent { get; set; }
+        public string administrative_division { get; set; }
+        public string timezone { get; set; }
     }
 
     /// <summary>
@@ -232,7 +457,7 @@ public class DeploymentManager : MonoBehaviour
             uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(jsonPayload)),
             downloadHandler = new DownloadHandlerBuffer()
         };
-        request.SetRequestHeader("Authorization", $"token {authToken}");
+        request.SetRequestHeader("Authorization", authToken);
         request.SetRequestHeader("Content-Type", "application/json");
         return request;
     }
@@ -273,7 +498,6 @@ public class DeploymentManager : MonoBehaviour
     {
         Debug.LogError($"Response Code: {request.responseCode}");
         Debug.LogError($"{message}: {request.error}");
-        Debug.LogError($"Response Code: {request.responseCode}");
         Debug.LogError($"Response Body: {request.downloadHandler.text}");
     }
 }

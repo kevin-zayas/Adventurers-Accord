@@ -18,7 +18,7 @@ public class MultiplayerMenuView : View
 
     private void Start()
     {
-        if (usingRemoteServer) DeploymentManager.Instance.InitiateDeploymentCheck();
+        if (usingRemoteServer) DeploymentManager.Instance.InitiateMatchmaking();
     }
     public override void Initialize()
     {
