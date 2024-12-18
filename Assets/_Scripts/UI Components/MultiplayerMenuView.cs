@@ -14,11 +14,12 @@ public class MultiplayerMenuView : View
 
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
 
-    [SerializeField] private bool usingRemoteServer;
+    [SerializeField] private bool usingDynamicServer;
 
     private void Start()
     {
-        if (usingRemoteServer) DeploymentManager.Instance.InitiateMatchmaking();
+        //if (usingRemoteServer) DeploymentManager.Instance.InitiateMatchmaking();
+        if (usingDynamicServer) DeploymentManager.Instance.InitiateDeploymentCheck();
     }
     public override void Initialize()
     {
@@ -41,14 +42,14 @@ public class MultiplayerMenuView : View
 
         restartServerButton.onClick.AddListener(() =>
         {
-            if (usingRemoteServer)
+            if (usingDynamicServer)
             {
                 DeploymentManager.Instance.InitiateServerRestart();
                 ToggleLaunchingGame();
             }
         });
 
-        if (usingRemoteServer)
+        if (usingDynamicServer)
         {
             hostButton.gameObject.SetActive(false);
             ToggleLaunchingGame();

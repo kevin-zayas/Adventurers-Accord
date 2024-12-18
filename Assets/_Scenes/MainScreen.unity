@@ -3193,6 +3193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7897dbd3a530d6d44a43536df83e3cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deplaymentAuthToken: token 63cd9a6e-131d-4fe7-893b-c6c750c44b58
   joinGameButton: {fileID: 0}
   joinGameButtonText: {fileID: 0}
   networkManagerObject: {fileID: 0}

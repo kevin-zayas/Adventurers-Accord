@@ -340,7 +340,7 @@ MonoBehaviour:
   creditsButton: {fileID: 1583678167}
   restartServerButton: {fileID: 771582458}
   CreditsPopUpPrefab: {fileID: 5221712264653024010, guid: 92696417085daf043bc8375e0b57866c, type: 3}
-  usingRemoteServer: 1
+  usingDynamicServer: 1
 --- !u!114 &285254872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7897dbd3a530d6d44a43536df83e3cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deplaymentAuthToken: token 63cd9a6e-131d-4fe7-893b-c6c750c44b58
   joinGameButton: {fileID: 336555266}
   joinGameButtonText: {fileID: 2015104876}
   networkManagerObject: {fileID: 2084902069}
@@ -1753,7 +1754,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1658238226
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1769,9 +1770,9 @@ RectTransform:
   - {fileID: 918668520}
   m_Father: {fileID: 179583393}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 400, y: -39.733337}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1658238227

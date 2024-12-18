@@ -1,6 +1,5 @@
 using FishNet;
 using FishNet.Transporting;
-using FishNet.Transporting.Bayou;
 using FishNet.Transporting.Tugboat;
 using UnityEditor;
 using UnityEngine;
@@ -22,37 +21,27 @@ public class ConnectionStarter : MonoBehaviour
             return;
         }
 
-        //if (TryGetComponent(out Bayou bayou))
-        //    _bayou = bayou;
-        //else
-        //{
-        //    Debug.LogError("Bayou not found", gameObject);
-        //    return;
-        //}
 #if UNITY_EDITOR
         if (_connectionType == ConnectionType.Host)
         {
             if (ParrelSync.ClonesManager.IsClone())
             {
-                print("Clone Detected, starting client");
-                //_bayou.StartConnection(false);   //dont auto start for client
-            }
-            else
-            {
-                print("Host: starting server only");
-                _tugboat.StartConnection(true);
-                //_bayou.StartConnection(true);
+                print("Clone Detected, cannot host");
+                return;
             }
 
-            return;
+            print("Host: starting server only");
+            _tugboat.StartConnection(true);
         }
-        print("Not a Host: Starting Client");
-        //_bayou.StartConnection(false);  //dont auto start
+        return;
 
 #endif
 #if !UNITY_EDITOR
-        //_bayou.StartConnection(true);
-        _tugboat.StartConnection(true);
+    if (_connectionType == ConnectionType.Host)
+        {
+            _tugboat.StartConnection(true);
+        }
+        
 #endif
     }
 
