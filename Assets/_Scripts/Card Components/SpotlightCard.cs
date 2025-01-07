@@ -201,16 +201,15 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         RectTransform spotlightTransform = newCardObject.GetComponent<RectTransform>();
         spotlightTransform.localScale = new Vector2(3f, 3f);
+        newCardObject.transform.SetParent(canvas.transform, true);
 
         // Expand raycast blocker to full screen
         spotlightTransform.anchorMax = Vector2.one;
         spotlightTransform.anchorMin = Vector2.zero;
         spotlightTransform.offsetMin = Vector2.zero;
-        spotlightTransform.offsetMax = new Vector2(Screen.width, Screen.height + 125f);
+        spotlightTransform.offsetMax = new Vector2(0f, 125f);
 
         newCardObject.GetComponent<Image>().enabled = true;
-
-        newCardObject.transform.SetParent(canvas.transform, true);
         newCardObject.layer = LayerMask.NameToLayer("Spotlight");
     }
 
@@ -269,11 +268,13 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         card.GetComponent<SpotlightCard>().isEnlargedCard = true;
 
-        RectTransform spotlightRect = card.GetComponent<RectTransform>();
-        spotlightRect.localScale = new Vector2(2f, 2f);
-        PreventEnlargedCardCutoff(spotlightRect);
+        RectTransform spotlightTransform = card.GetComponent<RectTransform>();
+        spotlightTransform.anchorMax = new Vector2(0.5f, 0.5f);         //Set anchor to middle of card to keep consistent across use cases
+        spotlightTransform.anchorMin = new Vector2(0.5f, 0.5f);
+        spotlightTransform.localScale = new Vector2(2f, 2f);
 
         card.transform.SetParent(canvas.transform, true);
+        PreventEnlargedCardCutoff(spotlightTransform);
         card.layer = LayerMask.NameToLayer("Spotlight");
     }
 
@@ -285,8 +286,12 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
     {
         Vector2 position = rt.anchoredPosition;
 
-        float x = Mathf.Clamp(position.x, 0, Screen.width - rt.sizeDelta.x);
-        float y = Mathf.Clamp(position.y, rt.sizeDelta.y, Screen.height - rt.sizeDelta.y);
+        RectTransform canvasTransform = canvas.GetComponent<RectTransform>();
+        float canvasWidth = canvasTransform.rect.width/2;
+        float canvasHeight = canvasTransform.rect.height/2;
+
+        float x = Mathf.Clamp(position.x, -canvasWidth, canvasWidth - rt.sizeDelta.x);
+        float y = Mathf.Clamp(position.y, -canvasHeight + rt.sizeDelta.y, canvasHeight - rt.sizeDelta.y);
 
         rt.anchoredPosition = new Vector2(x, y);
     }
