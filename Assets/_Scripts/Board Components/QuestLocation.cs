@@ -59,7 +59,7 @@ public class QuestLocation : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversInitializeQuestLocation()
     {
-        int playerCount = 4;// GameManager.Instance.Players.Count;
+        int playerCount = GameManager.Instance.Players.Count;
         int questLocationWidth = 125 + 100 * playerCount;
 
         for (int i = 0; i < questLanes.Length; i++)
