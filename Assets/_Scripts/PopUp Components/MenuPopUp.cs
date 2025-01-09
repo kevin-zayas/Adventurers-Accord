@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +6,7 @@ public class MenuPopUp : MonoBehaviour
     [SerializeField] Button closeMenuButton;
     [SerializeField] Button howToPlayButton;
     [SerializeField] Button creditsButton;
+    [SerializeField] Button settingsButton;
     [SerializeField] Button exitGameButton;
     [SerializeField] Button restartServerButton;
     [SerializeField] Image rayCastBlocker;
@@ -34,6 +33,12 @@ public class MenuPopUp : MonoBehaviour
         creditsButton.onClick.AddListener(() =>
         {
             popUp = PopUpManager.Instance.CreateCreditsPopUp();
+            CloseMenu();
+        });
+
+        settingsButton.onClick.AddListener(() =>
+        {
+            popUp = PopUpManager.Instance.CreateSettingsPopUp();
             CloseMenu();
         });
 

@@ -15,6 +15,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
+    [SerializeField] SettingsPopUp SettingsPopUpPrefab;
 
     public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
     public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
@@ -120,5 +121,18 @@ public class PopUpManager : NetworkBehaviour
         rt.offsetMin = Vector2.zero;
 
         return creditsPopUp;
+    }
+
+    public SettingsPopUp CreateSettingsPopUp()
+    {
+        SettingsPopUp settingsPopUp = Instantiate(SettingsPopUpPrefab);
+        settingsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+        settingsPopUp.transform.localPosition = Vector3.zero;
+
+        RectTransform rt = settingsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
+
+        return settingsPopUp;
     }
 }

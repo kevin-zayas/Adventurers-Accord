@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CreditsPopUp : PopUp
+public class SettingsPopUp : PopUp
 {
     [SerializeField] Button closeButton;
 
@@ -12,5 +12,4 @@ public class CreditsPopUp : PopUp
             Destroy(gameObject);
         });
     }
-
 }
