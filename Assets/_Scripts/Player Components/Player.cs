@@ -3,8 +3,10 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using GameKit.Dependencies.Utilities;
+using Newtonsoft.Json.Linq;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Player : NetworkBehaviour
 {
@@ -18,6 +20,7 @@ public class Player : NetworkBehaviour
     public readonly SyncVar<bool> CanStartGame = new();
 
     [SerializeField] private Hand handPrefab;
+    [SerializeField] private AudioMixer masterMixer;
 
     public readonly SyncVar<Hand> controlledHand = new();
 
@@ -40,11 +43,13 @@ public class Player : NetworkBehaviour
     public override void OnStartClient()
     {
         base.OnStartClient();
-        //controlledHand.OnChange += RenderHand;
         if (!IsOwner) return;
 
         Instance = this;
         ViewManager.Instance.Initialize();
+
+        float volume = PlayerPrefs.GetFloat("SavedMasterVolume", 50);
+        masterMixer.SetFloat("MasterVolume", Mathf.Log10(volume / 100) * 20f);
     }
 
     [Server]

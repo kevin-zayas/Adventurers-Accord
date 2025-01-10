@@ -10,9 +10,11 @@ public class MultiplayerMenuView : View
     [SerializeField] private TMP_Text joinGameText;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button creditsButton;
+    [SerializeField] private Button settingsButton;
     [SerializeField] private Button restartServerButton;
 
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
+    [SerializeField] SettingsPopUp SettingsPopUpPrefab;
 
     [SerializeField] private bool usingDynamicServer;
 
@@ -32,6 +34,13 @@ public class MultiplayerMenuView : View
         joinGameButton.onClick.AddListener(() => InstanceFinder.ClientManager.StartConnection());
 
         exitButton.onClick.AddListener(() => Quit());
+
+        settingsButton.onClick.AddListener(() =>
+        {
+            SettingsPopUp popUp = Instantiate(SettingsPopUpPrefab);
+            popUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            popUp.transform.localPosition = Vector3.zero;
+        });
 
         creditsButton.onClick.AddListener(() =>
         {
