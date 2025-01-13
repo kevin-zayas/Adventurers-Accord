@@ -1,6 +1,7 @@
 using FishNet;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class MultiplayerMenuView : View
@@ -15,6 +16,7 @@ public class MultiplayerMenuView : View
 
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
+    [SerializeField] private AudioMixer masterMixer;
 
     [SerializeField] private bool usingDynamicServer;
 
@@ -22,6 +24,9 @@ public class MultiplayerMenuView : View
     {
         //if (usingRemoteServer) DeploymentManager.Instance.InitiateMatchmaking();
         if (usingDynamicServer) DeploymentManager.Instance.InitiateDeploymentCheck();
+
+        float volume = PlayerPrefs.GetFloat("SavedMasterVolume", 50);
+        masterMixer.SetFloat("MasterVolume", Mathf.Log10(volume / 100) * 20f);
     }
     public override void Initialize()
     {
