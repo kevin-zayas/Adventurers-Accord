@@ -37,16 +37,24 @@ public class MultiplayerMenuView : View
 
         settingsButton.onClick.AddListener(() =>
         {
-            SettingsPopUp popUp = Instantiate(SettingsPopUpPrefab);
-            popUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            popUp.transform.localPosition = Vector3.zero;
+            SettingsPopUp settingsPopUp = Instantiate(SettingsPopUpPrefab);
+            settingsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            settingsPopUp.transform.localPosition = Vector3.zero;
+
+            RectTransform rt = settingsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+            rt.offsetMax = Vector2.zero;
+            rt.offsetMin = Vector2.zero;
         });
 
         creditsButton.onClick.AddListener(() =>
         {
-            CreditsPopUp popUp = Instantiate(CreditsPopUpPrefab);
-            popUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            popUp.transform.localPosition = Vector3.zero;
+            SettingsPopUp settingsPopUp = Instantiate(SettingsPopUpPrefab);
+            settingsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            settingsPopUp.transform.localPosition = Vector3.zero;
+
+            RectTransform rt = settingsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+            rt.offsetMax = Vector2.zero;
+            rt.offsetMin = Vector2.zero;
         });
 
         restartServerButton.onClick.AddListener(() =>
