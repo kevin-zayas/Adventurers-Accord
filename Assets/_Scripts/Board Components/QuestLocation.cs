@@ -172,7 +172,7 @@ public class QuestLocation : NetworkBehaviour
                     CalculateFailedQuestPenalty();
                     ReplaceQuestCard();
 
-                    break;
+                    return;
                 }
             }
 
