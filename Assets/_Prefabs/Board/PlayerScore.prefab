@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 140, y: 0}
+  m_AnchoredPosition: {x: 124.5, y: 0}
   m_SizeDelta: {x: 130, y: 40}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &5111798460270422370
@@ -311,7 +311,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 342.5, y: 50}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6672379362357178003
 CanvasRenderer:
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
+  <IsNested>k__BackingField: 1
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
@@ -410,7 +410,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 22
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10697965716857445081
   <SceneId>k__BackingField: 0
@@ -452,7 +452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 235, y: 0}
+  m_AnchoredPosition: {x: 200, y: 0}
   m_SizeDelta: {x: 120, y: 40}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2047724109965863978
@@ -586,7 +586,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 41.6, y: 0}
+  m_AnchoredPosition: {x: 41.600006, y: 0}
   m_SizeDelta: {x: 610, y: 80}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &2291494384966311253
@@ -720,7 +720,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 215, y: 0}
+  m_AnchoredPosition: {x: 190, y: 0}
   m_SizeDelta: {x: 50, y: 40}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &7320076209021098102
@@ -925,11 +925,19 @@ PrefabInstance:
       value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+      propertyPath: NetworkBehaviours.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
       propertyPath: NetworkBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 5875183145497391114}
+    - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+      propertyPath: NetworkBehaviours.Array.data[1]
       value: 
       objectReference: {fileID: 2940171850819960204}
     - target: {fileID: 5484333693900269432, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
@@ -974,8 +982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 2084680035684182592}
   _networkObjectCache: {fileID: 2084680035684182592}
 --- !u!114 &2084680035684182592 stripped
 MonoBehaviour:
@@ -986,5 +994,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5875183145497391114 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 106633851007647026, guid: 53bb472514831204d874054a8e69fbf5, type: 3}
+  m_PrefabInstance: {fileID: 5832725693408759096}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542290573858918496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
