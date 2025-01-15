@@ -38,6 +38,9 @@ public class QuestLocation : NetworkBehaviour
     [field: SerializeField] private TMP_Text totalPhysicalPowerText;
     [field: SerializeField] private TMP_Text totalMagicalPowerText;
 
+    [SerializeField] private RectTransform questLocationGroupRect;
+    [SerializeField] private RectTransform questLaneGroupRect;
+
     [Server]
     public void OnStartGame()
     {
@@ -60,7 +63,8 @@ public class QuestLocation : NetworkBehaviour
     private void ObserversInitializeQuestLocation()
     {
         int playerCount = 4;//GameManager.Instance.Players.Count;
-        float questLocationWidth = 15 + 127.5f * playerCount;
+        float questLaneGroupWidth = 15 + 127.5f * playerCount;
+        float questLocationWidth = (questLaneGroupWidth < 400) ? 400 : questLaneGroupWidth;
 
         for (int i = 0; i < questLanes.Length; i++)
         {
@@ -74,9 +78,13 @@ public class QuestLocation : NetworkBehaviour
                 questLanes[i].ServerSetQuestLanePlayer(GameManager.Instance.Players[i]);
             }
         }
+        questLaneGroupRect.sizeDelta = new Vector2(questLaneGroupWidth, questLaneGroupRect.sizeDelta.y);
 
-        RectTransform rectTransform = transform.GetChild(0).GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(questLocationWidth, rectTransform.sizeDelta.y);
+        RectTransform questLocationRect = this.GetComponent<RectTransform>();
+        questLocationRect.sizeDelta = new Vector2(questLocationWidth, questLocationRect.sizeDelta.y);
+
+        questLocationGroupRect.sizeDelta = new Vector2(125 + 3 * questLocationWidth, questLocationGroupRect.sizeDelta.y);
+
     }
 
     [Server]

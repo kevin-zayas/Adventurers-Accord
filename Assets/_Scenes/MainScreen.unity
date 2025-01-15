@@ -2462,7 +2462,7 @@ GameObject:
   - component: {fileID: 494296673}
   - component: {fileID: 494296675}
   m_Layer: 0
-  m_Name: Quest Grouper
+  m_Name: Quest Location Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2487,8 +2487,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 90, y: 0}
-  m_SizeDelta: {x: 1600, y: 625}
+  m_AnchoredPosition: {x: 0, y: 20}
+  m_SizeDelta: {x: 1700, y: 625}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &494296673
 MonoBehaviour:
@@ -2546,7 +2546,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 159
+  m_Spacing: 65
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3238,6 +3238,11 @@ MonoBehaviour:
   joinGameButton: {fileID: 0}
   joinGameButtonText: {fileID: 0}
   networkManagerObject: {fileID: 0}
+--- !u!224 &664142463 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3482264964415079632, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+  m_PrefabInstance: {fileID: 5320811544841212774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &681106400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3486,6 +3491,10 @@ PrefabInstance:
       propertyPath: questPreviewSlot
       value: 
       objectReference: {fileID: 2023694146}
+    - target: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: questLocationGroupRect
+      value: 
+      objectReference: {fileID: 494296672}
     - target: {fileID: 3505788448509835578, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: <SlotIndex>k__BackingField
       value: 2
@@ -4420,6 +4429,10 @@ PrefabInstance:
       propertyPath: questPreviewSlot
       value: 
       objectReference: {fileID: 178839712}
+    - target: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: questLocationGroupRect
+      value: 
+      objectReference: {fileID: 494296672}
     - target: {fileID: 3505788448509835578, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: <SlotIndex>k__BackingField
       value: 1
@@ -7689,10 +7702,10 @@ RectTransform:
   - {fileID: 494296672}
   m_Father: {fileID: 106827893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 20}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2009221966
 MonoBehaviour:
@@ -9674,6 +9687,14 @@ PrefabInstance:
       propertyPath: questPreviewSlot
       value: 
       objectReference: {fileID: 1386628955}
+    - target: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: questLaneGroupRect
+      value: 
+      objectReference: {fileID: 664142463}
+    - target: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: questLocationGroupRect
+      value: 
+      objectReference: {fileID: 494296672}
     - target: {fileID: 3567775828139633826, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: _scenePathHash
       value: 979065644
