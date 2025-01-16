@@ -161,7 +161,7 @@ public class Player : NetworkBehaviour
     public void ChangePlayerGold(int value)
     {
         this.Gold.Value += value;
-        GameManager.Instance.Scoreboard.UpdatePlayerGold(PlayerID.Value, this.Gold.Value);
+        GameManager.Instance.Scoreboard.ObserversUpdatePlayerGold(PlayerID.Value, this.Gold.Value);
         ObserversUpdateGoldText(this.Gold.Value);
     }
 
@@ -175,7 +175,7 @@ public class Player : NetworkBehaviour
     public void ChangePlayerReputation(int value)
     {
         this.Reputation.Value += value;
-        GameManager.Instance.Scoreboard.UpdatePlayerReputation(PlayerID.Value, this.Reputation.Value);
+        GameManager.Instance.Scoreboard.UpdateUpdatePlayerReputation(PlayerID.Value, this.Reputation.Value);
         ObserversUpdateReputationText(this.Reputation.Value);
 
         if (Reputation.Value >= GameManager.Instance.ReputationGoal) GameManager.Instance.SetPhaseGameOver();

@@ -2,50 +2,28 @@ using FishNet.Object;
 using TMPro;
 using UnityEngine;
 
-public class PlayerScore : NetworkBehaviour
+public class PlayerScore : MonoBehaviour
 {
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private TMP_Text goldText;
     [SerializeField] private TMP_Text reputationText;
 
-    [field: SerializeField] 
-    public GameObject TurnMarker { get; private set; }
+    [field: SerializeField] public GameObject TurnMarker { get; private set; }
 
-    [Server]
-    public void InitializeScore(int playerID, int startingGold)
+    public void InitializeScore(int playerID, int gold, int reputation=0)
     {
-        ObserversInitializeScore(playerID, startingGold, 0);
-    }
-
-    [Server]
-    public void UpdatePlayerGold(int gold)
-    {
-        ObserversUpdatePlayerGold(gold);
-    }
-
-    [Server]
-    public void UpdatePlayerReputation(int reputation)
-    {
-        ObserversUpdatePlayerReputation(reputation);
-    }
-
-    [ObserversRpc]
-    private void ObserversUpdatePlayerGold(int gold)
-    {
+        playerNameText.text = $"Player {playerID + 1} -";
         goldText.text = $"{gold} GP";
-    }
-
-    [ObserversRpc]
-    private void ObserversUpdatePlayerReputation(int reputation)
-    {
         reputationText.text = $"{reputation} Rep";
     }
 
-    [ObserversRpc]
-    public void ObserversInitializeScore(int playerID, int gold, int reputation)
+    public void UpdatePlayerGold(int gold)
     {
-        playerNameText.text = $"Player {playerID+1} -";
         goldText.text = $"{gold} GP";
+    }
+
+    public void UpdatePlayerReputation(int reputation)
+    {
         reputationText.text = $"{reputation} Rep";
     }
 }

@@ -1,13 +1,16 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
 {
-    [field: SerializeField] public PlayerScore[] PlayerScores { get; private set; }
+    private List<PlayerScore> PlayerScores = new();
 
+    [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject scoreboardPanel;
+    [SerializeField] private GameObject playerScoreGroup;
     [SerializeField] Image rayCastBlocker;
 
     private int playerCount;
@@ -16,26 +19,27 @@ public class ScoreBoard : NetworkBehaviour
     public void StartGame(int startingGold)
     {
         playerCount = GameManager.Instance.Players.Count;
-        ObserversInitializeScoreboard(playerCount);
-        
-        for (int i = 0; i < playerCount; i++)
-        {
-            Spawn(PlayerScores[i].gameObject);
-            PlayerScores[i].InitializeScore(i, startingGold);
-        }
-
+        ObserversInitializeScoreboard(playerCount,startingGold);
         ObserversUpdateTurnMarker(0);
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversInitializeScoreboard(int playerCount)
+    private void ObserversInitializeScoreboard(int playerCount, int startingGold)
     {
         int scoreboardHeight = 4 + 54 * playerCount;
 
         RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
         //rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
-
         scoreboardPanel.SetActive(false);
+
+        for (int i = 0; i < playerCount; i++)
+        {
+            PlayerScore playerScore = Instantiate(playerScorePrefab, Vector2.zero, Quaternion.identity);
+            playerScore.InitializeScore(i, startingGold);
+            PlayerScores.Add(playerScore);
+            playerScore.transform.SetParent(playerScoreGroup.transform, false);
+
+        }
     }
 
     private void Update()
@@ -56,14 +60,14 @@ public class ScoreBoard : NetworkBehaviour
         }
     }
 
-    [Server]
-    public void UpdatePlayerGold(int playerID, int gold)
+    [ObserversRpc]
+    public void ObserversUpdatePlayerGold(int playerID, int gold)
     {
         PlayerScores[playerID].UpdatePlayerGold(gold);
     }
 
-    [Server]
-    public void UpdatePlayerReputation(int playerID, int reputation)
+    [ObserversRpc]
+    public void UpdateUpdatePlayerReputation(int playerID, int reputation)
     {
         PlayerScores[playerID].UpdatePlayerReputation(reputation);
     }
@@ -71,7 +75,7 @@ public class ScoreBoard : NetworkBehaviour
     [ObserversRpc]
     public void ObserversUpdateTurnMarker(int playerID)
     {
-        for (int i = 0; i < PlayerScores.Length; i++)
+        for (int i = 0; i < PlayerScores.Count; i++)
         {
             PlayerScores[i].TurnMarker.SetActive(i == playerID);
         }
@@ -80,7 +84,7 @@ public class ScoreBoard : NetworkBehaviour
     [ObserversRpc]
     public void ObserversEnableAllTurnMarkers()
     {
-        for (int i = 0; i < PlayerScores.Length; i++)
+        for (int i = 0; i < PlayerScores.Count; i++)
         {
             PlayerScores[i].TurnMarker.SetActive(true);
         }
