@@ -7,12 +7,8 @@ public class ScoreBoard : NetworkBehaviour
 {
     [field: SerializeField] public PlayerScore[] PlayerScores { get; private set; }
 
-    //[SerializeField] GameObject scoreboardPanelPrefab;
-    [SerializeField] GameObject turnMarkerPrefab;
-
     [SerializeField] private GameObject scoreboardPanel;
-
-    [SerializeField] private GameObject turnMarker;
+    [SerializeField] Image rayCastBlocker;
 
     private int playerCount;
 
@@ -34,14 +30,30 @@ public class ScoreBoard : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversInitializeScoreboard(int playerCount)
     {
-        scoreboardPanel.GetComponent<Image>().enabled = true;
-
         int scoreboardHeight = 4 + 54 * playerCount;
 
         RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
+        //rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
 
-        this.gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(25, -20);
+        scoreboardPanel.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            scoreboardPanel.SetActive(true);
+            rayCastBlocker.enabled = true;
+
+            this.gameObject.transform.SetAsLastSibling();
+        }
+
+        if (Input.GetKeyUp(KeyCode.Tab))
+        {
+            scoreboardPanel.SetActive(false);
+            rayCastBlocker.enabled = false;
+
+        }
     }
 
     [Server]
