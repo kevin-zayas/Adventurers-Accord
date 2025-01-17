@@ -154,8 +154,8 @@ public class Board : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversUpdateDeckTrackers(int t1DeckSize, int t2DeckSize)
     {
-        t1DeckTrackerText.text = t1DeckSize.ToString();
-        t2DeckTrackerText.text = t2DeckSize.ToString();
+        t1DeckTrackerText.text = $"{t1DeckSize} Cards Remaining";
+        t2DeckTrackerText.text = $"{t2DeckSize} Cards Remaining";
     }
 
     /// <summary>
