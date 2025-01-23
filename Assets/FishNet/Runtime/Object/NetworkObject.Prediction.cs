@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define NEW_RECONCILE_TEST
+using System;
 using FishNet.Component.Prediction;
 using FishNet.Component.Transforming;
 using FishNet.Managing;
@@ -170,7 +171,7 @@ namespace FishNet.Object
                 PredictionSmoother.OnUpdate();
         }
 
-        private void Preinitialize_Prediction(NetworkManager manager, bool asServer)
+        private void InitializePredictionEarly(NetworkManager manager, bool asServer)
         {
             if (!_enablePrediction)
                 return;
@@ -341,6 +342,13 @@ namespace FishNet.Object
 
         private void PredictionManager_OnReconcile(uint clientReconcileTick, uint serverReconcileTick)
         {
+            /* Tell all prediction behaviours to set/validate their
+             * reconcile data now. This will use reconciles from the server
+             * whenever possible, and local reconciles if a server reconcile
+             * is not available. */
+            for (int i = 0; i < _predictionBehaviours.Count; i++)
+                _predictionBehaviours[i].Reconcile_Client_Start();
+
             /* If still not reconciling then pause rigidbody.
              * This shouldn't happen unless the user is not calling
              * reconcile at all. */
@@ -348,16 +356,7 @@ namespace FishNet.Object
             {
                 if (_rigidbodyPauser != null)
                     _rigidbodyPauser.Pause();
-
-                return;
             }
-            
-            /* Tell all prediction behaviours to set/validate their
-             * reconcile data now. This will use reconciles from the server
-             * whenever possible, and local reconciles if a server reconcile
-             * is not available. */
-            for (int i = 0; i < _predictionBehaviours.Count; i++)
-                _predictionBehaviours[i].Reconcile_Client_Start();
         }
 
         private void PredictionManager_OnPostReconcile(uint clientReconcileTick, uint serverReconcileTick)
@@ -434,7 +433,7 @@ namespace FishNet.Object
                 networkObject.RemoveOwnership();
         }
     }
-    
+
     /// <summary>
     /// Place this component on NetworkObjects you wish to remove ownership on for a disconnecting owner.
     /// This prevents the object from being despawned when the owner disconnects.

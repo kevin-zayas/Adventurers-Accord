@@ -18,7 +18,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-
 [assembly: InternalsVisibleTo(UtilityConstants.GENERATED_ASSEMBLY_NAME)]
 //Required for internal tests.
 [assembly: InternalsVisibleTo(UtilityConstants.TEST_ASSEMBLY_NAME)]
@@ -104,12 +103,10 @@ namespace FishNet.Serializing
 
         public Reader() { }
 
-
         public Reader(byte[] bytes, NetworkManager networkManager, NetworkConnection networkConnection = null, DataSource source = DataSource.Unset)
         {
             Initialize(bytes, networkManager, networkConnection, source);
         }
-
 
         public Reader(ArraySegment<byte> segment, NetworkManager networkManager, NetworkConnection networkConnection = null, DataSource source = DataSource.Unset)
         {
@@ -205,6 +202,13 @@ namespace FishNet.Serializing
                 return null;
 
             int count = ReadInt32();
+            if (count < 0)
+            {
+                NetworkManager.Log($"Dictionary count cannot be less than 0.");
+                //Purge renaming and return default.
+                Position += Remaining;
+                return default;
+            }
 
             Dictionary<TKey, TValue> result = new(count);
             for (int i = 0; i < count; i++)
@@ -216,7 +220,6 @@ namespace FishNet.Serializing
 
             return result;
         }
-
 
         /// <summary>
         /// Reads length. This method is used to make debugging easier.
@@ -285,7 +288,6 @@ namespace FishNet.Serializing
             return new(_buffer, Offset, Length);
         }
 
-
         [Obsolete("Use GetBuffer.")] //Remove V5
         public byte[] GetByteBuffer() => GetBuffer();
 
@@ -297,7 +299,6 @@ namespace FishNet.Serializing
         {
             return _buffer;
         }
-
 
         [Obsolete("Use GetBufferAllocated().")] //Remove V5
         public byte[] GetByteBufferAllocated() => GetBufferAllocated();
@@ -326,7 +327,6 @@ namespace FishNet.Serializing
             Position += count;
         }
 
-
         [Obsolete("Use ReadUInt8Unpacked.")] //Remove in V5.
         public byte ReadByte() => ReadUInt8Unpacked();
 
@@ -342,10 +342,8 @@ namespace FishNet.Serializing
             return r;
         }
 
-
         [Obsolete("Use ReadUInt8ArrayAllocated.")]
         public byte[] ReadBytesAllocated(int count) => ReadUInt8ArrayAllocated(count);
-
 
         [Obsolete("Use ReadUInt8Array.")]
         public void ReadBytes(ref byte[] buffer, int count) => ReadUInt8Array(ref buffer, count);
@@ -372,13 +370,18 @@ namespace FishNet.Serializing
         /// <returns></returns>
         public ArraySegment<byte> ReadArraySegment(int count)
         {
-            if (count == 0) return default;
+            if (count < 0)
+            {
+                NetworkManager.Log($"ArraySegment count cannot be less than 0.");
+                //Purge renaming and return default.
+                Position += Remaining;
+                return default;
+            }
 
             ArraySegment<byte> result = new(_buffer, Position, count);
             Position += count;
             return result;
         }
-
 
         [Obsolete("Use ReadInt8Unpacked.")] //Remove in V5.
         public sbyte ReadSByte() => ReadInt8Unpacked();
@@ -584,7 +587,8 @@ namespace FishNet.Serializing
             //Null string.
             if (size == Writer.UNSET_COLLECTION_SIZE_VALUE)
                 return null;
-            else if (size == 0)
+
+            if (size == 0)
                 return string.Empty;
 
             if (!CheckAllocationAttack(size))
@@ -592,7 +596,6 @@ namespace FishNet.Serializing
             ArraySegment<byte> data = ReadArraySegment(size);
             return ReaderStatics.GetString(data);
         }
-
 
         [Obsolete("Use ReadUInt8ArrayAndSizeAllocated.")]
         public byte[] ReadBytesAndSizeAllocated() => ReadUInt8ArrayAndSizeAllocated();
@@ -607,10 +610,9 @@ namespace FishNet.Serializing
             int size = ReadInt32();
             if (size == Writer.UNSET_COLLECTION_SIZE_VALUE)
                 return null;
-            else
-                return ReadUInt8ArrayAllocated(size);
+            
+            return ReadUInt8ArrayAllocated(size);
         }
-
 
         [Obsolete("Use ReadUInt8ArrayAndSize.")]
         public int ReadBytesAndSize(ref byte[] target) => ReadUInt8ArrayAndSize(ref target);
@@ -644,7 +646,6 @@ namespace FishNet.Serializing
 
             return ReadArraySegment(size);
         }
-
 
         /// <summary>
         /// Reads a Vector2.
@@ -896,6 +897,15 @@ namespace FishNet.Serializing
         /// <returns></returns>
         public byte[] ReadUInt8ArrayAllocated(int count)
         {
+            if (count < 0)
+            {
+                NetworkManager.Log($"Bytes count cannot be less than 0.");
+                //Purge renaming and return default.
+                Position += Remaining;
+                return default;
+            }
+
+
             byte[] bytes = new byte[count];
             ReadUInt8Array(ref bytes, count);
             return bytes;
@@ -954,7 +964,6 @@ namespace FishNet.Serializing
             return result;
         }
 
-
         /// <summary>
         /// Reads a Transform.
         /// </summary>
@@ -966,7 +975,6 @@ namespace FishNet.Serializing
             return (nob == null) ? null : nob.transform;
         }
 
-
         /// <summary>
         /// Reads a NetworkObject.
         /// </summary>
@@ -977,9 +985,15 @@ namespace FishNet.Serializing
         /// <summary>
         /// Reads a NetworkObject.
         /// </summary>
+        /// <returns></returns>
+        public NetworkObject ReadNetworkObject(bool logException) => ReadNetworkObject(out _, null, logException);
+
+        /// <summary>
+        /// Reads a NetworkObject.
+        /// </summary>
         /// <param name="readSpawningObjects">Objects which have been read to be spawned this tick, but may not have spawned yet.</param>
         /// <returns></returns>
-        public NetworkObject ReadNetworkObject(out int objectOrPrefabId, HashSet<int> readSpawningObjects = null)
+        public NetworkObject ReadNetworkObject(out int objectOrPrefabId, HashSet<int> readSpawningObjects = null, bool logException = true)
         {
 #if DEVELOPMENT
             LastNetworkBehaviour = null;
@@ -1021,7 +1035,7 @@ namespace FishNet.Serializing
 
                 if (result == null && !isServer)
                 {
-                    if (readSpawningObjects == null || !readSpawningObjects.Contains(objectOrPrefabId))
+                    if (logException && (readSpawningObjects == null || !readSpawningObjects.Contains(objectOrPrefabId)))
                         NetworkManager.LogWarning($"Spawned NetworkObject was expected to exist but does not for Id {objectOrPrefabId}. This may occur if you sent a NetworkObject reference which does not exist, be it destroyed or if the client does not have visibility.");
                 }
             }
@@ -1050,7 +1064,7 @@ namespace FishNet.Serializing
         /// Reads the Id for a NetworkObject and outputs spawn settings.
         /// </summary>
         /// <returns></returns>
-        internal int ReadSpawnedNetworkObject(out sbyte initializeOrder, out ushort collectionid)
+        internal int ReadNetworkObjectForSpawn(out sbyte initializeOrder, out ushort collectionid)
         {
             int objectId = ReadNetworkObjectId();
             collectionid = ReadUInt16();
@@ -1063,13 +1077,12 @@ namespace FishNet.Serializing
         /// Reads the Id for a NetworkObject and outputs despawn settings.
         /// </summary>
         /// <returns></returns>
-        internal int ReadNetworkObjectForDepawn(out DespawnType dt)
+        internal int ReadNetworkObjectForDespawn(out DespawnType dt)
         {
             int objectId = ReadNetworkObjectId();
             dt = (DespawnType)ReadUInt8Unpacked();
             return objectId;
         }
-
 
         /// <summary>
         /// Reads a NetworkBehaviourId and ObjectId.
@@ -1089,9 +1102,9 @@ namespace FishNet.Serializing
         /// </summary>
         /// <param name="readSpawningObjects">Objects which have been read to be spawned this tick, but may not have spawned yet.</param>
         /// <returns></returns>
-        public NetworkBehaviour ReadNetworkBehaviour(out int objectId, out byte componentIndex, HashSet<int> readSpawningObjects = null)
+        public NetworkBehaviour ReadNetworkBehaviour(out int objectId, out byte componentIndex, HashSet<int> readSpawningObjects = null, bool logException = true)
         {
-            NetworkObject nob = ReadNetworkObject(out objectId, readSpawningObjects);
+            NetworkObject nob = ReadNetworkObject(out objectId, readSpawningObjects, logException);
             componentIndex = ReadUInt8Unpacked();
 
             NetworkBehaviour result;
@@ -1128,6 +1141,11 @@ namespace FishNet.Serializing
             return ReadNetworkBehaviour(out _, out _);
         }
 
+        public NetworkBehaviour ReadNetworkBehaviour(bool logException)
+        {
+            return ReadNetworkBehaviour(out _, out _, null, logException);
+        }
+
         /// <summary>
         /// Reads a NetworkBehaviourId.
         /// </summary>
@@ -1144,7 +1162,6 @@ namespace FishNet.Serializing
             DateTime result = DateTime.FromBinary(value);
             return result;
         }
-
 
         /// <summary>
         /// Reads a transport channel.
@@ -1232,6 +1249,19 @@ namespace FishNet.Serializing
                         return new(NetworkManager, value, -1, true);
                 }
             }
+        }
+
+        /// <summary>
+        /// Reads TransformProperties.
+        /// </summary>
+        [DefaultReader]
+        public TransformProperties ReadTransformProperties()
+        {
+            Vector3 position = ReadVector3();
+            Quaternion rotation = ReadQuaternion32();
+            Vector3 scale = ReadVector3();
+
+            return new(position, rotation, scale);
         }
 
         /// <summary>
@@ -1353,6 +1383,14 @@ namespace FishNet.Serializing
         {
             //Number of entries written.
             int count = (int)ReadUInt8Unpacked();
+            if (count <= 0)
+            {
+                NetworkManager.Log($"Replicate count cannot be 0 or less.");
+                //Purge renaming and return default.
+                Position += Remaining;
+                return default;
+            }
+
             if (collection == null || collection.Length < count)
                 collection = new T[count];
 
@@ -1404,19 +1442,25 @@ namespace FishNet.Serializing
                     collection = null;
                 return Writer.UNSET_COLLECTION_SIZE_VALUE;
             }
-            else
+
+            if (count < 0)
             {
-                if (collection == null)
-                    collection = new(count);
-                else
-                    collection.Clear();
-
-
-                for (int i = 0; i < count; i++)
-                    collection.Add(Read<T>());
-
-                return count;
+                NetworkManager.Log($"List count cannot be less than 0.");
+                //Purge renaming and return default.
+                Position += Remaining;
+                return default;
             }
+
+            if (collection == null)
+                collection = new(count);
+            else
+                collection.Clear();
+
+
+            for (int i = 0; i < count; i++)
+                collection.Add(Read<T>());
+
+            return count;
         }
 
         /// <summary>
@@ -1440,30 +1484,36 @@ namespace FishNet.Serializing
         public int ReadArray<T>(ref T[] collection)
         {
             int count = (int)ReadSignedPackedWhole();
+
             if (count == Writer.UNSET_COLLECTION_SIZE_VALUE)
-            {
                 return 0;
-            }
-            else if (count == 0)
+
+            if (count == 0)
             {
                 if (collection == null)
                     collection = new T[0];
 
                 return 0;
             }
-            else
+
+            if (count < 0)
             {
-                //Initialize buffer if not already done.
-                if (collection == null)
-                    collection = new T[count];
-                else if (collection.Length < count)
-                    Array.Resize(ref collection, count);
-
-                for (int i = 0; i < count; i++)
-                    collection[i] = Read<T>();
-
-                return count;
+                NetworkManager.Log($"Array count cannot be less than 0.");
+                //Purge renaming and return default.
+                Position += Remaining;
+                return default;
             }
+
+            //Initialize buffer if not already done.
+            if (collection == null)
+                collection = new T[count];
+            else if (collection.Length < count)
+                Array.Resize(ref collection, count);
+
+            for (int i = 0; i < count; i++)
+                collection[i] = Read<T>();
+
+            return count;
         }
 
         /// <summary>
@@ -1472,7 +1522,7 @@ namespace FishNet.Serializing
         public T Read<T>()
         {
             Func<Reader, T> del = GenericReader<T>.Read;
-            
+
             if (del == null)
             {
                 NetworkManager.LogError($"Read method not found for {typeof(T).FullName}. Use a supported type or create a custom serializer.");

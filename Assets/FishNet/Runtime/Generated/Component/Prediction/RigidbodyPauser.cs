@@ -33,10 +33,6 @@ namespace FishNet.Component.Prediction
             /// </summary>
             public bool IsKinematic;
             /// <summary>
-            /// True if the rigidbody was detecting collisions prior to being paused.
-            /// </summary>
-            public bool DetectCollisions;
-            /// <summary>
             /// Detection mode of the Rigidbody.
             /// </summary>
             public CollisionDetectionMode CollisionDetectionMode;
@@ -47,7 +43,6 @@ namespace FishNet.Component.Prediction
                 Velocity = Vector3.zero;
                 AngularVelocity = Vector3.zero;
                 IsKinematic = rb.isKinematic;
-                DetectCollisions = rb.detectCollisions;
                 CollisionDetectionMode = rb.collisionDetectionMode;
             }
 
@@ -56,7 +51,6 @@ namespace FishNet.Component.Prediction
                 Velocity = rb.velocity;
                 AngularVelocity = rb.angularVelocity;
                 IsKinematic = rb.isKinematic;
-                DetectCollisions = rb.detectCollisions;
                 CollisionDetectionMode = rb.collisionDetectionMode;
             }
         }
@@ -312,6 +306,14 @@ namespace FishNet.Component.Prediction
                     if (rb == null)
                         return false;
 
+                    /* If data has RB updated as kinematic then
+                     * do not unpause. This means either something else
+                     * is handling the kinematic state of the dev
+                     * made it kinematic. */
+                    if (rbData.IsKinematic)
+                        return true;
+                    
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                     rb.isKinematic = rbData.IsKinematic;
                     //rb.detectCollisions = rbData.DetectCollisions;
                     rb.collisionDetectionMode = rbData.CollisionDetectionMode;
@@ -343,7 +345,13 @@ namespace FishNet.Component.Prediction
                     if (rb == null)
                         return false;
 
+                    //Same as RB, only unpause if data is stored in an unpaused state.
+                    if (rbData.IsKinematic || !rbData.Simulated)
+                        return true;
+                    
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                     rb.isKinematic = rbData.IsKinematic;
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                     rb.simulated = rbData.Simulated;
                     rb.collisionDetectionMode = rbData.CollisionDetectionMode;
                     if (!rb.isKinematic)

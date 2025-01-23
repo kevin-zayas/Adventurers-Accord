@@ -1,4 +1,5 @@
-﻿using FishNet.Documenting;
+﻿using System;
+using FishNet.Documenting;
 using FishNet.Object;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -60,12 +61,8 @@ namespace FishNet.Utility.Extension
         /// <summary>
         /// Sets values of TransformPropertiesCls to a transforms world properties.
         /// </summary>
-        public static void SetWorldProperties(this TransformPropertiesCls tp, Transform t)
-        {
-            tp.Position = t.position;
-            tp.Rotation = t.rotation;
-            tp.LocalScale = t.localScale;
-        }
+        [Obsolete("Use TransformPropertiesExtensions.SetWorldProperties.")]
+        public static void SetWorldProperties(this TransformPropertiesCls tp, Transform t) => TransformPropertiesExtensions.SetWorldProperties(tp, t);
 
         /// <summary>
         /// Gets the offset values by subtracting this from target.
@@ -112,7 +109,7 @@ namespace FishNet.Utility.Extension
         {
             t.localPosition = tp.Position;
             t.localRotation = tp.Rotation;
-            t.localScale = tp.LocalScale;
+            t.localScale = tp.Scale;
         }
 
         /// <summary>
@@ -131,7 +128,7 @@ namespace FishNet.Utility.Extension
         {
             t.position = tp.Position;
             t.rotation = tp.Rotation;
-            t.localScale = tp.LocalScale;
+            t.localScale = tp.Scale;
         }
 
         /// <summary>

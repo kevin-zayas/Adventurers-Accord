@@ -54,6 +54,10 @@ namespace GameKit.Dependencies.Utilities.Types
 
             public void Initialize(RingBuffer<T> c)
             {
+                //if none are written then return.
+                if (c.Count == 0)
+                    return;
+                
                 _entriesEnumerated = 0;
                 _startIndex = c.GetRealIndex(0);
                 _enumeratedRingBuffer = c;
@@ -200,7 +204,7 @@ namespace GameKit.Dependencies.Utilities.Types
 
             void GetNewCollection() => Collection = ArrayPool<T>.Shared.Rent(capacity);
         }
-        
+
         /// <summary>
         /// Initializes with default capacity.
         /// </summary>
@@ -213,7 +217,6 @@ namespace GameKit.Dependencies.Utilities.Types
                 Initialize(DEFAULT_CAPACITY);
             }
         }
-
 
         /// <summary>
         /// Clears the collection to default values and resets indexing.
@@ -289,11 +292,54 @@ namespace GameKit.Dependencies.Utilities.Types
             Initialize();
 
             T current = Collection[WriteIndex];
+            
             Collection[WriteIndex] = data;
             IncreaseWritten();
 
             return current;
         }
+        
+        
+        /// <summary>
+        /// Returns the first entry and removes it from the buffer.
+        /// </summary>
+        /// <returns></returns>
+        public T Dequeue()
+        {
+            if (_written == 0)
+                return default;
+            
+            int offset = GetRealIndex(0);
+            T result = Collection[offset];
+
+            RemoveRange(fromStart: true, 1);
+            return result;
+        }
+        
+        /// <summary>
+        /// Returns if able to dequeue an entry and removes it from the buffer if so.
+        /// </summary>
+        /// <returns></returns>
+        public bool TryDequeue(out T result)
+        {
+            if (_written == 0)
+            {
+                result = default;
+                return false;
+            }
+
+            int offset = GetRealIndex(0);
+            result = Collection[offset];
+
+            RemoveRange(fromStart: true, 1);
+            return true;
+        }
+
+        /// <summary>
+        /// Adds an entry to the collection, returning a replaced entry.
+        /// This method internally redirects to add.
+        /// </summary>
+        public T Enqueue(T data) => Add(data);
 
         /// <summary>
         /// Returns value in actual index as it relates to simulated index.
@@ -404,7 +450,7 @@ namespace GameKit.Dependencies.Utilities.Types
                     WriteIndex += Capacity;
             }
         }
-        
+
         /// <summary>
         /// Returns Enumerator for the collection.
         /// </summary>
@@ -416,7 +462,7 @@ namespace GameKit.Dependencies.Utilities.Types
             return _enumerator;
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() => this.GetEnumerator(); // Collection.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator(); // Collection.GetEnumerator();
+        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator(); 
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
