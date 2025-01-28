@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace FishNet.Managing.Predicting.Editing
 {
-
-
     [CustomEditor(typeof(PredictionManager), true)]
     [CanEditMultipleObjects]
     public class PredictionManagerEditor : Editor
@@ -14,6 +12,7 @@ namespace FishNet.Managing.Predicting.Editing
         private SerializedProperty _dropExcessiveReplicates;
         private SerializedProperty _maximumServerReplicates;
         private SerializedProperty _maximumConsumeCount;
+        private SerializedProperty _createLocalStates;
         private SerializedProperty _stateInterpolation;
         private SerializedProperty _stateOrder;
 
@@ -22,6 +21,7 @@ namespace FishNet.Managing.Predicting.Editing
             _dropExcessiveReplicates = serializedObject.FindProperty(nameof(_dropExcessiveReplicates));
             _maximumServerReplicates = serializedObject.FindProperty(nameof(_maximumServerReplicates));
             _maximumConsumeCount = serializedObject.FindProperty(nameof(_maximumConsumeCount));
+            _createLocalStates = serializedObject.FindProperty(nameof(_createLocalStates));
             _stateInterpolation = serializedObject.FindProperty(nameof(_stateInterpolation));
             _stateOrder = serializedObject.FindProperty(nameof(_stateOrder));
         }
@@ -37,9 +37,18 @@ namespace FishNet.Managing.Predicting.Editing
 
             EditorGUILayout.LabelField("Client", EditorStyles.boldLabel);
             EditorGUI.indentLevel++;
-            if (_stateInterpolation.intValue == 0)
-                EditorGUILayout.HelpBox($"With interpolation set at 0 states will run as they are received, rather than create an interpolation buffer. Using 0 interpolation drastically increases the chance of Created states arriving out of order.", MessageType.Warning);
+
+            EditorGUILayout.PropertyField(_createLocalStates);
+
+            int interpolationValue = _stateInterpolation.intValue;
+            if (interpolationValue == 0)
+                EditorGUILayout.HelpBox(PredictionManager.ZERO_STATE_INTERPOLATION_MESSAGE, MessageType.Warning);
+            else if (_stateOrder.intValue == (int)ReplicateStateOrder.Appended && interpolationValue < PredictionManager.MINIMUM_APPENDED_INTERPOLATION_RECOMMENDATION)
+                EditorGUILayout.HelpBox(PredictionManager.LESS_THAN_MINIMUM_APPENDED_MESSAGE, MessageType.Warning);
+            else if (_stateOrder.intValue == (int)ReplicateStateOrder.Inserted && interpolationValue < PredictionManager.MINIMUM_INSERTED_INTERPOLATION_RECOMMENDATION)
+                EditorGUILayout.HelpBox(PredictionManager.LESS_THAN_MINIMUM_INSERTED_MESSAGE, MessageType.Warning);
             EditorGUILayout.PropertyField(_stateInterpolation);
+            
             EditorGUILayout.PropertyField(_stateOrder);
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
@@ -60,8 +69,6 @@ namespace FishNet.Managing.Predicting.Editing
 
             serializedObject.ApplyModifiedProperties();
         }
-
     }
 }
 #endif
-
