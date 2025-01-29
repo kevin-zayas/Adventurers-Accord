@@ -19,9 +19,9 @@ MonoBehaviour:
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
   <CardDescription>k__BackingField: Magic Spells cannot be used on this Quest
-  <CardSubDescription>k__BackingField: Zone of Silence
+  <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: 
-  <AbilityName>k__BackingField: 
+  <AbilityName>k__BackingField: Zone of Silence
   <GoldReward>k__BackingField: 12
   <ReputationReward>k__BackingField: 6
   <LootReward>k__BackingField: 2
