@@ -1458,6 +1458,14 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
   disableScreen: {fileID: 1188314931012720159}
+  HasItem:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 0
+  Item:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: {fileID: 0}
   abilityNameObject: {fileID: 800517241531852951}
   abilityNameText: {fileID: 4004057442462621200}
   cardTypeText: {fileID: 1412657023948964493}
@@ -1646,14 +1654,17 @@ MonoBehaviour:
   - {fileID: 2922969160115862960}
   - {fileID: 5300939677924261238}
   - {fileID: -6211479231835834888}
-  <InitializedParentNetworkBehaviour>k__BackingField: {fileID: 0}
-  <InitializedNestedNetworkObjects>k__BackingField:
-  - {fileID: 3856054117792817582}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
   _isSpawnable: 1
   _isGlobal: 0
   _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
+  _initializedValusSet: 0
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -1675,7 +1686,8 @@ MonoBehaviour:
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!222 &8006336252910119709
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2289,7 +2301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 0}
+  _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
 --- !u!1 &7458769641897504679
 GameObject:
@@ -2528,6 +2540,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1767898616476630919}
     m_Modifications:
+    - target: {fileID: -6448425254066891952, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
+      propertyPath: ParentCard._value
+      value: 
+      objectReference: {fileID: 8921334832073319783}
     - target: {fileID: -6448425254066891952, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: _componentIndexCache
       value: 1

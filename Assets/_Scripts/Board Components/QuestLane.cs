@@ -177,8 +177,8 @@ public class QuestLane : NetworkBehaviour
 
         if (TinkererBuff && card.HasItem.Value)
         {
-            card.Item.Value.ServerChangePhysicalPower(adventurerEffects["Tinkerer"]);
-            card.Item.Value.ServerChangeMagicalPower(adventurerEffects["Tinkerer"]);
+            card.Item.Value.ChangePhysicalPower(adventurerEffects["Tinkerer"]);
+            card.Item.Value.ChangeMagicalPower(adventurerEffects["Tinkerer"]);
         }
 
 
@@ -240,7 +240,7 @@ public class QuestLane : NetworkBehaviour
                 UpdateEnchanterBuff(-1);
                 break;
             case "Tinkerer":
-                if (adventurerEffects["Tinkerer"] == 0) TinkererBuff = true;
+                if (adventurerEffects["Tinkerer"] == 0) TinkererBuff = false;
                 UpdateTinkererBuff(-1);
                 break;
             case "Ranger":
@@ -299,8 +299,8 @@ public class QuestLane : NetworkBehaviour
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem.Value) continue;
             print($"{card.CardName} changing item power by {buffDelta}");
-            card.Item.Value.ServerChangePhysicalPower(buffDelta);
-            card.Item.Value.ServerChangeMagicalPower(buffDelta);
+            card.Item.Value.ChangePhysicalPower(buffDelta);
+            card.Item.Value.ChangeMagicalPower(buffDelta);
         }
     }
 

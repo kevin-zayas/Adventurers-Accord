@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -10,7 +11,7 @@ public class ItemCardHeader : Card
     public readonly SyncVar<bool> IsDisabled = new();
     public readonly SyncVar<int> OriginalMagicalPower = new();
     public readonly SyncVar<int> OriginalPhysicalPower = new();
-    public readonly SyncVar<Transform> ParentTransform = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<Transform> ParentCard = new();
     #endregion
 
     #region UI Elements
@@ -49,10 +50,10 @@ public class ItemCardHeader : Card
     /// Server-side method to change the card's physical power, only if it is part of a quest.
     /// </summary>
     /// <param name="powerDelta">The amount to change the physical power by.</param>
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerChangePhysicalPower(int powerDelta)
+    [Server]
+    public void ChangePhysicalPower(int powerDelta)
     {
-        if (!ParentTransform.Value || !ParentTransform.Value.parent.CompareTag("Quest")) return;
+        if (!ParentCard.Value || !ParentCard.Value.parent.CompareTag("Quest")) return;
         if (OriginalPhysicalPower.Value > 0)
         {
             PhysicalPower.Value += powerDelta;
@@ -64,10 +65,10 @@ public class ItemCardHeader : Card
     /// Server-side method to change the card's magical power, only if it is part of a quest.
     /// </summary>
     /// <param name="powerDelta">The amount to change the magical power by.</param>
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerChangeMagicalPower(int powerDelta)
+    [Server]
+    public void ChangeMagicalPower(int powerDelta)
     {
-        if (!ParentTransform.Value || !ParentTransform.Value.parent.CompareTag("Quest")) return;
+        if (!ParentCard.Value || !ParentCard.Value.parent.CompareTag("Quest")) return;
         if (OriginalMagicalPower.Value > 0)
         {
             MagicalPower.Value += powerDelta;
