@@ -29,6 +29,6 @@ MonoBehaviour:
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
-  <BlockSpells>k__BackingField: 0
+  <BlockSpells>k__BackingField: 1
   <IsGreaseSpell>k__BackingField: 0
   <DescriptionKeys>k__BackingField: []
