@@ -562,6 +562,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2807776106187691063}
+  - {fileID: 8622937041435133659}
   - {fileID: 7017212375687327782}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -707,25 +708,42 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
-  - {fileID: -4959033644106127066}
-  - {fileID: -5912677968188888225}
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField: []
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedValusSet: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 19
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 14542336112846284722
+  <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
-  _isNetworked: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _defaultDespawnType: 0
-  NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 19
-  <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 0
-  <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 14542336112846284722
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,9 +793,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: -4959033644106127066}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroyEnlargedCard
+        - m_Target: {fileID: -5912677968188888225}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnPointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -786,7 +804,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 0
+          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -794,7 +812,19 @@ MonoBehaviour:
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: -5912677968188888225}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &-4959033644106127066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -813,8 +843,8 @@ MonoBehaviour:
   referenceCard: {fileID: 0}
   isEnlargedCard: 0
   isSpotlightCard: 0
-  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
   keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
+  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
 --- !u!114 &-5912677968188888225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -830,31 +860,17 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  <Name>k__BackingField: 
-  <Description>k__BackingField: 
-  <PhysicalPower>k__BackingField: 3
-  <MagicalPower>k__BackingField: 6
-  <Data>k__BackingField: {fileID: 0}
-  <ControllingPlayer>k__BackingField: {fileID: 0}
-  <ControllingPlayerHand>k__BackingField: {fileID: 0}
-  <AbilityName>k__BackingField: 
-  <GoldReward>k__BackingField: 6
-  <ReputationReward>k__BackingField: 4
-  <LootReward>k__BackingField: 1
-  <Drain>k__BackingField: 1
-  <PhysicalDrain>k__BackingField: 0
-  <MagicalDrain>k__BackingField: 1
-  <DisableItems>k__BackingField: 0
-  <BlockSpells>k__BackingField: 0
-  physicalPowerText: {fileID: 8026055629125033657}
-  magicalPowerText: {fileID: 3313565800043067953}
-  goldRewardText: {fileID: 3602657811630039641}
-  reputationRewardText: {fileID: 2629700042581359098}
-  lootRewardText: {fileID: 3652389081552512586}
-  nameText: {fileID: 2029664163792765779}
+  disableScreen: {fileID: 0}
+  hoverScreen: {fileID: 7497135699735217334}
   abilityNameText: {fileID: 7136576047852920583}
   abilityNameObject: {fileID: 5754032108738682450}
   cardImage: {fileID: 6958857792175851566}
+  goldRewardText: {fileID: 3602657811630039641}
+  lootRewardText: {fileID: 3652389081552512586}
+  magicalPowerText: {fileID: 3313565800043067953}
+  nameText: {fileID: 2029664163792765779}
+  physicalPowerText: {fileID: 8026055629125033657}
+  reputationRewardText: {fileID: 2629700042581359098}
 --- !u!1 &2474851401887430286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,6 +1080,81 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2882584965111326590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8622937041435133659}
+  - component: {fileID: 2602401693251184935}
+  - component: {fileID: 7497135699735217334}
+  m_Layer: 8
+  m_Name: Hover Screen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &8622937041435133659
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2882584965111326590}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7184070916402621257}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 145, y: 195}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2602401693251184935
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2882584965111326590}
+  m_CullTransparentMesh: 1
+--- !u!114 &7497135699735217334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2882584965111326590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.08627451}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2905565081415394883
 GameObject:
   m_ObjectHideFlags: 0

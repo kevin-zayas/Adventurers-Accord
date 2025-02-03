@@ -2,7 +2,6 @@ using FishNet.Connection;
 using FishNet.Object;
 using GameKit.Dependencies.Utilities;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -290,7 +289,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         float canvasWidth = canvasTransform.rect.width/2;
         float canvasHeight = canvasTransform.rect.height/2;
 
-        float x = Mathf.Clamp(position.x, -canvasWidth, canvasWidth - rt.sizeDelta.x);
+        float x = Mathf.Clamp(position.x, -canvasWidth + rt.sizeDelta.x, canvasWidth - rt.sizeDelta.x);
         float y = Mathf.Clamp(position.y, -canvasHeight + rt.sizeDelta.y, canvasHeight - rt.sizeDelta.y);
 
         rt.anchoredPosition = new Vector2(x, y);

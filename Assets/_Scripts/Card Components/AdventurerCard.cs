@@ -362,11 +362,8 @@ public class AdventurerCard : Card
     public override void OnHover()
     {
         if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
-
-        if (!IsDraftCard.Value && !IsOwner) { ToggleDisableScreen(true); return; }  // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) { ToggleDisableScreen(true); return; }
+        ToggleHoverScreen(true);
         if (!player.IsPlayerTurn.Value) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
-        if (IsDraftCard.Value && GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Recruit) { ToggleDisableScreen(true); return; }
 
         if (!IsDraftCard.Value || player.Gold.Value >= Cost.Value)  // Check player gold if dragging a DraftCard
         {
@@ -381,5 +378,6 @@ public class AdventurerCard : Card
     public override void OnPointerExit()
     {
         ToggleDisableScreen(false);
+        ToggleHoverScreen(false);
     }
 }

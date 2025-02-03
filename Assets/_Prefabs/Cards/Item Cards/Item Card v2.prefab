@@ -1,5 +1,80 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &591921954318505766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3989297099996180337}
+  - component: {fileID: 4297001312520282712}
+  - component: {fileID: 3531132728753755380}
+  m_Layer: 8
+  m_Name: Hover Screen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &3989297099996180337
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591921954318505766}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7184070916402621257}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 145, y: 210}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4297001312520282712
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591921954318505766}
+  m_CullTransparentMesh: 1
+--- !u!114 &3531132728753755380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591921954318505766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.08627451}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &994514386914017245
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +191,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2807776106187691063}
+  - {fileID: 3989297099996180337}
   - {fileID: 7017212375687327782}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -261,26 +337,42 @@ MonoBehaviour:
   <IsNested>k__BackingField: 0
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
-  _networkBehaviours:
-  - {fileID: -4959033644106127066}
-  - {fileID: 3478594553878486444}
-  - {fileID: -6916078920136669456}
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField: []
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedValusSet: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 36
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 16267027037570478015
+  <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    LocalScale: {x: 1, y: 1, z: 1}
-  _isNetworked: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _defaultDespawnType: 0
-  NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 36
-  <SpawnableCollectionId>k__BackingField: 0
-  _scenePathHash: 0
-  <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 16267027037570478015
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!114 &-4959033644106127066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,8 +391,8 @@ MonoBehaviour:
   referenceCard: {fileID: 0}
   isEnlargedCard: 0
   isSpotlightCard: 0
-  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
   keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
+  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,9 +466,9 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: -4959033644106127066}
-          m_TargetAssemblyTypeName: SpotlightCard, Assembly-CSharp
-          m_MethodName: DestroyEnlargedCard
+        - m_Target: {fileID: 3478594553878486444}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnPointerExit
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -385,7 +477,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 0
+          m_CallState: 2
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -393,7 +485,19 @@ MonoBehaviour:
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 3478594553878486444}
+          m_TargetAssemblyTypeName: Card, Assembly-CSharp
+          m_MethodName: OnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &3478594553878486444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,20 +513,14 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
-  <Name>k__BackingField: +1 Sword
-  <Description>k__BackingField: 
-  <PhysicalPower>k__BackingField: 1
-  <MagicalPower>k__BackingField: 0
-  <Data>k__BackingField: {fileID: 0}
-  <ControllingPlayer>k__BackingField: {fileID: 0}
-  <ControllingPlayerHand>k__BackingField: {fileID: 0}
-  SubDescription: 
+  disableScreen: {fileID: 0}
+  hoverScreen: {fileID: 3531132728753755380}
+  descriptionText: {fileID: 3101418111192428437}
+  cardImage: {fileID: 6958857792175851566}
+  magicalPowerText: {fileID: 3503292238363221274}
   nameText: {fileID: 2029664163792765779}
   physicalPowerText: {fileID: 2664241663241787588}
-  magicalPowerText: {fileID: 3503292238363221274}
-  descriptionText: {fileID: 3101418111192428437}
   subDescriptionText: {fileID: 6348006093116403189}
-  cardImage: {fileID: 6958857792175851566}
 --- !u!114 &-6916078920136669456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,11 +537,11 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: -3672523780777450086}
   isDragging: 0
-  itemCard: {fileID: 0}
   canvas: {fileID: 0}
-  adventurerCard: {fileID: 0}
+  dropZone: {fileID: 0}
   startParentTransform: {fileID: 0}
   startPosition: {x: 0, y: 0}
+  itemCard: {fileID: 0}
 --- !u!1 &1649686517057891831
 GameObject:
   m_ObjectHideFlags: 0

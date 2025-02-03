@@ -17,6 +17,7 @@ public abstract class Card : NetworkBehaviour
     #endregion
 
     [SerializeField] protected Image disableScreen;
+    [SerializeField] protected Image hoverScreen;
     protected bool isClone = false;
     
 
@@ -109,16 +110,23 @@ public abstract class Card : NetworkBehaviour
 
     public virtual void OnHover()
     {
-        return;
+        if (isClone) return;  // Do not show hover screen for enlarged/spotlight cards
+        ToggleHoverScreen(true);
     }
 
     public virtual void OnPointerExit()
     {
-        return;
+        ToggleHoverScreen(false);
     }
 
     protected void ToggleDisableScreen(bool toggle)
     {
         disableScreen.gameObject.SetActive(toggle);
+        if (toggle) hoverScreen.gameObject.SetActive(false);
+    }
+
+    protected void ToggleHoverScreen(bool toggle)
+    {
+        hoverScreen.gameObject.SetActive(toggle);
     }
 }

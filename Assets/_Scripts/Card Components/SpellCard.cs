@@ -84,6 +84,8 @@ public class SpellCard : Card
     {
         if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
 
+        ToggleHoverScreen(true);
+
         if (transform.parent.CompareTag("Quest")) { ToggleDisableScreen(true); return; } // Prevent dragging if the card is already in a quest lane
 
         // Only allow dragging during the Dispatch or Magic phase
@@ -102,5 +104,6 @@ public class SpellCard : Card
     public override void OnPointerExit()
     {
         ToggleDisableScreen(false);
+        ToggleHoverScreen(false);
     }
 }
