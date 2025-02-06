@@ -91,9 +91,9 @@ public class Board : NetworkBehaviour
     [Server]
     public void DrawQuestCard(int questSlotIndex)
     {
-        List<CardData> questCardDeck = L1QuestCardDeck.Count > 0 ? L1QuestCardDeck : null;
-        //L2QuestCardDeck.Count > 0 ? L2QuestCardDeck :
-        //L3QuestCardDeck.Count > 0 ? L3QuestCardDeck : null;
+        List<CardData> questCardDeck = L1QuestCardDeck.Count > 0 ? L1QuestCardDeck :
+                                        L2QuestCardDeck.Count > 0 ? L2QuestCardDeck :
+                                        L3QuestCardDeck.Count > 0 ? L3QuestCardDeck : null;
 
         if (questCardDeck == null) return;
 
@@ -110,7 +110,6 @@ public class Board : NetworkBehaviour
     [Server]
     public void CheckAllQuestsComplete()
     {
-       print("checking for non complete quests");
        foreach (QuestLocation questLocation in QuestLocations)
         {
             if (questLocation.Status != QuestLocation.QuestStatus.Complete)

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MultiplayerMenuView : View
 {
-    [SerializeField] private Button hostButton;
+    [SerializeField] private Button hostGameButton;
     [SerializeField] private Button joinGameButton;
     [SerializeField] private TMP_Text joinGameText;
     [SerializeField] private Button exitButton;
@@ -22,19 +22,27 @@ public class MultiplayerMenuView : View
 
     private void Start()
     {
-        //if (usingRemoteServer) DeploymentManager.Instance.InitiateMatchmaking();
-        if (usingDynamicServer) DeploymentManager.Instance.InitiateDeploymentCheck();
-
         float volume = PlayerPrefs.GetFloat("SavedMasterVolume", 50);
         masterMixer.SetFloat("MasterVolume", Mathf.Log10(volume / 100) * 20f);
     }
     public override void Initialize()
     {
-        hostButton.onClick.AddListener(() =>
+        if (usingDynamicServer)
         {
-            InstanceFinder.ServerManager.StartConnection();
-            InstanceFinder.ClientManager.StartConnection();
-        });
+            hostGameButton.onClick.AddListener(() =>
+            {
+                DeploymentManager.Instance.InitiateDeploymentCheck();
+                ToggleCreatingLobby();
+            });
+        }
+        else
+        {
+            hostGameButton.onClick.AddListener(() =>
+            {
+                InstanceFinder.ServerManager.StartConnection();
+                InstanceFinder.ClientManager.StartConnection();
+            });
+        }
 
         joinGameButton.onClick.AddListener(() => InstanceFinder.ClientManager.StartConnection());
 
@@ -67,23 +75,18 @@ public class MultiplayerMenuView : View
             if (usingDynamicServer)
             {
                 DeploymentManager.Instance.InitiateServerRestart();
-                ToggleLaunchingGame();
+                hostGameButton.interactable = true;
             }
         });
-
-        if (usingDynamicServer)
-        {
-            hostButton.gameObject.SetActive(false);
-            ToggleLaunchingGame();
-        }
 
         base.Initialize();
     }
 
-    private void ToggleLaunchingGame()
+    private void ToggleCreatingLobby()
     {
+        hostGameButton.interactable = false;
         joinGameButton.interactable = false;
-        joinGameText.text = "Launching Game";
+        joinGameText.text = "Creating Lobby";
     }
 
     public void Quit()

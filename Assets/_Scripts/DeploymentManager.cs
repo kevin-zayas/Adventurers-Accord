@@ -173,7 +173,6 @@ public class DeploymentManager : MonoBehaviour
                         Debug.Log("Deployment is terminated.");
                         if (desiredStatus == "Status.TERMINATED")
                         {
-                            StartCoroutine(CheckAndManageDeploymentCoroutine());
                             yield break;
                         }
                         break;
