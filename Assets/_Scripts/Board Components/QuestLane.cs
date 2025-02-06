@@ -248,7 +248,6 @@ public class QuestLane : NetworkBehaviour
                 break;
 
         }
-        print(QuestDropZone.transform.childCount);
         if (QuestDropZone.transform.childCount == 0) ObserversUpdateRewardIndicator("blank");
         
         UpdateQuestLanePower();

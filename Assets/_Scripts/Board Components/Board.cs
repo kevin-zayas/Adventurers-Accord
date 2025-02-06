@@ -91,9 +91,9 @@ public class Board : NetworkBehaviour
     [Server]
     public void DrawQuestCard(int questSlotIndex)
     {
-        List<CardData> questCardDeck = L1QuestCardDeck.Count > 0 ? L1QuestCardDeck :
-                                      L2QuestCardDeck.Count > 0 ? L2QuestCardDeck :
-                                      L3QuestCardDeck.Count > 0 ? L3QuestCardDeck : null;
+        List<CardData> questCardDeck = L1QuestCardDeck.Count > 0 ? L1QuestCardDeck : null;
+        //L2QuestCardDeck.Count > 0 ? L2QuestCardDeck :
+        //L3QuestCardDeck.Count > 0 ? L3QuestCardDeck : null;
 
         if (questCardDeck == null) return;
 
@@ -105,6 +105,23 @@ public class Board : NetworkBehaviour
         questCard.LoadCardData(randomQuestData);
         questLocation.AssignQuestCard(questCard);
         questCardDeck.Remove(randomQuestData);
+    }
+
+    [Server]
+    public void CheckAllQuestsComplete()
+    {
+       print("checking for non complete quests");
+       foreach (QuestLocation questLocation in QuestLocations)
+        {
+            if (questLocation.Status != QuestLocation.QuestStatus.Complete)
+            {
+                print("active quest found, not all quests are complete");
+                return;
+            }
+        }
+
+        GameManager.Instance.SetPhaseGameOver();
+        return;
     }
 
     /// <summary>
@@ -181,10 +198,17 @@ public class Board : NetworkBehaviour
 
         for (int i = 0; i < QuestLocations.Length; i++)
         {
+            if (QuestLocations[i].QuestCard.Value == null)
+            {
+                print("skipping empty quest location");
+                continue;
+            }
+
             QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
         }
 
         popUp.ObserversInitializeRoundSummaryPopUp();
+        GameManager.Instance.EndPhase();
     }
 
     /// <summary>

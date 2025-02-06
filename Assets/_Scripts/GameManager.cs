@@ -51,7 +51,6 @@ public class GameManager : NetworkBehaviour
     [ObserversRpc]
     public void ObserversSetCanStartGame(bool value)
     {
-        print("Setting CanStartGame value to : " + value);
         CanStartGame = value;
     }
 
@@ -154,7 +153,8 @@ public class GameManager : NetworkBehaviour
         if (PlayerEndRoundStatus.All(status => status))
         {
             ObserversEnableEndRoundButton();
-            EndPhase();
+            //EndPhase();
+            Board.Instance.CheckQuestsForCompletion();
         }
     }
 
@@ -208,8 +208,9 @@ public class GameManager : NetworkBehaviour
                 break;
 
             case Phase.Magic:
-                Board.Instance.CheckQuestsForCompletion();
+                //Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
+                Board.Instance.CheckAllQuestsComplete();
 
                 if (CurrentPhase.Value == Phase.GameOver)
                 {

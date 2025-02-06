@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -62,7 +63,7 @@ public class QuestLocation : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversInitializeQuestLocation()
     {
-        int playerCount = 4;//GameManager.Instance.Players.Count;
+        int playerCount = GameManager.Instance.Players.Count;
         float questLaneGroupWidth = 15 + 127.5f * playerCount;
         float questLocationWidth = (questLaneGroupWidth < 400) ? 400 : questLaneGroupWidth;
 
@@ -90,7 +91,7 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public void AssignQuestCard(QuestCard questCard)
     {
-        
+        Status = QuestStatus.Default;
         CreatePreviewCard(questCard);
 
         questCard.SetCardParent(questCardSlot.transform, false);
@@ -115,7 +116,6 @@ public class QuestLocation : NetworkBehaviour
     private void ReplaceQuestCard()
     {
         Despawn(previewQuestCard.gameObject);
-
         Despawn(QuestCard.Value.gameObject);
         Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
     }
@@ -164,6 +164,7 @@ public class QuestLocation : NetworkBehaviour
 
         if (MeetsQuestRequirements())
         {
+            Status = QuestStatus.Complete;
             QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Complete!", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
             CalculateQuestContributions(true);
             DistributeBardBonus();
@@ -278,7 +279,6 @@ public class QuestLocation : NetworkBehaviour
             goldReward = QuestCard.Value.GoldReward.Value;
             reputationReward = QuestCard.Value.ReputationReward.Value;
             lootReward = QuestCard.Value.LootReward.Value;
-            //could set bool here to indicate player is primary contributor, which can be used to add a gold metal vs silver metal to the player's summary
         }
         else
         {

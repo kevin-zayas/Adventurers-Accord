@@ -28,7 +28,6 @@ public class PopUpManager : NetworkBehaviour
     [Server]
     public ResolutionPopUp CreateResolutionPopUp()
     {
-        print("Creating PopUp");
         ResolutionPopUp popUp = Instantiate(ResolutionPopUpPrefab);
         CurrentResolutionPopUp.Value = popUp;
         return popUp;
@@ -37,14 +36,12 @@ public class PopUpManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerDespawnResolutionPopUp(ResolutionPopUp popUp)
     {
-        print("Despawning PopUp");
         Despawn(popUp.gameObject);
     }
 
     [Server]
     public RoundSummaryPopUp CreateRoundSummaryPopUp()
     {
-        print("Creating Round Summary PopUp");
         RoundSummaryPopUp popUp = Instantiate(RoundSummaryPopUpPrefab);
         return popUp;
     }
@@ -64,7 +61,6 @@ public class PopUpManager : NetworkBehaviour
     public void TargetCloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp)
     {
         //if (IsServer) return;
-        print("closing round summary pop up");
         popUp.SetActive(false);
 
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver)

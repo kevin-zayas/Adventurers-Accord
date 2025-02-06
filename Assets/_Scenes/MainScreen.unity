@@ -6896,7 +6896,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3e8fd8c8d1cb6c1458ac8d76c03cdbe9, type: 2}
   - {fileID: 11400000, guid: 4a3856edc06240541a4c3929720b5748, type: 2}
   - {fileID: 11400000, guid: bab5dff3694024f44959917321bd7b08, type: 2}
-  - {fileID: 11400000, guid: b72acab4728516e4c805dc168d05d483, type: 2}
   - {fileID: 11400000, guid: 7801ecc3274fe82458a209cd1375b4c6, type: 2}
   levelTwoQuestCards:
   - {fileID: 11400000, guid: 50c3b99cc643ced4ba01d3d4eba8d5fd, type: 2}
@@ -7288,7 +7287,7 @@ MonoBehaviour:
   <DidStartGame>k__BackingField: 0
   <Turn>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 10
+  <StartingGold>k__BackingField: 100
   <StartingLoot>k__BackingField: 3
   <ReputationGoal>k__BackingField: 25
   <PlayerSkipTurnStatus>k__BackingField: 

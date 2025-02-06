@@ -30,7 +30,6 @@ public class RoundSummaryPopUp : NetworkBehaviour
     [ObserversRpc]
     public void ObserversInitializeRoundSummaryPopUp()
     {
-        print("initializing round summary pop up");
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;
     }
