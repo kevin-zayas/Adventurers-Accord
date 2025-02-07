@@ -17,6 +17,7 @@ public class DeploymentManager : MonoBehaviour
 
     [SerializeField] private Button joinGameButton;
     [SerializeField] private TMP_Text joinGameButtonText;
+    [SerializeField] private TMP_Text findGameButtonText;
 
     [SerializeField] private GameObject networkManagerObject;
     private Tugboat tugboatComponent;
@@ -62,7 +63,7 @@ public class DeploymentManager : MonoBehaviour
             if (IsDeploymentActive(deploymentsList, out string clientAddress, out int gamePort))
             {
                 SetNetworkConfiguration(clientAddress, gamePort);
-                SetJoinGameButton(true, "Join Game");
+                ChangeGameButtons(true, "Game Found");
             }
             else
             {
@@ -164,7 +165,7 @@ public class DeploymentManager : MonoBehaviour
                             string clientAddress = ExtractValueFromJson(response, "fqdn");
                             int gamePort = int.Parse(ExtractValueFromJson(response, "external"));
                             SetNetworkConfiguration(clientAddress, gamePort);
-                            SetJoinGameButton(true, "Join Game");
+                            ChangeGameButtons(true, "Game Found");
                             yield break;
                         }
                         break;
@@ -253,12 +254,12 @@ public class DeploymentManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Configures the Join Game button.
+    /// Configures the Join Game and Find Game buttons.
     /// </summary>
-    private void SetJoinGameButton(bool interactable, string buttonText)
+    private void ChangeGameButtons(bool interactable, string buttonText)
     {
         joinGameButton.interactable = interactable;
-        joinGameButtonText.text = buttonText;
+        findGameButtonText.text = buttonText;
     }
 
     /// <summary>

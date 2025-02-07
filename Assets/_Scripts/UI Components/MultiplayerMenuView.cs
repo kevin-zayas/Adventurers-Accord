@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class MultiplayerMenuView : View
 {
-    [SerializeField] private Button hostGameButton;
+    [SerializeField] private Button findGameButton;
     [SerializeField] private Button joinGameButton;
     [SerializeField] private TMP_Text joinGameText;
+    [SerializeField] private TMP_Text findGameText;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button creditsButton;
     [SerializeField] private Button settingsButton;
@@ -29,7 +30,8 @@ public class MultiplayerMenuView : View
     {
         if (usingDynamicServer)
         {
-            hostGameButton.onClick.AddListener(() =>
+            joinGameButton.interactable = false;
+            findGameButton.onClick.AddListener(() =>
             {
                 DeploymentManager.Instance.InitiateDeploymentCheck();
                 ToggleCreatingLobby();
@@ -37,7 +39,7 @@ public class MultiplayerMenuView : View
         }
         else
         {
-            hostGameButton.onClick.AddListener(() =>
+            findGameButton.onClick.AddListener(() =>
             {
                 InstanceFinder.ServerManager.StartConnection();
                 InstanceFinder.ClientManager.StartConnection();
@@ -75,7 +77,9 @@ public class MultiplayerMenuView : View
             if (usingDynamicServer)
             {
                 DeploymentManager.Instance.InitiateServerRestart();
-                hostGameButton.interactable = true;
+                findGameButton.interactable = true;
+                findGameText.text = "Find Game";
+                joinGameButton.interactable = false;
             }
         });
 
@@ -84,9 +88,9 @@ public class MultiplayerMenuView : View
 
     private void ToggleCreatingLobby()
     {
-        hostGameButton.interactable = false;
+        findGameButton.interactable = false;
         joinGameButton.interactable = false;
-        joinGameText.text = "Creating Lobby";
+        findGameText.text = "Creating Lobby";
     }
 
     public void Quit()
