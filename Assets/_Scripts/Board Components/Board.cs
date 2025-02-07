@@ -12,7 +12,7 @@ public class Board : NetworkBehaviour
     #endregion
 
     #region Serialized Fields
-    [field: SerializeField] public CardSlot[] CardSlots { get; private set; }
+    [field: SerializeField] public CardSlot[] DraftCardSlots { get; private set; }
     [field: SerializeField] public QuestLocation[] QuestLocations { get; private set; }
 
     [field: SerializeField] private List<CardData> T1Deck { get; } = new List<CardData>();
@@ -24,6 +24,7 @@ public class Board : NetworkBehaviour
 
     [SerializeField] private TMP_Text t1DeckTrackerText;
     [SerializeField] private TMP_Text t2DeckTrackerText;
+    [SerializeField] private TMP_Text lootDeckTrackerText;
     [SerializeField] private TMP_Text phaseText;
     [SerializeField] public TMP_Text goldText;
     [SerializeField] public TMP_Text reputationText;
@@ -47,9 +48,9 @@ public class Board : NetworkBehaviour
     {
         ConstructDecks();
 
-        for (int i = 0; i < CardSlots.Length; i++)
+        for (int i = 0; i < DraftCardSlots.Length; i++)
         {
-            DrawCard(i);
+            DrawDraftCard(i);
         }
 
         for (int i = 0; i < QuestLocations.Length; i++)
@@ -69,8 +70,13 @@ public class Board : NetworkBehaviour
     /// </summary>
     /// <param name="slotIndex">The index of the slot where the card will be placed.</param>
     [Server]
-    private void DrawCard(int slotIndex)
+    private void DrawDraftCard(int slotIndex)
     {
+        if (slotIndex > 7)
+        {
+            DrawLootCard(slotIndex);
+            return;
+        }
         List<CardData> deck = slotIndex < 4 ? T1Deck : T2Deck;
         CardData randomCardData = deck[Random.Range(0, deck.Count)];
 
@@ -78,10 +84,33 @@ public class Board : NetworkBehaviour
         Spawn(card.gameObject);
 
         card.LoadCardData(randomCardData);
-        card.SetCardParent(CardSlots[slotIndex].transform, false);
+        card.SetCardParent(DraftCardSlots[slotIndex].transform, false);
 
         deck.Remove(randomCardData);
         ObserversUpdateDeckTrackers(T1Deck.Count, T2Deck.Count);
+    }
+
+    /// <summary>
+    /// Draws a card from the loot deck and places it in the specified slot.
+    /// </summary>
+    /// <param name="slotIndex">The index of the slot where the card will be placed.</param>
+    [Server]
+    private void DrawLootCard(int slotIndex)
+    {
+        Card card;
+        Card cardPrefab;
+        CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
+        
+        if (randomLootData.CardType == "Magic Item") cardPrefab = CardDatabase.Instance.itemCardPrefab;
+        else cardPrefab = CardDatabase.Instance.spellCardPrefab;
+
+        card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);
+        Spawn(card.gameObject);
+        card.LoadCardData(randomLootData);
+        card.SetCardParent(DraftCardSlots[slotIndex].transform, false);
+
+        LootDeck.Remove(randomLootData);
+        ObserversUpdateLootDeckTracker(LootDeck.Count);
     }
 
     /// <summary>
@@ -158,7 +187,7 @@ public class Board : NetworkBehaviour
 
         if (deck.Count > 0)
         {
-            DrawCard(slotIndex);
+            DrawDraftCard(slotIndex);
         }
     }
 
@@ -170,8 +199,18 @@ public class Board : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversUpdateDeckTrackers(int t1DeckSize, int t2DeckSize)
     {
-        t1DeckTrackerText.text = $"{t1DeckSize} Cards Remaining";
-        t2DeckTrackerText.text = $"{t2DeckSize} Cards Remaining";
+        t1DeckTrackerText.text = $"{t1DeckSize} Recruits Remaining";
+        t2DeckTrackerText.text = $"{t2DeckSize} Recruits Remaining";
+    }
+
+    /// <summary>
+    /// Updates the loot deck tracker text on all clients to reflect the current deck sizes.
+    /// </summary>
+    /// <param name="lootDeckSize">The current size of the T1 deck.</param>
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversUpdateLootDeckTracker(int lootDeckSize)
+    {
+        lootDeckTrackerText.text = $"{lootDeckSize} Wares Remaining";
     }
 
     /// <summary>

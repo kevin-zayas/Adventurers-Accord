@@ -4,12 +4,13 @@ using UnityEngine;
 public class SpellDragDrop : CardDragDrop
 {
     #region Serialized Fields
-    [SerializeField] private SpellCard spellCard;
+    //[SerializeField] private SpellCard card;
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
-        spellCard = GetComponent<SpellCard>();
+        card = GetComponent<SpellCard>();
+        base.Start();
     }
 
     /// <summary>
@@ -73,7 +74,7 @@ public class SpellDragDrop : CardDragDrop
     /// </summary>
     protected override void ResetCardPosition()
     {
-        spellCard.ServerSetCardParent(startParentTransform, true);
+        card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
     }
 
@@ -83,7 +84,7 @@ public class SpellDragDrop : CardDragDrop
     protected override void HandleCardMovement()
     {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-        spellCard.ServerSetCardParent(dropZone.transform, false);
+        card.ServerSetCardParent(dropZone.transform, false);
         questLane.ServerUpdateSpellEffects();
 
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)

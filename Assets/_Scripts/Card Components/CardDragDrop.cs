@@ -10,11 +10,23 @@ public abstract class CardDragDrop : NetworkBehaviour
     [SerializeField] protected GameObject dropZone;
     [SerializeField] protected Transform startParentTransform;
     [SerializeField] protected Vector2 startPosition;
+    [SerializeField] protected Player player;
+    [SerializeField] protected Card card;
     #endregion
 
     protected virtual void Awake()
     {
         canvas = GameObject.Find("Canvas");
+    }
+
+    protected virtual void Start()
+    {
+        if (!IsClientStarted) return;
+
+        if (player == null)
+        {
+            player = GameManager.Instance.Players[LocalConnection.ClientId];
+        }
     }
 
     /// <summary>
@@ -105,6 +117,22 @@ public abstract class CardDragDrop : NetworkBehaviour
     protected virtual void ResetCardPosition()
     {
         transform.position = startPosition;
+    }
+
+    /// <summary>
+    /// Assigns the draft card to the player, updating the game state accordingly.
+    /// </summary>
+    protected void AssignDraftCardToPlayer()
+    {
+        CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
+
+        card.ServerSetCardParent(dropZone.transform, false);
+        card.ServerSetCardOwner(player);
+        print(player);
+        print(card.Cost.Value);
+        player.ServerChangePlayerGold(-card.Cost.Value);
+        Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
+        GameManager.Instance.EndTurn(false);
     }
 
     /// <summary>

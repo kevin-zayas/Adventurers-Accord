@@ -38,6 +38,7 @@ public class ItemCard : Card
     {
         SubDescription.Value = cardData.CardSubDescription;
         Data.Value = cardData;
+        Cost.Value = cardData.Cost;
 
         base.LoadCardData(cardData);
     }

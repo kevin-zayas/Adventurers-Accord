@@ -10,10 +10,8 @@ public class AdventurerCard : Card
 {
     #region SyncVars
     public readonly SyncVar<string> AbilityName = new();
-    public readonly SyncVar<int> Cost = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
-    public readonly SyncVar<bool> IsDraftCard = new();
     public readonly SyncVar<int> OriginalMagicalPower = new();
     public readonly SyncVar<int> OriginalPhysicalPower = new();
     public readonly SyncVar<Transform> ParentTransform = new();
@@ -31,7 +29,7 @@ public class AdventurerCard : Card
     #endregion
 
     #region Cached Components
-    private Player player;
+    //private Player player;
     #endregion
 
     #region Constants
@@ -103,18 +101,18 @@ public class AdventurerCard : Card
         transform.SetParent(newParent, worldPositionStays);
     }
 
-    /// <summary>
-    /// Server-side RPC to set the card's owner and update related properties.
-    /// </summary>
-    /// <param name="owningPlayer">The player who will own the card.</param>
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetCardOwner(Player owningPlayer)
-    {
-        ControllingPlayer.Value = owningPlayer;
-        ControllingPlayerHand.Value = owningPlayer.controlledHand.Value;
-        GiveOwnership(owningPlayer.Owner);
-        IsDraftCard.Value = false;
-    }
+    ///// <summary>
+    ///// Server-side RPC to set the card's owner and update related properties.
+    ///// </summary>
+    ///// <param name="owningPlayer">The player who will own the card.</param>
+    //[ServerRpc(RequireOwnership = false)]
+    //public void ServerSetCardOwner(Player owningPlayer)
+    //{
+    //    ControllingPlayer.Value = owningPlayer;
+    //    ControllingPlayerHand.Value = owningPlayer.controlledHand.Value;
+    //    GiveOwnership(owningPlayer.Owner);
+    //    IsDraftCard.Value = false;
+    //}
 
     /// <summary>
     /// Server-side RPC to equip an item to the card.

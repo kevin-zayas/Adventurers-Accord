@@ -17,11 +17,12 @@ MonoBehaviour:
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
-  <Cost>k__BackingField: 0
+  <Cost>k__BackingField: 2
   <CardDescription>k__BackingField: Remove the effects of all Magic Items in this
     Quest Lane
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Magic Spell
+  <AbilityName>k__BackingField: 
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
@@ -31,3 +32,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 1
+  <DescriptionKeys>k__BackingField: []

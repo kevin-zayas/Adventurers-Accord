@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -9,18 +10,31 @@ public abstract class Card : NetworkBehaviour
     #region SyncVars
     public readonly SyncVar<string> CardName = new();
     public readonly SyncVar<string> CardDescription = new();
+    public readonly SyncVar<int> Cost = new();
     public readonly SyncVar<int> PhysicalPower = new();
     public readonly SyncVar<int> MagicalPower = new();
     public readonly SyncVar<CardData> Data = new();
     public readonly SyncVar<Player> ControllingPlayer = new();
     public readonly SyncVar<Hand> ControllingPlayerHand = new();
+    [AllowMutableSyncTypeAttribute] public readonly SyncVar<bool> IsDraftCard = new();
     #endregion
 
     [SerializeField] protected Image disableScreen;
     [SerializeField] protected Image hoverScreen;
     protected bool isClone = false;
-    
+    protected Player player;
 
+    private void Start()
+    {
+        if (IsServerInitialized)
+        {
+            IsDraftCard.Value = true;
+        }
+        //else      //may need to add this back when putting it on dedicated server
+        //{
+        player = GameManager.Instance.Players[LocalConnection.ClientId];
+        //}
+    }
     /// <summary>
     /// Sets the card's owner and updates the controlling player's hand.
     /// </summary>
@@ -65,6 +79,19 @@ public abstract class Card : NetworkBehaviour
     protected virtual void ObserversSetCardParent(Transform parentTransform, bool worldPositionStays)
     {
         this.transform.SetParent(parentTransform, worldPositionStays);
+    }
+
+    /// <summary>
+    /// Server-side RPC to set the card's owner and update related properties.
+    /// </summary>
+    /// <param name="owningPlayer">The player who will own the card.</param>
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void ServerSetCardOwner(Player owningPlayer)
+    {
+        ControllingPlayer.Value = owningPlayer;
+        ControllingPlayerHand.Value = owningPlayer.controlledHand.Value;
+        GiveOwnership(owningPlayer.Owner);
+        IsDraftCard.Value = false;
     }
 
     /// <summary>

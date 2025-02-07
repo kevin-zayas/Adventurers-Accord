@@ -42,6 +42,7 @@ public class SpellCard : Card
     public override void LoadCardData(CardData cardData)
     {
         IsGreaseSpell.Value = cardData.IsGreaseSpell;
+        Cost.Value = cardData.Cost;
 
         base.LoadCardData(cardData);
     }

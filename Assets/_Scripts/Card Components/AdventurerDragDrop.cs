@@ -4,20 +4,13 @@ using UnityEngine;
 public class AdventurerDragDrop : CardDragDrop
 {
     #region Serialized Fields
-    [SerializeField] private AdventurerCard card;
-    [SerializeField] private Player player;
+    //[SerializeField] private AdventurerCard card;
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
         card = GetComponent<AdventurerCard>();
-
-        if (!IsClientStarted) return;
-
-        if (player == null)
-        {
-            player = GameManager.Instance.Players[LocalConnection.ClientId];
-        }
+        base.Start();
     }
 
     /// <summary>
@@ -83,20 +76,18 @@ public class AdventurerDragDrop : CardDragDrop
         base.ResetCardPosition();
     }
 
-    /// <summary>
-    /// Assigns the draft card to the player, updating the game state accordingly.
-    /// </summary>
-    private void AssignDraftCardToPlayer()
-    {
-        CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
-
-        card.ServerSetCardParent(dropZone.transform, false);
-        card.ServerSetCardOwner(player);
-
-        player.ServerChangePlayerGold(-card.Cost.Value);
-        Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
-        GameManager.Instance.EndTurn(false);
-    }
+    ///// <summary>
+    ///// Assigns the draft card to the player, updating the game state accordingly.
+    ///// </summary>
+    //private void AssignDraftCardToPlayer()
+    //{
+    //    CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
+    //    card.ServerSetCardParent(dropZone.transform, false);
+    //    card.ServerSetCardOwner(player);
+    //    player.ServerChangePlayerGold(-card.Cost.Value);
+    //    Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
+    //    GameManager.Instance.EndTurn(false);
+    //}
 
     /// <summary>
     /// Handles the movement of the card to a new drop zone.

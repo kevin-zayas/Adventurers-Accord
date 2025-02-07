@@ -17,7 +17,7 @@ MonoBehaviour:
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
-  <Cost>k__BackingField: 0
+  <Cost>k__BackingField: 2
   <CardDescription>k__BackingField: Afflict -2 Physical Power at this Quest Lane
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Magic Spell

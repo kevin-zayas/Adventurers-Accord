@@ -4,12 +4,26 @@ using UnityEngine;
 public class ItemDragDrop : CardDragDrop
 {
     #region Serialized Fields
-    [SerializeField] private ItemCard itemCard;
+    //[SerializeField] private ItemCard itemCard;
     #endregion
 
-    private void Start()
+    protected override void Start()
     {
-        itemCard = GetComponent<ItemCard>();
+        card = GetComponent<ItemCard>();
+        base.Start();
+    }
+
+    /// <summary>
+    /// Determines whether the drag operation can start, based on various conditions.
+    /// </summary>
+    /// <returns>True if the drag can start, otherwise false.</returns>
+    protected override bool CanStartDrag()
+    {
+        if (!base.CanStartDrag()) return false;
+        //if (!itemCard.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
+        //if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
+
+        return !card.IsDraftCard.Value || player.Gold.Value >= card.Cost.Value; // Check player gold if dragging a DraftCard
     }
 
     /// <summary>
@@ -28,6 +42,16 @@ public class ItemDragDrop : CardDragDrop
     /// </summary>
     protected override void HandleEndDrag()
     {
+        if (card.IsDraftCard.Value)
+        {
+            if (!dropZone.CompareTag("Hand"))
+            {
+                ResetCardPosition();
+                return;
+            }
+            AssignDraftCardToPlayer();
+            return;
+        }
         AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
 
         if (adventurerCard.IsDraftCard.Value || adventurerCard.HasItem.Value || !adventurerCard.IsOwner)
@@ -44,8 +68,8 @@ public class ItemDragDrop : CardDragDrop
             return;
         }
 
-        if ((itemCard.MagicalPower.Value > 0 && adventurerCard.OriginalMagicalPower.Value == 0) ||
-            (itemCard.PhysicalPower.Value > 0 && adventurerCard.OriginalPhysicalPower.Value == 0))
+        if ((card.MagicalPower.Value > 0 && adventurerCard.OriginalMagicalPower.Value == 0) ||
+            (card.PhysicalPower.Value > 0 && adventurerCard.OriginalPhysicalPower.Value == 0))
         {
             Debug.Log("Cannot equip item: card does not have the required power type.");
             ResetCardPosition();
@@ -61,7 +85,7 @@ public class ItemDragDrop : CardDragDrop
     /// </summary>
     protected override void ResetCardPosition()
     {
-        itemCard.ServerSetCardParent(startParentTransform, true);
+        card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
     }
 
