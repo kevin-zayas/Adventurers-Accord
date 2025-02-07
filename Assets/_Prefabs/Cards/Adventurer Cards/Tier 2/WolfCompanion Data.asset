@@ -20,7 +20,7 @@ MonoBehaviour:
   <Cost>k__BackingField: 0
   <CardDescription>k__BackingField: 
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Adventurer II
+  <CardType>k__BackingField: Summon
   <AbilityName>k__BackingField: 
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
@@ -31,3 +31,4 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

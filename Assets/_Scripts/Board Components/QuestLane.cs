@@ -323,6 +323,7 @@ public class QuestLane : NetworkBehaviour
 
         CardData wolfCardData = CardDatabase.Instance.wolfCardData;
         AdventurerCard wolfCard = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
+        Destroy(wolfCard.GetComponent<AdventurerDragDrop>());
 
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
