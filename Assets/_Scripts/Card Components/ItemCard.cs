@@ -18,6 +18,8 @@ public class ItemCard : Card
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text subDescriptionText;
+    [SerializeField] private TMP_Text cardTypeText;
+    [SerializeField] private TMP_Text costText;
     #endregion
 
     /// <summary>
@@ -55,6 +57,8 @@ public class ItemCard : Card
         nameText.text = cardData.CardName;
         descriptionText.text = cardData.CardDescription;
         subDescriptionText.text = cardData.CardSubDescription;
+        cardTypeText.text = cardData.CardType;
+        costText.text = cardData.Cost.ToString();
 
         cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.CardName);
     }

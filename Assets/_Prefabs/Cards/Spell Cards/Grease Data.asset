@@ -17,7 +17,7 @@ MonoBehaviour:
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
-  <Cost>k__BackingField: 2
+  <Cost>k__BackingField: 3
   <CardDescription>k__BackingField: Remove the effects of all Magic Items in this
     Quest Lane
   <CardSubDescription>k__BackingField: 

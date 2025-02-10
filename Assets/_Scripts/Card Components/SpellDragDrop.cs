@@ -22,20 +22,9 @@ public class SpellDragDrop : CardDragDrop
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
 
-        //if (!IsOwner) return false; // Ensure the player owns the card before dragging
         if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
 
         
-        //if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution)
-        //{
-        //    Debug.Log("Can't move spells during Resolution phase");
-        //    return false;
-        //}
-
-        //if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Recruit && !card.IsDraftCard.Value)
-        //{
-        //    return false;
-        //}
 
         return true;
     }

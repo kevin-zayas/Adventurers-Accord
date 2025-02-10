@@ -17,6 +17,8 @@ public class SpellCard : Card
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text physicalPowerText;
+    [SerializeField] private TMP_Text cardTypeText;
+    [SerializeField] private TMP_Text costText;
     #endregion
 
     /// <summary>
@@ -58,6 +60,8 @@ public class SpellCard : Card
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
         descriptionText.text = cardData.CardDescription;
+        cardTypeText.text = cardData.CardType;
+        costText.text = cardData.Cost.ToString();
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
     }
@@ -91,7 +95,7 @@ public class SpellCard : Card
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) ToggleDisableScreen(true);
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Recruit && !IsDraftCard.Value) ToggleDisableScreen(true);
 
-        //if (!player.IsPlayerTurn.Value) ToggleDisableScreen(true);  // Show disable screen if not player's turn
+        if (IsDraftCard.Value && !player.IsPlayerTurn.Value) ToggleDisableScreen(true);
     }
 
     //public override void OnPointerExit()
