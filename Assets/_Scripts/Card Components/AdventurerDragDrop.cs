@@ -33,8 +33,8 @@ public class AdventurerDragDrop : CardDragDrop
     protected override bool CanStartDrag()
     {
         if (!base.CanStartDrag()) return false;
-        if (!card.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
+        //if (!card.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
+        //if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
         if (!player.IsPlayerTurn.Value) return false; // Allow dragging only during player's turn
 
         return true;

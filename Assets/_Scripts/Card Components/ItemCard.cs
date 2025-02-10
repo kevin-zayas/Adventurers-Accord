@@ -113,4 +113,16 @@ public class ItemCard : Card
         magicalPowerText.color = magicalPower > originalMagicalPower ? Color.green :
                                  magicalPower < originalMagicalPower ? Color.red : Color.white;
     }
+    public override void OnHover()
+    {
+        base.OnHover();
+        if (IsDraftCard.Value && !player.IsPlayerTurn.Value) ToggleDisableScreen(true);
+
+        return;
+    }
+    //public override void OnPointerExit()
+    //{
+    //    ToggleDisableScreen(false);
+    //    ToggleHoverScreen(false);
+    //}
 }

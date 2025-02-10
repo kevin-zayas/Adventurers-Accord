@@ -71,7 +71,9 @@ public abstract class CardDragDrop : NetworkBehaviour
     protected virtual bool CanStartDrag()
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
+        if (!card.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver) return false; // Prevent dragging after the game ends
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
         if (card.IsDraftCard.Value && player.Gold.Value < card.Cost.Value) return false;    // Check player gold if dragging a DraftCard
         return true;
     }

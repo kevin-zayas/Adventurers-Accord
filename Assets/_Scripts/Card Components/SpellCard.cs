@@ -83,28 +83,20 @@ public class SpellCard : Card
 
     public override void OnHover()
     {
-        if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
+        base.OnHover();
+        //ToggleHoverScreen(true);
 
-        ToggleHoverScreen(true);
+        if (transform.parent.CompareTag("Quest")) ToggleDisableScreen(true);  // Prevent dragging if the card is already in a quest lane
 
-        if (transform.parent.CompareTag("Quest")) { ToggleDisableScreen(true); return; } // Prevent dragging if the card is already in a quest lane
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) ToggleDisableScreen(true);
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Recruit && !IsDraftCard.Value) ToggleDisableScreen(true);
 
-        // Only allow dragging during the Dispatch or Magic phase
-        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch &&
-            GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic)
-        {
-            //Debug.Log("Can't move spells during this phase");
-            ToggleDisableScreen(true);
-        }
-        else
-        {
-            //print("can drag");
-        }
+        //if (!player.IsPlayerTurn.Value) ToggleDisableScreen(true);  // Show disable screen if not player's turn
     }
 
-    public override void OnPointerExit()
-    {
-        ToggleDisableScreen(false);
-        ToggleHoverScreen(false);
-    }
+    //public override void OnPointerExit()
+    //{
+    //    ToggleDisableScreen(false);
+    //    ToggleHoverScreen(false);
+    //}
 }

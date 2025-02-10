@@ -359,23 +359,15 @@ public class AdventurerCard : Card
 
     public override void OnHover()
     {
-        if (isClone) return;  // Do not show disbale screen for enlarged/spotlight cards
-        ToggleHoverScreen(true);
-        if (!player.IsPlayerTurn.Value) { ToggleDisableScreen(true); return; }  // Allow dragging only during player's turn
+        base.OnHover();
+        if (!player.IsPlayerTurn.Value) ToggleDisableScreen(true);  // Show disable screen if not player's turn
 
-        if (!IsDraftCard.Value || player.Gold.Value >= Cost.Value)  // Check player gold if dragging a DraftCard
-        {
-            //print("can drag");
-        }
-        else 
-        {
-            ToggleDisableScreen(true);
-        }
+        return;
     }
     
-    public override void OnPointerExit()
-    {
-        ToggleDisableScreen(false);
-        ToggleHoverScreen(false);
-    }
+    //public override void OnPointerExit()
+    //{
+    //    ToggleDisableScreen(false);
+    //    ToggleHoverScreen(false);
+    //}
 }
