@@ -72,6 +72,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver) return false; // Prevent dragging after the game ends
+        if (card.IsDraftCard.Value && player.Gold.Value < card.Cost.Value) return false;    // Check player gold if dragging a DraftCard
         return true;
     }
 
@@ -128,8 +129,6 @@ public abstract class CardDragDrop : NetworkBehaviour
 
         card.ServerSetCardParent(dropZone.transform, false);
         card.ServerSetCardOwner(player);
-        print(player);
-        print(card.Cost.Value);
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);

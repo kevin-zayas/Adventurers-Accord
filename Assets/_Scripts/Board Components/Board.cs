@@ -97,17 +97,17 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawLootCard(int slotIndex)
     {
-        Card card;
-        Card cardPrefab;
+        Card lootCard;
+        Card lootCardPrefab;
         CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
         
-        if (randomLootData.CardType == "Magic Item") cardPrefab = CardDatabase.Instance.itemCardPrefab;
-        else cardPrefab = CardDatabase.Instance.spellCardPrefab;
+        if (randomLootData.CardType == "Magic Item") lootCardPrefab = CardDatabase.Instance.itemCardPrefab;
+        else lootCardPrefab = CardDatabase.Instance.spellCardPrefab;
 
-        card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);
-        Spawn(card.gameObject);
-        card.LoadCardData(randomLootData);
-        card.SetCardParent(DraftCardSlots[slotIndex].transform, false);
+        lootCard = Instantiate(lootCardPrefab, Vector2.zero, Quaternion.identity);
+        Spawn(lootCard.gameObject);
+        lootCard.LoadCardData(randomLootData);
+        lootCard.SetCardParent(DraftCardSlots[slotIndex].transform, false);
 
         LootDeck.Remove(randomLootData);
         ObserversUpdateLootDeckTracker(LootDeck.Count);
@@ -276,24 +276,17 @@ public class Board : NetworkBehaviour
         {
             CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
 
-            if (randomLootData.CardType == "Magic Item")
-            {
-                ItemCard itemCard = Instantiate(CardDatabase.Instance.itemCardPrefab, Vector2.zero, Quaternion.identity);
+            Card lootCard;
+            Card lootCardPrefab;
+            if (randomLootData.CardType == "Magic Item") lootCardPrefab = CardDatabase.Instance.itemCardPrefab;
+            else lootCardPrefab = CardDatabase.Instance.spellCardPrefab;
 
-                Spawn(itemCard.gameObject);
-                itemCard.LoadCardData(randomLootData);
-                itemCard.SetCardOwner(player);
-                itemCard.SetCardParent(player.controlledHand.Value.transform, false);
-            }
-            else
-            {
-                SpellCard spellCard = Instantiate(CardDatabase.Instance.spellCardPrefab, Vector2.zero, Quaternion.identity);
+            lootCard = Instantiate(lootCardPrefab, Vector2.zero, Quaternion.identity);
 
-                Spawn(spellCard.gameObject);
-                spellCard.LoadCardData(randomLootData);
-                spellCard.SetCardOwner(player);
-                spellCard.SetCardParent(player.controlledHand.Value.transform, false);
-            }
+            Spawn(lootCard.gameObject);
+            lootCard.LoadCardData(randomLootData);
+            lootCard.SetCardOwner(player);
+            lootCard.SetCardParent(player.controlledHand.Value.transform, false);
 
             LootDeck.Remove(randomLootData);
         }

@@ -20,6 +20,8 @@ public class SpellDragDrop : CardDragDrop
     protected override bool CanStartDrag()
     {
         if (!base.CanStartDrag()) return false;
+        if (card.IsDraftCard.Value) return true;
+
         if (!IsOwner) return false; // Ensure the player owns the card before dragging
         if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
 
@@ -50,6 +52,17 @@ public class SpellDragDrop : CardDragDrop
     /// </summary>
     protected override void HandleEndDrag()
     {
+        if (card.IsDraftCard.Value)
+        {
+            if (!dropZone.CompareTag("Hand"))
+            {
+                ResetCardPosition();
+                return;
+            }
+            AssignDraftCardToPlayer();
+            return;
+        }
+
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
 
         if (questLane.QuestCard.Value.BlockSpells.Value)

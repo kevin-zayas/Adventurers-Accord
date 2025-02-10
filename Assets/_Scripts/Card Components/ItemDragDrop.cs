@@ -23,7 +23,7 @@ public class ItemDragDrop : CardDragDrop
         //if (!itemCard.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
         //if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
 
-        return !card.IsDraftCard.Value || player.Gold.Value >= card.Cost.Value; // Check player gold if dragging a DraftCard
+        return true;
     }
 
     /// <summary>

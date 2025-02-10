@@ -16,7 +16,7 @@ public abstract class Card : NetworkBehaviour
     public readonly SyncVar<CardData> Data = new();
     public readonly SyncVar<Player> ControllingPlayer = new();
     public readonly SyncVar<Hand> ControllingPlayerHand = new();
-    [AllowMutableSyncTypeAttribute] public readonly SyncVar<bool> IsDraftCard = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsDraftCard = new();
     #endregion
 
     [SerializeField] protected Image disableScreen;
@@ -26,7 +26,7 @@ public abstract class Card : NetworkBehaviour
 
     private void Start()
     {
-        if (IsServerInitialized)
+        if (IsServerInitialized && !ControllingPlayer.Value)
         {
             IsDraftCard.Value = true;
         }
@@ -45,6 +45,7 @@ public abstract class Card : NetworkBehaviour
         ControllingPlayer.Value = player;
         ControllingPlayerHand.Value = player.controlledHand.Value;
         GiveOwnership(player.Owner);
+        IsDraftCard.Value = false;
     }
 
     /// <summary>

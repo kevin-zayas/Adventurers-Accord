@@ -208,7 +208,6 @@ public class GameManager : NetworkBehaviour
                 break;
 
             case Phase.Magic:
-                //Board.Instance.CheckQuestsForCompletion();
                 Board.Instance.ResetQuests();
                 Board.Instance.CheckAllQuestsComplete();
 
@@ -224,6 +223,10 @@ public class GameManager : NetworkBehaviour
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn = StartingTurn;
                 SetPlayerTurn(Players[Turn]);
+                break;
+
+            case Phase.GameOver:
+                EndGame();
                 break;
         }
     }

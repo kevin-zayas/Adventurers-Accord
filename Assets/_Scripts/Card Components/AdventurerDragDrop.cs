@@ -37,7 +37,7 @@ public class AdventurerDragDrop : CardDragDrop
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
         if (!player.IsPlayerTurn.Value) return false; // Allow dragging only during player's turn
 
-        return !card.IsDraftCard.Value || player.Gold.Value >= card.Cost.Value; // Check player gold if dragging a DraftCard
+        return true;
     }
 
     /// <summary>
