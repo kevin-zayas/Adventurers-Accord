@@ -76,6 +76,15 @@ public class SpellDragDrop : CardDragDrop
     }
 
     /// <summary>
+    /// Assigns the draft card to the player, updating the game state accordingly.
+    /// </summary>
+    protected override void AssignDraftCardToPlayer()
+    {
+        base.AssignDraftCardToPlayer();
+        card.gameObject.layer = LayerMask.NameToLayer("Magic Spells");
+    }
+
+    /// <summary>
     /// Resets the spell card's position to its original location before dragging.
     /// </summary>
     protected override void ResetCardPosition()

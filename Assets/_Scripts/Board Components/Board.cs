@@ -17,7 +17,8 @@ public class Board : NetworkBehaviour
 
     [field: SerializeField] private List<CardData> T1Deck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> T2Deck { get; } = new List<CardData>();
-    [field: SerializeField] private List<CardData> LootDeck { get; } = new List<CardData>();
+    [field: SerializeField] private List<CardData> ShopLootDeck { get; } = new List<CardData>();
+    [field: SerializeField] private List<CardData> RewardLootDeck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> L1QuestCardDeck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> L2QuestCardDeck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> L3QuestCardDeck { get; } = new List<CardData>();
@@ -74,7 +75,7 @@ public class Board : NetworkBehaviour
     {
         if (slotIndex > 7)
         {
-            DrawLootCard(slotIndex);
+            DrawShopLootCard(slotIndex);
             return;
         }
         List<CardData> deck = slotIndex < 4 ? T1Deck : T2Deck;
@@ -95,11 +96,11 @@ public class Board : NetworkBehaviour
     /// </summary>
     /// <param name="slotIndex">The index of the slot where the card will be placed.</param>
     [Server]
-    private void DrawLootCard(int slotIndex)
+    private void DrawShopLootCard(int slotIndex)
     {
         Card lootCard;
         Card lootCardPrefab;
-        CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
+        CardData randomLootData = ShopLootDeck[Random.Range(0, ShopLootDeck.Count)];
         
         if (randomLootData.CardType == "Magic Item") lootCardPrefab = CardDatabase.Instance.itemCardPrefab;
         else lootCardPrefab = CardDatabase.Instance.spellCardPrefab;
@@ -108,9 +109,10 @@ public class Board : NetworkBehaviour
         Spawn(lootCard.gameObject);
         lootCard.LoadCardData(randomLootData);
         lootCard.SetCardParent(DraftCardSlots[slotIndex].transform, false);
+        lootCard.gameObject.layer = LayerMask.NameToLayer("Draft Card");
 
-        LootDeck.Remove(randomLootData);
-        ObserversUpdateLootDeckTracker(LootDeck.Count);
+        ShopLootDeck.Remove(randomLootData);
+        ObserversUpdateLootDeckTracker(ShopLootDeck.Count);
     }
 
     /// <summary>
@@ -162,15 +164,18 @@ public class Board : NetworkBehaviour
         {
             T1Deck.AddRange(CardDatabase.Instance.tierOneCards);
             T2Deck.AddRange(CardDatabase.Instance.tierTwoCards);
-            LootDeck.AddRange(CardDatabase.Instance.itemCards);
+            ShopLootDeck.AddRange(CardDatabase.Instance.itemCards);
+            RewardLootDeck.AddRange(CardDatabase.Instance.itemCards);
         }
 
         for (int i = 0; i < spellCardFrequency; i++)
         {
-            LootDeck.AddRange(CardDatabase.Instance.spellCards);
+            ShopLootDeck.AddRange(CardDatabase.Instance.spellCards);
+            RewardLootDeck.AddRange(CardDatabase.Instance.spellCards);
         }
 
-        LootDeck.AddRange(CardDatabase.Instance.rareItemCards);
+        ShopLootDeck.AddRange(CardDatabase.Instance.rareItemCards);
+        RewardLootDeck.AddRange(CardDatabase.Instance.rareItemCards);
         L1QuestCardDeck.AddRange(CardDatabase.Instance.levelOneQuestCards);
         L2QuestCardDeck.AddRange(CardDatabase.Instance.levelTwoQuestCards);
         L3QuestCardDeck.AddRange(CardDatabase.Instance.levelThreeQuestCards);
@@ -269,12 +274,12 @@ public class Board : NetworkBehaviour
     [Server]
     public void RewardLoot(Player player, int lootAmount)
     {
-        if (LootDeck.Count == 0) return;
-        if (LootDeck.Count < lootAmount) lootAmount = LootDeck.Count;
+        if (RewardLootDeck.Count == 0) return;
+        if (RewardLootDeck.Count < lootAmount) lootAmount = RewardLootDeck.Count;
 
         for (int i = 0; i < lootAmount; i++)
         {
-            CardData randomLootData = LootDeck[Random.Range(0, LootDeck.Count)];
+            CardData randomLootData = RewardLootDeck[Random.Range(0, RewardLootDeck.Count)];
 
             Card lootCard;
             Card lootCardPrefab;
@@ -288,7 +293,7 @@ public class Board : NetworkBehaviour
             lootCard.SetCardOwner(player);
             lootCard.SetCardParent(player.controlledHand.Value.transform, false);
 
-            LootDeck.Remove(randomLootData);
+            //RewardLootDeck.Remove(randomLootData);
         }
     }
 }
