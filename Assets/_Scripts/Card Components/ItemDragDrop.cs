@@ -81,6 +81,15 @@ public class ItemDragDrop : CardDragDrop
     }
 
     /// <summary>
+    /// Assigns the draft card to the player, updating the game state accordingly.
+    /// </summary>
+    protected override void AssignDraftCardToPlayer()
+    {
+        base.AssignDraftCardToPlayer();
+        card.gameObject.layer = LayerMask.NameToLayer("Magic Items");
+    }
+
+    /// <summary>
     /// Resets the item card's position to its original location before dragging.
     /// </summary>
     protected override void ResetCardPosition()

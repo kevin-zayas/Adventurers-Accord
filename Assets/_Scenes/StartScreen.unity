@@ -420,7 +420,7 @@ MonoBehaviour:
   CreditsPopUpPrefab: {fileID: 5221712264653024010, guid: 92696417085daf043bc8375e0b57866c, type: 3}
   SettingsPopUpPrefab: {fileID: 4378698088555545514, guid: 25f44130a4778804a81c07810738a847, type: 3}
   masterMixer: {fileID: 24100000, guid: f857909292644af4fa7d2d8b7121a7f3, type: 2}
-  usingDynamicServer: 1
+  usingDynamicServer: 0
 --- !u!114 &285254872
 MonoBehaviour:
   m_ObjectHideFlags: 0

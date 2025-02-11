@@ -126,7 +126,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     /// <summary>
     /// Assigns the draft card to the player, updating the game state accordingly.
     /// </summary>
-    protected void AssignDraftCardToPlayer()
+    protected virtual void AssignDraftCardToPlayer()
     {
         CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
 
