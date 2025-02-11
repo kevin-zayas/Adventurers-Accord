@@ -109,10 +109,16 @@ public class Board : NetworkBehaviour
         Spawn(lootCard.gameObject);
         lootCard.LoadCardData(randomLootData);
         lootCard.SetCardParent(DraftCardSlots[slotIndex].transform, false);
-        lootCard.gameObject.layer = LayerMask.NameToLayer("Draft Card");
+        ObserversSetCardLayer(lootCard.gameObject);
 
         ShopLootDeck.Remove(randomLootData);
         ObserversUpdateLootDeckTracker(ShopLootDeck.Count);
+    }
+
+    [ObserversRpc]
+    private void ObserversSetCardLayer(GameObject card)
+    {
+        card.layer = LayerMask.NameToLayer("Draft Card");
     }
 
     /// <summary>
