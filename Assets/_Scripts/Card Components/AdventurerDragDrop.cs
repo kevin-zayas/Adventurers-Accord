@@ -35,6 +35,7 @@ public class AdventurerDragDrop : CardDragDrop
         if (!base.CanStartDrag()) return false;
 
         if (!player.IsPlayerTurn.Value) return false; // Allow dragging only during player's turn
+        if (card.CardName.Value == "Wolf") return false;
 
         return true;
     }

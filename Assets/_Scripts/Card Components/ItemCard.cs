@@ -71,6 +71,7 @@ public class ItemCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
+        isClone = true;
         ItemCard card = originalCard as ItemCard;
 
         cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];

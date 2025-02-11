@@ -13,7 +13,8 @@ public class DeploymentManager : MonoBehaviour
 
     private static readonly string appName = "adventurers-accord";
     private static readonly string appVersion = "test";
-    private static readonly string[] ipList = { "192.168.1.1" };
+    //private static readonly string[] ipList = { "192.168.1.1" };
+    private static readonly string[] ipList = { "73.136.136.136" };
 
     [SerializeField] private Button joinGameButton;
     [SerializeField] private TMP_Text joinGameButtonText;

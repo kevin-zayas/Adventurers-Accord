@@ -361,6 +361,7 @@ public class AdventurerCard : Card
     {
         base.OnHover();
         if (!player.IsPlayerTurn.Value) ToggleDisableScreen(true);  // Show disable screen if not player's turn
+        if (CardName.Value == "Wolf") ToggleDisableScreen(true);
 
         return;
     }

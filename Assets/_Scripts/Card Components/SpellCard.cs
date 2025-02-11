@@ -88,7 +88,7 @@ public class SpellCard : Card
     public override void OnHover()
     {
         base.OnHover();
-        //ToggleHoverScreen(true);
+        if (isClone) return;
 
         if (transform.parent.CompareTag("Quest")) ToggleDisableScreen(true);  // Prevent dragging if the card is already in a quest lane
 

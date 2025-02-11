@@ -210,6 +210,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         newCardObject.GetComponent<Image>().enabled = true;
         newCardObject.layer = LayerMask.NameToLayer("Spotlight");
+
+        newCardObject.GetComponent<Card>().OnPointerExit();
     }
 
     /// <summary>
@@ -275,6 +277,8 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         card.transform.SetParent(canvas.transform, true);
         PreventEnlargedCardCutoff(spotlightTransform);
         card.layer = LayerMask.NameToLayer("Spotlight");
+
+        card.GetComponent<Card>().OnPointerExit();
     }
 
     /// <summary>
