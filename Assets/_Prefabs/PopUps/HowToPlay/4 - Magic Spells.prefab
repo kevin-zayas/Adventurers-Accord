@@ -627,6 +627,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spell Card_2
       objectReference: {fileID: 0}
+    - target: {fileID: 2027397368410273016, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2029664163792765779, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
       value: Grease
@@ -814,6 +818,10 @@ PrefabInstance:
       value: Spell Card
       objectReference: {fileID: 0}
     - target: {fileID: 1304799766812483540, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2027397368410273016, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
       value: 2
       objectReference: {fileID: 0}

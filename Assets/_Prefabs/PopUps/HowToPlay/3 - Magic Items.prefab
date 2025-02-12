@@ -794,6 +794,10 @@ PrefabInstance:
       propertyPath: m_text
       value: when equipped
       objectReference: {fileID: 0}
+    - target: {fileID: 6638356711743144484, guid: d611220e5137274468b13454f2fa4969, type: 3}
+      propertyPath: m_text
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6958857792175851566, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_Sprite
       value: 
