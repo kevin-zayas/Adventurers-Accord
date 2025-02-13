@@ -360,6 +360,7 @@ public class AdventurerCard : Card
     public override void OnHover()
     {
         base.OnHover();
+        if (isClone) return;
         if (!player.IsPlayerTurn.Value) ToggleDisableScreen(true);  // Show disable screen if not player's turn
         if (CardName.Value == "Wolf") ToggleDisableScreen(true);
 

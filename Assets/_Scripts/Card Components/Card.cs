@@ -21,7 +21,7 @@ public abstract class Card : NetworkBehaviour
 
     [SerializeField] protected Image disableScreen;
     [SerializeField] protected Image hoverScreen;
-    protected bool isClone = false;
+    [SerializeField] protected bool isClone = false;
     protected Player player;
 
     private void Start()

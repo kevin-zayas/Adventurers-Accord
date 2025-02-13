@@ -121,6 +121,7 @@ public class ItemCard : Card
     public override void OnHover()
     {
         base.OnHover();
+        if (isClone) return;
         if (IsDraftCard.Value && !player.IsPlayerTurn.Value) ToggleDisableScreen(true);
 
         return;
