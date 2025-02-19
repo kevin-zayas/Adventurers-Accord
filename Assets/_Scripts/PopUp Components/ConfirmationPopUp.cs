@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -79,13 +77,11 @@ public class ConfirmationPopUp : MonoBehaviour
         titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().CardName.Value, card.CardName.Value);
         messageText.text = equipItemMessage;
 
-        //RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
-        //titleRect.position = new Vector2(0f, 15f);
+        RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform position for better formatting
+        titleRect.anchoredPosition = new Vector2(0f, 15f);
 
-        //RectTransform messageRect = messageText.GetComponent<RectTransform>();      // modify transform to avoid message cutoff
-        //messageRect.position = new Vector2(0f, -25f);
-
-
+        RectTransform messageRect = messageText.GetComponent<RectTransform>();
+        messageRect.anchoredPosition = new Vector2(0f, -25f);
     }
 
     public void InitializeRestartServerPopUp()
