@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ConfirmationPopUp : MonoBehaviour
+public class ConfirmationPopUp : PopUp
 {
     [SerializeField] Button cancelButton;
     [SerializeField] Button confirmButton;
@@ -23,17 +23,6 @@ public class ConfirmationPopUp : MonoBehaviour
     // Restart Server Confirmation
     const string restartServerTitle = "Restart Server?";
     const string restartServerMessage = "This will reset the game for all players and cannot be undone.";
-
-    void Start()
-    {
-        transform.SetParent(GameObject.Find("Canvas").transform);
-        transform.localPosition = Vector3.zero;
-
-        RectTransform rt = this.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
-        rt.offsetMax = Vector2.zero;
-        rt.offsetMin = Vector2.zero;
-
-    }
 
     public void InitializeEndTurnPopUp()
     {

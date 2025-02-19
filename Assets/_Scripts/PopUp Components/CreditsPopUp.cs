@@ -5,8 +5,9 @@ public class CreditsPopUp : PopUp
 {
     [SerializeField] Button closeButton;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         closeButton.onClick.AddListener(() =>
         {
             Destroy(gameObject);

@@ -8,8 +8,9 @@ public class SettingsPopUp : PopUp
     [SerializeField] Slider volumeSlider;
     [SerializeField] AudioMixer masterMixer;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         closeButton.onClick.AddListener(() =>
         {
             Destroy(gameObject);

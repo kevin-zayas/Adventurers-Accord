@@ -76,7 +76,7 @@ public class ItemDragDrop : CardDragDrop
             return;
         }
 
-        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp(true);
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeEquipItemPopUp(adventurerCard, this.gameObject);
     }
 

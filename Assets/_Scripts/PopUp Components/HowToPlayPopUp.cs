@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,9 +17,9 @@ public class HowToPlayPopUp : PopUp
     [SerializeField] Button rightButton;
     [SerializeField] Button closeButton;
 
-    // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         closeButton.onClick.AddListener(() =>
         {
             Destroy(gameObject);

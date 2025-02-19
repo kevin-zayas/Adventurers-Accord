@@ -1,4 +1,3 @@
-using FishNet;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
