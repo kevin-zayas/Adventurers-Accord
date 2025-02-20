@@ -14,8 +14,6 @@ public class RoundSummaryPopUp : NetworkBehaviour
     private int playerCount;
     private int totalPlayers;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +30,10 @@ public class RoundSummaryPopUp : NetworkBehaviour
     {
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;
+
+        RectTransform rt = this.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
     }
 
     [ServerRpc(RequireOwnership = false)]
