@@ -136,9 +136,4 @@ public abstract class CardDragDrop : NetworkBehaviour
         Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);
     }
-
-    /// <summary>
-    /// Handles the specific logic for moving the card to a new location. Must be implemented by derived classes.
-    /// </summary>
-    protected abstract void HandleCardMovement();
 }

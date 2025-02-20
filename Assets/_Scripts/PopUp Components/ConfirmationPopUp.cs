@@ -15,10 +15,13 @@ public class ConfirmationPopUp : PopUp
     const string dispatchEndTurnMessage = "You will not be able to dispatch an Adventurer until next round.";
 
     // Equip Item Confirmation
-    const string equipItemTitle = "Are you sure you want to equip this {0} on this {1}?";
+    const string equipItemTitle = "Equip this {0} on this {1}?";
     const string equipItemMessage = "You will not be able unequip this Item.";
-    private AdventurerCard adventurerCard;
-    private GameObject itemCardObject;
+
+    // Use Spell Confirmation
+    const string castSpellOtherTitle = "Cast {0} {1} Player {2}'s party?";
+    const string castSpellSelfTitle = "Cast {0} {1} your party?";
+    const string castSpellMessage = "You will not be able to undo this action";
 
     // Restart Server Confirmation
     const string restartServerTitle = "Restart Server?";
@@ -44,27 +47,68 @@ public class ConfirmationPopUp : PopUp
         else messageText.text = dispatchEndTurnMessage;
     }
 
-    public void InitializeEquipItemPopUp(AdventurerCard card, GameObject item)
+    public void InitializeEquipItemPopUp(AdventurerCard adventurerCard, ItemCard itemCard)
     {
-        adventurerCard = card;
-        itemCardObject = item;
-
         cancelButton.onClick.AddListener(() =>
         {
-            ItemCard itemCard = itemCardObject.GetComponent<ItemCard>();
+            //ItemCard itemCard = itemCardObject.GetComponent<ItemCard>();
             itemCard.ServerSetCardParent(itemCard.ControllingPlayerHand.Value.transform, true);
             Destroy(gameObject);
         });
 
         confirmButton.onClick.AddListener(() =>
         {
-            adventurerCard.ServerEquipItem(true, itemCardObject.GetComponent<ItemCard>().Data.Value);
-            itemCardObject.GetComponent<ItemCard>().ServerDespawnItem();
+            adventurerCard.ServerEquipItem(true, itemCard.Data.Value);
+            itemCard.ServerDespawnItem();
             Destroy(gameObject);
         });
 
-        titleText.text = string.Format(equipItemTitle, item.GetComponent<ItemCard>().CardName.Value, card.CardName.Value);
+        titleText.text = string.Format(equipItemTitle, itemCard.CardName.Value, adventurerCard.CardName.Value);
         messageText.text = equipItemMessage;
+
+        RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform position for better formatting
+        titleRect.anchoredPosition = new Vector2(0f, 15f);
+
+        RectTransform messageRect = messageText.GetComponent<RectTransform>();
+        messageRect.anchoredPosition = new Vector2(0f, -25f);
+    }
+
+    public void InitializeCastSpellPopUp(GameObject dropZone, SpellCard spellCard)
+    {
+        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+        string preposition;
+
+        cancelButton.onClick.AddListener(() =>
+        {
+            spellCard.ServerSetCardParent(spellCard.ControllingPlayerHand.Value.transform, true);
+            Destroy(gameObject);
+        });
+
+        confirmButton.onClick.AddListener(() =>
+        {
+            spellCard.ServerSetCardParent(dropZone.transform, false);
+            questLane.ServerUpdateSpellEffects();
+
+            if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
+            {
+                GameManager.Instance.RefreshEndRoundStatus();
+            }
+
+            Destroy(gameObject);
+        });
+
+        preposition = spellCard.IsNegativeEffect.Value ? "on" : "for";
+        
+        if (spellCard.ControllingPlayer.Value == questLane.Player.Value)
+        {
+            titleText.text = string.Format(castSpellSelfTitle, spellCard.CardName.Value, preposition);
+        }
+        else
+        {
+            titleText.text = string.Format(castSpellOtherTitle, spellCard.CardName.Value, preposition, questLane.Player.Value.PlayerID.Value + 1);
+        }
+                
+        messageText.text = castSpellMessage;
 
         RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform position for better formatting
         titleRect.anchoredPosition = new Vector2(0f, 15f);

@@ -12,7 +12,7 @@ public class QuestLane : NetworkBehaviour
     [AllowMutableSyncTypeAttribute] public SyncVar<QuestLocation> QuestLocation = new();
 
     public readonly SyncVar<QuestCard> QuestCard = new();
-    public Player Player { get; private set; }
+    public readonly SyncVar<Player> Player = new();
     [field: SerializeField] public GameObject QuestDropZone { get; private set; }
     [field: SerializeField] public GameObject SpellDropZone { get; private set; }
 
@@ -102,7 +102,7 @@ public class QuestLane : NetworkBehaviour
             SpellPhysicalPower.Value += spellCard.PhysicalPower.Value;
             SpellMagicalPower.Value += spellCard.MagicalPower.Value;
 
-            if (spellCard.IsGreaseSpell.Value) IsGreased = true;
+            if (spellCard.CardName.Value == "Grease") IsGreased = true;
         }
 
         UpdateQuestLanePower();
@@ -118,7 +118,7 @@ public class QuestLane : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerSetQuestLanePlayer(Player player)
     {
-        Player = player;
+        Player.Value = player;
     }
 
     [Server]
@@ -195,7 +195,7 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Rogue":
             case "Assassin":
-                QuestLocation.Value.CardsToResolvePerLane[Player.PlayerID.Value].Add(card);
+                QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Add(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
@@ -233,7 +233,7 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Rogue":
             case "Assassin":
-                QuestLocation.Value.CardsToResolvePerLane[Player.PlayerID.Value].Remove(card);
+                QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Remove(card);
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
@@ -327,7 +327,7 @@ public class QuestLane : NetworkBehaviour
 
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
-        wolfCard.SetCardParent(Player.controlledHand.Value.transform,false);
+        wolfCard.SetCardParent(Player.Value.controlledHand.Value.transform,false);
         wolfCard.SetCardParent(QuestDropZone.transform, false);
     }
 

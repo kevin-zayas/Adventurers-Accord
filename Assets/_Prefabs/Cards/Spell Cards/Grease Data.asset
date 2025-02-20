@@ -32,4 +32,5 @@ MonoBehaviour:
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsGreaseSpell>k__BackingField: 1
+  <IsNegativeEffect>k__BackingField: 1
   <DescriptionKeys>k__BackingField: []

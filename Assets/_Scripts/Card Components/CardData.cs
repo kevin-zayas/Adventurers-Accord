@@ -1,4 +1,3 @@
-using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +31,7 @@ public class CardData : ScriptableObject
     [field: SerializeField] public bool BlockSpells { get; set; }
 
     //Spells
-    [field: SerializeField] public bool IsGreaseSpell { get; set; }
+    [field: SerializeField] public bool IsNegativeEffect { get; set; }
 
     [field: SerializeField] public List<string> DescriptionKeys { get; set; }
 

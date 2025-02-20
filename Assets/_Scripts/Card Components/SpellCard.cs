@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class SpellCard : Card
 {
     #region SyncVars
-    public readonly SyncVar<bool> IsGreaseSpell = new();
+    public readonly SyncVar<bool> IsNegativeEffect = new();
     #endregion
 
     #region UI Elements
@@ -43,7 +43,7 @@ public class SpellCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        IsGreaseSpell.Value = cardData.IsGreaseSpell;
+        IsNegativeEffect.Value = cardData.IsNegativeEffect;
         Cost.Value = cardData.Cost;
 
         base.LoadCardData(cardData);

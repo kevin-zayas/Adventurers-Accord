@@ -63,7 +63,7 @@ public class AdventurerDragDrop : CardDragDrop
         }
         else
         {
-            HandleCardMovement();
+            card.ServerSetCardParent(dropZone.transform, false);
         }
     }
 
@@ -74,26 +74,5 @@ public class AdventurerDragDrop : CardDragDrop
     {
         card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
-    }
-
-    ///// <summary>
-    ///// Assigns the draft card to the player, updating the game state accordingly.
-    ///// </summary>
-    //private void AssignDraftCardToPlayer()
-    //{
-    //    CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
-    //    card.ServerSetCardParent(dropZone.transform, false);
-    //    card.ServerSetCardOwner(player);
-    //    player.ServerChangePlayerGold(-card.Cost.Value);
-    //    Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
-    //    GameManager.Instance.EndTurn(false);
-    //}
-
-    /// <summary>
-    /// Handles the movement of the card to a new drop zone.
-    /// </summary>
-    protected override void HandleCardMovement()
-    {
-        card.ServerSetCardParent(dropZone.transform, false);
     }
 }

@@ -269,7 +269,7 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private void DistributeQuestRewards(QuestLane lane, bool primaryContributor)
     {
-        Player player = lane.Player;
+        Player player = lane.Player.Value;
         int goldReward;
         int reputationReward;
         int lootReward;
@@ -306,9 +306,9 @@ public class QuestLocation : NetworkBehaviour
             if (lane.BardBonus.Value > 0)
             {
                 (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
-                lane.Player.ChangePlayerGold(bardBonusGold);
-                lane.Player.ChangePlayerReputation(bardBonusReputation);
-                QuestSummary.ObserversAddBardBonus(lane.Player.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, bardBonusGold, bardBonusReputation);
+                lane.Player.Value.ChangePlayerGold(bardBonusGold);
+                lane.Player.Value.ChangePlayerReputation(bardBonusReputation);
+                QuestSummary.ObserversAddBardBonus(lane.Player.Value.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, bardBonusGold, bardBonusReputation);
             }
         }
     }
@@ -321,9 +321,9 @@ public class QuestLocation : NetworkBehaviour
             int adventurerCount = lane.QuestDropZone.transform.childCount;
             if (adventurerCount > 0)
             {
-                lane.Player.ChangePlayerReputation(-adventurerCount);
-                QuestSummary.ObserversSetPlayerSummary(lane.Player.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, -adventurerCount);
-                print($"Player {lane.Player.PlayerID.Value} loses {adventurerCount} Rep. for failing the quest");
+                lane.Player.Value.ChangePlayerReputation(-adventurerCount);
+                QuestSummary.ObserversSetPlayerSummary(lane.Player.Value.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, -adventurerCount);
+                print($"Player {lane.Player.Value.PlayerID.Value} loses {adventurerCount} Rep. for failing the quest");
             }
         }
     }

@@ -77,7 +77,7 @@ public class ItemDragDrop : CardDragDrop
         }
 
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-        popUp.InitializeEquipItemPopUp(adventurerCard, this.gameObject);
+        popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
     }
 
     /// <summary>
@@ -96,13 +96,5 @@ public class ItemDragDrop : CardDragDrop
     {
         card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
-    }
-
-    /// <summary>
-    /// Not implemented for ItemDragDrop, since item movement is handled via a confirmation pop-up.
-    /// </summary>
-    protected override void HandleCardMovement()
-    {
-        throw new System.NotImplementedException();
     }
 }

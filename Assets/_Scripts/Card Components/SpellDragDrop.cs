@@ -72,7 +72,8 @@ public class SpellDragDrop : CardDragDrop
             return;
         }
 
-        HandleCardMovement();
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+        popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
     }
 
     /// <summary>
@@ -91,20 +92,5 @@ public class SpellDragDrop : CardDragDrop
     {
         card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
-    }
-
-    /// <summary>
-    /// Handles the movement of the spell card to a new drop zone and updates the quest lane.
-    /// </summary>
-    protected override void HandleCardMovement()
-    {
-        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-        card.ServerSetCardParent(dropZone.transform, false);
-        questLane.ServerUpdateSpellEffects();
-
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
-        {
-            GameManager.Instance.RefreshEndRoundStatus();
-        }
     }
 }
