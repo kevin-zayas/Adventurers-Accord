@@ -11,11 +11,11 @@ public class ConfirmationPopUp : PopUp
 
     // End Turn Confirmation
     const string endTurnTitle = "End Turn?";
-    const string recruitEndTurnMessage = "You will not be able to recruit an Adventurer until next round.";
-    const string dispatchEndTurnMessage = "You will not be able to dispatch an Adventurer until next round.";
+    const string recruitEndTurnMessage = "You will be unable to recruit Adventurers until next round.";
+    const string dispatchEndTurnMessage = "You will be unable to dispatch Adventurers until next round.";
 
     // Equip Item Confirmation
-    const string equipItemTitle = "Equip this {0} on this {1}?";
+    const string equipItemTitle = "Equip this {0} on your {1}?";
     const string equipItemMessage = "You will not be able unequip this Item.";
 
     // Use Spell Confirmation
@@ -51,7 +51,6 @@ public class ConfirmationPopUp : PopUp
     {
         cancelButton.onClick.AddListener(() =>
         {
-            //ItemCard itemCard = itemCardObject.GetComponent<ItemCard>();
             itemCard.ServerSetCardParent(itemCard.ControllingPlayerHand.Value.transform, true);
             Destroy(gameObject);
         });
@@ -66,11 +65,7 @@ public class ConfirmationPopUp : PopUp
         titleText.text = string.Format(equipItemTitle, itemCard.CardName.Value, adventurerCard.CardName.Value);
         messageText.text = equipItemMessage;
 
-        RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform position for better formatting
-        titleRect.anchoredPosition = new Vector2(0f, 15f);
-
-        RectTransform messageRect = messageText.GetComponent<RectTransform>();
-        messageRect.anchoredPosition = new Vector2(0f, -25f);
+        FormatTextTransforms();
     }
 
     public void InitializeCastSpellPopUp(GameObject dropZone, SpellCard spellCard)
@@ -109,12 +104,7 @@ public class ConfirmationPopUp : PopUp
         }
                 
         messageText.text = castSpellMessage;
-
-        RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform position for better formatting
-        titleRect.anchoredPosition = new Vector2(0f, 15f);
-
-        RectTransform messageRect = messageText.GetComponent<RectTransform>();
-        messageRect.anchoredPosition = new Vector2(0f, -25f);
+        FormatTextTransforms();
     }
 
     public void InitializeRestartServerPopUp()
@@ -131,5 +121,14 @@ public class ConfirmationPopUp : PopUp
 
         titleText.text = restartServerTitle;
         messageText.text = restartServerMessage;
+    }
+
+    private void FormatTextTransforms()
+    {
+        RectTransform titleRect = titleText.GetComponent<RectTransform>();      // modify transform position for better formatting
+        titleRect.anchoredPosition = new Vector2(0f, 15f);
+
+        RectTransform messageRect = messageText.GetComponent<RectTransform>();
+        messageRect.anchoredPosition = new Vector2(0f, -25f);
     }
 }
