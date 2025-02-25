@@ -31,6 +31,7 @@ public class Player : NetworkBehaviour
         //print("new build uploaded");
 
         GameManager.Instance.Players.Add(this);
+        GameManager.Instance.CanStartGame.Value = false;
         Gold.Value = GameManager.Instance.StartingGold;
     }
 
@@ -110,12 +111,12 @@ public class Player : NetworkBehaviour
             if (GameManager.Instance.Players.All(player => player.IsReady.Value))
             {
                 print("All Players Ready");
-                GameManager.Instance.ObserversSetCanStartGame(true);
+                GameManager.Instance.SetCanStartGame(true);
             }
         }
         else
         {
-            GameManager.Instance.ObserversSetCanStartGame(false);
+            GameManager.Instance.SetCanStartGame(false);
         }
     }
 
