@@ -20,6 +20,9 @@ public class QuestLane : NetworkBehaviour
     public readonly SyncVar<int> MagicalPower = new();
     public readonly SyncVar<int> SpellPhysicalPower = new();
     public readonly SyncVar<int> SpellMagicalPower = new();
+    public readonly SyncVar<int> TotalPhysicalPower = new();
+    public readonly SyncVar<int> TotalMagicalPower = new();
+
     public readonly SyncVar<int> EffectiveTotalPower = new();
     [field: SerializeField] public bool IsGreased { get; private set; }
 
@@ -53,6 +56,8 @@ public class QuestLane : NetworkBehaviour
     {
         PhysicalPower.Value = 0;
         MagicalPower.Value = 0;
+        TotalPhysicalPower.Value = 0;
+        TotalMagicalPower.Value = 0;
         EffectiveTotalPower.Value = 0;
 
         for (int i = 0; i < QuestDropZone.transform.childCount; i++)
@@ -73,10 +78,13 @@ public class QuestLane : NetworkBehaviour
             }
         }
 
-        if (QuestCard.Value.PhysicalPower.Value > 0) EffectiveTotalPower.Value += PhysicalPower.Value + SpellPhysicalPower.Value;
-        if (QuestCard.Value.MagicalPower.Value > 0) EffectiveTotalPower.Value += MagicalPower.Value + SpellMagicalPower.Value;
+        TotalPhysicalPower.Value = PhysicalPower.Value + SpellPhysicalPower.Value;
+        TotalMagicalPower.Value = MagicalPower.Value + SpellMagicalPower.Value;
 
-        ObserversUpdatePower(PhysicalPower.Value + SpellPhysicalPower.Value, MagicalPower.Value + SpellMagicalPower.Value);
+        if (QuestCard.Value.PhysicalPower.Value > 0) EffectiveTotalPower.Value += TotalPhysicalPower.Value;
+        if (QuestCard.Value.MagicalPower.Value > 0) EffectiveTotalPower.Value += TotalMagicalPower.Value;
+
+        ObserversUpdateLaneTotalPower(TotalPhysicalPower.Value, TotalMagicalPower.Value);
         QuestLocation.Value.UpdateTotalPower();
 
         QuestLocation.Value.CalculateQuestContributions(false);
@@ -109,7 +117,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [ObserversRpc(BufferLast = true)]
-    private void ObserversUpdatePower(int physicalPower, int magicalPower)
+    private void ObserversUpdateLaneTotalPower(int physicalPower, int magicalPower)
     {
         physicalPowerText.text = physicalPower.ToString();
         magicalPowerText.text = magicalPower.ToString();
@@ -143,7 +151,7 @@ public class QuestLane : NetworkBehaviour
             card.SetCardParent(card.ControllingPlayerHand.Value.transform, false);
         }
         ClearSpellEffects();
-        ObserversUpdatePower(PhysicalPower.Value, MagicalPower.Value);
+        ObserversUpdateLaneTotalPower(PhysicalPower.Value, MagicalPower.Value);
     }
 
     [Server]

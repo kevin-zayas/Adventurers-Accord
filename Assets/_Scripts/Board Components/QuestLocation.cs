@@ -128,8 +128,8 @@ public class QuestLocation : NetworkBehaviour
 
         for (int i = 0; i < questLanes.Length; i++)
         {
-            TotalPhysicalPower.Value += questLanes[i].PhysicalPower.Value + questLanes[i].SpellPhysicalPower.Value;
-            TotalMagicalPower.Value += questLanes[i].MagicalPower.Value + questLanes[i].SpellMagicalPower.Value;
+            TotalPhysicalPower.Value += questLanes[i].TotalPhysicalPower.Value;
+            TotalMagicalPower.Value += questLanes[i].TotalMagicalPower.Value;
         }
 
         ObserversUpdateTotalPower(TotalPhysicalPower.Value, TotalMagicalPower.Value);
@@ -217,8 +217,8 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private bool CheckPrimaryContributor(QuestLane lane)
     {
-        if (QuestCard.Value.PhysicalPower.Value > 0 && lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value < QuestCard.Value.PhysicalPower.Value) return false;
-        if (QuestCard.Value.MagicalPower.Value > 0 && lane.MagicalPower.Value + lane.SpellMagicalPower.Value < QuestCard.Value.MagicalPower.Value) return false;
+        if (QuestCard.Value.PhysicalPower.Value > 0 && lane.TotalPhysicalPower.Value < QuestCard.Value.PhysicalPower.Value) return false;
+        if (QuestCard.Value.MagicalPower.Value > 0 && lane.TotalMagicalPower.Value < QuestCard.Value.MagicalPower.Value) return false;
  
         return true;
     }
@@ -292,7 +292,7 @@ public class QuestLocation : NetworkBehaviour
         Board.Instance.RewardLoot(player, lootReward);
 
         print($"Player {player.PlayerID.Value} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
-        QuestSummary.ObserversSetPlayerSummary(player.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, goldReward, reputationReward, lootReward);
+        QuestSummary.ObserversSetPlayerSummary(player.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, goldReward, reputationReward, lootReward);
 
     }
 
@@ -308,7 +308,7 @@ public class QuestLocation : NetworkBehaviour
                 (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
                 lane.Player.Value.ChangePlayerGold(bardBonusGold);
                 lane.Player.Value.ChangePlayerReputation(bardBonusReputation);
-                QuestSummary.ObserversAddBardBonus(lane.Player.Value.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, bardBonusGold, bardBonusReputation);
+                QuestSummary.ObserversAddBardBonus(lane.Player.Value.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, bardBonusGold, bardBonusReputation);
             }
         }
     }
@@ -322,7 +322,7 @@ public class QuestLocation : NetworkBehaviour
             if (adventurerCount > 0)
             {
                 lane.Player.Value.ChangePlayerReputation(-adventurerCount);
-                QuestSummary.ObserversSetPlayerSummary(lane.Player.Value.PlayerID.Value, lane.PhysicalPower.Value + lane.SpellPhysicalPower.Value, lane.MagicalPower.Value + lane.SpellMagicalPower.Value, -adventurerCount);
+                QuestSummary.ObserversSetPlayerSummary(lane.Player.Value.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, -adventurerCount);
                 print($"Player {lane.Player.Value.PlayerID.Value} loses {adventurerCount} Rep. for failing the quest");
             }
         }

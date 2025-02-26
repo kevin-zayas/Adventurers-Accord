@@ -14,6 +14,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
 
     [field: SerializeField] public SyncList<Player> Players { get; } = new SyncList<Player>();
+
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> CanStartGame = new();
     [field: SerializeField] public bool DidStartGame { get; private set; }
     [field: SerializeField] public int Turn { get; private set; }
@@ -48,11 +49,11 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [ObserversRpc]
-    public void ObserversSetCanStartGame(bool value)
-    {
-        CanStartGame.Value = value;
-    }
+    //[ObserversRpc]
+    //public void ObserversSetCanStartGame(bool value)
+    //{
+    //    CanStartGame.Value = value;
+    //}
 
     [Server]
     public void SetCanStartGame(bool value)
