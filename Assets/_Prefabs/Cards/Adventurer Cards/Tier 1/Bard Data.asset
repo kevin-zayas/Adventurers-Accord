@@ -18,8 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 1
   <OriginalMagicalPower>k__BackingField: 1
   <Cost>k__BackingField: 5
-  <CardDescription>k__BackingField: Gain a Bardsong bonus reward based on how many
-    Bards you had on this Quest.
+  <CardDescription>k__BackingField: Gain a <color=#FFE000>Bardsong</color> bonus
+    reward based on how many Bards you had on this Quest.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
   <AbilityName>k__BackingField: Bardsong
@@ -31,5 +31,5 @@ MonoBehaviour:
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
-  <IsGreaseSpell>k__BackingField: 0
+  <IsNegativeEffect>k__BackingField: 0
   <DescriptionKeys>k__BackingField: []

@@ -18,8 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 5
   <Cost>k__BackingField: 8
-  <CardDescription>k__BackingField: Empower this card with +2 Power if it has a Magic
-    Item equipped.
+  <CardDescription>k__BackingField: <color=#FFE000>Empower</color> this card with
+    +2 Power if it has a Magic Item equipped.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer II
   <AbilityName>k__BackingField: Arcane Focus
@@ -31,5 +31,5 @@ MonoBehaviour:
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
-  <IsGreaseSpell>k__BackingField: 0
+  <IsNegativeEffect>k__BackingField: 0
   <DescriptionKeys>k__BackingField: []

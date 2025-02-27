@@ -51,12 +51,12 @@ public class CardDatabase : NetworkBehaviour
     private void InitializeCardKeywordMap()
     {
         //ADVENTURERERS
-        CardKeywordMap.Add("Assassin", new List<string> { "Poison", "Resolution Phase"});
+        CardKeywordMap.Add("Assassin", new List<string> { "Poison" });//, "Resolution Phase"});
         CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
         CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
-        CardKeywordMap.Add("Rogue", new List<string> { "Disable", "Resolution Phase"});
+        CardKeywordMap.Add("Rogue", new List<string> { "Disable" });//, "Resolution Phase"});
         CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
         CardKeywordMap.Add("Tinkerer", new List<string> { "Empower"  });
         //CardKeywordMap.Add("", new List<string> { "" });
@@ -139,7 +139,7 @@ public class CardDatabase : NetworkBehaviour
 
     private readonly string poisonKeywordText = "Decreases the Power of a targeted Adventurer by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
     private readonly string bardsongKeywordText = "<align=left>Gain rewards based on the number of Bards on this Quest:\n<line-indent=15%>1 Bard:   +1 Gold\n2 Bards: +2 Gold, +1 Reputation\n3 Bards: +4 Gold, +2 Reputation</line-indent></align>";
-    private readonly string protectionKeywordText = "Prevents targeted Adventurers from having their Power reduced until the Quest is resolved.";
+    private readonly string protectionKeywordText = "Prevents affected Adventurers from having their Power reduced until the Quest is resolved.";
     private readonly string empowerKeywordText = "Increases the Power of a card by a specified amount. A card can gain Power in each stat (Physical and Magical) that is non-zero.";
     private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
     private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
