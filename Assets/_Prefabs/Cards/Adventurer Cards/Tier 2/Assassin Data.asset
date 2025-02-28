@@ -19,7 +19,8 @@ MonoBehaviour:
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 8
   <CardDescription>k__BackingField: 'Resolution Phase: <color=#FFE000>Poison</color>
-    an Adventurer on this Quest, decreasing their Physical or Magical Power by 2.'
+    an Adventurer on this Quest, decreasing their <color=#EB000E>Physical</color>
+    or <color=#000EEB>Magical</color> Power by 2.'
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer II
   <AbilityName>k__BackingField: Poison Expert

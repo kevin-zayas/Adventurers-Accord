@@ -18,7 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 2
-  <CardDescription>k__BackingField: Boost Magical Power by +2 at this Quest Lane
+  <CardDescription>k__BackingField: Boost <color=#000EEB>Magical</color> Power by
+    +2 at this Quest Lane
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Magic Spell
   <AbilityName>k__BackingField: 
@@ -30,5 +31,5 @@ MonoBehaviour:
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
-  <IsGreaseSpell>k__BackingField: 0
+  <IsNegativeEffect>k__BackingField: 0
   <DescriptionKeys>k__BackingField: []

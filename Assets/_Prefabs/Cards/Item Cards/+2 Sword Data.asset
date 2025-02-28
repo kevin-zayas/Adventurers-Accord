@@ -18,8 +18,8 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 2
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 4
-  <CardDescription>k__BackingField: +2 Physical Power
-  <CardSubDescription>k__BackingField: when equipped
+  <CardDescription>k__BackingField: +2 <color=#EB000E>Physical</color> Power
+  <CardSubDescription>k__BackingField: when <color=#FFE000>Equipped</color>
   <CardType>k__BackingField: Magic Item
   <AbilityName>k__BackingField: 
   <GoldReward>k__BackingField: 0
@@ -30,5 +30,5 @@ MonoBehaviour:
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
-  <IsGreaseSpell>k__BackingField: 0
+  <IsNegativeEffect>k__BackingField: 0
   <DescriptionKeys>k__BackingField: []

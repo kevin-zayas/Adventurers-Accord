@@ -95,7 +95,7 @@ public class CardDatabase : NetworkBehaviour
 
         KeywordDefinitionMap.Add("Magic Spells", magicSpellKeywordText);
         KeywordDefinitionMap.Add("Afflict", afflictKeywordText);
-        KeywordDefinitionMap.Add("Boost", gainKeywordText);
+        KeywordDefinitionMap.Add("Boost", boostKeywordText);
 
         KeywordDefinitionMap.Add("Magic Phase", magicPhaseKeywordText);
         KeywordDefinitionMap.Add("Resolution Phase", resolutionPhaseKeywordText);
@@ -137,22 +137,22 @@ public class CardDatabase : NetworkBehaviour
         }
     }
 
-    private readonly string poisonKeywordText = "Decreases the Power of a targeted Adventurer by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
+    private readonly string poisonKeywordText = "Decreases the <color=#6C00D7>Power</color> of a targeted Adventurer by a specified amount until the Quest is resolved. This value cannot be decreased below 0.";
     private readonly string bardsongKeywordText = "<align=left>Gain rewards based on the number of Bards on this Quest:\n<line-indent=15%>1 Bard:   +1 Gold\n2 Bards: +2 Gold, +1 Reputation\n3 Bards: +4 Gold, +2 Reputation</line-indent></align>";
-    private readonly string protectionKeywordText = "Prevents affected Adventurers from having their Power reduced until the Quest is resolved.";
-    private readonly string empowerKeywordText = "Increases the Power of a card by a specified amount. A card can gain Power in each stat (Physical and Magical) that is non-zero.";
+    private readonly string protectionKeywordText = "Prevents affected Adventurers from having their <color=#6C00D7>Power</color> reduced until the Quest is resolved.";
+    private readonly string empowerKeywordText = "Increases the <color=#6C00D7>Power</color> of a card by a specified amount. A card can gain <color=#6C00D7>Power</color> in each stat (<color=#EB000E>Physical</color> and <color=#000EEB>Magical</color>) that is non-zero.";
     private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
     private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
 
-    private readonly string magicItemKeywordText = "Grants a permanent boost to the Power of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
-    private readonly string equipKeywordText = "To Equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding Power must be greater than 0 to Equip the item.";
+    private readonly string magicItemKeywordText = "Grants a permanent boost to the <color=#6C00D7>Power</color> of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
+    private readonly string equipKeywordText = "To equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding <color=#6C00D7>Power</color> must be greater than 0 to equip the item.";
 
     private readonly string magicSpellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the card onto a Quest Lane.";
-    private readonly string afflictKeywordText = "Decreases Total Power on a Quest Lane by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
-    private readonly string gainKeywordText = "Increases Total Power on a Quest Lane by a specified amount until the Quest is resolved.";
+    private readonly string afflictKeywordText = "Decreases Total <color=#6C00D7>Power</color> on a Quest Lane by a specified amount until the Quest is resolved. This value cannot be decreased below 0.";
+    private readonly string boostKeywordText = "Increases Total <color=#6C00D7>Power</color> on a Quest Lane by a specified amount until the Quest is resolved.";
 
     private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
     private readonly string magicPhaseKeywordText = "The phase in which players can play Magic Spells to affect the outcome of a Quest.";
 
-    private readonly string weakenKeywordText = "Reduces the Power of all Adventurers on this Quest by a specified amount until the Quest is resolved. This Power cannot be decreased below 0.";
+    private readonly string weakenKeywordText = "Reduces the <color=#6C00D7>Power</color> of all Adventurers on this Quest by a specified amount until the Quest is resolved. This value cannot be decreased below 0.";
 }
