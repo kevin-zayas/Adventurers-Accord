@@ -46,6 +46,15 @@ public abstract class Card : NetworkBehaviour
         ControllingPlayerHand.Value = player.controlledHand.Value;
         GiveOwnership(player.Owner);
         IsDraftCard.Value = false;
+        ObserverSetCardOwner(player);
+    }
+
+    [ObserversRpc]
+    private void ObserverSetCardOwner(Player player)
+    {
+        ControllingPlayer.Value = player;
+        ControllingPlayerHand.Value = player.controlledHand.Value;
+        IsDraftCard.Value = false;
     }
 
     /// <summary>

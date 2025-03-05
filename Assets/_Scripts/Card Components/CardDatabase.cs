@@ -18,6 +18,8 @@ public class CardDatabase : NetworkBehaviour
 
     public List<CardData> rareItemCards = new();
 
+    public List<CardData> starterHand = new();
+
     //make private set
     public AdventurerCard adventurerCardPrefab;
     public ItemCard itemCardPrefab;

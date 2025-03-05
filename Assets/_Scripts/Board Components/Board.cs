@@ -60,10 +60,12 @@ public class Board : NetworkBehaviour
             QuestLocations[i].OnStartGame();
         }
 
-        foreach (Player player in GameManager.Instance.Players)
-        {
-            RewardLoot(player, GameManager.Instance.StartingLoot);
-        }
+        DealStartingHand();
+
+        //foreach (Player player in GameManager.Instance.Players)
+        //{
+        //    RewardLoot(player, GameManager.Instance.StartingLoot);
+        //}
     }
 
     /// <summary>
@@ -300,6 +302,23 @@ public class Board : NetworkBehaviour
             lootCard.SetCardParent(player.controlledHand.Value.transform, false);
 
             //RewardLootDeck.Remove(randomLootData);
+        }
+    }
+
+    [Server]
+    public void DealStartingHand()
+    {
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            foreach (CardData cardData in CardDatabase.Instance.starterHand)
+            {
+                AdventurerCard card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
+                Spawn(card.gameObject);
+
+                card.LoadCardData(cardData);
+                card.SetCardOwner(player);
+                card.SetCardParent(player.controlledHand.Value.transform, false);
+            }
         }
     }
 }
