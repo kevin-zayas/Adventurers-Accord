@@ -60,7 +60,7 @@ public class Board : NetworkBehaviour
             QuestLocations[i].OnStartGame();
         }
 
-        DealStartingHand();
+        //DealStartingHand();
 
         //foreach (Player player in GameManager.Instance.Players)
         //{
