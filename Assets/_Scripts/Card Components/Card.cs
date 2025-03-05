@@ -140,8 +140,14 @@ public abstract class Card : NetworkBehaviour
     {
         if (isClone) return;  // Do not show hover screen for enlarged/spotlight cards
 
-        if (IsDraftCard.Value && player.Gold.Value < Cost.Value) ToggleDisableScreen(true);
-        else ToggleHoverScreen(true);   // Check player gold if hovering a DraftCard
+        if (ShouldToggleDisableScreen()) ToggleDisableScreen(true);
+        else ToggleHoverScreen(true);
+    }
+
+    public virtual bool ShouldToggleDisableScreen()
+    {
+        if (IsDraftCard.Value && player.Gold.Value < Cost.Value) return true; // Check player gold if hovering a DraftCard
+        else return false;   
     }
 
     public virtual void OnPointerExit()

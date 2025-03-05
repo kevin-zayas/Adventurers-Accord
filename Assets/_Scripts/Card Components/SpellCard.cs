@@ -85,22 +85,11 @@ public class SpellCard : Card
         descriptionText.text = card.CardDescription.Value;
     }
 
-    public override void OnHover()
+    public override bool ShouldToggleDisableScreen()
     {
-        base.OnHover();
-        if (isClone) return;
+        if (base.ShouldToggleDisableScreen()) return true;
+        if (transform.parent.CompareTag("Quest")) return true;
 
-        if (transform.parent.CompareTag("Quest")) ToggleDisableScreen(true);  // Prevent dragging if the card is already in a quest lane
-
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) ToggleDisableScreen(true);
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Recruit && !IsDraftCard.Value) ToggleDisableScreen(true);
-
-        if (IsDraftCard.Value && !player.IsPlayerTurn.Value) ToggleDisableScreen(true);
+        return false;
     }
-
-    //public override void OnPointerExit()
-    //{
-    //    ToggleDisableScreen(false);
-    //    ToggleHoverScreen(false);
-    //}
 }

@@ -8019,11 +8019,14 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1927639718}
   _networkObjectCache: {fileID: 1927639718}
   <Scoreboard>k__BackingField: {fileID: 2782648120714730304}
-  <CanStartGame>k__BackingField: 0
+  CanStartGame:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 0
   <DidStartGame>k__BackingField: 0
   <Turn>k__BackingField: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 100
+  <StartingGold>k__BackingField: 10
   <StartingLoot>k__BackingField: 0
   <ReputationGoal>k__BackingField: 1
   <PlayerSkipTurnStatus>k__BackingField: 

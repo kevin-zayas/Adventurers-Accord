@@ -357,19 +357,11 @@ public class AdventurerCard : Card
         }
     }
 
-    public override void OnHover()
+    public override bool ShouldToggleDisableScreen()
     {
-        base.OnHover();
-        if (isClone) return;
-        if (!player.IsPlayerTurn.Value) ToggleDisableScreen(true);  // Show disable screen if not player's turn
+        if (base.ShouldToggleDisableScreen()) return true;
         if (CardName.Value == "Wolf") ToggleDisableScreen(true);
 
-        return;
+        return false;
     }
-    
-    //public override void OnPointerExit()
-    //{
-    //    ToggleDisableScreen(false);
-    //    ToggleHoverScreen(false);
-    //}
 }
