@@ -11,6 +11,7 @@ TagManager:
   - QuestCard
   - Quest
   - Canvas
+  - Discard
   layers:
   - Default
   - TransparentFX

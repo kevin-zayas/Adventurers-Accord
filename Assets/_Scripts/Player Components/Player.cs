@@ -4,6 +4,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using GameKit.Dependencies.Utilities;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -18,11 +19,12 @@ public class Player : NetworkBehaviour
     public readonly SyncVar<int> Reputation = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsReady = new();
     public readonly SyncVar<bool> CanStartGame = new();
+    public readonly SyncVar<Hand> controlledHand = new();
 
     [SerializeField] private Hand handPrefab;
     [SerializeField] private AudioMixer masterMixer;
 
-    public readonly SyncVar<Hand> controlledHand = new();
+    [field: SerializeField] public SyncList<AdventurerCard> DiscardPile { get; } = new SyncList<AdventurerCard>();
 
     public override void OnStartServer()
     {

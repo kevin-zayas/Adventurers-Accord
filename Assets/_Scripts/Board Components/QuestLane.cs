@@ -148,10 +148,18 @@ public class QuestLane : NetworkBehaviour
                 SummonWolfCompanion(true);
                 continue;
             }
-            card.SetCardParent(card.ControllingPlayerHand.Value.transform, false);
+            //print($"is discard transform null - {Board.Instance.DiscardPile.transform == null}");
+            card.SetCardParent(Board.Instance.DiscardPile.transform, false);
+            DiscardCard(card);
         }
         ClearSpellEffects();
         ObserversUpdateLaneTotalPower(PhysicalPower.Value, MagicalPower.Value);
+    }
+
+    [Server]
+    public void DiscardCard(AdventurerCard card)
+    {
+        Player.Value.DiscardPile.Add(card);
     }
 
     [Server]
