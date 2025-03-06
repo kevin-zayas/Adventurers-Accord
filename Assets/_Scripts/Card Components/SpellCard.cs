@@ -83,6 +83,7 @@ public class SpellCard : Card
         magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         descriptionText.text = card.CardDescription.Value;
+        costText.text = card.Cost.Value.ToString();
     }
 
     public override bool ShouldToggleDisableScreen()

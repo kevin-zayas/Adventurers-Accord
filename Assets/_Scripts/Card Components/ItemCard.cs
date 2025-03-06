@@ -81,6 +81,7 @@ public class ItemCard : Card
         nameText.text = card.CardName.Value;
         descriptionText.text = card.CardDescription.Value;
         subDescriptionText.text = card.SubDescription.Value;
+        costText.text = card.Cost.Value.ToString();
     }
 
     /// <summary>
