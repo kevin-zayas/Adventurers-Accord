@@ -1536,9 +1536,10 @@ MonoBehaviour:
   IsDraftCard:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
-    _value: 0
+    _value: 1
   disableScreen: {fileID: 1188314931012720159}
   hoverScreen: {fileID: 2178383836538393221}
+  isClone: 0
   HasItem:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
@@ -1736,7 +1737,8 @@ MonoBehaviour:
   - {fileID: 5300939677924261238}
   - {fileID: -6211479231835834888}
   InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
+  InitializedNestedNetworkObjects:
+  - {fileID: 3856054117792817582}
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
@@ -1745,7 +1747,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedValusSet: 0
+  _initializedValusSet: 1
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -1760,15 +1762,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 25
+  <PrefabId>k__BackingField: 7
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 3997806834779731644
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!222 &8006336252910119709
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2665,6 +2667,10 @@ PrefabInstance:
       propertyPath: _networkBehaviours.Array.data[1]
       value: 
       objectReference: {fileID: 6776071066952636260}
+    - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
+      objectReference: {fileID: -6211479231835834888}
     - target: {fileID: -3672523780777450086, guid: 2077a7a49756adc4f89afc728558457a, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 

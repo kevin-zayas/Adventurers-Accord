@@ -731,9 +731,10 @@ MonoBehaviour:
   IsDraftCard:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
-    _value: 0
+    _value: 1
   disableScreen: {fileID: 8997950938491326308}
   hoverScreen: {fileID: 1261818660500761060}
+  isClone: 0
   descriptionText: {fileID: 3101418111192428437}
   cardImage: {fileID: 6958857792175851566}
   magicalPowerText: {fileID: 3503292238363221274}

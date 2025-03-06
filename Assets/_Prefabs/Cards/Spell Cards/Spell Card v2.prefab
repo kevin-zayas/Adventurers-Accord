@@ -546,7 +546,10 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: -4959033644106127066}
+  - {fileID: 6669853012309926568}
+  - {fileID: 3577841985777620674}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -557,7 +560,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedValusSet: 0
+  _initializedValusSet: 1
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -572,15 +575,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 23
+  <PrefabId>k__BackingField: 17
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 8768874883479040942
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!114 &-4959033644106127066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -724,9 +727,10 @@ MonoBehaviour:
   IsDraftCard:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
-    _value: 0
+    _value: 1
   disableScreen: {fileID: 4703320823960298955}
   hoverScreen: {fileID: 4090079527239836241}
+  isClone: 0
   cardImage: {fileID: 6958857792175851566}
   descriptionText: {fileID: 3101418111192428437}
   magicalPowerText: {fileID: 1304799766812483540}

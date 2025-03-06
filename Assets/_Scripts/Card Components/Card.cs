@@ -26,10 +26,10 @@ public abstract class Card : NetworkBehaviour
 
     private void Start()
     {
-        if (IsServerInitialized && !ControllingPlayer.Value)
-        {
-            IsDraftCard.Value = true;
-        }
+        //if (IsServerInitialized && !ControllingPlayer.Value)
+        //{
+        //    IsDraftCard.Value = true;
+        //}
         //else      //may need to add this back when putting it on dedicated server
         //{
         player = GameManager.Instance.Players[LocalConnection.ClientId];
@@ -45,15 +45,6 @@ public abstract class Card : NetworkBehaviour
         ControllingPlayer.Value = player;
         ControllingPlayerHand.Value = player.controlledHand.Value;
         GiveOwnership(player.Owner);
-        IsDraftCard.Value = false;
-        ObserverSetCardOwner(player);
-    }
-
-    [ObserversRpc]
-    private void ObserverSetCardOwner(Player player)
-    {
-        ControllingPlayer.Value = player;
-        ControllingPlayerHand.Value = player.controlledHand.Value;
         IsDraftCard.Value = false;
     }
 

@@ -28,26 +28,17 @@ public class AdventurerCard : Card
     [SerializeField] private TMP_Text physicalPowerText;
     #endregion
 
-    #region Cached Components
-    //private Player player;
-    #endregion
-
     #region Constants
     private const string Sorcerer = "Sorcerer";
     private const string QuestTag = "Quest";
     #endregion
 
-    //private void Awake()
-    //{
-        
-    //}
-
     private void Start()
     {
-        if (IsServerInitialized)
-        {
-            IsDraftCard.Value = true;
-        }
+        //if (IsServerInitialized)
+        //{
+        //    IsDraftCard.Value = true;
+        //}
         //else      //may need to add this back when putting it on dedicated server
         //{
             player = GameManager.Instance.Players[LocalConnection.ClientId];
@@ -103,19 +94,6 @@ public class AdventurerCard : Card
         transform.localScale = scale;
         transform.SetParent(newParent, worldPositionStays);
     }
-
-    ///// <summary>
-    ///// Server-side RPC to set the card's owner and update related properties.
-    ///// </summary>
-    ///// <param name="owningPlayer">The player who will own the card.</param>
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerSetCardOwner(Player owningPlayer)
-    //{
-    //    ControllingPlayer.Value = owningPlayer;
-    //    ControllingPlayerHand.Value = owningPlayer.controlledHand.Value;
-    //    GiveOwnership(owningPlayer.Owner);
-    //    IsDraftCard.Value = false;
-    //}
 
     /// <summary>
     /// Server-side RPC to equip an item to the card.
