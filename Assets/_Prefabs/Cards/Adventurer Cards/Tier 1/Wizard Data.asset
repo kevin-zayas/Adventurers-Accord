@@ -22,6 +22,7 @@ MonoBehaviour:
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
   <AbilityName>k__BackingField: 
+  <CoolDown>k__BackingField: 1
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
@@ -30,4 +31,5 @@ MonoBehaviour:
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
-  <IsGreaseSpell>k__BackingField: 0
+  <IsNegativeEffect>k__BackingField: 0
+  <DescriptionKeys>k__BackingField: []

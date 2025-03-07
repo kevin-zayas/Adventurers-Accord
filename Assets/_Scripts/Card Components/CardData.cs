@@ -18,6 +18,8 @@ public class CardData : ScriptableObject
     [field: SerializeField] public string AbilityName { get; set; }
     //[field: SerializeField] public Sprite CardSprite { get; private set; }
 
+    //Adventurers
+    [field: SerializeField] public int CoolDown { get; set; }
 
     //Quests
     [field: SerializeField] public int GoldReward { get; set; }

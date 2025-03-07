@@ -23,6 +23,7 @@ MonoBehaviour:
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
   <AbilityName>k__BackingField: Bardsong
+  <CoolDown>k__BackingField: 1
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0

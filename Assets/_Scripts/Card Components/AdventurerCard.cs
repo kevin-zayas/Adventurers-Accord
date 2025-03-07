@@ -16,6 +16,7 @@ public class AdventurerCard : Card
     public readonly SyncVar<int> OriginalPhysicalPower = new();
     public readonly SyncVar<Transform> ParentTransform = new();
     public readonly SyncVar<int> CoolDown = new();
+    public readonly SyncVar<int> CurrentCoolDown = new();
     #endregion
 
     #region UI Elements
@@ -240,6 +241,7 @@ public class AdventurerCard : Card
         OriginalMagicalPower.Value = cardData.OriginalMagicalPower;
         Cost.Value = cardData.Cost;
         AbilityName.Value = cardData.AbilityName;
+        CoolDown.Value = cardData.CoolDown;
 
         base.LoadCardData(cardData);
     }
