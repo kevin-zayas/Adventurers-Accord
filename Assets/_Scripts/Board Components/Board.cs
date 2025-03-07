@@ -14,7 +14,6 @@ public class Board : NetworkBehaviour
     #region Serialized Fields
     [field: SerializeField] public CardSlot[] DraftCardSlots { get; private set; }
     [field: SerializeField] public QuestLocation[] QuestLocations { get; private set; }
-    [field: SerializeField] public GameObject DiscardPile { get; private set; }
 
     [field: SerializeField] private List<CardData> T1Deck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> T2Deck { get; } = new List<CardData>();

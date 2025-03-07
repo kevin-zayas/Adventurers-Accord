@@ -19,7 +19,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public bool DidStartGame { get; private set; }
     [field: SerializeField] public int Turn { get; private set; }
 
-    public readonly SyncVar<Phase> CurrentPhase = new(new SyncTypeSettings(WritePermission.ServerOnly));
+    [AllowMutableSyncTypeAttribute] public SyncVar<Phase> CurrentPhase = new(new SyncTypeSettings(WritePermission.ServerOnly));
     [field: SerializeField] public int StartingTurn { get; private set; }
     [field: SerializeField] public int StartingGold { get; private set; }
     [field: SerializeField] public int StartingLoot { get; private set; }
@@ -29,7 +29,7 @@ public class GameManager : NetworkBehaviour
     #endregion
 
     #region Game Phases
-    public enum Phase { Recruit, Dispatch, Magic, Resolution, GameOver }
+    public enum Phase { Recruit, Dispatch, Magic, Resolution, Recovery, GameOver }
     #endregion
 
     private void Awake()
@@ -223,6 +223,19 @@ public class GameManager : NetworkBehaviour
                     EndGame();
                     break;
                 }
+
+                CurrentPhase.Value = Phase.Recruit;
+                Board.Instance.ObserversUpdatePhaseText("Recruit");
+
+                StartingTurn = (StartingTurn + 1) % Players.Count;
+                Turn = StartingTurn;
+                SetPlayerTurn(Players[Turn]);
+
+                DiscardPile.Instance.RecoverAdventurers();
+                break;
+
+            case Phase.Recovery:
+                DiscardPile.Instance.RecoverAdventurers();
 
                 CurrentPhase.Value = Phase.Recruit;
                 Board.Instance.ObserversUpdatePhaseText("Recruit");

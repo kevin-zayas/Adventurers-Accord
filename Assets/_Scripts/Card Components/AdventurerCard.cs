@@ -15,6 +15,7 @@ public class AdventurerCard : Card
     public readonly SyncVar<int> OriginalMagicalPower = new();
     public readonly SyncVar<int> OriginalPhysicalPower = new();
     public readonly SyncVar<Transform> ParentTransform = new();
+    public readonly SyncVar<int> CoolDown = new();
     #endregion
 
     #region UI Elements

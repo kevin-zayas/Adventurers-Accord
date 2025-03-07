@@ -751,7 +751,6 @@ MonoBehaviour:
   - {fileID: 3194752889964937013}
   - {fileID: 834155656}
   - {fileID: 681106402}
-  <DiscardPile>k__BackingField: {fileID: 1711991179}
   t1DeckTrackerText: {fileID: 920776766}
   t2DeckTrackerText: {fileID: 506087302}
   lootDeckTrackerText: {fileID: 1512003545}
@@ -7037,6 +7036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1711991180}
   - component: {fileID: 1711991181}
+  - component: {fileID: 1711991182}
   m_Layer: 0
   m_Name: Discard Pile
   m_TagString: Discard
@@ -7114,6 +7114,21 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 0}
     Scale: {x: 0, y: 0, z: 0}
     IsValid: 0
+--- !u!114 &1711991182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711991179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5ee5f64ce03b214da366025d673132d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 1711991181}
+  _networkObjectCache: {fileID: 0}
 --- !u!1 &1725889340
 GameObject:
   m_ObjectHideFlags: 0
