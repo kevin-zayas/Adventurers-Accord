@@ -22,6 +22,8 @@ public class QuestLane : NetworkBehaviour
     public readonly SyncVar<int> SpellMagicalPower = new();
     public readonly SyncVar<int> TotalPhysicalPower = new();
     public readonly SyncVar<int> TotalMagicalPower = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<int> MaxAdventurerCount = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<int> CurrentAdventurerCount = new();
 
     public readonly SyncVar<int> EffectiveTotalPower = new();
     [field: SerializeField] public bool IsGreased { get; private set; }
@@ -49,6 +51,7 @@ public class QuestLane : NetworkBehaviour
     public void AssignQuestCard(QuestCard questCard)
     {
         QuestCard.Value = questCard;
+        MaxAdventurerCount.Value = questCard.MaxAdventurerCount.Value;
     }
 
     [Server]
@@ -137,6 +140,7 @@ public class QuestLane : NetworkBehaviour
         SpellPhysicalPower.Value = 0;
         SpellMagicalPower.Value = 0;
         EffectiveTotalPower.Value = 0;
+        CurrentAdventurerCount.Value = 0;
 
         while (QuestDropZone.transform.childCount > 0)
         {
@@ -170,7 +174,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AddAdventurerToQuestLane(AdventurerCard card)
     {
-        QuestCard.Value.CurrentAdventurerCount.Value++;
+        CurrentAdventurerCount.Value++;
 
         if (QuestCard.Value.Drain.Value && !ClericProtection.Value)
         {
@@ -227,7 +231,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void RemoveAdventurerFromQuestLane(AdventurerCard card)
     {
-        QuestCard.Value.CurrentAdventurerCount.Value--;
+        CurrentAdventurerCount.Value--;
         if (adventurerEffects.ContainsKey(card.CardName.Value)) adventurerEffects[card.CardName.Value]--;
 
         switch (card.CardName.Value)

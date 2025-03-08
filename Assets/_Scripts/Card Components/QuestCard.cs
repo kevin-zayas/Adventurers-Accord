@@ -19,7 +19,6 @@ public class QuestCard : Card
     public readonly SyncVar<int> PhysicalDrain = new();
     public readonly SyncVar<int> ReputationReward = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<int> MaxAdventurerCount = new();
-    [AllowMutableSyncTypeAttribute] public SyncVar<int> CurrentAdventurerCount = new();
     #endregion
 
     #region UI Elements

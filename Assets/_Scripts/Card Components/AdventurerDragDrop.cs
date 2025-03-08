@@ -57,18 +57,9 @@ public class AdventurerDragDrop : CardDragDrop
     /// </summary>
     protected override void HandleEndDrag()
     {
-        QuestLane questLane;
-        int currentCount = 0;
-        int maxCount = 0;
+        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
 
-        if (dropZone.CompareTag("Quest"))
-        {
-            questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-            currentCount = questLane.QuestCard.Value.CurrentAdventurerCount.Value;
-            maxCount = questLane.QuestCard.Value.MaxAdventurerCount.Value;
-        }
-
-        if (dropZone.CompareTag("Quest") && currentCount >= maxCount)
+        if (dropZone.CompareTag("Quest") && IsQuestLaneFull(questLane))
         {
             ResetCardPosition();
         }
@@ -89,5 +80,12 @@ public class AdventurerDragDrop : CardDragDrop
     {
         card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
+    }
+
+    protected bool IsQuestLaneFull(QuestLane questLane)
+    {
+        if (questLane.CurrentAdventurerCount.Value >= questLane.MaxAdventurerCount.Value) return true;
+
+        return false;
     }
 }
