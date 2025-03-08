@@ -170,6 +170,8 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AddAdventurerToQuestLane(AdventurerCard card)
     {
+        QuestCard.Value.CurrentAdventurerCount.Value++;
+
         if (QuestCard.Value.Drain.Value && !ClericProtection.Value)
         {
             print("Applying drain");
@@ -225,6 +227,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void RemoveAdventurerFromQuestLane(AdventurerCard card)
     {
+        QuestCard.Value.CurrentAdventurerCount.Value--;
         if (adventurerEffects.ContainsKey(card.CardName.Value)) adventurerEffects[card.CardName.Value]--;
 
         switch (card.CardName.Value)

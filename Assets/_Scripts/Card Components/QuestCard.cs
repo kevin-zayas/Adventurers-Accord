@@ -1,3 +1,4 @@
+using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -17,6 +18,8 @@ public class QuestCard : Card
     public readonly SyncVar<int> MagicalDrain = new();
     public readonly SyncVar<int> PhysicalDrain = new();
     public readonly SyncVar<int> ReputationReward = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<int> MaxAdventurerCount = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<int> CurrentAdventurerCount = new();
     #endregion
 
     #region UI Elements
@@ -48,6 +51,7 @@ public class QuestCard : Card
         DisableItems.Value = cardData.DisableItems;
         BlockSpells.Value = cardData.BlockSpells;
         Data.Value = cardData;
+        MaxAdventurerCount.Value = cardData.MaxAdventurerCount;
 
         base.LoadCardData(cardData);
     }

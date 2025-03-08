@@ -99,7 +99,7 @@ public abstract class CardDragDrop : NetworkBehaviour
         if (!isDragging) return;
 
         isDragging = false;
-        //print(dropZone);
+
         if (dropZone == null || startParentTransform == dropZone.transform)
         {
             Debug.Log("Not over a valid drop zone or still in the starting zone");

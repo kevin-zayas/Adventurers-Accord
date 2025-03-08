@@ -7698,8 +7698,12 @@ MonoBehaviour:
     _value: 0
   <DidStartGame>k__BackingField: 0
   <Turn>k__BackingField: 0
+  CurrentPhase:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 100
+  <StartingGold>k__BackingField: 10
   <StartingLoot>k__BackingField: 0
   <ReputationGoal>k__BackingField: 20
   <PlayerSkipTurnStatus>k__BackingField: 

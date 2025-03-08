@@ -57,7 +57,22 @@ public class AdventurerDragDrop : CardDragDrop
     /// </summary>
     protected override void HandleEndDrag()
     {
-        if (card.IsDraftCard.Value)
+        QuestLane questLane;
+        int currentCount = 0;
+        int maxCount = 0;
+
+        if (dropZone.CompareTag("Quest"))
+        {
+            questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+            currentCount = questLane.QuestCard.Value.CurrentAdventurerCount.Value;
+            maxCount = questLane.QuestCard.Value.MaxAdventurerCount.Value;
+        }
+
+        if (dropZone.CompareTag("Quest") && currentCount >= maxCount)
+        {
+            ResetCardPosition();
+        }
+        else if (card.IsDraftCard.Value)
         {
             AssignDraftCardToPlayer();
         }

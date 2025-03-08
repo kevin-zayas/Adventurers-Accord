@@ -55,7 +55,6 @@ public class AdventurerCard : Card
     [Server]
     public override void SetCardParent(Transform newParent, bool worldPositionStays)
     {
-        //print($"is newParent null (sever) - {newParent == null}");
         ObserversSetCardParent(newParent, worldPositionStays);
         transform.SetParent(newParent, worldPositionStays);
 

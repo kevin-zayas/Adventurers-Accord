@@ -23,9 +23,11 @@ MonoBehaviour:
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: 
   <AbilityName>k__BackingField: Poisonous Haze
+  <CoolDown>k__BackingField: 0
   <GoldReward>k__BackingField: 8
   <ReputationReward>k__BackingField: 4
   <LootReward>k__BackingField: 2
+  <MaxAdventurerCount>k__BackingField: 5
   <Drain>k__BackingField: 1
   <PhysicalDrain>k__BackingField: 1
   <MagicalDrain>k__BackingField: 0
