@@ -6,7 +6,7 @@ using UnityEngine;
 public class PopUpManager : NetworkBehaviour
 {
     public static PopUpManager Instance { get; private set; }
-
+    
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
     [SerializeField] GameOverPopUp GameOverPopUpPrefab;
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
@@ -15,6 +15,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
+    [SerializeField] ScoreBoardPopUp ScoreBoardPopUpPrefab;
 
     public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
     public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
@@ -22,6 +23,14 @@ public class PopUpManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Update()
+    {
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    print("Q pressed");
+        //}
     }
 
     [Server]
@@ -99,5 +108,11 @@ public class PopUpManager : NetworkBehaviour
     {
         SettingsPopUp settingsPopUp = Instantiate(SettingsPopUpPrefab);
         return settingsPopUp;
+    }
+
+    public ScoreBoardPopUp CreateScoreBoardPopUp()
+    {
+        ScoreBoardPopUp scoreBoardPopUp = Instantiate(ScoreBoardPopUpPrefab);
+        return scoreBoardPopUp;
     }
 }

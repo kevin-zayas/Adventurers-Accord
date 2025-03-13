@@ -1,11 +1,11 @@
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
 {
+    public static ScoreBoard Instance;
     private List<PlayerScore> PlayerScores = new();
 
     [SerializeField] private PlayerScore playerScorePrefab;
@@ -14,13 +14,21 @@ public class ScoreBoard : NetworkBehaviour
     [SerializeField] Image rayCastBlocker;
 
     private int playerCount;
+    private ScoreBoardPopUp scoreBoardPopUp;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     [Server]
     public void StartGame(int startingGold)
     {
         playerCount = GameManager.Instance.Players.Count;
-        ObserversInitializeScoreboard(playerCount,startingGold);
-        ObserversUpdateTurnMarker(0);
+        //ObserversInitializeScoreboard(playerCount,startingGold);
+        //ObserversUpdateTurnMarker(0);
+
+        // on start game, set the scoreboard height variable
     }
 
     [ObserversRpc(BufferLast = true)]
@@ -46,53 +54,61 @@ public class ScoreBoard : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            scoreboardPanel.SetActive(true);
-            rayCastBlocker.enabled = true;
+            //scoreboardPanel.SetActive(true);
+            //rayCastBlocker.enabled = true;
 
-            this.gameObject.transform.SetAsLastSibling();
+            //this.gameObject.transform.SetAsLastSibling();
+            scoreBoardPopUp = PopUpManager.Instance.CreateScoreBoardPopUp();
         }
+        //else
+        //{
+        //    if (scoreBoardPopUp != null)
+        //    {
+        //        Destroy(scoreBoardPopUp.gameObject);
+        //    }
+        //}
 
         if (Input.GetKeyUp(KeyCode.Tab))
         {
-            scoreboardPanel.SetActive(false);
-            rayCastBlocker.enabled = false;
-
+            //scoreboardPanel.SetActive(false);
+            //rayCastBlocker.enabled = false;
+            Destroy(scoreBoardPopUp.gameObject);
         }
     }
 
     [ObserversRpc]
     public void ObserversUpdatePlayerGold(int playerID, int gold)
     {
-        PlayerScores[playerID].UpdatePlayerGold(gold);
+        //PlayerScores[playerID].UpdatePlayerGold(gold);
     }
 
     [ObserversRpc]
     public void UpdateUpdatePlayerReputation(int playerID, int reputation)
     {
-        PlayerScores[playerID].UpdatePlayerReputation(reputation);
+        //PlayerScores[playerID].UpdatePlayerReputation(reputation);
     }
 
     [ObserversRpc]
     public void ObserversUpdateTurnMarker(int playerID)
     {
-        for (int i = 0; i < PlayerScores.Count; i++)
-        {
-            PlayerScores[i].TurnMarker.SetActive(i == playerID);
-        }
+        //for (int i = 0; i < PlayerScores.Count; i++)
+        //{
+        //    PlayerScores[i].TurnMarker.SetActive(i == playerID);
+        //}
     }
 
     [ObserversRpc]
     public void ObserversEnableAllTurnMarkers()
     {
-        for (int i = 0; i < PlayerScores.Count; i++)
-        {
-            PlayerScores[i].TurnMarker.SetActive(true);
-        }
+        //for (int i = 0; i < PlayerScores.Count; i++)
+        //{
+        //    PlayerScores[i].TurnMarker.SetActive(true);
+        //}
     }
 
     [ObserversRpc]
     public void ObserversToggleTurnMarker(int playerID, bool value)
     {
-        PlayerScores[playerID].TurnMarker.SetActive(value);
+        //PlayerScores[playerID].TurnMarker.SetActive(value);
     }
 }

@@ -25,7 +25,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int StartingLoot { get; private set; }
     [field: SerializeField] public int ReputationGoal { get; private set; }
     [field: SerializeField] public bool[] PlayerSkipTurnStatus { get; private set; }
-    [field: SerializeField] public bool[] PlayerEndRoundStatus { get; private set; }
+    [field: SerializeField] public SyncList<bool> PlayerEndRoundStatus { get; } = new SyncList<bool>();
     #endregion
 
     #region Game Phases
@@ -87,7 +87,7 @@ public class GameManager : NetworkBehaviour
         }
 
         Board.Instance.StartGame();
-        Scoreboard.StartGame(StartingGold);
+        //Scoreboard.StartGame(StartingGold);
         DidStartGame = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
@@ -138,7 +138,11 @@ public class GameManager : NetworkBehaviour
     [Server]
     private void BeginEndRound()
     {
-        PlayerEndRoundStatus = new bool[Players.Count];
+        PlayerEndRoundStatus.Clear();
+        for (int i = 0; i < Players.Count; i++)
+        {
+            PlayerEndRoundStatus.Add(false);
+        }
         foreach (Player player in Players)
         {
             player.SetIsPlayerTurn(false);
@@ -171,7 +175,11 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void RefreshEndRoundStatus()
     {
-        PlayerEndRoundStatus = new bool[Players.Count];
+        PlayerEndRoundStatus.Clear();
+        for (int i = 0; i < Players.Count; i++)
+        {
+            PlayerEndRoundStatus.Add(false);
+        }
         ObserversEnableEndRoundButton();
         Scoreboard.ObserversEnableAllTurnMarkers();
     }
@@ -234,16 +242,16 @@ public class GameManager : NetworkBehaviour
                 DiscardPile.Instance.RecoverAdventurers();
                 break;
 
-            case Phase.Recovery:
-                DiscardPile.Instance.RecoverAdventurers();
+            //case Phase.Recovery:
+            //    DiscardPile.Instance.RecoverAdventurers();
 
-                CurrentPhase.Value = Phase.Recruit;
-                Board.Instance.ObserversUpdatePhaseText("Recruit");
+            //    CurrentPhase.Value = Phase.Recruit;
+            //    Board.Instance.ObserversUpdatePhaseText("Recruit");
 
-                StartingTurn = (StartingTurn + 1) % Players.Count;
-                Turn = StartingTurn;
-                SetPlayerTurn(Players[Turn]);
-                break;
+            //    StartingTurn = (StartingTurn + 1) % Players.Count;
+            //    Turn = StartingTurn;
+            //    SetPlayerTurn(Players[Turn]);
+            //    break;
 
             case Phase.GameOver:
                 EndGame();
