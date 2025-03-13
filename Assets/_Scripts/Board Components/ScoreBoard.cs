@@ -6,14 +6,6 @@ using UnityEngine.UI;
 public class ScoreBoard : NetworkBehaviour
 {
     public static ScoreBoard Instance;
-    private List<PlayerScore> PlayerScores = new();
-
-    [SerializeField] private PlayerScore playerScorePrefab;
-    [SerializeField] private GameObject scoreboardPanel;
-    [SerializeField] private GameObject playerScoreGroup;
-    [SerializeField] Image rayCastBlocker;
-
-    private int playerCount;
     private ScoreBoardPopUp scoreBoardPopUp;
 
     private void Awake()
@@ -21,57 +13,15 @@ public class ScoreBoard : NetworkBehaviour
         Instance = this;
     }
 
-    [Server]
-    public void StartGame(int startingGold)
-    {
-        playerCount = GameManager.Instance.Players.Count;
-        //ObserversInitializeScoreboard(playerCount,startingGold);
-        //ObserversUpdateTurnMarker(0);
-
-        // on start game, set the scoreboard height variable
-    }
-
-    [ObserversRpc(BufferLast = true)]
-    private void ObserversInitializeScoreboard(int playerCount, int startingGold)
-    {
-        int scoreboardHeight = 4 + 54 * playerCount;
-
-        RectTransform rectTransform = scoreboardPanel.GetComponent<RectTransform>();
-        //rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
-        scoreboardPanel.SetActive(false);
-
-        for (int i = 0; i < playerCount; i++)
-        {
-            PlayerScore playerScore = Instantiate(playerScorePrefab, Vector2.zero, Quaternion.identity);
-            playerScore.InitializeScore(i, startingGold);
-            PlayerScores.Add(playerScore);
-            playerScore.transform.SetParent(playerScoreGroup.transform, false);
-
-        }
-    }
-
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && scoreBoardPopUp == null)
         {
-            //scoreboardPanel.SetActive(true);
-            //rayCastBlocker.enabled = true;
-
-            //this.gameObject.transform.SetAsLastSibling();
             scoreBoardPopUp = PopUpManager.Instance.CreateScoreBoardPopUp();
         }
-        //else
-        //{
-        //    if (scoreBoardPopUp != null)
-        //    {
-        //        Destroy(scoreBoardPopUp.gameObject);
-        //    }
-        //}
 
         if (Input.GetKeyUp(KeyCode.Tab))
         {
-            //scoreboardPanel.SetActive(false);
-            //rayCastBlocker.enabled = false;
             Destroy(scoreBoardPopUp.gameObject);
         }
     }
@@ -79,36 +29,45 @@ public class ScoreBoard : NetworkBehaviour
     [ObserversRpc]
     public void ObserversUpdatePlayerGold(int playerID, int gold)
     {
-        //PlayerScores[playerID].UpdatePlayerGold(gold);
+        if (scoreBoardPopUp != null)
+        {
+            scoreBoardPopUp.UpdatePlayerGold(playerID, gold);
+        }
     }
 
     [ObserversRpc]
-    public void UpdateUpdatePlayerReputation(int playerID, int reputation)
+    public void ObserversUpdatePlayerReputation(int playerID, int reputation)
     {
-        //PlayerScores[playerID].UpdatePlayerReputation(reputation);
+        if (scoreBoardPopUp != null)
+        {
+            scoreBoardPopUp.UpdatePlayerReputation(playerID, reputation);
+        }
     }
 
     [ObserversRpc]
     public void ObserversUpdateTurnMarker(int playerID)
     {
-        //for (int i = 0; i < PlayerScores.Count; i++)
-        //{
-        //    PlayerScores[i].TurnMarker.SetActive(i == playerID);
-        //}
+        if (scoreBoardPopUp != null)
+        {
+            scoreBoardPopUp.UpdatePlayerTurnMarker(playerID);
+        }
     }
 
     [ObserversRpc]
     public void ObserversEnableAllTurnMarkers()
     {
-        //for (int i = 0; i < PlayerScores.Count; i++)
-        //{
-        //    PlayerScores[i].TurnMarker.SetActive(true);
-        //}
+        if (scoreBoardPopUp != null)
+        {
+            scoreBoardPopUp.EnableAllTurnMarkers();
+        }
     }
 
     [ObserversRpc]
     public void ObserversToggleTurnMarker(int playerID, bool value)
     {
-        //PlayerScores[playerID].TurnMarker.SetActive(value);
+        if (scoreBoardPopUp != null)
+        {
+            scoreBoardPopUp.ToggleTurnMarker(playerID, value);
+        }
     }
 }

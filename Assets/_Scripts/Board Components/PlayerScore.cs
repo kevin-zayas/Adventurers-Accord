@@ -17,12 +17,12 @@ public class PlayerScore : MonoBehaviour
         reputationText.text = $"{reputation} Rep";
     }
 
-    public void UpdatePlayerGold(int gold)
+    public void UpdateGold(int gold)
     {
         goldText.text = $"{gold} GP";
     }
 
-    public void UpdatePlayerReputation(int reputation)
+    public void UpdateReputation(int reputation)
     {
         reputationText.text = $"{reputation} Rep";
     }

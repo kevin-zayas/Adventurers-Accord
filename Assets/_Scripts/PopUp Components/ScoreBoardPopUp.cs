@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScoreBoardPopUp : PopUp
 {
-    private List<PlayerScore> PlayerScores = new();
+    private readonly List<PlayerScore> PlayerScores = new();
     [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject playerScoreGroup;
 
@@ -21,7 +21,6 @@ public class ScoreBoardPopUp : PopUp
 
         //RectTransform rectTransform = this.GetComponent<RectTransform>();
         //rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
-        //scoreboardPanel.SetActive(false);
 
         for (int i = 0; i < playerCount; i++)
         {
@@ -34,19 +33,50 @@ public class ScoreBoardPopUp : PopUp
             PlayerScores.Add(playerScore);
             playerScore.transform.SetParent(playerScoreGroup.transform, false);
 
-            InitializeTurnMarkers(i, playerScore, player);
+            UpdateTurnMarkers(i, player);
         }
     }
 
-    protected void InitializeTurnMarkers(int playerIndex, PlayerScore playerScore, Player player)
+    protected void UpdateTurnMarkers(int playerIndex, Player player)
     {
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
         {
-            playerScore.TurnMarker.SetActive(!GameManager.Instance.PlayerEndRoundStatus[playerIndex]);
+            PlayerScores[playerIndex].TurnMarker.SetActive(!GameManager.Instance.PlayerEndRoundStatus[playerIndex]);
         }
         else if (player.IsPlayerTurn.Value)
         {
-            playerScore.TurnMarker.SetActive(true);
+            PlayerScores[playerIndex].TurnMarker.SetActive(true);
         }
+    }
+
+    public void UpdatePlayerGold(int playerIndex, int gold)
+    {
+        PlayerScores[playerIndex].UpdateGold(gold);
+    }
+
+    public void UpdatePlayerReputation(int playerIndex, int reputation)
+    {
+        PlayerScores[playerIndex].UpdateReputation(reputation);
+    }
+
+    public void UpdatePlayerTurnMarker(int playerIndex)
+    {
+        for (int i = 0; i < PlayerScores.Count; i++)
+        {
+            PlayerScores[i].TurnMarker.SetActive(i == playerIndex);
+        }
+    }
+
+    public void EnableAllTurnMarkers()
+    {
+        for (int i = 0; i < PlayerScores.Count; i++)
+        {
+            PlayerScores[i].TurnMarker.SetActive(true);
+        }
+    }
+
+    public void ToggleTurnMarker(int playerIndex, bool value)
+    {
+        PlayerScores[playerIndex].TurnMarker.SetActive(value);
     }
 }
