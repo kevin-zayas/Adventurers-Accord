@@ -7,11 +7,25 @@ public class ScoreBoardPopUp : PopUp
     private readonly List<PlayerScore> PlayerScores = new();
     [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject playerScoreGroup;
+    [SerializeField] private GameObject rosterGroup;
+    [SerializeField] private Player localPlayer;
 
     protected override void Start()
     {
+        //InitializeScoreBoard();
+        //base.Start();
+    }
+
+    public void Initialize()
+    {
         InitializeScoreBoard();
+        PopulateGuildRoster();
         base.Start();
+    }
+
+    public void SetLocalPlayer(Player player)
+    {
+        localPlayer = player;
     }
 
     protected void InitializeScoreBoard()
@@ -46,6 +60,25 @@ public class ScoreBoardPopUp : PopUp
         else if (player.IsPlayerTurn.Value)
         {
             PlayerScores[playerIndex].TurnMarker.SetActive(true);
+        }
+    }
+
+    protected void PopulateGuildRoster()
+    {
+        //Player player = GameManager.Instance.Players[LocalConnection.ClientId];
+        print("Local Player ID: " + localPlayer.PlayerID.Value);
+
+        // foreach gameobject in player.controlled hand's children if it of type adventurerCard, print name
+        foreach (Transform child in localPlayer.controlledHand.Value.transform)
+        {
+            print(child.name);
+            if (child.GetComponent<AdventurerCard>() != null)
+            {
+                print(child.GetComponent<AdventurerCard>().CardName.Value);
+                //print(child.GetComponent<AdventurerCard>().AdventurerName);
+                GameObject newCardObject = Instantiate(child.gameObject, Vector2.zero, Quaternion.identity);
+                newCardObject.transform.SetParent(rosterGroup.transform, false);
+            }
         }
     }
 

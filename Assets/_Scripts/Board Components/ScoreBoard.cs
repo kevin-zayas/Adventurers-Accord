@@ -1,7 +1,5 @@
 using FishNet.Object;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
 {
@@ -18,12 +16,20 @@ public class ScoreBoard : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Tab) && scoreBoardPopUp == null)
         {
             scoreBoardPopUp = PopUpManager.Instance.CreateScoreBoardPopUp();
+            scoreBoardPopUp.SetLocalPlayer(GetLocalPlayer());
+            scoreBoardPopUp.Initialize();
         }
 
         if (Input.GetKeyUp(KeyCode.Tab))
         {
             Destroy(scoreBoardPopUp.gameObject);
         }
+    }
+
+    public Player GetLocalPlayer()
+    {
+        print("Local Connection ID: " + LocalConnection.ClientId);
+        return GameManager.Instance.Players[LocalConnection.ClientId];
     }
 
     [ObserversRpc]

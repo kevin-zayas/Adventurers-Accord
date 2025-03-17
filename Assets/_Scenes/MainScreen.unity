@@ -291,9 +291,9 @@ RectTransform:
   - {fileID: 1386035227}
   m_Father: {fileID: 1810738369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -360.2667}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &101604206
@@ -2335,7 +2335,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &438887117
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7679,9 +7679,9 @@ RectTransform:
   - {fileID: 105661247}
   m_Father: {fileID: 1810738369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -89.73334}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1939308115
@@ -7800,9 +7800,9 @@ RectTransform:
   - {fileID: 1618858857}
   m_Father: {fileID: 1810738369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -225.00002}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1944518627
@@ -9243,10 +9243,6 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 592086893}
   _networkObjectCache: {fileID: 5079575838375627224}
-  playerScorePrefab: {fileID: 2449725273452969227, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
-  scoreboardPanel: {fileID: 0}
-  playerScoreGroup: {fileID: 0}
-  rayCastBlocker: {fileID: 4689327777548072319}
 --- !u!114 &3194752889964937013 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
