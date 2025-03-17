@@ -122,6 +122,40 @@ public abstract class Card : NetworkBehaviour
     }
 
     /// <summary>
+    /// Copies the card data from the source card to the newly spawned card.
+    /// </summary>
+    /// <param name="connection">The network connection of the client receiving the card data.</param>
+    /// <param name="newCardObject">The new card object to receive the copied data.</param>
+    /// <param name="sourceCardObject">The source card object to copy data from.</param>
+    public void CopyCardData(NetworkConnection connection, GameObject newCardObject, GameObject sourceCardObject)
+    {
+        Card originalCard;
+        Card newCard = newCardObject.GetComponent<Card>();
+        GameObject referenceCardObject = sourceCardObject.GetComponent<SpotlightCard>().referenceCard;
+
+        // If there is a reference card, copy its data, otherwise use sourceCard
+        originalCard = referenceCardObject ? referenceCardObject.GetComponent<Card>() : sourceCardObject.GetComponent<Card>();
+        newCardObject.GetComponent<SpotlightCard>().referenceCard = originalCard.gameObject;
+
+        // Copy data to a new Item Card
+        if (newCard is ItemCard itemCard && originalCard is ItemCardHeader itemCardHeader)
+        {
+            itemCard.TargetCopyItemHeaderData(connection, itemCardHeader);
+        }
+        else
+        {
+            newCard.TargetCopyCardData(connection, originalCard);
+        }
+
+        // Copy data into Adventurer Card's Item Header
+        if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem.Value)
+        {
+            adventurerCard.Item.Value.TargetCopyCardData(connection, originalCard);
+            adventurerCard.Item.Value.GetComponent<SpotlightCard>().referenceCard = originalCard.GetComponent<AdventurerCard>().Item.Value.gameObject;
+        }
+    }
+
+    /// <summary>
     /// Updates the card's visual representation on all clients based on the provided card data.
     /// </summary>
     /// <param name="cardData">The card data to load into the visual elements.</param>

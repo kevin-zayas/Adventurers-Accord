@@ -1,3 +1,4 @@
+using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
@@ -15,21 +16,27 @@ public class ScoreBoard : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab) && scoreBoardPopUp == null)
         {
-            scoreBoardPopUp = PopUpManager.Instance.CreateScoreBoardPopUp();
-            scoreBoardPopUp.SetLocalPlayer(GetLocalPlayer());
-            scoreBoardPopUp.Initialize();
+            ServerCreateScoreBoardPopUp(LocalConnection);
         }
 
         if (Input.GetKeyUp(KeyCode.Tab))
         {
-            Destroy(scoreBoardPopUp.gameObject);
+            ServerCloseScoreBoardPopUp();
         }
     }
 
-    public Player GetLocalPlayer()
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerCreateScoreBoardPopUp(NetworkConnection connection)
     {
-        print("Local Connection ID: " + LocalConnection.ClientId);
-        return GameManager.Instance.Players[LocalConnection.ClientId];
+        scoreBoardPopUp = PopUpManager.Instance.CreateScoreBoardPopUp();
+        Spawn(scoreBoardPopUp.gameObject);
+        scoreBoardPopUp.TargetInitializeScoreboard(connection);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerCloseScoreBoardPopUp()
+    {
+        Despawn(scoreBoardPopUp.gameObject);
     }
 
     [ObserversRpc]

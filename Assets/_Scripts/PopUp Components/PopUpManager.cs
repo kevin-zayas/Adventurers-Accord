@@ -110,6 +110,7 @@ public class PopUpManager : NetworkBehaviour
         return settingsPopUp;
     }
 
+    [Server]
     public ScoreBoardPopUp CreateScoreBoardPopUp()
     {
         ScoreBoardPopUp scoreBoardPopUp = Instantiate(ScoreBoardPopUpPrefab);

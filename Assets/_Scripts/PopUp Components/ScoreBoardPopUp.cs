@@ -1,31 +1,28 @@
+using FishNet.Connection;
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreBoardPopUp : PopUp
+public class ScoreBoardPopUp : NetworkBehaviour
 {
     private readonly List<PlayerScore> PlayerScores = new();
     [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject playerScoreGroup;
     [SerializeField] private GameObject rosterGroup;
-    [SerializeField] private Player localPlayer;
 
-    protected override void Start()
-    {
-        //InitializeScoreBoard();
-        //base.Start();
-    }
-
-    public void Initialize()
+    [TargetRpc]
+    public void TargetInitializeScoreboard(NetworkConnection connection)
     {
         InitializeScoreBoard();
-        PopulateGuildRoster();
-        base.Start();
-    }
+        ServerPopulateGuildRoster(connection);
 
-    public void SetLocalPlayer(Player player)
-    {
-        localPlayer = player;
+        transform.SetParent(GameObject.Find("Canvas").transform);
+        transform.localPosition = Vector3.zero;
+
+        RectTransform rt = this.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+        rt.offsetMax = Vector2.zero;
+        rt.offsetMin = Vector2.zero;
     }
 
     protected void InitializeScoreBoard()
@@ -63,23 +60,31 @@ public class ScoreBoardPopUp : PopUp
         }
     }
 
-    protected void PopulateGuildRoster()
+    [ServerRpc(RequireOwnership = false)]
+    protected void ServerPopulateGuildRoster(NetworkConnection connection)
     {
-        //Player player = GameManager.Instance.Players[LocalConnection.ClientId];
-        print("Local Player ID: " + localPlayer.PlayerID.Value);
+        Player player = GameManager.Instance.Players[connection.ClientId];
 
-        // foreach gameobject in player.controlled hand's children if it of type adventurerCard, print name
-        foreach (Transform child in localPlayer.controlledHand.Value.transform)
+        foreach (Transform handCard in player.controlledHand.Value.transform)
         {
-            print(child.name);
-            if (child.GetComponent<AdventurerCard>() != null)
+            if (handCard.GetComponent<AdventurerCard>() != null)
             {
-                print(child.GetComponent<AdventurerCard>().CardName.Value);
-                //print(child.GetComponent<AdventurerCard>().AdventurerName);
-                GameObject newCardObject = Instantiate(child.gameObject, Vector2.zero, Quaternion.identity);
-                newCardObject.transform.SetParent(rosterGroup.transform, false);
+                print(handCard.GetComponent<AdventurerCard>().CardName.Value);
+                GameObject newCardObject = Instantiate(handCard.gameObject, Vector2.zero, Quaternion.identity);
+                Spawn(newCardObject);
+
+                Card newCard = newCardObject.GetComponent<Card>();
+                newCard.CopyCardData(connection, newCardObject, handCard.gameObject);
+
+                TargetSetCardParent(connection, newCardObject);
             }
         }
+    }
+
+    [TargetRpc]
+    private void TargetSetCardParent(NetworkConnection connection, GameObject card)
+    {
+        card.transform.SetParent(rosterGroup.transform, false);
     }
 
     public void UpdatePlayerGold(int playerIndex, int gold)
