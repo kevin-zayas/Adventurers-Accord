@@ -19,24 +19,32 @@ public class ScoreBoard : NetworkBehaviour
             ServerCreateScoreBoardPopUp(LocalConnection);
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.Tab) && scoreBoardPopUp != null)
         {
-            ServerCloseScoreBoardPopUp();
+            ServerCloseScoreBoardPopUp(scoreBoardPopUp);
+            scoreBoardPopUp = null;
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
     private void ServerCreateScoreBoardPopUp(NetworkConnection connection)
     {
-        scoreBoardPopUp = PopUpManager.Instance.CreateScoreBoardPopUp();
-        Spawn(scoreBoardPopUp.gameObject);
-        scoreBoardPopUp.TargetInitializeScoreboard(connection);
+        ScoreBoardPopUp popUp = PopUpManager.Instance.CreateScoreBoardPopUp();
+        Spawn(popUp.gameObject);
+        popUp.TargetInitializeScoreboard(connection);
+        TargetSetScoreBoardPopUp(connection, popUp); 
+    }
+
+    [TargetRpc]
+    private void TargetSetScoreBoardPopUp(NetworkConnection connection, ScoreBoardPopUp scoreBoardPopUp)
+    {
+        this.scoreBoardPopUp = scoreBoardPopUp;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerCloseScoreBoardPopUp()
+    private void ServerCloseScoreBoardPopUp(ScoreBoardPopUp popUp)
     {
-        Despawn(scoreBoardPopUp.gameObject);
+        Despawn(popUp.gameObject);
     }
 
     [ObserversRpc]
