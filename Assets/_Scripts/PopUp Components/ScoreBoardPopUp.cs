@@ -3,6 +3,7 @@ using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreBoardPopUp : NetworkBehaviour
 {
@@ -10,12 +11,20 @@ public class ScoreBoardPopUp : NetworkBehaviour
     [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject playerScoreGroup;
     [SerializeField] private GameObject rosterGroup;
+    [SerializeField] private Button rosterButton;
+
+    private void Start()
+    {
+        rosterButton.onClick.AddListener(() =>
+        {
+            ServerCreateGuildRosterPopUp(LocalConnection);
+        });
+    }
 
     [TargetRpc]
     public void TargetInitializeScoreboard(NetworkConnection connection)
     {
         InitializeScoreBoard();
-        ServerPopulateGuildRoster(connection);
 
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;
@@ -61,30 +70,12 @@ public class ScoreBoardPopUp : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected void ServerPopulateGuildRoster(NetworkConnection connection)
+    private void ServerCreateGuildRosterPopUp(NetworkConnection connection)
     {
-        Player player = GameManager.Instance.Players[connection.ClientId];
-
-        foreach (Transform handCard in player.controlledHand.Value.transform)
-        {
-            if (handCard.GetComponent<AdventurerCard>() != null)
-            {
-                print(handCard.GetComponent<AdventurerCard>().CardName.Value);
-                GameObject newCardObject = Instantiate(handCard.gameObject, Vector2.zero, Quaternion.identity);
-                Spawn(newCardObject);
-
-                Card newCard = newCardObject.GetComponent<Card>();
-                newCard.CopyCardData(connection, newCardObject, handCard.gameObject);
-
-                TargetSetCardParent(connection, newCardObject);
-            }
-        }
-    }
-
-    [TargetRpc]
-    private void TargetSetCardParent(NetworkConnection connection, GameObject card)
-    {
-        card.transform.SetParent(rosterGroup.transform, false);
+        GuildRosterPopUp popup = PopUpManager.Instance.CreateGuildRosterPopUp();
+        Spawn(popup.gameObject);
+        popup.TargetInitializeGuildRoster(connection);
+        Despawn(gameObject);
     }
 
     public void UpdatePlayerGold(int playerIndex, int gold)

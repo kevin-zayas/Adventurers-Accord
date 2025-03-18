@@ -1499,6 +1499,7 @@ MonoBehaviour:
   EquipConfirmationPopUpPrefab: {fileID: 5565733294639535862, guid: a83f728f0329d5c42a393a6b53d24ce7, type: 3}
   SettingsPopUpPrefab: {fileID: 4378698088555545514, guid: 25f44130a4778804a81c07810738a847, type: 3}
   ScoreBoardPopUpPrefab: {fileID: 8825287681894846986, guid: 862d3f03ff368fc4a9df9618d801e924, type: 3}
+  GuildRosterPopUpPrefab: {fileID: 8686305642726650681, guid: ad5639720c5904041880f287c267d455, type: 3}
 --- !u!114 &302781916
 MonoBehaviour:
   m_ObjectHideFlags: 0

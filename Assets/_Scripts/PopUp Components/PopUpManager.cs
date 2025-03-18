@@ -16,6 +16,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
     [SerializeField] ScoreBoardPopUp ScoreBoardPopUpPrefab;
+    [SerializeField] GuildRosterPopUp GuildRosterPopUpPrefab;
 
     public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
     public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
@@ -115,5 +116,12 @@ public class PopUpManager : NetworkBehaviour
     {
         ScoreBoardPopUp scoreBoardPopUp = Instantiate(ScoreBoardPopUpPrefab);
         return scoreBoardPopUp;
+    }
+
+    [Server]
+    public GuildRosterPopUp CreateGuildRosterPopUp()
+    {
+        GuildRosterPopUp guildRosterPopUp = Instantiate(GuildRosterPopUpPrefab);
+        return guildRosterPopUp;
     }
 }
