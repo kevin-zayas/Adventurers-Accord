@@ -200,4 +200,18 @@ public abstract class Card : NetworkBehaviour
     {
         hoverScreen.gameObject.SetActive(toggle);
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is Card otherCard)
+        {
+            return this.GetInstanceID() == otherCard.GetInstanceID();
+        }
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return this.GetInstanceID().GetHashCode();
+    }
 }

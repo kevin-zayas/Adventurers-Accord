@@ -1,7 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +9,8 @@ public class GuildRosterPopUp : NetworkBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private GameObject activeRosterGroup;
     [SerializeField] private GameObject restingRosterGroup;
+
+    [SerializeField] private GameObject cooldownDisplayPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +45,8 @@ public class GuildRosterPopUp : NetworkBehaviour
                 AddCardToRoster(connection, handCard.gameObject, "Active");
             }
         }
-
+        // create a sorted list of the player's cards in the discard pile, sorted by the cards CurrentCooldown.Value
+        player.DiscardPile.Sort((x, y) => x.CurrentCooldown.Value.CompareTo(y.CurrentCooldown.Value));
         foreach (AdventurerCard restingCard in player.DiscardPile)
         {
             AddCardToRoster(connection, restingCard.gameObject, "Resting");
@@ -53,23 +55,31 @@ public class GuildRosterPopUp : NetworkBehaviour
     [Server]
     private void AddCardToRoster(NetworkConnection connection, GameObject rosterCardObject, string rosterGroup)
     {
-        print($"Adding {rosterCardObject.GetComponent<AdventurerCard>().CardName.Value} to {rosterGroup}");
         GameObject newCardObject = Instantiate(rosterCardObject, Vector2.zero, Quaternion.identity);
         Spawn(newCardObject);
 
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.CopyCardData(connection, newCardObject, rosterCardObject);
 
-        TargetSetCardParent(connection, newCardObject, rosterGroup);
+        int currentCooldown = rosterCardObject.GetComponent<AdventurerCard>().CurrentCooldown.Value + 1;
+        TargetSetCardParent(connection, newCardObject, rosterGroup, currentCooldown);
     }
 
 
     [TargetRpc]
-    private void TargetSetCardParent(NetworkConnection connection, GameObject card, string rosterGroup)
+    private void TargetSetCardParent(NetworkConnection connection, GameObject card, string rosterGroup, int currentCooldown)
     {
+        card.transform.localScale = new Vector3(1.25f, 1.25f, 1f);
+
         if (rosterGroup == "Resting")
         {
             card.transform.SetParent(restingRosterGroup.transform, false);
+            GameObject cooldownDisplay = Instantiate(cooldownDisplayPrefab, Vector2.zero, Quaternion.identity);
+            cooldownDisplay.transform.SetParent(card.transform, false);
+
+            TMP_Text displayText = cooldownDisplay.GetComponent<CooldownDisplay>().cooldownText;
+            displayText.text = $"{currentCooldown} Round";
+            if (currentCooldown > 1) displayText.text += "s";
         }
         else
         {

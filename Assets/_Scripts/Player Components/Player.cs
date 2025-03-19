@@ -3,6 +3,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using GameKit.Dependencies.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -22,7 +23,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private Hand handPrefab;
     [SerializeField] private AudioMixer masterMixer;
 
-    [field: SerializeField] public SyncList<AdventurerCard> DiscardPile { get; } = new SyncList<AdventurerCard>();
+    [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
     public override void OnStartServer()
     {

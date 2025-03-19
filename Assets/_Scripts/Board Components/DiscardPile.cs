@@ -1,4 +1,5 @@
 using FishNet.Object;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 
 public class DiscardPile : NetworkBehaviour
@@ -18,7 +19,7 @@ public class DiscardPile : NetworkBehaviour
     {
         card.SetCardParent(gameObject.transform, false);
         player.DiscardPile.Add(card);
-        card.CurrentCoolDown.Value = card.CoolDown.Value;
+        card.CurrentCooldown.Value = card.Cooldown.Value;
     }
 
     [Server]
@@ -26,13 +27,21 @@ public class DiscardPile : NetworkBehaviour
     {
         foreach (Player player in GameManager.Instance.Players)
         {
+            List<AdventurerCard> cardsToRemove = new List<AdventurerCard>();
+
             foreach (AdventurerCard card in player.DiscardPile)
             {
-                if (card.CurrentCoolDown.Value > 0) card.CurrentCoolDown.Value--;
+                if (card.CurrentCooldown.Value > 0) card.CurrentCooldown.Value--;
                 else
                 {
                     card.SetCardParent(player.controlledHand.Value.transform, false);
+                    cardsToRemove.Add(card);
                 }
+            }
+
+            foreach (AdventurerCard card in cardsToRemove)
+            {
+                player.DiscardPile.Remove(card);
             }
         }
         //GameManager.Instance.EndPhase();
