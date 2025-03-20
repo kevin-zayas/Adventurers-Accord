@@ -1500,6 +1500,7 @@ MonoBehaviour:
   SettingsPopUpPrefab: {fileID: 4378698088555545514, guid: 25f44130a4778804a81c07810738a847, type: 3}
   ScoreBoardPopUpPrefab: {fileID: 8825287681894846986, guid: 862d3f03ff368fc4a9df9618d801e924, type: 3}
   GuildRosterPopUpPrefab: {fileID: 8686305642726650681, guid: ad5639720c5904041880f287c267d455, type: 3}
+  RivalGuildRosterPopUpPrefab: {fileID: 8686305642726650681, guid: 3988ceb8677b4c44e8e6cbc1608e0095, type: 3}
 --- !u!114 &302781916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7591,7 +7592,7 @@ MonoBehaviour:
     NetworkBehaviour: {fileID: 0}
     _value: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 10
+  <StartingGold>k__BackingField: 100
   <StartingLoot>k__BackingField: 0
   <ReputationGoal>k__BackingField: 20
   <PlayerSkipTurnStatus>k__BackingField: 

@@ -17,6 +17,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
     [SerializeField] ScoreBoardPopUp ScoreBoardPopUpPrefab;
     [SerializeField] GuildRosterPopUp GuildRosterPopUpPrefab;
+    [SerializeField] GuildRosterPopUp RivalGuildRosterPopUpPrefab;
 
     public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
     public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
@@ -119,9 +120,13 @@ public class PopUpManager : NetworkBehaviour
     }
 
     [Server]
-    public GuildRosterPopUp CreateGuildRosterPopUp()
+    public GuildRosterPopUp CreateGuildRosterPopUp(bool isViewingRival)
     {
-        GuildRosterPopUp guildRosterPopUp = Instantiate(GuildRosterPopUpPrefab);
+        GuildRosterPopUp guildRosterPopUp;
+
+        if (isViewingRival) guildRosterPopUp = Instantiate(RivalGuildRosterPopUpPrefab);
+        else guildRosterPopUp = Instantiate(GuildRosterPopUpPrefab);
+
         return guildRosterPopUp;
     }
 }

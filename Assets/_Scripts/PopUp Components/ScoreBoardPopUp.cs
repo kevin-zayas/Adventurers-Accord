@@ -11,15 +11,6 @@ public class ScoreBoardPopUp : NetworkBehaviour
     [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject playerScoreGroup;
     [SerializeField] private GameObject rosterGroup;
-    [SerializeField] private Button rosterButton;
-
-    private void Start()
-    {
-        rosterButton.onClick.AddListener(() =>
-        {
-            ServerCreateGuildRosterPopUp(LocalConnection);
-        });
-    }
 
     [TargetRpc]
     public void TargetInitializeScoreboard(NetworkConnection connection)
@@ -53,6 +44,14 @@ public class ScoreBoardPopUp : NetworkBehaviour
             PlayerScores.Add(playerScore);
             playerScore.transform.SetParent(playerScoreGroup.transform, false);
 
+            Button rosterButton = playerScore.GetRosterButton();
+            bool isViewingRival = LocalConnection.ClientId != i;
+
+            rosterButton.onClick.AddListener(() =>
+            {
+                ServerCreateGuildRosterPopUp(LocalConnection, player, isViewingRival);
+            });
+
             UpdateTurnMarkers(i, player);
         }
     }
@@ -70,11 +69,11 @@ public class ScoreBoardPopUp : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerCreateGuildRosterPopUp(NetworkConnection connection)
+    private void ServerCreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival)
     {
-        GuildRosterPopUp popup = PopUpManager.Instance.CreateGuildRosterPopUp();
+        GuildRosterPopUp popup = PopUpManager.Instance.CreateGuildRosterPopUp(isViewingRival);
         Spawn(popup.gameObject);
-        popup.TargetInitializeGuildRoster(connection);
+        popup.TargetInitializeGuildRoster(connection, player, isViewingRival);
         Despawn(gameObject);
     }
 

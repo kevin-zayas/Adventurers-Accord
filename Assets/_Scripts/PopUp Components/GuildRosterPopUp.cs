@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +22,10 @@ public class GuildRosterPopUp : NetworkBehaviour
     }
 
     [TargetRpc]
-    public void TargetInitializeGuildRoster(NetworkConnection connection)
+    public void TargetInitializeGuildRoster(NetworkConnection connection, Player player, bool isViewingRival)
     {
-        ServerPopulateGuildRoster(connection);
+        if (isViewingRival) ServerPopulateRivalGuildRoster(connection, player);
+        else ServerPopulateGuildRoster(connection, player);
 
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;
@@ -34,10 +36,8 @@ public class GuildRosterPopUp : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected void ServerPopulateGuildRoster(NetworkConnection connection)
+    protected void ServerPopulateGuildRoster(NetworkConnection connection, Player player)
     {
-        Player player = GameManager.Instance.Players[connection.ClientId];
-
         foreach (Transform handCard in player.controlledHand.Value.transform)
         {
             if (handCard.GetComponent<AdventurerCard>() != null)
@@ -45,13 +45,40 @@ public class GuildRosterPopUp : NetworkBehaviour
                 AddCardToRoster(connection, handCard.gameObject, "Active");
             }
         }
-        // create a sorted list of the player's cards in the discard pile, sorted by the cards CurrentCooldown.Value
+        // sort the player's discard pile by current cooldown
         player.DiscardPile.Sort((x, y) => x.CurrentCooldown.Value.CompareTo(y.CurrentCooldown.Value));
+
         foreach (AdventurerCard restingCard in player.DiscardPile)
         {
             AddCardToRoster(connection, restingCard.gameObject, "Resting");
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void ServerPopulateRivalGuildRoster(NetworkConnection connection, Player player)
+    {
+        List<AdventurerCard> rivalRoster = new List<AdventurerCard>();
+
+        foreach (Transform handCard in player.controlledHand.Value.transform)
+        {
+            if (handCard.GetComponent<AdventurerCard>() != null)
+            {
+                rivalRoster.Add(handCard.GetComponent<AdventurerCard>());
+            }
+        }
+        foreach (AdventurerCard restingCard in player.DiscardPile)
+        {
+            rivalRoster.Add(restingCard);
+        }
+        // sort the list of rival cards alphabetically by card name
+        rivalRoster.Sort((x, y) => x.CardName.Value.CompareTo(y.CardName.Value));
+
+        foreach (AdventurerCard rivalCard in rivalRoster)
+        {
+            AddCardToRoster(connection, rivalCard.gameObject, "Active");
+        }
+    }
+
     [Server]
     private void AddCardToRoster(NetworkConnection connection, GameObject rosterCardObject, string rosterGroup)
     {
