@@ -103,6 +103,7 @@ public class GuildRosterPopUp : NetworkBehaviour
             card.transform.SetParent(restingRosterGroup.transform, false);
             GameObject cooldownDisplay = Instantiate(cooldownDisplayPrefab, Vector2.zero, Quaternion.identity);
             cooldownDisplay.transform.SetParent(card.transform, false);
+            cooldownDisplay.transform.localPosition = new Vector3(0, -100, 0);
 
             TMP_Text displayText = cooldownDisplay.GetComponent<CooldownDisplay>().cooldownText;
             displayText.text = $"{currentCooldown} Round";
