@@ -45,13 +45,19 @@ public class GuildRosterPopUp : NetworkBehaviour
                 AddCardToRoster(connection, handCard.gameObject, "Active");
             }
         }
+
         // sort the player's discard pile by current cooldown
         player.DiscardPile.Sort((x, y) => x.CurrentCooldown.Value.CompareTo(y.CurrentCooldown.Value));
 
         foreach (AdventurerCard restingCard in player.DiscardPile)
         {
             AddCardToRoster(connection, restingCard.gameObject, "Resting");
+            
         }
+
+        // disable the roster group if there are no cards in it
+        if (player.controlledHand.Value.transform.childCount == 0) TargetDisableRoster(connection, "Active");
+        if (player.DiscardPile.Count == 0) TargetDisableRoster(connection, "Resting");
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -90,6 +96,15 @@ public class GuildRosterPopUp : NetworkBehaviour
 
         int currentCooldown = rosterCardObject.GetComponent<AdventurerCard>().CurrentCooldown.Value + 1;
         TargetSetCardParent(connection, newCardObject, rosterGroup, currentCooldown);
+
+        if (rosterGroup == "Active")
+        {
+            newCardObject.transform.SetParent(activeRosterGroup.transform, false);
+        }
+        else
+        {
+            newCardObject.transform.SetParent(restingRosterGroup.transform, false);
+        }
     }
 
 
@@ -112,6 +127,19 @@ public class GuildRosterPopUp : NetworkBehaviour
         else
         {
             card.transform.SetParent(activeRosterGroup.transform, false);
+        }
+    }
+
+    [TargetRpc]
+    private void TargetDisableRoster(NetworkConnection connection, string rosterGroup)
+    {
+        if (rosterGroup == "Active")
+        {
+            activeRosterGroup.SetActive(false);
+        }
+        else
+        {
+            restingRosterGroup.SetActive(false);
         }
     }
 

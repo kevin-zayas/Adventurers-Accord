@@ -198,6 +198,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
             ServerSpawnSpotlightDescription(connection, newCardObject, originalCardObject);
         }
 
+        DisableCooldownDisplay(newCardObject);
         RectTransform spotlightTransform = newCardObject.GetComponent<RectTransform>();
         spotlightTransform.localScale = new Vector2(3f, 3f);
         newCardObject.transform.SetParent(canvas.transform, true);
@@ -268,6 +269,7 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         }
 
         card.GetComponent<SpotlightCard>().isEnlargedCard = true;
+        DisableCooldownDisplay(card);
 
         RectTransform spotlightTransform = card.GetComponent<RectTransform>();
         spotlightTransform.anchorMax = new Vector2(0.5f, 0.5f);         //Set anchor to middle of card to keep consistent across use cases
@@ -297,6 +299,19 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         float y = Mathf.Clamp(position.y, -canvasHeight + rt.sizeDelta.y, canvasHeight - rt.sizeDelta.y);
 
         rt.anchoredPosition = new Vector2(x, y);
+    }
+
+    private void DisableCooldownDisplay(GameObject card)
+    {
+        //if card is an adventurer card, check for cooldown display gameobject and disable it
+        if (card.GetComponent<AdventurerCard>())
+        {
+            Transform cooldownDisplay = card.transform.Find("CooldownDisplay(Clone)");
+            if (cooldownDisplay)
+            {
+                cooldownDisplay.gameObject.SetActive(false);
+            }
+        }
     }
 
     /// <summary>

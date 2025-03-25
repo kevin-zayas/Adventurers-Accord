@@ -44,7 +44,7 @@ public class ScoreBoard : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void ServerCloseScoreBoardPopUp(ScoreBoardPopUp popUp)
     {
-        Despawn(popUp.gameObject);
+        if (popUp != null) Despawn(popUp.gameObject);
     }
 
     [ObserversRpc]
