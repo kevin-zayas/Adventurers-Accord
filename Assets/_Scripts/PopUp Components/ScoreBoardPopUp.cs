@@ -74,6 +74,7 @@ public class ScoreBoardPopUp : NetworkBehaviour
         GuildRosterPopUp popup = PopUpManager.Instance.CreateGuildRosterPopUp(isViewingRival);
         Spawn(popup.gameObject);
         popup.TargetInitializeGuildRoster(connection, player, isViewingRival);
+        ScoreBoard.Instance.TargetSetGuildRosterPopUp(connection, popup);
         Despawn(gameObject);
     }
 

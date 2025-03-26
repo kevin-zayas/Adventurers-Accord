@@ -6,6 +6,7 @@ public class ScoreBoard : NetworkBehaviour
 {
     public static ScoreBoard Instance;
     private ScoreBoardPopUp scoreBoardPopUp;
+    private GuildRosterPopUp guildRosterPopUp;
 
     private void Awake()
     {
@@ -14,15 +15,20 @@ public class ScoreBoard : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && scoreBoardPopUp == null)
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ServerCreateScoreBoardPopUp(LocalConnection);
-        }
+            if (scoreBoardPopUp == null && guildRosterPopUp == null)
+            {
+                ServerCreateScoreBoardPopUp(LocalConnection);
+            }
+            else
+            {
+                ServerClosePopUp(scoreBoardPopUp);
+                scoreBoardPopUp = null;
 
-        if (Input.GetKeyUp(KeyCode.Tab) && scoreBoardPopUp != null)
-        {
-            ServerCloseScoreBoardPopUp(scoreBoardPopUp);
-            scoreBoardPopUp = null;
+                ServerClosePopUp(guildRosterPopUp);
+                guildRosterPopUp = null;
+            }
         }
     }
 
@@ -41,8 +47,20 @@ public class ScoreBoard : NetworkBehaviour
         this.scoreBoardPopUp = scoreBoardPopUp;
     }
 
+    [TargetRpc]
+    public void TargetSetGuildRosterPopUp(NetworkConnection connection, GuildRosterPopUp guildRosterPopUp)
+    {
+        this.guildRosterPopUp = guildRosterPopUp;
+    }
+
     [ServerRpc(RequireOwnership = false)]
-    private void ServerCloseScoreBoardPopUp(ScoreBoardPopUp popUp)
+    private void ServerClosePopUp(ScoreBoardPopUp popUp)
+    {
+        if (popUp != null) Despawn(popUp.gameObject);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerClosePopUp(GuildRosterPopUp popUp)
     {
         if (popUp != null) Despawn(popUp.gameObject);
     }
