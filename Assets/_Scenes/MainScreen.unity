@@ -7314,12 +7314,34 @@ MonoBehaviour:
   rareItemCards:
   - {fileID: 11400000, guid: 91d71f636d88a4241ae10df222b41ad0, type: 2}
   - {fileID: 11400000, guid: c500df85dafcef347b39c6d2bf104cf4, type: 2}
-  starterHand:
+  fightersGuildRoster:
   - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
+  - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
+  - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
+  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
+  magesGuildRoster:
+  - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
+  - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
+  - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
+  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
+  - {fileID: 11400000, guid: 35040824ad8623247a1620731c46c538, type: 2}
+  thievesGuildRoster:
+  - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
+  - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
   - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
-  - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
+  merchantsGuildRoster:
+  - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
+  - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
+  - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
+  - {fileID: 11400000, guid: 61314a30bcc591a41aaf38ea7aa0e77a, type: 2}
+  - {fileID: 11400000, guid: 0aadd65b8cc426d49842fa3dbddc45b9, type: 2}
+  assassinGuildRoster:
+  - {fileID: 11400000, guid: e5a6e37d13df22d4fa71b3be31d11f16, type: 2}
   - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
+  - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
+  - {fileID: 11400000, guid: bb868b344bfabba4cb01d47e8c15018c, type: 2}
+  - {fileID: 11400000, guid: 7744cb6c95314664dadaef10ad4b3c30, type: 2}
   adventurerCardPrefab: {fileID: 2375407051779204461, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
   itemCardPrefab: {fileID: 3478594553878486444, guid: d611220e5137274468b13454f2fa4969, type: 3}
   spellCardPrefab: {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}

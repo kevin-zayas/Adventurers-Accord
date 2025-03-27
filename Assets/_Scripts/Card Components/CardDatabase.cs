@@ -6,6 +6,15 @@ public class CardDatabase : NetworkBehaviour
 {
     public static CardDatabase Instance { get; private set; }
 
+    public enum GuildType 
+    {
+        FightersGuild,
+        MagesGuild,
+        ThievesGuild,
+        MerchantsGuild,
+        AsassinsGuild
+    }
+
     public List<CardData> tierOneCards = new();
     public List<CardData> tierTwoCards = new();
 
@@ -18,7 +27,11 @@ public class CardDatabase : NetworkBehaviour
 
     public List<CardData> rareItemCards = new();
 
-    public List<CardData> starterHand = new();
+    public List<CardData> fightersGuildRoster = new();
+    public List<CardData> magesGuildRoster = new();
+    public List<CardData> thievesGuildRoster = new();
+    public List<CardData> merchantsGuildRoster = new();
+    public List<CardData> assassinGuildRoster = new();
 
     //make private set
     public AdventurerCard adventurerCardPrefab;
@@ -28,18 +41,19 @@ public class CardDatabase : NetworkBehaviour
 
     public CardData wolfCardData;
 
-    public Dictionary<string,Sprite> SpriteMap { get; private set; }    //make private and use a function to access
-    private Dictionary<string, List<string>> CardKeywordMap;
-    public Dictionary<string, string> KeywordDefinitionMap { get; private set; }
+    public Dictionary<string, Sprite> SpriteMap { get; private set; } = new();   //make private and use a function to access
+    private readonly Dictionary<string, List<string>> CardKeywordMap = new();
+    public Dictionary<string, string> KeywordDefinitionMap { get; private set; } = new();
+    public Dictionary<GuildType, List<CardData>> GuildRosterMap { get; private set; } = new();
 
 
 
     private void Awake()
     {
         Instance = this;
-        SpriteMap = new();
-        CardKeywordMap = new();
-        KeywordDefinitionMap = new();
+        //SpriteMap = new();
+        //CardKeywordMap = new();
+        //KeywordDefinitionMap = new();
     }
 
     // Start is called before the first frame update
@@ -48,6 +62,7 @@ public class CardDatabase : NetworkBehaviour
         InitializeCardKeywordMap();
         InitializeKeywordDefinitionMap();
         InitializeSpriteMap();
+        InitializeGuildRosters();
     }
 
     private void InitializeCardKeywordMap()
@@ -137,6 +152,15 @@ public class CardDatabase : NetworkBehaviour
         {
             SpriteMap.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
         }
+    }
+
+    private void InitializeGuildRosters() 
+    {
+        GuildRosterMap[GuildType.FightersGuild] = fightersGuildRoster;
+        GuildRosterMap[GuildType.MagesGuild] = magesGuildRoster;
+        GuildRosterMap[GuildType.ThievesGuild] = thievesGuildRoster;
+        GuildRosterMap[GuildType.MerchantsGuild] = merchantsGuildRoster;
+        GuildRosterMap[GuildType.AsassinsGuild] = assassinGuildRoster;
     }
 
     private readonly string poisonKeywordText = "Decreases the <color=#6C00D7>Power</color> of a targeted Adventurer by a specified amount until the Quest is resolved. This value cannot be decreased below 0.";

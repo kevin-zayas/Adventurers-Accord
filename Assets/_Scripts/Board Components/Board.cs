@@ -310,15 +310,30 @@ public class Board : NetworkBehaviour
     {
         foreach (Player player in GameManager.Instance.Players)
         {
-            foreach (CardData cardData in CardDatabase.Instance.starterHand)
+            foreach (CardData cardData in CardDatabase.Instance.GuildRosterMap[player.GuildType])
             {
-                AdventurerCard card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
-                Spawn(card.gameObject);
-
-                card.LoadCardData(cardData);
-                card.SetCardOwner(player);
-                card.SetCardParent(player.controlledHand.Value.transform, false);
+                SpawnCard(cardData, player);
             }
         }
+    }
+
+    [Server]
+    private Card SpawnCard(CardData cardData, Player player)
+    {
+        Card card;
+        Card cardPrefab = cardData.CardType switch
+        {
+            "Magic Item" => CardDatabase.Instance.itemCardPrefab,
+            "Magic Spell" => CardDatabase.Instance.spellCardPrefab,
+            _ => CardDatabase.Instance.adventurerCardPrefab,
+        };
+        card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);
+
+        Spawn(card.gameObject);
+        card.LoadCardData(cardData);
+        card.ServerSetCardOwner(player);
+        card.SetCardParent(player.controlledHand.Value.transform, false);
+
+        return card;
     }
 }

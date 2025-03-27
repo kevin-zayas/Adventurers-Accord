@@ -25,6 +25,8 @@ public class Player : NetworkBehaviour
 
     [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
+    public CardDatabase.GuildType GuildType;
+
     public override void OnStartServer()
     {
         base.OnStartServer();

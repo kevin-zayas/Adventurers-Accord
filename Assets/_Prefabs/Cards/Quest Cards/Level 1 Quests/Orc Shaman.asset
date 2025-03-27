@@ -20,13 +20,13 @@ MonoBehaviour:
   <Cost>k__BackingField: 0
   <CardDescription>k__BackingField: 
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: 
+  <CardType>k__BackingField: Quest
   <AbilityName>k__BackingField: 
   <CoolDown>k__BackingField: 0
   <GoldReward>k__BackingField: 4
   <ReputationReward>k__BackingField: 2
   <LootReward>k__BackingField: 1
-  <MaxAdventurerCount>k__BackingField: 4
+  <MaxAdventurerCount>k__BackingField: 3
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
