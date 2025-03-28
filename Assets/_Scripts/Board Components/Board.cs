@@ -83,12 +83,7 @@ public class Board : NetworkBehaviour
         List<CardData> deck = slotIndex < 4 ? T1Deck : T2Deck;
         CardData randomCardData = deck[Random.Range(0, deck.Count)];
 
-        AdventurerCard card = Instantiate(CardDatabase.Instance.adventurerCardPrefab, Vector2.zero, Quaternion.identity);
-        Spawn(card.gameObject);
-
-        card.LoadCardData(randomCardData);
-        card.SetCardParent(DraftCardSlots[slotIndex].transform, false);
-
+        SpawnCard(randomCardData, DraftCardSlots[slotIndex].transform);
         deck.Remove(randomCardData);
         ObserversUpdateDeckTrackers(T1Deck.Count, T2Deck.Count);
     }
@@ -100,17 +95,9 @@ public class Board : NetworkBehaviour
     [Server]
     private void DrawShopLootCard(int slotIndex)
     {
-        Card lootCard;
-        Card lootCardPrefab;
         CardData randomLootData = ShopLootDeck[Random.Range(0, ShopLootDeck.Count)];
         
-        if (randomLootData.CardType == "Magic Item") lootCardPrefab = CardDatabase.Instance.itemCardPrefab;
-        else lootCardPrefab = CardDatabase.Instance.spellCardPrefab;
-
-        lootCard = Instantiate(lootCardPrefab, Vector2.zero, Quaternion.identity);
-        Spawn(lootCard.gameObject);
-        lootCard.LoadCardData(randomLootData);
-        lootCard.SetCardParent(DraftCardSlots[slotIndex].transform, false);
+        Card lootCard = SpawnCard(randomLootData, DraftCardSlots[slotIndex].transform);
         ObserversSetCardLayer(lootCard.gameObject);
 
         ShopLootDeck.Remove(randomLootData);
@@ -288,20 +275,7 @@ public class Board : NetworkBehaviour
         for (int i = 0; i < lootAmount; i++)
         {
             CardData randomLootData = RewardLootDeck[Random.Range(0, RewardLootDeck.Count)];
-
-            Card lootCard;
-            Card lootCardPrefab;
-            if (randomLootData.CardType == "Magic Item") lootCardPrefab = CardDatabase.Instance.itemCardPrefab;
-            else lootCardPrefab = CardDatabase.Instance.spellCardPrefab;
-
-            lootCard = Instantiate(lootCardPrefab, Vector2.zero, Quaternion.identity);
-
-            Spawn(lootCard.gameObject);
-            lootCard.LoadCardData(randomLootData);
-            lootCard.SetCardOwner(player);
-            lootCard.SetCardParent(player.controlledHand.Value.transform, false);
-
-            //RewardLootDeck.Remove(randomLootData);
+            SpawnCard(randomLootData, player.controlledHand.Value.transform, player);
         }
     }
 
@@ -312,27 +286,26 @@ public class Board : NetworkBehaviour
         {
             foreach (CardData cardData in CardDatabase.Instance.GuildRosterMap[player.GuildType])
             {
-                SpawnCard(cardData, player);
+                SpawnCard(cardData, player.controlledHand.Value.transform, player);
             }
         }
     }
 
     [Server]
-    private Card SpawnCard(CardData cardData, Player player)
+    private Card SpawnCard(CardData cardData, Transform transform, Player player = null)
     {
-        Card card;
         Card cardPrefab = cardData.CardType switch
         {
             "Magic Item" => CardDatabase.Instance.itemCardPrefab,
             "Magic Spell" => CardDatabase.Instance.spellCardPrefab,
             _ => CardDatabase.Instance.adventurerCardPrefab,
         };
-        card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);
+        Card card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);
 
         Spawn(card.gameObject);
         card.LoadCardData(cardData);
-        card.ServerSetCardOwner(player);
-        card.SetCardParent(player.controlledHand.Value.transform, false);
+        if (player != null) card.SetCardOwner(player);
+        card.SetCardParent(transform, false);
 
         return card;
     }

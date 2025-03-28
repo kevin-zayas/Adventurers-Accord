@@ -86,7 +86,7 @@ public abstract class Card : NetworkBehaviour
     /// Server-side RPC to set the card's owner and update related properties.
     /// </summary>
     /// <param name="owningPlayer">The player who will own the card.</param>
-    [ServerRpc(RequireOwnership = false), Server]
+    [ServerRpc(RequireOwnership = false)]
     public virtual void ServerSetCardOwner(Player owningPlayer)
     {
         ControllingPlayer.Value = owningPlayer;
