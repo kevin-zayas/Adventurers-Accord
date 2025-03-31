@@ -304,7 +304,17 @@ public class QuestLocation : NetworkBehaviour
         {
             if (player.isThievesGuild)
             {
-                print($"stolen item count: {player.GuildBonusTracker[QuestCardSlot.SlotIndex]["didStealItem"]}");
+                if (Status == QuestStatus.Complete)
+                {
+                    player.ServerChangePlayerGold(1);
+                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - quest complete");
+                }
+                if (player.GuildBonusTracker[QuestCardSlot.SlotIndex]["didStealItem"] > 0)
+                {
+                    player.ServerChangePlayerGold(1);
+                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestCardSlot.SlotIndex]["didStealItem"]}");
+                }
+                
             }
         }
     }
