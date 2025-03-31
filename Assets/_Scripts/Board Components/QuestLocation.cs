@@ -22,7 +22,7 @@ public class QuestLocation : NetworkBehaviour
 
     private QuestCard previewQuestCard;
 
-    [field: SerializeField] private CardSlot questCardSlot;
+    [field: SerializeField] public CardSlot QuestCardSlot { get; private set; }
 
     public readonly SyncVar<QuestCard> QuestCard = new();
 
@@ -94,7 +94,7 @@ public class QuestLocation : NetworkBehaviour
         Status = QuestStatus.Default;
         CreatePreviewCard(questCard);
 
-        questCard.SetCardParent(questCardSlot.transform, false);
+        questCard.SetCardParent(QuestCardSlot.transform, false);
         questCard.ObserversSetCardScale(new Vector2(1.15f, 1.15f));
         QuestCard.Value = questCard;
 
@@ -117,7 +117,7 @@ public class QuestLocation : NetworkBehaviour
     {
         Despawn(previewQuestCard.gameObject);
         Despawn(QuestCard.Value.gameObject);
-        Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
+        Board.Instance.DrawQuestCard(QuestCardSlot.SlotIndex);
     }
 
     [Server]
@@ -167,8 +167,9 @@ public class QuestLocation : NetworkBehaviour
             Status = QuestStatus.Complete;
             QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Complete!", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
             CalculateQuestContributions(true);
+            CheckGuildBonus();
             DistributeBardBonus();
-
+            
             ReplaceQuestCard();
         }
         else
@@ -294,6 +295,18 @@ public class QuestLocation : NetworkBehaviour
         print($"Player {player.PlayerID.Value} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
         QuestSummary.ObserversSetPlayerSummary(player.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, goldReward, reputationReward, lootReward);
 
+    }
+
+    [Server]
+    private void CheckGuildBonus()
+    {
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            if (player.isThievesGuild)
+            {
+                print($"stolen item count: {player.GuildBonusTracker[QuestCardSlot.SlotIndex]["didStealItem"]}");
+            }
+        }
     }
 
     [Server]

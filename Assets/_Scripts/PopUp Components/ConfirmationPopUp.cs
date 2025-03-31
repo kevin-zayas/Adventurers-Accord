@@ -86,7 +86,7 @@ public class ConfirmationPopUp : PopUp
 
             if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
             {
-                GameManager.Instance.RefreshEndRoundStatus();
+                GameManager.Instance.ServerRefreshEndRoundStatus();
             }
 
             Destroy(gameObject);

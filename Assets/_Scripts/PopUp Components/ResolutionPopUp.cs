@@ -1,8 +1,4 @@
-using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -102,7 +98,13 @@ public class ResolutionPopUp : NetworkBehaviour
 
         rightButton.onClick.AddListener(() =>
         {
-            if (ResolutionType == "Rogue") card.ServerDisableItem("Stolen");
+            if (ResolutionType == "Rogue")
+            {
+                //once guild type is set locally, add is thieves guild check here
+                int questSlot = QuestLocation.QuestCardSlot.SlotIndex;
+                ServerUpdateThievesGuildTracker(LocalConnection.ClientId, questSlot);
+                card.ServerDisableItem("Stolen");
+            } 
             else if (ResolutionType == "Assassin")
             {
                 if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value == 0) card.ServerChangePhysicalPower(-2);
@@ -201,6 +203,18 @@ public class ResolutionPopUp : NetworkBehaviour
         confirmSelectionText = AssassinConfirmSelectionText;
         confirmCloseText = AssassinConfirmCloseText;
         buttonText = AssassinButtonText;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerUpdateThievesGuildTracker(int playerID, int questSlot)
+    {
+        Player player = GameManager.Instance.Players[playerID];
+        if (!player.isThievesGuild) return;
+
+        print($"Player {playerID} - isThieves Guild: {player.isThievesGuild}");
+        print($"Quest Slot - {questSlot}");
+
+        player.GuildBonusTracker[questSlot]["didStealItem"]++;
     }
 
 }

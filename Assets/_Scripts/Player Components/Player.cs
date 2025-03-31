@@ -26,6 +26,13 @@ public class Player : NetworkBehaviour
     [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
     public CardDatabase.GuildType GuildType;
+    public Dictionary<int, Dictionary<string, int>> GuildBonusTracker;
+
+    public bool isThievesGuild;
+    public bool isMagesGuild;
+    public bool isFightersGuild;
+    public bool isMerchantsGuild;
+    public bool isAssassinsGuild;
 
     public override void OnStartServer()
     {
@@ -73,6 +80,71 @@ public class Player : NetworkBehaviour
         ObserversRenderHand(newHandObject);
 
         ObserversUpdateGoldText(this.Gold.Value);
+
+        InitializeGuildBonusTracker();
+        //turn this into a separate function when guild choice is implemented
+        switch (GuildType)
+        {
+            case CardDatabase.GuildType.ThievesGuild:
+                isThievesGuild = true;
+                break;
+            case CardDatabase.GuildType.MagesGuild:
+                isMagesGuild = true;
+                break;
+            case CardDatabase.GuildType.FightersGuild:
+                isFightersGuild = true;
+                break;
+            case CardDatabase.GuildType.MerchantsGuild:
+                isMerchantsGuild = true;
+                break;
+            case CardDatabase.GuildType.AsassinsGuild:
+                isAssassinsGuild = true;
+                break;
+            default:
+                //throw an exception stating that the Guildtype
+                throw new System.Exception($"GuildType : {GuildType} is not valid");
+        }
+
+    }
+
+    [Server]
+    public void InitializeGuildBonusTracker()
+    {
+        GuildBonusTracker = new()
+        {
+            { 0, new Dictionary<string, int>() },
+            { 1, new Dictionary<string, int>() },
+            { 2, new Dictionary<string, int>() }
+        };
+
+        for (int i = 0; i < 3; i++)
+        {
+            switch (GuildType)
+            {
+                case CardDatabase.GuildType.ThievesGuild:
+                    GuildBonusTracker[i].Add("didCompleteQuest", 0);
+                    GuildBonusTracker[i].Add("didStealItem", 0);
+                    break;
+                case CardDatabase.GuildType.MagesGuild:
+                    GuildBonusTracker[i].Add("spellsPlayed", 0);
+                    break;
+                case CardDatabase.GuildType.FightersGuild:
+                    GuildBonusTracker[i].Add("physAdventurers", 0);
+                    GuildBonusTracker[i].Add("mostPhysPower", 0);
+                    break;
+                case CardDatabase.GuildType.MerchantsGuild:
+                    GuildBonusTracker[i].Add("magicItems", 0);
+                    break;
+                case CardDatabase.GuildType.AsassinsGuild:
+                    GuildBonusTracker[i].Add("curseSpellsPlayed", 0);
+                    GuildBonusTracker[i].Add("didPoison", 0);
+                    break;
+                default:
+                    //throw an exception stating that the Guildtype
+                    throw new System.Exception($"GuildType : {GuildType} is not valid");
+
+            }
+        }
     }
 
     [Server]

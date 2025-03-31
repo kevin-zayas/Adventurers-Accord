@@ -87,7 +87,6 @@ public class GameManager : NetworkBehaviour
         }
 
         Board.Instance.StartGame();
-        //Scoreboard.StartGame(StartingGold);
         DidStartGame = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
@@ -173,7 +172,7 @@ public class GameManager : NetworkBehaviour
     /// Refreshes the end round status, resetting all players' statuses and enabling the end round button.
     /// </summary>
     [ServerRpc(RequireOwnership = false)]
-    public void RefreshEndRoundStatus()
+    public void ServerRefreshEndRoundStatus()
     {
         PlayerEndRoundStatus.Clear();
         for (int i = 0; i < Players.Count; i++)
@@ -240,6 +239,7 @@ public class GameManager : NetworkBehaviour
                 SetPlayerTurn(Players[Turn]);
 
                 DiscardPile.Instance.RecoverAdventurers();
+                ResetGuildBonusTrackers();
                 break;
 
             //case Phase.Recovery:
@@ -336,5 +336,14 @@ public class GameManager : NetworkBehaviour
         Spawn(popUp.gameObject);
 
         popUp.CalculateRankings();
+    }
+
+    [Server]
+    public void ResetGuildBonusTrackers()
+    {
+        foreach (Player player in Players)
+        {
+            player.InitializeGuildBonusTracker();
+        }
     }
 }
