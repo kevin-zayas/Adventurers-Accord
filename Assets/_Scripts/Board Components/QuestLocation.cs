@@ -22,7 +22,8 @@ public class QuestLocation : NetworkBehaviour
 
     private QuestCard previewQuestCard;
 
-    [field: SerializeField] public CardSlot QuestCardSlot { get; private set; }
+    [field: SerializeField] private CardSlot questCardSlot;
+    [field: SerializeField] public int QuestLocationIndex { get; private set; }
 
     public readonly SyncVar<QuestCard> QuestCard = new();
 
@@ -94,7 +95,7 @@ public class QuestLocation : NetworkBehaviour
         Status = QuestStatus.Default;
         CreatePreviewCard(questCard);
 
-        questCard.SetCardParent(QuestCardSlot.transform, false);
+        questCard.SetCardParent(questCardSlot.transform, false);
         questCard.ObserversSetCardScale(new Vector2(1.15f, 1.15f));
         QuestCard.Value = questCard;
 
@@ -117,7 +118,7 @@ public class QuestLocation : NetworkBehaviour
     {
         Despawn(previewQuestCard.gameObject);
         Despawn(QuestCard.Value.gameObject);
-        Board.Instance.DrawQuestCard(QuestCardSlot.SlotIndex);
+        Board.Instance.DrawQuestCard(questCardSlot.SlotIndex);
     }
 
     [Server]
@@ -309,12 +310,11 @@ public class QuestLocation : NetworkBehaviour
                     player.ServerChangePlayerGold(1);
                     print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - quest complete");
                 }
-                if (player.GuildBonusTracker[QuestCardSlot.SlotIndex]["didStealItem"] > 0)
+                if (player.GuildBonusTracker[QuestLocationIndex]["didStealItem"] > 0)
                 {
                     player.ServerChangePlayerGold(1);
-                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestCardSlot.SlotIndex]["didStealItem"]}");
+                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestLocationIndex]["didStealItem"]}");
                 }
-                
             }
         }
     }

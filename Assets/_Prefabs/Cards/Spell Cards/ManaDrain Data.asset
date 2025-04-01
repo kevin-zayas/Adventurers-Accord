@@ -16,20 +16,22 @@ MonoBehaviour:
   <PhysicalPower>k__BackingField: 0
   <MagicalPower>k__BackingField: -2
   <OriginalPhysicalPower>k__BackingField: 0
-  <OriginalMagicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: -2
   <Cost>k__BackingField: 2
   <CardDescription>k__BackingField: Afflict -2 <color=#000EEB>Magical</color> Power
     at this Quest Lane
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Magic Spell
   <AbilityName>k__BackingField: 
+  <CoolDown>k__BackingField: 0
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
+  <MaxAdventurerCount>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 1
-  <DescriptionKeys>k__BackingField: []
+  <IsNumerical>k__BackingField: 1

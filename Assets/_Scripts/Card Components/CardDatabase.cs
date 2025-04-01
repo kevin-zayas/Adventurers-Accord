@@ -51,9 +51,6 @@ public class CardDatabase : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        //SpriteMap = new();
-        //CardKeywordMap = new();
-        //KeywordDefinitionMap = new();
     }
 
     // Start is called before the first frame update

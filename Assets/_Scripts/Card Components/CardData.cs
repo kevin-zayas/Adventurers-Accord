@@ -34,7 +34,8 @@ public class CardData : ScriptableObject
 
     //Spells
     [field: SerializeField] public bool IsNegativeEffect { get; set; }
+    [field: SerializeField] public bool IsNumerical { get; set; }
 
-    [field: SerializeField] public List<string> DescriptionKeys { get; set; }
+    //[field: SerializeField] public List<string> DescriptionKeys { get; set; }
 
 }

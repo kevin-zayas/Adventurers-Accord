@@ -101,8 +101,8 @@ public class ResolutionPopUp : NetworkBehaviour
             if (ResolutionType == "Rogue")
             {
                 //once guild type is set locally, add is thieves guild check here
-                int questSlot = QuestLocation.QuestCardSlot.SlotIndex;
-                ServerUpdateThievesGuildTracker(LocalConnection.ClientId, questSlot);
+                int questIndex = QuestLocation.QuestLocationIndex;
+                ServerUpdateThievesGuildTracker(LocalConnection.ClientId, questIndex);
                 card.ServerDisableItem("Stolen");
             } 
             else if (ResolutionType == "Assassin")
@@ -206,15 +206,15 @@ public class ResolutionPopUp : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerUpdateThievesGuildTracker(int playerID, int questSlot)
+    private void ServerUpdateThievesGuildTracker(int playerID, int questIndex)
     {
         Player player = GameManager.Instance.Players[playerID];
         if (!player.isThievesGuild) return;
 
         print($"Player {playerID} - isThieves Guild: {player.isThievesGuild}");
-        print($"Quest Slot - {questSlot}");
+        print($"Quest Slot - {questIndex}");
 
-        player.GuildBonusTracker[questSlot]["didStealItem"]++;
+        player.GuildBonusTracker[questIndex]["didStealItem"]++;
     }
 
 }

@@ -130,8 +130,8 @@ public abstract class CardDragDrop : NetworkBehaviour
     {
         CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
 
-        card.ServerSetCardParent(dropZone.transform, false);
         card.ServerSetCardOwner(player);
+        card.ServerSetCardParent(dropZone.transform, false);
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);

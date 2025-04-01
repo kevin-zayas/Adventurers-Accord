@@ -14,9 +14,7 @@ public class ItemCard : Card
     #region UI Elements
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private Image cardImage;
-    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text subDescriptionText;
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private TMP_Text costText;
@@ -102,21 +100,5 @@ public class ItemCard : Card
         subDescriptionText.text = itemHeader.Data.Value.CardSubDescription;
 
         UpdatePowerTextColor(itemHeader.PhysicalPower.Value, itemHeader.MagicalPower.Value, itemHeader.Data.Value.OriginalPhysicalPower, itemHeader.Data.Value.MagicalPower);
-    }
-
-    /// <summary>
-    /// Updates the power text color based on comparison with the original power values.
-    /// </summary>
-    /// <param name="physicalPower">The current physical power.</param>
-    /// <param name="magicalPower">The current magical power.</param>
-    /// <param name="originalPhysicalPower">The original physical power.</param>
-    /// <param name="originalMagicalPower">The original magical power.</param>
-    private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
-    {
-        physicalPowerText.color = physicalPower > originalPhysicalPower ? Color.green :
-                                  physicalPower < originalPhysicalPower ? Color.red : Color.white;
-
-        magicalPowerText.color = magicalPower > originalMagicalPower ? Color.green :
-                                 magicalPower < originalMagicalPower ? Color.red : Color.white;
     }
 }

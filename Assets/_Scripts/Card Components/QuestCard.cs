@@ -27,9 +27,7 @@ public class QuestCard : Card
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text goldRewardText;
     [SerializeField] private TMP_Text lootRewardText;
-    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text reputationRewardText;
     #endregion
 

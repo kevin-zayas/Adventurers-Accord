@@ -22,6 +22,9 @@ public class QuestLane : NetworkBehaviour
     public readonly SyncVar<int> SpellMagicalPower = new();
     public readonly SyncVar<int> TotalPhysicalPower = new();
     public readonly SyncVar<int> TotalMagicalPower = new();
+    private int guildBonusPhysicalPower;
+    private int guildBonusMagicalPower;
+
     [AllowMutableSyncTypeAttribute] public SyncVar<int> MaxAdventurerCount = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<int> CurrentAdventurerCount = new();
 
@@ -81,8 +84,8 @@ public class QuestLane : NetworkBehaviour
             }
         }
 
-        TotalPhysicalPower.Value = PhysicalPower.Value + SpellPhysicalPower.Value;
-        TotalMagicalPower.Value = MagicalPower.Value + SpellMagicalPower.Value;
+        TotalPhysicalPower.Value = PhysicalPower.Value + SpellPhysicalPower.Value + guildBonusPhysicalPower;
+        TotalMagicalPower.Value = MagicalPower.Value + SpellMagicalPower.Value + guildBonusMagicalPower;
 
         if (QuestCard.Value.PhysicalPower.Value > 0) EffectiveTotalPower.Value += TotalPhysicalPower.Value;
         if (QuestCard.Value.MagicalPower.Value > 0) EffectiveTotalPower.Value += TotalMagicalPower.Value;
@@ -96,6 +99,14 @@ public class QuestLane : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerUpdateQuestLanePower()
     {
+        UpdateQuestLanePower();
+    }
+
+    [Server]
+    public void UpdateGuildBonusPower(int physicalPowerDelta, int magicalPowerDelta)
+    {
+        guildBonusPhysicalPower += physicalPowerDelta;
+        guildBonusMagicalPower += magicalPowerDelta;
         UpdateQuestLanePower();
     }
 

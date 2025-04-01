@@ -9,16 +9,12 @@ public class ItemCardHeader : Card
 {
     #region SyncVars
     public readonly SyncVar<bool> IsDisabled = new();
-    public readonly SyncVar<int> OriginalMagicalPower = new();
-    public readonly SyncVar<int> OriginalPhysicalPower = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<Transform> ParentCard = new();
     #endregion
 
     #region UI Elements
     [SerializeField] private TMP_Text disableTypeText;
-    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text physicalPowerText;
     #endregion
 
     /// <summary>
@@ -77,45 +73,12 @@ public class ItemCardHeader : Card
     }
 
     /// <summary>
-    /// Updates the power text on all clients, reflecting changes to physical and magical power.
-    /// </summary>
-    /// <param name="physicalPower">The updated physical power.</param>
-    /// <param name="magicalPower">The updated magical power.</param>
-    [ObserversRpc(BufferLast = true)]
-    public void ObserversUpdatePowerText(int physicalPower, int magicalPower)
-    {
-        physicalPowerText.text = physicalPower.ToString();
-        magicalPowerText.text = magicalPower.ToString();
-
-        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower.Value, OriginalMagicalPower.Value);
-    }
-
-    /// <summary>
-    /// Updates the color of the power text based on comparison with the original power values.
-    /// </summary>
-    /// <param name="physicalPower">The current physical power.</param>
-    /// <param name="magicalPower">The current magical power.</param>
-    /// <param name="originalPhysicalPower">The original physical power.</param>
-    /// <param name="originalMagicalPower">The original magical power.</param>
-    private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysicalPower, int originalMagicalPower)
-    {
-        physicalPowerText.color = physicalPower > originalPhysicalPower ? Color.green :
-                                  physicalPower < originalPhysicalPower ? Color.red : Color.white;
-
-        magicalPowerText.color = magicalPower > originalMagicalPower ? Color.green :
-                                 magicalPower < originalMagicalPower ? Color.red : Color.white;
-    }
-
-    /// <summary>
     /// Resets the card's power to its original values and enables the card if it was disabled.
     /// </summary>
     [Server]
-    public void ResetPower()
+    public override void ResetPower()
     {
-        PhysicalPower.Value = OriginalPhysicalPower.Value;
-        MagicalPower.Value = OriginalMagicalPower.Value;
-        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
-
+        base.ResetPower();
         IsDisabled.Value = false;
         ObserversSetDisable(false);
     }

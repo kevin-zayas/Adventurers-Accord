@@ -2,8 +2,11 @@ using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public abstract class Card : NetworkBehaviour
 {
@@ -13,6 +16,8 @@ public abstract class Card : NetworkBehaviour
     public readonly SyncVar<int> Cost = new();
     public readonly SyncVar<int> PhysicalPower = new();
     public readonly SyncVar<int> MagicalPower = new();
+    public readonly SyncVar<int> OriginalMagicalPower = new();
+    public readonly SyncVar<int> OriginalPhysicalPower = new();
     public readonly SyncVar<CardData> Data = new();
     public readonly SyncVar<Player> ControllingPlayer = new();
     public readonly SyncVar<Hand> ControllingPlayerHand = new();
@@ -22,6 +27,8 @@ public abstract class Card : NetworkBehaviour
     [SerializeField] protected Image disableScreen;
     [SerializeField] protected Image hoverScreen;
     [SerializeField] protected bool isClone = false;
+    [SerializeField] protected TMP_Text magicalPowerText;
+    [SerializeField] protected TMP_Text physicalPowerText;
     protected Player player;
 
     private void Start()
@@ -57,6 +64,7 @@ public abstract class Card : NetworkBehaviour
     public virtual void SetCardParent(Transform parentTransform, bool worldPositionStays)
     {
         ObserversSetCardParent(parentTransform, worldPositionStays);
+        this.transform.SetParent(parentTransform, worldPositionStays);
     }
 
     /// <summary>
@@ -67,8 +75,7 @@ public abstract class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public virtual void ServerSetCardParent(Transform parentTransform, bool worldPositionStays)
     {
-        ObserversSetCardParent(parentTransform, worldPositionStays);
-        this.transform.SetParent(parentTransform, worldPositionStays);
+        SetCardParent(parentTransform, worldPositionStays);
     }
 
     /// <summary>
@@ -106,6 +113,42 @@ public abstract class Card : NetworkBehaviour
     }
 
     /// <summary>
+    /// Resets the card's power to its original values and updates clients.
+    /// </summary>
+    [Server]
+    public virtual void ResetPower()
+    {
+        PhysicalPower.Value = OriginalPhysicalPower.Value;
+        MagicalPower.Value = OriginalMagicalPower.Value;
+
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
+    }
+
+    /// <summary>
+    /// Updates the power text on all clients, reflecting changes to physical and magical power.
+    /// </summary>
+    /// <param name="physicalPower">The updated physical power.</param>
+    /// <param name="magicalPower">The updated magical power.</param>
+    [ObserversRpc(BufferLast = true)]
+    protected virtual void ObserversUpdatePowerText(int physicalPower, int magicalPower)
+    {
+        physicalPowerText.text = physicalPower.ToString();
+        magicalPowerText.text = magicalPower.ToString();
+        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower.Value, OriginalMagicalPower.Value);
+    }
+
+    /// <summary>
+    /// Updates the color of the power text based on comparison with the original power values.
+    /// </summary>
+    /// <param name="physicalPower">The current physical power.</param>
+    /// <param name="magicalPower">The current magical power.</param>
+    protected virtual void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysical, int originalMagical)
+    {
+        physicalPowerText.color = physicalPower > originalPhysical ? Color.green : physicalPower < OriginalPhysicalPower.Value ? Color.red : Color.white;
+        magicalPowerText.color = magicalPower > originalMagical ? Color.green : magicalPower < OriginalMagicalPower.Value ? Color.red : Color.white;
+    }
+
+    /// <summary>
     /// Loads the card data and updates the relevant SyncVars on the server.
     /// </summary>
     /// <param name="cardData">The card data to load.</param>
@@ -114,6 +157,8 @@ public abstract class Card : NetworkBehaviour
     {
         PhysicalPower.Value = cardData.PhysicalPower;
         MagicalPower.Value = cardData.MagicalPower;
+        OriginalPhysicalPower.Value = cardData.OriginalPhysicalPower;
+        OriginalMagicalPower.Value = cardData.OriginalMagicalPower;
         CardName.Value = cardData.CardName;
         CardDescription.Value = cardData.CardDescription;
         Data.Value = cardData;

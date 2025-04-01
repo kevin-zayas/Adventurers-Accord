@@ -9,17 +9,50 @@ public class SpellCard : Card
 {
     #region SyncVars
     public readonly SyncVar<bool> IsNegativeEffect = new();
+    public readonly SyncVar<bool> IsNumerical = new();
     #endregion
 
     #region UI Elements
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private TMP_Text costText;
     #endregion
+
+
+    [Server]
+    public override void SetCardParent(Transform parent, bool worldPositionStays)
+    {
+        Player player = ControllingPlayer.Value;
+        if (parent.CompareTag("Hand") && player.isMagesGuild)
+        {
+            //player = parent.GetComponent<Hand>().controllingPlayer.Value; //May need to use this if timing issues arise with setting card owner
+            print(player.GuildType);
+
+            if (player.isMagesGuild && IsNumerical.Value)
+            {
+                ResetPower();
+                PhysicalPower.Value = PhysicalPower.Value > 0 ? PhysicalPower.Value + 1 : PhysicalPower.Value < 0 ? PhysicalPower.Value - 1 : PhysicalPower.Value;
+                MagicalPower.Value = MagicalPower.Value > 0 ? MagicalPower.Value + 1 : MagicalPower.Value < 0 ? MagicalPower.Value - 1 : MagicalPower.Value;
+
+                ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
+            }
+        }
+        else if (parent.CompareTag("Quest") && player.isMagesGuild)
+        {
+            QuestLane questLane = parent.parent.GetComponent<QuestLane>();
+            int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+            player.GuildBonusTracker[questIndex]["spellsPlayed"]++;
+
+            if (player.GuildBonusTracker[questIndex]["spellsPlayed"] == 2)
+            {
+                questLane.UpdateGuildBonusPower(0, 2);
+                print($"Mages Guild Bonus - Player {player.PlayerID.Value} +2 Magical Power");
+            }
+        }
+        base.SetCardParent(parent, worldPositionStays);
+    }
 
     /// <summary>
     /// Updates the card's parent transform on all clients, adjusting its scale if the parent is a Quest.
@@ -43,8 +76,10 @@ public class SpellCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        IsNegativeEffect.Value = cardData.IsNegativeEffect;
         Cost.Value = cardData.Cost;
+        IsNegativeEffect.Value = cardData.IsNegativeEffect;
+        IsNumerical.Value = cardData.IsNumerical;
+
 
         base.LoadCardData(cardData);
     }
@@ -84,6 +119,8 @@ public class SpellCard : Card
         nameText.text = card.CardName.Value;
         descriptionText.text = card.CardDescription.Value;
         costText.text = card.Cost.Value.ToString();
+
+        UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
     }
 
     public override bool ShouldToggleDisableScreen()

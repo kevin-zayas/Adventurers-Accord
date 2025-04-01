@@ -3269,6 +3269,10 @@ PrefabInstance:
       propertyPath: <QuestCardSlot>k__BackingField
       value: 
       objectReference: {fileID: 1132982668}
+    - target: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: <QuestLocationIndex>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3505788448509835578, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: <SlotIndex>k__BackingField
       value: 2
@@ -4345,6 +4349,10 @@ PrefabInstance:
       propertyPath: <QuestCardSlot>k__BackingField
       value: 
       objectReference: {fileID: 1508258665}
+    - target: {fileID: 3257947637563943034, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
+      propertyPath: <QuestLocationIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3505788448509835578, guid: 76318c612d192e34e94712ce8a8982a9, type: 3}
       propertyPath: <SlotIndex>k__BackingField
       value: 1

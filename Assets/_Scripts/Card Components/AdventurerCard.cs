@@ -12,8 +12,6 @@ public class AdventurerCard : Card
     public readonly SyncVar<string> AbilityName = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
-    public readonly SyncVar<int> OriginalMagicalPower = new();
-    public readonly SyncVar<int> OriginalPhysicalPower = new();
     public readonly SyncVar<Transform> ParentTransform = new();
     public readonly SyncVar<int> Cooldown = new();
     public readonly SyncVar<int> CurrentCooldown = new();
@@ -25,9 +23,7 @@ public class AdventurerCard : Card
     [SerializeField] private TMP_Text cardTypeText;
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text costText;
-    [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text physicalPowerText;
     #endregion
 
     #region Constants
@@ -71,17 +67,6 @@ public class AdventurerCard : Card
     }
 
     /// <summary>
-    /// Server-side RPC to set the parent transform of the card.
-    /// </summary>
-    /// <param name="newParent">The new parent transform.</param>
-    /// <param name="worldPositionStays">Whether to maintain the world position of the card.</param>
-    [ServerRpc(RequireOwnership = false)]
-    public override void ServerSetCardParent(Transform newParent, bool worldPositionStays)
-    {
-        SetCardParent(newParent, worldPositionStays);
-    }
-
-    /// <summary>
     /// Updates the card's parent transform on all clients, adjusting its scale based on the parent's tag.
     /// </summary>
     /// <param name="newParent">The new parent transform.</param>
@@ -89,8 +74,6 @@ public class AdventurerCard : Card
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversSetCardParent(Transform newParent, bool worldPositionStays)
     {
-        //print($"is newParent null (observer) - {newParent == null}");
-        //print(newParent.tag);
         Vector3 scale = newParent.CompareTag(QuestTag) ? new Vector3(.6f, .6f, 1f) : new Vector3(1f, 1f, 1f);
         transform.localScale = scale;
         transform.SetParent(newParent, worldPositionStays);
@@ -167,35 +150,11 @@ public class AdventurerCard : Card
     }
 
     /// <summary>
-    /// Updates the power text on all clients, reflecting changes to physical and magical power.
-    /// </summary>
-    /// <param name="physicalPower">The updated physical power.</param>
-    /// <param name="magicalPower">The updated magical power.</param>
-    [ObserversRpc(BufferLast = true)]
-    public void ObserversUpdatePowerText(int physicalPower, int magicalPower)
-    {
-        physicalPowerText.text = physicalPower.ToString();
-        magicalPowerText.text = magicalPower.ToString();
-        UpdatePowerTextColor(physicalPower, magicalPower, OriginalPhysicalPower.Value, OriginalMagicalPower.Value);
-    }
-
-    /// <summary>
-    /// Updates the color of the power text based on comparison with the original power values.
-    /// </summary>
-    /// <param name="physicalPower">The current physical power.</param>
-    /// <param name="magicalPower">The current magical power.</param>
-    private void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysical, int originalMagical)
-    {
-        physicalPowerText.color = physicalPower > originalPhysical ? Color.green : physicalPower < OriginalPhysicalPower.Value ? Color.red : Color.white;
-        magicalPowerText.color = magicalPower > originalMagical ? Color.green : magicalPower < OriginalMagicalPower.Value ? Color.red : Color.white;
-    }
-
-    /// <summary>
     /// Resets the card's power to its original values and updates clients.
     /// If the card is a "Sorcerer" and has an item equipped, the magical power is increased.
     /// </summary>
     [Server]
-    public void ResetPower()
+    public override void ResetPower()
     {
         PhysicalPower.Value = OriginalPhysicalPower.Value;
         MagicalPower.Value = OriginalMagicalPower.Value;
@@ -236,8 +195,6 @@ public class AdventurerCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        OriginalPhysicalPower.Value = cardData.OriginalPhysicalPower;
-        OriginalMagicalPower.Value = cardData.OriginalMagicalPower;
         Cost.Value = cardData.Cost;
         AbilityName.Value = cardData.AbilityName;
         Cooldown.Value = cardData.CoolDown;
