@@ -54,16 +54,20 @@ public class AdventurerCard : Card
         ObserversSetCardParent(newParent, worldPositionStays);
         transform.SetParent(newParent, worldPositionStays);
 
-        if (ParentTransform.Value != null && ParentTransform.Value != newParent)
+        //if (ParentTransform.Value != null && ParentTransform.Value != newParent)
+        //{
+        //    if (ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
+        //    if (newParent.CompareTag(QuestTag)) OnQuestDispatch(newParent);
+        //}
+
+        if (ParentTransform.Value != newParent)
         {
-            if (ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
-            ParentTransform.Value = newParent;
-            if (newParent.CompareTag(QuestTag)) OnQuestDispatch(newParent);
+            if (ParentTransform.Value != null && ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
+            if (newParent != null && newParent.CompareTag(QuestTag)) OnQuestDispatch(newParent);
         }
-        else
-        {
-            ParentTransform.Value = newParent;
-        }
+
+        ParentTransform.Value = newParent;
+        
     }
 
     /// <summary>
@@ -74,6 +78,7 @@ public class AdventurerCard : Card
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversSetCardParent(Transform newParent, bool worldPositionStays)
     {
+        if (newParent == null) return;
         Vector3 scale = newParent.CompareTag(QuestTag) ? new Vector3(.6f, .6f, 1f) : new Vector3(1f, 1f, 1f);
         transform.localScale = scale;
         transform.SetParent(newParent, worldPositionStays);
@@ -94,7 +99,7 @@ public class AdventurerCard : Card
         itemCardHeader.LoadCardData(itemCardData);
         Item.Value = itemCardHeader;
 
-        if (CardName.Value == Sorcerer) ResetPower();
+        if (CardName.Value == Sorcerer || ControllingPlayer.Value.isFightersGuild) ResetPower();
     }
 
     /// <summary>
@@ -114,7 +119,7 @@ public class AdventurerCard : Card
     [Server]
     public void ChangePhysicalPower(int power)
     {
-        if (ParentTransform.Value == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
+        if (ParentTransform.Value == null) return; // || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
         if (OriginalPhysicalPower.Value > 0)
         {
@@ -140,7 +145,7 @@ public class AdventurerCard : Card
     [Server]
     public void ChangeMagicalPower(int powerChange)
     {
-        if (ParentTransform.Value == null || !ParentTransform.Value.CompareTag(QuestTag)) return;
+        if (ParentTransform.Value == null) return; // || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
         if (OriginalMagicalPower.Value > 0)
         {
@@ -151,7 +156,6 @@ public class AdventurerCard : Card
 
     /// <summary>
     /// Resets the card's power to its original values and updates clients.
-    /// If the card is a "Sorcerer" and has an item equipped, the magical power is increased.
     /// </summary>
     [Server]
     public override void ResetPower()
@@ -160,6 +164,10 @@ public class AdventurerCard : Card
         MagicalPower.Value = OriginalMagicalPower.Value;
 
         if (CardName.Value == Sorcerer && HasItem.Value && !Item.Value.IsDisabled.Value) MagicalPower.Value += 2;
+        if (ControllingPlayer.Value.isFightersGuild && HasItem.Value && !Item.Value.IsDisabled.Value && Item.Value.PhysicalPower.Value > 0)
+        {
+            PhysicalPower.Value += 1;
+        }
 
         ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
     }
@@ -175,7 +183,7 @@ public class AdventurerCard : Card
 
         Item.Value.DisableItem(disableType);
 
-        if (CardName.Value == Sorcerer) ResetPower();
+        if (CardName.Value == Sorcerer || ControllingPlayer.Value.isFightersGuild) ResetPower();
     }
 
     /// <summary>
@@ -255,20 +263,46 @@ public class AdventurerCard : Card
     {
         QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.AddAdventurerToQuestLane(this);
+
+        Player player = ControllingPlayer.Value;
+        if (OriginalPhysicalPower.Value > 0 && player.isFightersGuild)
+        {
+            int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+            player.GuildBonusTracker[questIndex]["physAdventurers"]++;
+
+            if (player.GuildBonusTracker[questIndex]["physAdventurers"] == 3)
+            {
+                questLane.UpdateGuildBonusPower(1, 0);
+                Debug.Log($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Physical Power");
+            }
+        }
     }
 
     /// <summary>
     /// Handles the logic when the card is returned from a quest.
     /// Removes the card from the quest lane and resets power on the server.
     /// </summary>
-    /// <param name="newParent">The previous parent transform, expected to be a quest lane.</param>
+    /// <param name="previousParent">The previous parent transform, expected to be a quest lane.</param>
     [Server]
-    private void OnQuestReturn(Transform newParent)
+    private void OnQuestReturn(Transform previousParent)
     {
-        QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
+        QuestLane questLane = previousParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
         if (HasItem.Value) Item.Value.ResetPower();
         ResetPower();
+
+        Player player = ControllingPlayer.Value;
+        if (OriginalPhysicalPower.Value > 0 && player.isFightersGuild)
+        {
+            int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+            player.GuildBonusTracker[questIndex]["physAdventurers"]--;
+
+            if (player.GuildBonusTracker[questIndex]["physAdventurers"] == 2)
+            {
+                questLane.UpdateGuildBonusPower(-1, 0);
+                Debug.Log($"Fighters Guild Bonus Disabled - Player {player.PlayerID.Value}");
+            }
+        }
     }
 
     /// <summary>

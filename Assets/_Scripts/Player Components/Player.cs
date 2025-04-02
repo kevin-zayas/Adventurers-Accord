@@ -130,7 +130,7 @@ public class Player : NetworkBehaviour
                     break;
                 case CardDatabase.GuildType.FightersGuild:
                     GuildBonusTracker[i].Add("physAdventurers", 0);
-                    GuildBonusTracker[i].Add("mostPhysPower", 0);
+                    GuildBonusTracker[i].Add("mostPhysPower", 1);
                     break;
                 case CardDatabase.GuildType.MerchantsGuild:
                     GuildBonusTracker[i].Add("magicItems", 0);

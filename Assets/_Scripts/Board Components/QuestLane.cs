@@ -146,13 +146,6 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void ResetQuestLane()
     {
-        PhysicalPower.Value = 0;
-        MagicalPower.Value = 0;
-        SpellPhysicalPower.Value = 0;
-        SpellMagicalPower.Value = 0;
-        EffectiveTotalPower.Value = 0;
-        CurrentAdventurerCount.Value = 0;
-
         while (QuestDropZone.transform.childCount > 0)
         {
             Transform cardTransform = QuestDropZone.transform.GetChild(0);
@@ -165,6 +158,15 @@ public class QuestLane : NetworkBehaviour
             }
             DiscardPile.Instance.DiscardCard(card, Player.Value);
         }
+        PhysicalPower.Value = 0;
+        MagicalPower.Value = 0;
+        guildBonusPhysicalPower = 0;
+        guildBonusMagicalPower = 0;
+        SpellPhysicalPower.Value = 0;
+        SpellMagicalPower.Value = 0;
+        EffectiveTotalPower.Value = 0;
+        CurrentAdventurerCount.Value = 0;
+        
         ClearSpellEffects();
         ObserversUpdateLaneTotalPower(PhysicalPower.Value, MagicalPower.Value);
     }
@@ -185,7 +187,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void AddAdventurerToQuestLane(AdventurerCard card)
     {
-        CurrentAdventurerCount.Value++;
+        if (card.CardName.Value != "Wolf") CurrentAdventurerCount.Value++;
 
         if (QuestCard.Value.Drain.Value && !ClericProtection.Value)
         {
@@ -231,7 +233,7 @@ public class QuestLane : NetworkBehaviour
                 UpdateTinkererBuff(1);     
                 break;
             case "Ranger":
-                SummonWolfCompanion(false);
+                SummonWolfCompanion(false, card.ControllingPlayer.Value);
                 break;
             
         }
@@ -242,7 +244,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void RemoveAdventurerFromQuestLane(AdventurerCard card)
     {
-        CurrentAdventurerCount.Value--;
+        if (card.CardName.Value != "Wolf") CurrentAdventurerCount.Value--;
         if (adventurerEffects.ContainsKey(card.CardName.Value)) adventurerEffects[card.CardName.Value]--;
 
         switch (card.CardName.Value)
@@ -330,7 +332,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void SummonWolfCompanion(bool despawn)
+    private void SummonWolfCompanion(bool despawn, Player controllingPlayer = null)
     {
         if (despawn)
         {
@@ -339,7 +341,8 @@ public class QuestLane : NetworkBehaviour
                 AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
                 if (card.CardName.Value == "Wolf")
                 {
-                    card.transform.SetParent(null);
+                    //card.transform.SetParent(null);
+                    card.SetCardParent(null, false);
                     card.Despawn();
                     break;
                 }
@@ -353,6 +356,7 @@ public class QuestLane : NetworkBehaviour
 
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
+        wolfCard.SetCardOwner(controllingPlayer);
         wolfCard.SetCardParent(Player.Value.controlledHand.Value.transform,false);
         wolfCard.SetCardParent(QuestDropZone.transform, false);
     }

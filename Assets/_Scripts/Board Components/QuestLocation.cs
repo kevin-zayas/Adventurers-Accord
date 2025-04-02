@@ -316,6 +316,29 @@ public class QuestLocation : NetworkBehaviour
                     print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestLocationIndex]["didStealItem"]}");
                 }
             }
+
+            if (player.isFightersGuild && Status == QuestStatus.Complete)
+            {
+                int playerPhysPower = questLanes[player.PlayerID.Value].TotalPhysicalPower.Value;
+
+                foreach (QuestLane lane in questLanes)
+                {
+
+                    if (lane.QuestDropZone.transform.childCount  == 0) continue;
+                    if (lane.Player.Value.PlayerID.Value == player.PlayerID.Value) continue;
+
+                    if (lane.TotalPhysicalPower.Value >= playerPhysPower)
+                    {
+                        player.GuildBonusTracker[QuestLocationIndex]["mostPhysPower"] = 0;
+                        break;
+                    }
+                }
+                if (player.GuildBonusTracker[QuestLocationIndex]["mostPhysPower"] == 1)
+                {
+                    player.ServerChangePlayerReputation(1);
+                    print($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Most Physical Power");
+                }
+            }
         }
     }
 
