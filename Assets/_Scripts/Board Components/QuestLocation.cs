@@ -307,24 +307,23 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (Status == QuestStatus.Complete)
                 {
-                    player.ServerChangePlayerGold(1);
+                    player.ChangePlayerGold(1);
                     print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - quest complete");
                 }
-                if (player.GuildBonusTracker[QuestLocationIndex]["didStealItem"] > 0)
+                if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
                 {
-                    player.ServerChangePlayerGold(1);
-                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestLocationIndex]["didStealItem"]}");
+                    player.ChangePlayerGold(1);
+                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestLocationIndex]["stolenItems"]}");
                 }
             }
-
-            if (player.isFightersGuild && Status == QuestStatus.Complete)
+            else if (player.isFightersGuild && Status == QuestStatus.Complete)
             {
                 int playerPhysPower = questLanes[player.PlayerID.Value].TotalPhysicalPower.Value;
 
                 foreach (QuestLane lane in questLanes)
                 {
 
-                    if (lane.QuestDropZone.transform.childCount  == 0) continue;
+                    if (lane.QuestDropZone.transform.childCount == 0) continue;
                     if (lane.Player.Value.PlayerID.Value == player.PlayerID.Value) continue;
 
                     if (lane.TotalPhysicalPower.Value >= playerPhysPower)
@@ -335,8 +334,16 @@ public class QuestLocation : NetworkBehaviour
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["mostPhysPower"] == 1)
                 {
-                    player.ServerChangePlayerReputation(1);
+                    player.ChangePlayerReputation(1);
                     print($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Most Physical Power");
+                }
+            }
+            else if (player.isMerchantsGuild && Status == QuestStatus.Complete)
+            {
+                if (player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"] >= 2)
+                {
+                    player.ChangePlayerReputation(1);
+                    print($"Merchants Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Magic Item Count: {player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"]}");
                 }
             }
         }

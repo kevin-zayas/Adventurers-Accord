@@ -54,12 +54,6 @@ public class AdventurerCard : Card
         ObserversSetCardParent(newParent, worldPositionStays);
         transform.SetParent(newParent, worldPositionStays);
 
-        //if (ParentTransform.Value != null && ParentTransform.Value != newParent)
-        //{
-        //    if (ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
-        //    if (newParent.CompareTag(QuestTag)) OnQuestDispatch(newParent);
-        //}
-
         if (ParentTransform.Value != newParent)
         {
             if (ParentTransform.Value != null && ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
@@ -265,9 +259,10 @@ public class AdventurerCard : Card
         questLane.AddAdventurerToQuestLane(this);
 
         Player player = ControllingPlayer.Value;
-        if (OriginalPhysicalPower.Value > 0 && player.isFightersGuild)
+        int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+
+        if (player.isFightersGuild && OriginalPhysicalPower.Value > 0)
         {
-            int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
             player.GuildBonusTracker[questIndex]["physAdventurers"]++;
 
             if (player.GuildBonusTracker[questIndex]["physAdventurers"] == 3)
@@ -276,6 +271,11 @@ public class AdventurerCard : Card
                 Debug.Log($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Physical Power");
             }
         }
+        else if (player.isMerchantsGuild && HasItem.Value)
+        {
+            player.GuildBonusTracker[questIndex]["magicItemsDispatched"]++;
+        }
+
     }
 
     /// <summary>
@@ -292,9 +292,10 @@ public class AdventurerCard : Card
         ResetPower();
 
         Player player = ControllingPlayer.Value;
-        if (OriginalPhysicalPower.Value > 0 && player.isFightersGuild)
+        int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+
+        if (player.isFightersGuild && OriginalPhysicalPower.Value > 0)
         {
-            int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
             player.GuildBonusTracker[questIndex]["physAdventurers"]--;
 
             if (player.GuildBonusTracker[questIndex]["physAdventurers"] == 2)
@@ -302,6 +303,10 @@ public class AdventurerCard : Card
                 questLane.UpdateGuildBonusPower(-1, 0);
                 Debug.Log($"Fighters Guild Bonus Disabled - Player {player.PlayerID.Value}");
             }
+        }
+        else if (player.isMerchantsGuild && HasItem.Value)
+        {
+            player.GuildBonusTracker[questIndex]["magicItemsDispatched"]--;
         }
     }
 

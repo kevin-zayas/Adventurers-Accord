@@ -214,7 +214,7 @@ public class ResolutionPopUp : NetworkBehaviour
         print($"Player {playerID} - isThieves Guild: {player.isThievesGuild}");
         print($"Quest Slot - {questIndex}");
 
-        player.GuildBonusTracker[questIndex]["didStealItem"]++;
+        player.GuildBonusTracker[questIndex]["stolenItems"]++;
     }
 
 }

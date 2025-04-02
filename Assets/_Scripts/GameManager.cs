@@ -87,6 +87,7 @@ public class GameManager : NetworkBehaviour
         }
 
         Board.Instance.StartGame();
+        CheckMerchantsGuildGold();
         DidStartGame = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
@@ -240,6 +241,7 @@ public class GameManager : NetworkBehaviour
 
                 DiscardPile.Instance.RecoverAdventurers();
                 ResetGuildBonusTrackers();
+                CheckMerchantsGuildGold();
                 break;
 
             //case Phase.Recovery:
@@ -344,6 +346,19 @@ public class GameManager : NetworkBehaviour
         foreach (Player player in Players)
         {
             player.InitializeGuildBonusTracker();
+        }
+    }
+
+    [Server]
+    private void CheckMerchantsGuildGold()
+    {
+        foreach (Player player in Players)
+        {
+            if (player.isMerchantsGuild)
+            {
+                player.ChangePlayerGold(1);
+                print($"Merchant Guild Bonus - Player {player.PlayerID.Value} +1 GP - new round");
+            }
         }
     }
 }

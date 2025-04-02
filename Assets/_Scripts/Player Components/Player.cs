@@ -123,7 +123,7 @@ public class Player : NetworkBehaviour
             {
                 case CardDatabase.GuildType.ThievesGuild:
                     GuildBonusTracker[i].Add("didCompleteQuest", 0);
-                    GuildBonusTracker[i].Add("didStealItem", 0);
+                    GuildBonusTracker[i].Add("stolenItems", 0);
                     break;
                 case CardDatabase.GuildType.MagesGuild:
                     GuildBonusTracker[i].Add("spellsPlayed", 0);
@@ -133,7 +133,7 @@ public class Player : NetworkBehaviour
                     GuildBonusTracker[i].Add("mostPhysPower", 1);
                     break;
                 case CardDatabase.GuildType.MerchantsGuild:
-                    GuildBonusTracker[i].Add("magicItems", 0);
+                    GuildBonusTracker[i].Add("magicItemsDispatched", 0);
                     break;
                 case CardDatabase.GuildType.AsassinsGuild:
                     GuildBonusTracker[i].Add("curseSpellsPlayed", 0);
