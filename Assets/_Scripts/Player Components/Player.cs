@@ -137,7 +137,7 @@ public class Player : NetworkBehaviour
                     break;
                 case CardDatabase.GuildType.AsassinsGuild:
                     GuildBonusTracker[i].Add("curseSpellsPlayed", 0);
-                    GuildBonusTracker[i].Add("didPoison", 0);
+                    GuildBonusTracker[i].Add("poisonedAdventurers", 0);
                     break;
                 default:
                     //throw an exception stating that the Guildtype

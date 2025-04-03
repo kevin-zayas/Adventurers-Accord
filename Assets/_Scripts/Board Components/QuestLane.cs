@@ -146,6 +146,9 @@ public class QuestLane : NetworkBehaviour
     [Server]
     public void ResetQuestLane()
     {
+        SpellPhysicalPower.Value = 0;
+        SpellMagicalPower.Value = 0;
+
         while (QuestDropZone.transform.childCount > 0)
         {
             Transform cardTransform = QuestDropZone.transform.GetChild(0);
@@ -153,17 +156,16 @@ public class QuestLane : NetworkBehaviour
 
             if (card.CardName.Value == "Wolf")
             {
-                SummonWolfCompanion(true);
+                HandleWolfSummon(true);
                 continue;
             }
             DiscardPile.Instance.DiscardCard(card, Player.Value);
         }
+
         PhysicalPower.Value = 0;
         MagicalPower.Value = 0;
         guildBonusPhysicalPower = 0;
         guildBonusMagicalPower = 0;
-        SpellPhysicalPower.Value = 0;
-        SpellMagicalPower.Value = 0;
         EffectiveTotalPower.Value = 0;
         CurrentAdventurerCount.Value = 0;
         
@@ -233,7 +235,7 @@ public class QuestLane : NetworkBehaviour
                 UpdateTinkererBuff(1);     
                 break;
             case "Ranger":
-                SummonWolfCompanion(false, card.ControllingPlayer.Value);
+                HandleWolfSummon(false, card.ControllingPlayer.Value);
                 break;
             
         }
@@ -272,7 +274,7 @@ public class QuestLane : NetworkBehaviour
                 UpdateTinkererBuff(-1);
                 break;
             case "Ranger":
-                SummonWolfCompanion(true);
+                HandleWolfSummon(true);
                 break;
 
         }
@@ -325,14 +327,14 @@ public class QuestLane : NetworkBehaviour
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem.Value) continue;
-            print($"{card.CardName} changing item power by {buffDelta}");
+            print($"{card.CardName.Value} changing item power by {buffDelta}");
             card.Item.Value.ChangePhysicalPower(buffDelta);
             card.Item.Value.ChangeMagicalPower(buffDelta);
         }
     }
 
     [Server]
-    private void SummonWolfCompanion(bool despawn, Player controllingPlayer = null)
+    private void HandleWolfSummon(bool despawn, Player controllingPlayer = null)
     {
         if (despawn)
         {

@@ -144,8 +144,8 @@ public abstract class Card : NetworkBehaviour
     /// <param name="magicalPower">The current magical power.</param>
     protected virtual void UpdatePowerTextColor(int physicalPower, int magicalPower, int originalPhysical, int originalMagical)
     {
-        physicalPowerText.color = physicalPower > originalPhysical ? Color.green : physicalPower < OriginalPhysicalPower.Value ? Color.red : Color.white;
-        magicalPowerText.color = magicalPower > originalMagical ? Color.green : magicalPower < OriginalMagicalPower.Value ? Color.red : Color.white;
+        physicalPowerText.color = physicalPower > originalPhysical ? Color.green : physicalPower < originalPhysical ? Color.red : Color.white;
+        magicalPowerText.color = magicalPower > originalMagical ? Color.green : magicalPower < originalMagical ? Color.red : Color.white;
     }
 
     /// <summary>

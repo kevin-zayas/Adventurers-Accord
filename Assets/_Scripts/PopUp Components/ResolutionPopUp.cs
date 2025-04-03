@@ -98,11 +98,11 @@ public class ResolutionPopUp : NetworkBehaviour
 
         rightButton.onClick.AddListener(() =>
         {
+            int questIndex = QuestLocation.QuestLocationIndex;
             if (ResolutionType == "Rogue")
             {
                 //once guild type is set locally, add is thieves guild check here
-                int questIndex = QuestLocation.QuestLocationIndex;
-                ServerUpdateThievesGuildTracker(LocalConnection.ClientId, questIndex);
+                ServerUpdateGuildBonusTracker(LocalConnection.ClientId, questIndex, ResolutionType);
                 card.ServerDisableItem("Stolen");
             } 
             else if (ResolutionType == "Assassin")
@@ -114,6 +114,8 @@ public class ResolutionPopUp : NetworkBehaviour
                     SetAssassinConfirmStatPopupState(card);
                     return;
                 }
+                //once guild type is set locally, add is assassins guild check here
+                ServerUpdateGuildBonusTracker(LocalConnection.ClientId, questIndex, ResolutionType);
             }
             
             card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
@@ -166,7 +168,8 @@ public class ResolutionPopUp : NetworkBehaviour
         rightButtonText.text = "Magical";
 
         message.text = string.Format(AssassinConfirmStatText,card.CardName.Value);
-
+        int questIndex = QuestLocation.QuestLocationIndex;
+        
         leftButton.onClick.AddListener(() =>
         {
             card.ServerChangePhysicalPower(-2);
@@ -174,6 +177,7 @@ public class ResolutionPopUp : NetworkBehaviour
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
+            ServerUpdateGuildBonusTracker(LocalConnection.ClientId, questIndex, ResolutionType);
 
         });
 
@@ -184,6 +188,7 @@ public class ResolutionPopUp : NetworkBehaviour
 
             GameManager.Instance.ServerCheckForUnresolvedCards();
             PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
+            ServerUpdateGuildBonusTracker(LocalConnection.ClientId, questIndex, ResolutionType);
         });
     }
 
@@ -206,15 +211,24 @@ public class ResolutionPopUp : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerUpdateThievesGuildTracker(int playerID, int questIndex)
+    private void ServerUpdateGuildBonusTracker(int playerID, int questIndex, string resolutionType)
     {
         Player player = GameManager.Instance.Players[playerID];
-        if (!player.isThievesGuild) return;
+        if (resolutionType == "Rogue" && player.isThievesGuild)
+        {
+            print($"Player {playerID} - isThieves Guild: {player.isThievesGuild}");
+            print($"Quest Slot - {questIndex}");
 
-        print($"Player {playerID} - isThieves Guild: {player.isThievesGuild}");
-        print($"Quest Slot - {questIndex}");
+            player.GuildBonusTracker[questIndex]["stolenItems"]++;
+        }
+        else if (resolutionType == "Assassin" && player.isAssassinsGuild)
+        {
+            print($"Player {playerID} - isAssassins Guild: {player.isAssassinsGuild}");
+            print($"Quest Slot - {questIndex}");
+            player.GuildBonusTracker[questIndex]["poisonedAdventurers"]++;
+        }
 
-        player.GuildBonusTracker[questIndex]["stolenItems"]++;
+
     }
 
 }

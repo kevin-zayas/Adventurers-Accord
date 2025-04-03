@@ -175,6 +175,7 @@ public class QuestLocation : NetworkBehaviour
         }
         else
         {
+            CheckGuildBonus();
             foreach (QuestLane lane in questLanes)
             {
                 if (lane.QuestDropZone.transform.childCount > 0)
@@ -308,12 +309,12 @@ public class QuestLocation : NetworkBehaviour
                 if (Status == QuestStatus.Complete)
                 {
                     player.ChangePlayerGold(1);
-                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - quest complete");
+                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Quest Complete");
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
                 {
                     player.ChangePlayerGold(1);
-                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - stolen item count: {player.GuildBonusTracker[QuestLocationIndex]["stolenItems"]}");
+                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Stolen Item Count: {player.GuildBonusTracker[QuestLocationIndex]["stolenItems"]}");
                 }
             }
             else if (player.isFightersGuild && Status == QuestStatus.Complete)
@@ -344,6 +345,19 @@ public class QuestLocation : NetworkBehaviour
                 {
                     player.ChangePlayerReputation(1);
                     print($"Merchants Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Magic Item Count: {player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"]}");
+                }
+            }
+            else if (player.isAssassinsGuild)
+            {
+                if (player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
+                {
+                    player.ChangePlayerReputation(1);
+                    print($"Assassins Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Curse Spell Count: {player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"]}");
+                }
+                if (player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"] > 0)
+                {
+                    player.ChangePlayerGold(2);
+                    print($"Assassins Guild Bonus - Player {player.PlayerID.Value} +2 GP. - Posoned Adventurer Count: {player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"]}");
                 }
             }
         }

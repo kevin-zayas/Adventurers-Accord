@@ -25,19 +25,15 @@ public class SpellCard : Card
     public override void SetCardParent(Transform parent, bool worldPositionStays)
     {
         Player player = ControllingPlayer.Value;
-        if (parent.CompareTag("Hand") && player.isMagesGuild)
+
+        if (parent.CompareTag("Hand") && player.isMagesGuild && IsNumerical.Value)
         {
-            //player = parent.GetComponent<Hand>().controllingPlayer.Value; //May need to use this if timing issues arise with setting card owner
-            print(player.GuildType);
+            ResetPower();
+            PhysicalPower.Value = PhysicalPower.Value > 0 ? PhysicalPower.Value + 1 : PhysicalPower.Value < 0 ? PhysicalPower.Value - 1 : PhysicalPower.Value;
+            MagicalPower.Value = MagicalPower.Value > 0 ? MagicalPower.Value + 1 : MagicalPower.Value < 0 ? MagicalPower.Value - 1 : MagicalPower.Value;
 
-            if (player.isMagesGuild && IsNumerical.Value)
-            {
-                ResetPower();
-                PhysicalPower.Value = PhysicalPower.Value > 0 ? PhysicalPower.Value + 1 : PhysicalPower.Value < 0 ? PhysicalPower.Value - 1 : PhysicalPower.Value;
-                MagicalPower.Value = MagicalPower.Value > 0 ? MagicalPower.Value + 1 : MagicalPower.Value < 0 ? MagicalPower.Value - 1 : MagicalPower.Value;
-
-                ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
-            }
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
+            
         }
         else if (parent.CompareTag("Quest") && player.isMagesGuild)
         {
@@ -50,6 +46,12 @@ public class SpellCard : Card
                 questLane.UpdateGuildBonusPower(0, 2);
                 print($"Mages Guild Bonus - Player {player.PlayerID.Value} +2 Magical Power");
             }
+        }
+        else if (parent.CompareTag("Quest") && player.isAssassinsGuild && IsNegativeEffect.Value)
+        {
+            QuestLane questLane = parent.parent.GetComponent<QuestLane>();
+            int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+            player.GuildBonusTracker[questIndex]["curseSpellsPlayed"]++;
         }
         base.SetCardParent(parent, worldPositionStays);
     }
