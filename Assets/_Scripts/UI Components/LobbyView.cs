@@ -69,54 +69,22 @@ public class LobbyView : View
         readyButtonText.color = Player.Instance.IsReady.Value ? Color.green : Color.red;
         startButton.interactable = GameManager.Instance.CanStartGame.Value;
     }
+    private void SetGuildType(GuildType guildType, Button guildButton)
+    {
+        Player.Instance.ServerSetGuildType(guildType);
+        if (selectedButton != null) selectedButton.interactable = true;
+        guildButton.interactable = false;
+        selectedButton = guildButton;
+        guildText.text = $"{guildType} Selected";
+        print(guildType);
+    }
 
     private void InitializeGuildButtons()
     {
-        fightersGuildButton.onClick.AddListener(() =>
-        {
-            Player.Instance.ServerSetGuildType(GuildType.FightersGuild);
-            if (selectedButton != null) selectedButton.interactable = true;
-            fightersGuildButton.interactable = false;
-            selectedButton = fightersGuildButton;
-            guildText.text = "Fighters Guild Selected";
-            print(GuildType.FightersGuild);
-        });
-        magesGuildButton.onClick.AddListener(() =>
-        {
-            Player.Instance.ServerSetGuildType(GuildType.MagesGuild);
-            if (selectedButton != null) selectedButton.interactable = true;
-            magesGuildButton.interactable = false;
-            selectedButton = magesGuildButton;
-            guildText.text = "Mages Guild Selected";
-            print(GuildType.MagesGuild);
-        });
-        thievesGuildButton.onClick.AddListener(() =>
-        {
-            Player.Instance.ServerSetGuildType(GuildType.ThievesGuild);
-            if (selectedButton != null) selectedButton.interactable = true;
-            thievesGuildButton.interactable = false;
-            selectedButton = thievesGuildButton;
-            guildText.text = "Thieves Guild Selected";
-            print(GuildType.ThievesGuild);
-        });
-        merchantsGuildButton.onClick.AddListener(() =>
-        {
-            Player.Instance.ServerSetGuildType(GuildType.MerchantsGuild);
-            if (selectedButton != null) selectedButton.interactable = true;
-            merchantsGuildButton.interactable = false;
-            selectedButton = merchantsGuildButton;
-            guildText.text = "Merchants Guild Selected";
-            print(GuildType.MerchantsGuild);
-        });
-        assassinsGuildButton.onClick.AddListener(() =>
-        {
-            Player.Instance.ServerSetGuildType(GuildType.AsassinsGuild);
-            if (selectedButton != null) selectedButton.interactable = true;
-            assassinsGuildButton.interactable = false;
-            selectedButton = assassinsGuildButton;
-            guildText.text = "Assassins Guild Selected";
-            print(GuildType.AsassinsGuild);
-        });
-
+        fightersGuildButton.onClick.AddListener(() => SetGuildType(GuildType.FightersGuild, fightersGuildButton));
+        magesGuildButton.onClick.AddListener(() => SetGuildType(GuildType.MagesGuild, magesGuildButton));
+        thievesGuildButton.onClick.AddListener(() => SetGuildType(GuildType.ThievesGuild, thievesGuildButton));
+        merchantsGuildButton.onClick.AddListener(() => SetGuildType(GuildType.MerchantsGuild, merchantsGuildButton));
+        assassinsGuildButton.onClick.AddListener(() => SetGuildType(GuildType.AsassinsGuild, assassinsGuildButton));
     }
 }
