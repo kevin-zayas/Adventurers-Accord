@@ -8,6 +8,7 @@ public class CardDatabase : NetworkBehaviour
 
     public enum GuildType 
     {
+        None,
         FightersGuild,
         MagesGuild,
         ThievesGuild,

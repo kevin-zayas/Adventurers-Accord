@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour
 
     [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
-    public GuildType GuildType;
+    public GuildType GuildType { get; private set; }
     public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }
 
     public bool isThievesGuild;
@@ -112,6 +112,14 @@ public class Player : NetworkBehaviour
     public void ServerSetGuildType(GuildType guildType)
     {
         GuildType = guildType;
+        ObserversSetGuildType(guildType);
+
+    }
+
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversSetGuildType(GuildType guildType)
+    {
+        GuildType = guildType;
     }
 
     [Server]
@@ -187,14 +195,10 @@ public class Player : NetworkBehaviour
     {
         IsReady.Value = !IsReady.Value;
 
-        if (IsReady.Value)
+        SyncList<Player> players = GameManager.Instance.Players;
+        if (IsReady.Value && players.All(player => player.IsReady.Value))
         {
-            print("Player Is Ready");
-            if (GameManager.Instance.Players.All(player => player.IsReady.Value))
-            {
-                print("All Players Ready");
-                GameManager.Instance.SetCanStartGame(true);
-            }
+            GameManager.Instance.SetCanStartGame(true);
         }
         else
         {

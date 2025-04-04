@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class LobbyView : View
 
     [SerializeField] TMP_Text guildText;
 
+    [SerializeField] GameObject[] playerEntries;
+
 
     public override void Initialize()
     {
@@ -38,7 +41,7 @@ public class LobbyView : View
         {
             startButton.gameObject.SetActive(false);
         }
-
+        //ServerUpdateLobby();
         base.Initialize();
     }
 
@@ -46,23 +49,24 @@ public class LobbyView : View
     {
         if (!IsInitialized) return;
 
-        string playerListText = "";
+        string playerText;
 
-        int playerCount = GameManager.Instance.Players.Count;
-
-        for (int i = 0; i < playerCount; i++)
+        for (int i = 0; i < GameManager.Instance.Players.Count; i++)
         {
             Player player = GameManager.Instance.Players[i];
+            playerEntries[i].SetActive(true);
+            playerText = $"Player {player.OwnerId + 1} - ";
 
-            if (player.IsReady.Value) playerListText += $"Player {player.OwnerId+1} - Ready";
-            else playerListText += $"Player {player.OwnerId + 1} - Not Ready";
+            if (player.GuildType == GuildType.None) playerText += "Selecting Guild";
+            else if (player.IsReady.Value) playerText += "Ready";
+            else playerText += "Not Ready";
+            
 
-            if (i < playerCount - 1) playerListText += "\r\n";
+            playerEntries[i].GetComponentInChildren<TMP_Text>().text = playerText;
         }
-        playerList.text = playerListText;
 
+        readyButton.interactable = Player.Instance.GuildType != GuildType.None;
         readyButtonText.color = Player.Instance.IsReady.Value ? Color.green : Color.red;
-
         startButton.interactable = GameManager.Instance.CanStartGame.Value;
     }
 
