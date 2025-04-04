@@ -90,6 +90,12 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
+    public QuestLane[] GetQuestLanes()
+    {
+        return questLanes;
+    }
+
+    [Server]
     public void AssignQuestCard(QuestCard questCard)
     {
         Status = QuestStatus.Default;

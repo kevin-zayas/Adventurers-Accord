@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour
     [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
     public CardDatabase.GuildType GuildType;
-    public Dictionary<int, Dictionary<string, int>> GuildBonusTracker;
+    public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }
 
     public bool isThievesGuild;
     public bool isMagesGuild;

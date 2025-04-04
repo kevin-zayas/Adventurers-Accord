@@ -41,8 +41,14 @@ public class SpellCard : Card
             int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
             player.GuildBonusTracker[questIndex]["spellsPlayed"]++;
 
-            if (player.GuildBonusTracker[questIndex]["spellsPlayed"] == 2)
+            if (questLane.Player.Value != player)
             {
+                questLane = questLane.QuestLocation.Value.GetQuestLanes()[player.PlayerID.Value];
+            }
+
+            if (player.GuildBonusTracker[questIndex]["spellsPlayed"] == 2 && questLane.CurrentAdventurerCount.Value > 0)
+            {
+                
                 questLane.UpdateGuildBonusPower(0, 2);
                 print($"Mages Guild Bonus - Player {player.PlayerID.Value} +2 Magical Power");
             }

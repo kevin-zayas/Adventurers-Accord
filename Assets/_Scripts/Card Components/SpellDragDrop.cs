@@ -21,10 +21,8 @@ public class SpellDragDrop : CardDragDrop
     {
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
-
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic) return false; // Prevent dragging during all phases except Magic
         if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
-
-        
 
         return true;
     }
