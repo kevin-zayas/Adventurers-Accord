@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using static CardDatabase;
 
 public class Player : NetworkBehaviour
 {
@@ -25,7 +26,7 @@ public class Player : NetworkBehaviour
 
     [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
-    public CardDatabase.GuildType GuildType;
+    public GuildType GuildType;
     public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }
 
     public bool isThievesGuild;
@@ -82,22 +83,22 @@ public class Player : NetworkBehaviour
         ObserversUpdateGoldText(this.Gold.Value);
 
         InitializeGuildBonusTracker();
-        //turn this into a separate function when guild choice is implemented
+
         switch (GuildType)
         {
-            case CardDatabase.GuildType.ThievesGuild:
+            case GuildType.ThievesGuild:
                 isThievesGuild = true;
                 break;
-            case CardDatabase.GuildType.MagesGuild:
+            case GuildType.MagesGuild:
                 isMagesGuild = true;
                 break;
-            case CardDatabase.GuildType.FightersGuild:
+            case GuildType.FightersGuild:
                 isFightersGuild = true;
                 break;
-            case CardDatabase.GuildType.MerchantsGuild:
+            case GuildType.MerchantsGuild:
                 isMerchantsGuild = true;
                 break;
-            case CardDatabase.GuildType.AsassinsGuild:
+            case GuildType.AsassinsGuild:
                 isAssassinsGuild = true;
                 break;
             default:
@@ -105,6 +106,12 @@ public class Player : NetworkBehaviour
                 throw new System.Exception($"GuildType : {GuildType} is not valid");
         }
 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerSetGuildType(GuildType guildType)
+    {
+        GuildType = guildType;
     }
 
     [Server]
