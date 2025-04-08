@@ -70,7 +70,7 @@ public class QuestCard : Card
 
         if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ public class QuestCard : Card
         isClone = true;
         QuestCard card = originalCard as QuestCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.Value.ToString();
         magicalPowerText.text = card.MagicalPower.Value.ToString();

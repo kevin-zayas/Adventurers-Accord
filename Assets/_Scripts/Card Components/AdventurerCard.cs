@@ -211,7 +211,7 @@ public class AdventurerCard : Card
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversLoadCardData(CardData cardData)
     {
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
 
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
@@ -234,7 +234,7 @@ public class AdventurerCard : Card
         isClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.Value.ToString();
         magicalPowerText.text = card.MagicalPower.Value.ToString();

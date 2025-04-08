@@ -106,7 +106,7 @@ public class SpellCard : Card
         cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[cardData.CardName];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public class SpellCard : Card
         isClone = true;
         SpellCard card = originalCard as SpellCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.Value.ToString();
         magicalPowerText.text = card.MagicalPower.Value.ToString();

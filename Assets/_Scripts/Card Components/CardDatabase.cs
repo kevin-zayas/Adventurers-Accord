@@ -42,7 +42,8 @@ public class CardDatabase : NetworkBehaviour
 
     public CardData wolfCardData;
 
-    public Dictionary<string, Sprite> SpriteMap { get; private set; } = new();   //make private and use a function to access
+    public Dictionary<string, Sprite> CardSpriteMap { get; private set; } = new();   //make private and use a function to access
+    private readonly Dictionary<GuildType, Sprite> GuildSpriteMap = new();
     private readonly Dictionary<string, List<string>> CardKeywordMap = new();
     public Dictionary<string, string> KeywordDefinitionMap { get; private set; } = new();
     public Dictionary<GuildType, List<CardData>> GuildRosterMap { get; private set; } = new();
@@ -59,7 +60,7 @@ public class CardDatabase : NetworkBehaviour
     {
         InitializeCardKeywordMap();
         InitializeKeywordDefinitionMap();
-        InitializeSpriteMap();
+        InitializeSpriteMaps();
         InitializeGuildRosters();
     }
 
@@ -129,11 +130,11 @@ public class CardDatabase : NetworkBehaviour
         return KeywordDefinitionMap.GetValueOrDefault(keyword);
     }
 
-    private void InitializeSpriteMap()
+    private void InitializeSpriteMaps()
     {
         SaveSprites(tierOneCards, "Card_Sprites/");
         SaveSprites(tierTwoCards, "Card_Sprites/");
-        SpriteMap.Add("Wolf", Resources.Load<Sprite>("Card_Sprites/Wolf"));
+        CardSpriteMap.Add("Wolf", Resources.Load<Sprite>("Card_Sprites/Wolf"));
 
         SaveSprites(itemCards, "ItemSpell_Sprites/");
         SaveSprites(spellCards, "ItemSpell_Sprites/");
@@ -142,13 +143,20 @@ public class CardDatabase : NetworkBehaviour
         SaveSprites(levelOneQuestCards, "Quest_Sprites/");
         SaveSprites(levelTwoQuestCards, "Quest_Sprites/");
         SaveSprites(levelThreeQuestCards, "Quest_Sprites/");
+
+        GuildSpriteMap.Add(GuildType.FightersGuild, Resources.Load<Sprite>("Guild_Sprites/FightersGuild"));
+        GuildSpriteMap.Add(GuildType.MagesGuild, Resources.Load<Sprite>("Guild_Sprites/MagesGuild"));
+        GuildSpriteMap.Add(GuildType.ThievesGuild, Resources.Load<Sprite>("Guild_Sprites/ThievesGuild"));
+        GuildSpriteMap.Add(GuildType.MerchantsGuild, Resources.Load<Sprite>("Guild_Sprites/MerchantsGuild"));
+        GuildSpriteMap.Add(GuildType.AsassinsGuild, Resources.Load<Sprite>("Guild_Sprites/AssassinsGuild"));
+
     }
 
     private void SaveSprites(List<CardData> cardList, string path)
     {
         foreach (CardData card in cardList)
         {
-            SpriteMap.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
+            CardSpriteMap.Add(card.CardName, Resources.Load<Sprite>(path + card.CardName));
         }
     }
 
@@ -159,6 +167,11 @@ public class CardDatabase : NetworkBehaviour
         GuildRosterMap[GuildType.ThievesGuild] = thievesGuildRoster;
         GuildRosterMap[GuildType.MerchantsGuild] = merchantsGuildRoster;
         GuildRosterMap[GuildType.AsassinsGuild] = assassinGuildRoster;
+    }
+
+    public Sprite GetGuildSprite(GuildType guildType)
+    {
+        return GuildSpriteMap.GetValueOrDefault(guildType);
     }
 
     private readonly string poisonKeywordText = "Decreases the <color=#6C00D7>Power</color> of a targeted Adventurer by a specified amount until the Quest is resolved. This value cannot be decreased below 0.";

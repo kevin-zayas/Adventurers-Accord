@@ -1,4 +1,3 @@
-using FishNet.Object;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,16 +21,12 @@ public class LobbyView : View
     [SerializeField] TMP_Text guildText;
     [SerializeField] GameObject[] playerEntries;
 
-    [SerializeField] Sprite FightersGuildSprite;
-    [SerializeField] Sprite DefaultGuildSprite;
-
     [field: SerializeField, TextArea(3, 6)] private string fightersGuildText;
     [field: SerializeField, TextArea(3, 6)] private string magesGuildText;
     [field: SerializeField, TextArea(3, 6)] private string thievesGuildText;
     [field: SerializeField, TextArea(3, 6)] private string merchantsGuildText;
     [field: SerializeField, TextArea(3, 6)] private string assassinsGuildText;
 
-    private readonly Dictionary<GuildType, Sprite> SpriteMap = new();
     private readonly Dictionary<GuildType, string> DescriptionMap = new();
 
     public override void Initialize()
@@ -72,7 +67,7 @@ public class LobbyView : View
             
 
             playerEntries[i].GetComponentInChildren<TMP_Text>().text = playerText;
-            playerEntries[i].GetComponentInChildren<Image>().sprite = SpriteMap[player.GuildType];
+            playerEntries[i].GetComponentInChildren<Image>().sprite = CardDatabase.Instance.GetGuildSprite(player.GuildType);
         }
 
         readyButton.interactable = Player.Instance.GuildType != GuildType.None;
@@ -100,13 +95,6 @@ public class LobbyView : View
 
     private void InitializeGuildMaps()
     {
-        SpriteMap.Add(GuildType.FightersGuild, FightersGuildSprite);
-        SpriteMap.Add(GuildType.MagesGuild, DefaultGuildSprite);
-        SpriteMap.Add(GuildType.ThievesGuild, DefaultGuildSprite);
-        SpriteMap.Add(GuildType.MerchantsGuild, DefaultGuildSprite);
-        SpriteMap.Add(GuildType.AsassinsGuild, DefaultGuildSprite);
-        SpriteMap.Add(GuildType.None, DefaultGuildSprite);
-
         DescriptionMap.Add(GuildType.FightersGuild, fightersGuildText);
         DescriptionMap.Add(GuildType.MagesGuild, magesGuildText);
         DescriptionMap.Add(GuildType.ThievesGuild, thievesGuildText);

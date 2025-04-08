@@ -40,7 +40,7 @@ public class ScoreBoardPopUp : NetworkBehaviour
             int reputation = player.Reputation.Value;
 
             PlayerScore playerScore = Instantiate(playerScorePrefab, Vector2.zero, Quaternion.identity);
-            playerScore.InitializeScore(i, gold, reputation);
+            playerScore.InitializeScore(i, gold, reputation, player.GuildType);
             PlayerScores.Add(playerScore);
             playerScore.transform.SetParent(playerScoreGroup.transform, false);
 

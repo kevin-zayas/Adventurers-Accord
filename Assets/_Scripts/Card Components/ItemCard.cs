@@ -72,7 +72,7 @@ public class ItemCard : Card
         isClone = true;
         ItemCard card = originalCard as ItemCard;
 
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[card.CardName.Value];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];
 
         physicalPowerText.text = card.PhysicalPower.Value.ToString();
         magicalPowerText.text = card.MagicalPower.Value.ToString();
@@ -91,7 +91,7 @@ public class ItemCard : Card
     public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
     {
         isClone = true;
-        cardImage.sprite = CardDatabase.Instance.SpriteMap[itemHeader.CardName.Value];
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[itemHeader.CardName.Value];
 
         physicalPowerText.text = itemHeader.PhysicalPower.Value.ToString();
         magicalPowerText.text = itemHeader.MagicalPower.Value.ToString();
