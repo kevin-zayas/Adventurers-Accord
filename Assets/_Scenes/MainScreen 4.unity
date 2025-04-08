@@ -2465,19 +2465,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 394213721}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2023840652}
   m_Father: {fileID: 438887117}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
-  m_AnchorMin: {x: 0.53900003, y: 0.061222225}
-  m_AnchorMax: {x: 0.9404166, y: 0.9387778}
-  m_AnchoredPosition: {x: 1, y: 0}
-  m_SizeDelta: {x: 178, y: -173}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 409, y: -92}
+  m_SizeDelta: {x: 981.2, y: 553}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &394213723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2698,10 +2698,10 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 114123065}
-  - {fileID: 1059206248}
-  - {fileID: 1205148811}
   - {fileID: 1810738369}
+  - {fileID: 1059206248}
   - {fileID: 394213722}
+  - {fileID: 1205148811}
   - {fileID: 1727512260}
   m_Father: {fileID: 592086892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2739,50 +2739,11 @@ MonoBehaviour:
   - {fileID: 717697011}
   FightersGuildSprite: {fileID: 21300000, guid: e0e288e9c34850c4d9db8f3d64b5a419, type: 3}
   DefaultGuildSprite: {fileID: 0}
-  fightersGuildText: "<line-height=50%><align=center><size=125%> Fighters' Guild
-    </size> </align>\n</line-height>\r\nThe Fighters' Guild thrives on raw strength
-    and teamwork. They dominate quests through sheer force and are rewarded for being
-    unmatched in Physical Power.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
-    <u>Strength in Numbers</u> \u2013 If you have at least 3 Adventurers with Physical
-    Power on a Quest, your party gains +1 Physical Power. <line-height=50%>\n</line-height>\r\n\u2022
-    <u>Path to Glory</u></font-weight> \u2013 Gain +1 Reputation if your party contributed
-    the most Physical Power on a successful Quest. <line-height=50%>\n</line-height>\r\n\u2022
-    <u>Weapon Mastery</u> \u2013 When equipping a Magic Item that increases Physical
-    Power, Empower that Adventurer with +1 Physical Power."
-  magesGuildText: "<line-height=50%><align=center><size=125%> Mages' Guild </size>
-    </align>\n</line-height>\r\nThe Mages' Guild harnesses the full potential of
-    spellcasting to turn the tides of any quest. Their empowered spells grant them
-    the ability to adapt to any challenge with unrivaled versatility.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
-    <u>Potent Spellcasting</u> \u2013 Spells that modify Power have their effects
-    increased by 1.<line-height=50%>\n</line-height>\r\n\u2022 <u>Arcane Momentum</u></font-weight>
-    \u2013 If you cast at least 2 spells on a Quest, your party gains +2 Magic Power.
-    <line-height=50%>\n</line-height>"
-  thievesGuildText: "<line-height=50%><align=center><size=125%> Thieves' Guild </size>
-    </align>\n</line-height>\r\nThe Thieves' Guild always finds a way to walk away
-    richer, whether through honest work or underhanded tactics. With a knack for
-    uncovering hidden treasure and disrupting rivals, they excel at making the best
-    of every situation.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
-    <u>First to the Spoils</u> \u2013 Gain +1 Gold after completing a successful
-    Quest.<line-height=50%>\n</line-height>\r\n\u2022 <u>Sleight of Hand</u></font-weight>
-    \u2013 Gain +1 Gold when you steal a rival Adventurer's Magic Item on a Quest.
-    <line-height=50%>\n</line-height>"
-  merchantsGuildText: "<line-height=50%><align=center><size=125%> Merchants' Guild
-    </size> </align>\n</line-height>\r\nThe Merchants' Guild prides itself on calculated
-    investments and strategic spending. They gain influence not through brute force,
-    but by showcasing their wealth and magical artifacts, commanding respect wherever
-    they go.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
-    <u>Steady Profits</u> \u2013 Gain +1 Gold at the start of every round.<line-height=50%>\n</line-height>\r\n\u2022
-    <u>Show of Wealth</u></font-weight> \u2013 Gain +1 Reputation when completing
-    a Quest with 2 or more Magic Items in your party. <line-height=50%>\n</line-height>"
-  assassinsGuildText: "<line-height=50%><align=center><size=125%> Assassins' Guild
-    </size> </align>\n</line-height>\r\nThe Assassins' Guild operates in the shadows,
-    practicing the art of subtle sabotage and calculated strikes. Through poisoned
-    blades and curse magic, they earn their reputation and wealth by exploiting the
-    weakness of their rivals, striking from the shadows without a trace.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
-    <u>Whispered Influence</u> \u2013 If you cast at least 1 negative Spell on a
-    Quest, gain +1 Reputation.<line-height=50%>\n</line-height>\r\n\u2022 <u>Deadly
-    Bounty</u></font-weight> \u2013 If you poison an Adventurer on a Quest, gain
-    +2 Gold <line-height=50%>\n</line-height>"
+  fightersGuildText: 
+  magesGuildText: 
+  thievesGuildText: 
+  merchantsGuildText: 
+  assassinsGuildText: 
 --- !u!114 &438887119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6910,11 +6871,11 @@ RectTransform:
   - {fileID: 700214076}
   m_Father: {fileID: 438887117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.07825, y: 0.5}
-  m_AnchorMax: {x: 0.49329177, y: 0.88429636}
-  m_AnchoredPosition: {x: -1, y: 0}
-  m_SizeDelta: {x: -1, y: 5}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -99, y: 325}
+  m_SizeDelta: {x: 801, y: 419}
+  m_Pivot: {x: 1, y: 1}
 --- !u!114 &1059206249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7197,10 +7158,10 @@ RectTransform:
   - {fileID: 930226459}
   m_Father: {fileID: 438887117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.07825, y: 0.13700001}
+  m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: -12, y: -12}
+  m_AnchoredPosition: {x: -46, y: -492}
+  m_SizeDelta: {x: 912.52, y: 380}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1205148812
 MonoBehaviour:
@@ -7215,15 +7176,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 95
     m_Right: 0
-    m_Top: 10
+    m_Top: 15
     m_Bottom: 0
-  m_ChildAlignment: 1
+  m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 115, y: 115}
-  m_Spacing: {x: 180, y: 60}
+  m_Spacing: {x: 130.4, y: 65}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!224 &1212783317 stripped
@@ -8004,12 +7965,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
+  m_fontSize: 50
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42
+  m_fontSizeMax: 50
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -9216,12 +9177,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
+  m_fontSize: 50
   m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 42
+  m_fontSizeMax: 50
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -9822,10 +9783,10 @@ RectTransform:
   - {fileID: 101604205}
   m_Father: {fileID: 438887117}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.07825, y: 0.038851853}
-  m_AnchorMax: {x: 0.49329177, y: 0.16937037}
-  m_AnchoredPosition: {x: -1, y: 2}
-  m_SizeDelta: {x: 0, y: 9}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -896, y: -126}
+  m_SizeDelta: {x: 771.3, y: 154.8}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1810738370
 MonoBehaviour:
@@ -10969,18 +10930,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2023840651}
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 394213722}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 55, y: 0}
-  m_SizeDelta: {x: 620, y: 825}
-  m_Pivot: {x: 0.5, y: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 843.6, y: 449}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2023840653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11001,15 +10962,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<line-height=50%><align=center><size=125%> Fighters' Guild </size> </align>\n</line-height>\r\nThe
-    Fighters' Guild thrives on raw strength and teamwork. They dominate quests through
-    sheer force and are rewarded for being unmatched in Physical Power.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
-    <u>Strength in Numbers</u> \u2013 If you have at least 3 Adventurers with Physical
-    Power on a Quest, your party gains +1 Physical Power. <line-height=50%>\n</line-height>\r\n\u2022
-    <u>Path to Glory</u></font-weight> \u2013 Gain +1 Reputation if your party contributed
-    the most Physical Power on a successful Quest. <line-height=50%>\n</line-height>\r\n\u2022
-    <u>Weapon Mastery</u> \u2013 When equipping a Magic Item that increases Physical
-    Power, Empower that Adventurer with +1 Physical Power."
+  m_text: "<align=\"center\"><size=125%> Fighters Guild </size> </align>\n\nThrives
+    on raw strength and teamwork. They dominate quests through sheer force and are
+    rewarded for being unmatched in Physical Power.\n\n<align=center>Abilities</align>\n\\u2022
+    Strength in Numbers \u2013 If you have at least 3 Adventurers with Physical Power
+    on a Quest, your party gains +1 Physical Power.\n\\u2022 Path to Glory \u2013
+    Gain +1 Reputation if your party contributed the most Physical Power on a successful
+    Quest.\n\\u2022 Weapon Mastery \u2013 When equipping a Magic Item that increases
+    Physical Power, Empower that Adventurer with +1 additional Physical Power."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -11036,8 +10996,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28
-  m_fontSizeBase: 28
+  m_fontSize: 25.5
+  m_fontSizeBase: 25.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 9
