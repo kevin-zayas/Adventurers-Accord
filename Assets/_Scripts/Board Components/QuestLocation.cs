@@ -316,6 +316,15 @@ public class QuestLocation : NetworkBehaviour
                 {
                     player.ChangePlayerGold(1);
                     print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Quest Complete");
+
+                    if (UnityEngine.Random.Range(1, 5) == 1) // 25% chance
+                    {
+                        Board.Instance.RewardLoot(player, 1); 
+                        print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 Loot - Quest Complete");
+                    }
+
+                    
+                       
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
                 {

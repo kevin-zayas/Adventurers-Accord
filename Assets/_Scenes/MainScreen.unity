@@ -2763,9 +2763,9 @@ MonoBehaviour:
     uncovering hidden treasure and disrupting rivals, they excel at making the best
     of every situation.\n\n<line-height=25%><align=center><size=115%>Abilities</size></align>\n</line-height>\r\n\u2022
     <u>First to the Spoils</u> \u2013 Gain +1 Gold after completing a successful
-    Quest.<line-height=50%>\n</line-height>\r\n\u2022 <u>Sleight of Hand</u></font-weight>
-    \u2013 Gain +1 Gold when you steal a rival Adventurer's Magic Item on a Quest.
-    <line-height=50%>\n</line-height>"
+    Quest. Additionally, there is a 25% chance to gain +1 Loot. <line-height=50%>\n</line-height>\r\n\u2022
+    <u>Sleight of Hand</u></font-weight> \u2013 Gain +1 Gold when you steal a rival
+    Adventurer's Magic Item on a Quest. <line-height=50%>\n</line-height>"
   merchantsGuildText: "<line-height=50%><align=center><size=125%> Merchants' Guild
     </size> </align>\n</line-height>\r\nThe Merchants' Guild prides itself on calculated
     investments and strategic spending. They gain influence not through brute force,
