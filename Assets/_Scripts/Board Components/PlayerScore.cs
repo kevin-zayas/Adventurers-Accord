@@ -18,19 +18,19 @@ public class PlayerScore : MonoBehaviour
     public void InitializeScore(int playerID, int gold, int reputation, GuildType guildType)
     {
         playerNameText.text = $"Player {playerID + 1} -";
-        goldText.text = $"{gold} GP";
-        reputationText.text = $"{reputation} Rep";
+        goldText.text = gold.ToString();
+        reputationText.text = reputation.ToString();
         guildIcon.sprite = CardDatabase.Instance.GetGuildSprite(guildType);
     }
 
     public void UpdateGold(int gold)
     {
-        goldText.text = $"{gold} GP";
+        goldText.text = gold.ToString();
     }
 
     public void UpdateReputation(int reputation)
     {
-        reputationText.text = $"{reputation} Rep";
+        reputationText.text = reputation.ToString();
     }
 
     public Button GetRosterButton()

@@ -542,7 +542,6 @@ MonoBehaviour:
   playerScorePrefab: {fileID: 2449725273452969227, guid: 07c0e523b9f77f843835aa874a0bd935, type: 3}
   playerScoreGroup: {fileID: 6395287569619939371}
   rosterGroup: {fileID: 732550672759001060}
-  rosterButton: {fileID: 0}
 --- !u!222 &4872761189247211835
 CanvasRenderer:
   m_ObjectHideFlags: 0
