@@ -15,6 +15,9 @@ public class AdventurerCard : Card
     public readonly SyncVar<Transform> ParentTransform = new();
     public readonly SyncVar<int> Cooldown = new();
     public readonly SyncVar<int> CurrentCooldown = new();
+    public readonly SyncVar<bool> DivineBlessing = new();
+    private int physicalPoisonTotal = 0;
+    private int magicalPoisonTotal = 0;
     #endregion
 
     #region UI Elements
@@ -94,6 +97,35 @@ public class AdventurerCard : Card
         Item.Value = itemCardHeader;
 
         if (CardName.Value == Sorcerer || ControllingPlayer.Value.isFightersGuild) ResetPower();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerGrantDivineBlessing()
+    {
+        DivineBlessing.Value = true;
+        CurrentCooldown.Value -= 1;
+        print(physicalPoisonTotal);
+        if (physicalPoisonTotal > 0) ChangePhysicalPower(physicalPoisonTotal);
+        if (magicalPoisonTotal > 0) ChangeMagicalPower(magicalPoisonTotal);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerApplyPoison(bool physicalPoison, bool magicalPoison)
+    {
+        int poisonAmount;
+        if (physicalPoison)
+        {
+            poisonAmount = Mathf.Min(2, PhysicalPower.Value);
+            ChangePhysicalPower(-poisonAmount);
+            physicalPoisonTotal += poisonAmount;
+            print(physicalPoisonTotal);
+        }
+        if (magicalPoison)
+        {
+            poisonAmount = Mathf.Min(2, MagicalPower.Value);
+            ChangeMagicalPower(-poisonAmount);
+            magicalPoisonTotal += poisonAmount;
+        }
     }
 
     /// <summary>
@@ -288,7 +320,9 @@ public class AdventurerCard : Card
     {
         QuestLane questLane = previousParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
+        if (DivineBlessing.Value) DivineBlessing.Value = false;
         if (HasItem.Value) Item.Value.ResetPower();
+        physicalPoisonTotal = magicalPoisonTotal = 0;
         ResetPower();
 
         Player player = ControllingPlayer.Value;
@@ -326,7 +360,11 @@ public class AdventurerCard : Card
         {
             PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Assassin" && !lane.ClericProtection.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Assassin" && !DivineBlessing.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        {
+            PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
+        }
+        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Cleric" && !DivineBlessing.Value)
         {
             PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }

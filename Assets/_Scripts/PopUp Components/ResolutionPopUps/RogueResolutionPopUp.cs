@@ -20,10 +20,10 @@ public class RogueResolutionPopUp : ResolutionPopUp
     protected override void SetPopUpText()
     {
         titleText = "Sticky Fingers";
-        defaultMessageText = "Please choose an Adventurer on this Quest to \"borrow\" an item from.";
-        confirmSelectionText = "Are you sure you want to \"borrow\" this {0}'s {1}?";
-        confirmCloseText = "Are you sure you don't want to \"borrow\" an item this round?";
-        buttonText = "\"Borrow\"";
+        defaultMessageText = "Choose an Adventurer to steal a Magic Item from.";
+        confirmSelectionText = "Are you sure you want to steal this {0}'s {1}?";
+        confirmCloseText = "Are you sure you don't want to steal an item this round?";
+        buttonText = "Steal";
     }
 
     [ServerRpc(RequireOwnership = false)]

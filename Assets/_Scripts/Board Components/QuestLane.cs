@@ -34,7 +34,6 @@ public class QuestLane : NetworkBehaviour
     private readonly Dictionary<string, int> adventurerEffects = new();
 
     public readonly SyncVar<int> BardBonus = new();
-    public readonly SyncVar<bool> ClericProtection = new();
 
     private bool EnchanterBuff;
     private bool TinkererBuff;
@@ -45,7 +44,6 @@ public class QuestLane : NetworkBehaviour
 
     private void Start()
     {
-        adventurerEffects.Add("Cleric", 0);
         adventurerEffects.Add("Enchanter", 0);
         adventurerEffects.Add("Tinkerer", 0);
     }
@@ -191,7 +189,7 @@ public class QuestLane : NetworkBehaviour
     {
         if (card.CardName.Value != "Wolf") CurrentAdventurerCount.Value++;
 
-        if (QuestCard.Value.Drain.Value && !ClericProtection.Value)
+        if (QuestCard.Value.Drain.Value)
         {
             print("Applying drain");
             card.ChangePhysicalPower(-QuestCard.Value.PhysicalDrain.Value);
@@ -218,12 +216,9 @@ public class QuestLane : NetworkBehaviour
             case "Bard":
                 BardBonus.Value++;
                 break;
-            case "Cleric":
-                ClericProtection.Value = true;
-                if (adventurerEffects["Cleric"] == 1) UpdateDrainEffects();
-                break;
-            case "Rogue":
             case "Assassin":
+            case "Cleric":
+            case "Rogue":
                 QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Add(card);
                 break;
             case "Enchanter":
@@ -254,15 +249,10 @@ public class QuestLane : NetworkBehaviour
             case "Bard":
                 BardBonus.Value--;
                 break;
-            case "Cleric":
-                if (adventurerEffects["Cleric"] == 0)
-                {
-                    ClericProtection.Value = false;
-                    UpdateDrainEffects();
-                }
-                break;
-            case "Rogue":
             case "Assassin":
+            case "Cleric":
+            case "Rogue":
+            
                 QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Remove(card);
                 break;
             case "Enchanter":
@@ -283,28 +273,19 @@ public class QuestLane : NetworkBehaviour
         UpdateQuestLanePower();
     }
 
-    [Server]
-    private void UpdateDrainEffects()
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerUpdateDrainEffects(AdventurerCard card)
     {
         if (!QuestCard.Value.Drain.Value) return;
-
-        foreach (Transform cardTransform in QuestDropZone.transform)
+        if (!card.DivineBlessing.Value)
         {
-            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
-            //if (card.Name == "Cleric") continue;          // only need this if applying drain after updating ClericProtection bool in AddAdventurerToQuestLane
-
-            if (ClericProtection.Value)
-            {
-                card.ChangePhysicalPower(QuestCard.Value.PhysicalDrain.Value);      //reverse drain
-                card.ChangeMagicalPower(QuestCard.Value.MagicalDrain.Value);    
-            }
-            else
-            {
-                print("Applying Drain");
-                card.ChangePhysicalPower(-QuestCard.Value.PhysicalDrain.Value);
-                card.ChangeMagicalPower(-QuestCard.Value.MagicalDrain.Value);
-            }
+            throw new System.Exception($"Divine Blessing not applied to {card.CardName.Value}");
         }
+
+        card.ChangePhysicalPower(QuestCard.Value.PhysicalDrain.Value);      //reverse drain
+        card.ChangeMagicalPower(QuestCard.Value.MagicalDrain.Value);
+
+        return;
     }
 
     [Server]

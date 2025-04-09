@@ -18,19 +18,20 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 5
-  <CardDescription>k__BackingField: Grants <color=#FFE000>Protection</color> to all
-    your Adventurers on this Quest
+  <CardDescription>k__BackingField: 'Resolution Phase: Grant <color=#FFE000>Divine
+    Blessing</color> to one Adventurer on this Quest.'
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer I
-  <AbilityName>k__BackingField: Divine Protection
+  <AbilityName>k__BackingField: Divine Blessing
   <CoolDown>k__BackingField: 1
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
-  <DescriptionKeys>k__BackingField: []
+  <IsNumerical>k__BackingField: 0

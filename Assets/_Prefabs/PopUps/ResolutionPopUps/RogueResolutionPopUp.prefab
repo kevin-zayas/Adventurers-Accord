@@ -116,7 +116,6 @@ MonoBehaviour:
   yellowAlert: {fileID: 21300000, guid: f26fa8880b3aeef4b8516c82dc12f2a5, type: 3}
   redAlert: {fileID: 21300000, guid: e9d4143c19529834981ac6821a04aecd, type: 3}
   QuestLocation: {fileID: 0}
-  <ResolutionType>k__BackingField: 
 --- !u!1 &1233999991587265898
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Please choose an adventurer to "borrow" an item from
+  m_text: Please choose an Adventurer to steal a Magic Item from.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}

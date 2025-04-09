@@ -11,6 +11,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] GameOverPopUp GameOverPopUpPrefab;
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
     [SerializeField] ResolutionPopUp AssassinResolutionPopUpPrefab;
+    [SerializeField] ResolutionPopUp ClericResolutionPopUpPrefab;
     [SerializeField] ResolutionPopUp RogueResolutionPopUpPrefab;
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
@@ -44,6 +45,7 @@ public class PopUpManager : NetworkBehaviour
         ResolutionPopUp popUp;
         if (cardName == "Assassin") popUp = Instantiate(AssassinResolutionPopUpPrefab);
         else if (cardName == "Rogue") popUp = Instantiate(RogueResolutionPopUpPrefab);
+        else if (cardName == "Cleric") popUp = Instantiate(ClericResolutionPopUpPrefab);
         else
         {
             Debug.LogError($"No Resolution PopUp prefab found for card name: {cardName}");

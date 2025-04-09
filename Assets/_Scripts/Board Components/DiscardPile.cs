@@ -19,7 +19,7 @@ public class DiscardPile : NetworkBehaviour
     {
         card.SetCardParent(gameObject.transform, false);
         player.DiscardPile.Add(card);
-        card.CurrentCooldown.Value = card.Cooldown.Value;
+        card.CurrentCooldown.Value += card.Cooldown.Value;
     }
 
     [Server]

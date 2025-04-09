@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8413646024599032626}
   - component: {fileID: -5392623682632982950}
-  - component: {fileID: 479054098422366363}
+  - component: {fileID: 777469769855225439}
   m_Layer: 5
-  m_Name: AssassinResolutionPopUp
+  m_Name: ClericResolutionPopUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,14 +83,14 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 0
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 13532413612957095542
+  <AssetPathHash>k__BackingField: 2741940559570763530
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: -150, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 0, y: 0, z: 0}
     IsValid: 0
---- !u!114 &479054098422366363
+--- !u!114 &777469769855225439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 893678014749151667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c306f9f0f095494e86caba60a9d6201, type: 3}
+  m_Script: {fileID: 11500000, guid: ca8890f2fdc5dd344b370bfb01ed58bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 255
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Poison Expert
+  m_text: Sticky Fingers
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Please choose an adventurer to "borrow" an item from
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}

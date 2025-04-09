@@ -13,8 +13,8 @@ public class AssassinResolutionPopUp : ResolutionPopUp
         {
             int questIndex = QuestLocation.QuestLocationIndex;
             
-            if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value == 0) card.ServerChangePhysicalPower(-2);
-            else if (card.PhysicalPower.Value == 0 && card.MagicalPower.Value > 0) card.ServerChangeMagicalPower(-2);
+            if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value == 0) card.ServerApplyPoison(true, false);
+            else if (card.PhysicalPower.Value == 0 && card.MagicalPower.Value > 0) card.ServerApplyPoison(false, true);
             else if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value > 0)
             {
                 SetAssassinConfirmStatPopupState(card);
@@ -38,21 +38,21 @@ public class AssassinResolutionPopUp : ResolutionPopUp
 
         leftButton.onClick.AddListener(() =>
         {
-            card.ServerChangePhysicalPower(-2);
+            card.ServerApplyPoison(true,false);
             HandleEndOfResolution(questIndex, card);
         });
 
         rightButton.onClick.AddListener(() =>
         {
-            card.ServerChangeMagicalPower(-2);
+            card.ServerApplyPoison(false, true);
             HandleEndOfResolution(questIndex, card);
         });
     }
 
     protected override void SetPopUpText()
     {
-        titleText = "Poisonous Blade";
-        defaultMessageText = "Please choose an Adventurer on this Quest to poison.";
+        titleText = "Poison Expert";
+        defaultMessageText = "Choose an Adventurer on this Quest to poison.";
         confirmSelectionText = "Are you sure you want to poison this {0}?";
         confirmCloseText = "Are you sure you don't want to poison an Adventurer this round?";
         buttonText = "Poison";
@@ -64,7 +64,7 @@ public class AssassinResolutionPopUp : ResolutionPopUp
     {
         Player player = GameManager.Instance.Players[playerID];
         if (player.isAssassinsGuild)
-        {
+        { 
             player.GuildBonusTracker[questIndex]["poisonedAdventurers"]++;
         }
     }
