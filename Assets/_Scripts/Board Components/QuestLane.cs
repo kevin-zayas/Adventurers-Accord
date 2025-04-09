@@ -54,7 +54,7 @@ public class QuestLane : NetworkBehaviour
     public void AssignQuestCard(QuestCard questCard)
     {
         QuestCard.Value = questCard;
-        MaxAdventurerCount.Value = questCard.MaxAdventurerCount.Value;
+        MaxAdventurerCount.Value = questCard.PartySizeLimit.Value;
     }
 
     [Server]

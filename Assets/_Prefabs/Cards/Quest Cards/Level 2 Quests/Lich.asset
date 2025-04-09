@@ -27,11 +27,11 @@ MonoBehaviour:
   <GoldReward>k__BackingField: 8
   <ReputationReward>k__BackingField: 4
   <LootReward>k__BackingField: 2
-  <MaxAdventurerCount>k__BackingField: 4
+  <PartySizeLimit>k__BackingField: 4
   <Drain>k__BackingField: 1
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 1
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
-  <DescriptionKeys>k__BackingField: []
+  <IsNumerical>k__BackingField: 0

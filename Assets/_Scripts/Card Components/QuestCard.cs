@@ -18,7 +18,7 @@ public class QuestCard : Card
     public readonly SyncVar<int> MagicalDrain = new();
     public readonly SyncVar<int> PhysicalDrain = new();
     public readonly SyncVar<int> ReputationReward = new();
-    [AllowMutableSyncTypeAttribute] public SyncVar<int> MaxAdventurerCount = new();
+    [AllowMutableSyncTypeAttribute] public SyncVar<int> PartySizeLimit = new();
     #endregion
 
     #region UI Elements
@@ -29,6 +29,7 @@ public class QuestCard : Card
     [SerializeField] private TMP_Text lootRewardText;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text reputationRewardText;
+    [SerializeField] private TMP_Text partySizeLimitText;
     #endregion
 
     /// <summary>
@@ -48,7 +49,7 @@ public class QuestCard : Card
         DisableItems.Value = cardData.DisableItems;
         BlockSpells.Value = cardData.BlockSpells;
         Data.Value = cardData;
-        MaxAdventurerCount.Value = cardData.MaxAdventurerCount;
+        PartySizeLimit.Value = cardData.PartySizeLimit;
 
         base.LoadCardData(cardData);
     }
@@ -64,9 +65,10 @@ public class QuestCard : Card
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
         abilityNameText.text = cardData.AbilityName;
-        goldRewardText.text = $"{cardData.GoldReward} GP";
-        reputationRewardText.text = $"{cardData.ReputationReward} Rep";
-        lootRewardText.text = $"{cardData.LootReward} Loot";
+        goldRewardText.text = cardData.GoldReward.ToString();
+        reputationRewardText.text = cardData.ReputationReward.ToString();
+        lootRewardText.text = cardData.LootReward.ToString();
+        partySizeLimitText.text = cardData.PartySizeLimit.ToString();
 
         if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
 
@@ -90,9 +92,10 @@ public class QuestCard : Card
         magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         abilityNameText.text = card.AbilityName.Value;
-        goldRewardText.text = $"{card.GoldReward.Value} GP";
-        reputationRewardText.text = $"{card.ReputationReward.Value} Rep.";
-        lootRewardText.text = $"{card.LootReward.Value} Loot";
+        goldRewardText.text = card.GoldReward.Value.ToString();
+        reputationRewardText.text = card.ReputationReward.Value.ToString();
+        lootRewardText.text = card.LootReward.Value.ToString();
+        partySizeLimitText.text = card.PartySizeLimit.Value.ToString();
 
         if (card.CardDescription.Value == "") abilityNameObject.SetActive(false);
     }

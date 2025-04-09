@@ -25,7 +25,7 @@ public class CardData : ScriptableObject
     [field: SerializeField] public int GoldReward { get; set; }
     [field: SerializeField] public int ReputationReward { get; set; }
     [field: SerializeField] public int LootReward { get; set; }
-    [field: SerializeField] public int MaxAdventurerCount { get; set; }
+    [field: SerializeField] public int PartySizeLimit { get; set; }
     [field: SerializeField] public bool Drain { get; set; }
     [field: SerializeField] public int PhysicalDrain { get; set; }
     [field: SerializeField] public int MagicalDrain { get; set; }
