@@ -278,13 +278,13 @@ public class Player : NetworkBehaviour
     private void ObserversUpdateGoldText(int gold)
     {
         if (!IsOwner) return;
-        Board.Instance.goldText.text = $"{gold} GP";
+        Board.Instance.goldText.text = gold.ToString();
     }
 
     [ObserversRpc(BufferLast = true)]
     private void ObserversUpdateReputationText(int reputation)
     {
         if (!IsOwner) return;
-        Board.Instance.reputationText.text = $"{reputation} Rep.";
+        Board.Instance.reputationText.text = reputation.ToString();
     }
 }
