@@ -10,7 +10,8 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
     [SerializeField] GameOverPopUp GameOverPopUpPrefab;
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
-    [SerializeField] ResolutionPopUp ResolutionPopUpPrefab;
+    [SerializeField] ResolutionPopUp AssassinResolutionPopUpPrefab;
+    [SerializeField] ResolutionPopUp RogueResolutionPopUpPrefab;
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
@@ -20,6 +21,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] GuildRosterPopUp RivalGuildRosterPopUpPrefab;
 
     public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
+    public readonly SyncVar<string> CurrentResolutionType = new();
     public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
 
     private void Awake()
@@ -36,10 +38,19 @@ public class PopUpManager : NetworkBehaviour
     }
 
     [Server]
-    public ResolutionPopUp CreateResolutionPopUp()
+    public ResolutionPopUp CreateResolutionPopUp(string cardName)
     {
-        ResolutionPopUp popUp = Instantiate(ResolutionPopUpPrefab);
+
+        ResolutionPopUp popUp;
+        if (cardName == "Assassin") popUp = Instantiate(AssassinResolutionPopUpPrefab);
+        else if (cardName == "Rogue") popUp = Instantiate(RogueResolutionPopUpPrefab);
+        else
+        {
+            Debug.LogError($"No Resolution PopUp prefab found for card name: {cardName}");
+            return null;
+        }
         CurrentResolutionPopUp.Value = popUp;
+        CurrentResolutionType.Value = cardName;
         return popUp;
     }
 

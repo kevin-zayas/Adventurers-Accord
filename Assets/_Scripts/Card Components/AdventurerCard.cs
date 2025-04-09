@@ -322,11 +322,11 @@ public class AdventurerCard : Card
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
         if (!lane.QuestLocation.Value.AllowResolution.Value) return;
 
-        if (PopUpManager.Instance.CurrentResolutionPopUp.Value.ResolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
+        if (PopUpManager.Instance.CurrentResolutionType.Value == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
         {
             PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionPopUp.Value.ResolutionType == "Assassin" && !lane.ClericProtection.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Assassin" && !lane.ClericProtection.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
         {
             PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }

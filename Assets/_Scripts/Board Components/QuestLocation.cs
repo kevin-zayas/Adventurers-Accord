@@ -448,7 +448,7 @@ public class QuestLocation : NetworkBehaviour
             return;
         }
 
-        ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp();
+        ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp(card.CardName.Value);
 
         Spawn(popUp.gameObject);
         GameManager.Instance.SetPlayerTurn(card.ControllingPlayer.Value);
