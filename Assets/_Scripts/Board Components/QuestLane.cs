@@ -37,6 +37,8 @@ public class QuestLane : NetworkBehaviour
 
     private bool EnchanterBuff;
     private bool TinkererBuff;
+    private const int EnchanterEmpower = 2;
+    private const int TinkererEmpower = 1;
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
@@ -198,8 +200,8 @@ public class QuestLane : NetworkBehaviour
 
         if (EnchanterBuff)
         {
-            card.ChangePhysicalPower(adventurerEffects["Enchanter"]);
-            card.ChangeMagicalPower(adventurerEffects["Enchanter"]);
+            card.ChangePhysicalPower(EnchanterEmpower*adventurerEffects["Enchanter"]);
+            card.ChangeMagicalPower(EnchanterEmpower*adventurerEffects["Enchanter"]);
         }
 
         if (TinkererBuff && card.HasItem.Value)
@@ -223,11 +225,11 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
-                UpdateEnchanterBuff(1);     //check for card ID here so enchanter cant buff itself if changing Enchanter stats
+                UpdateEnchanterBuff(EnchanterEmpower);     //check for card ID here so enchanter cant buff itself if changing Enchanter stats
                 break;
             case "Tinkerer":
                 if (adventurerEffects["Tinkerer"] == 1) TinkererBuff = true;
-                UpdateTinkererBuff(1);     
+                UpdateTinkererBuff(TinkererEmpower);     
                 break;
             case "Ranger":
                 HandleWolfSummon(false, card.ControllingPlayer.Value);
@@ -257,11 +259,11 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Enchanter":
                 if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
-                UpdateEnchanterBuff(-1);
+                UpdateEnchanterBuff(-EnchanterEmpower);
                 break;
             case "Tinkerer":
                 if (adventurerEffects["Tinkerer"] == 0) TinkererBuff = false;
-                UpdateTinkererBuff(-1);
+                UpdateTinkererBuff(-TinkererEmpower);
                 break;
             case "Ranger":
                 HandleWolfSummon(true);
@@ -308,7 +310,7 @@ public class QuestLane : NetworkBehaviour
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem.Value) continue;
-            print($"{card.CardName.Value} changing item power by {buffDelta}");
+
             card.Item.Value.ChangePhysicalPower(buffDelta);
             card.Item.Value.ChangeMagicalPower(buffDelta);
         }
