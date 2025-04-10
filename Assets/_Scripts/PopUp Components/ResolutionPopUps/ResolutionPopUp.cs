@@ -8,7 +8,7 @@ public abstract class ResolutionPopUp : NetworkBehaviour
     protected string titleText;
     protected string defaultMessageText;
     protected string confirmSelectionText;
-    protected string confirmCloseText;
+    protected string confirmCloseText = "You won't be able to use this ability this round. Are you sure?";
     protected string buttonText;
 
     [SerializeField] protected Button leftButton;
@@ -77,7 +77,7 @@ public abstract class ResolutionPopUp : NetworkBehaviour
         leftButton.onClick.RemoveAllListeners();
         rightButton.onClick.RemoveAllListeners();
 
-        leftButtonText.text = "Cancel";
+        leftButtonText.text = "Go Back";
         rightButtonText.text = "Yes";
         message.text = confirmCloseText;
 

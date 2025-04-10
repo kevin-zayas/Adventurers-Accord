@@ -22,7 +22,6 @@ public class ClericResolutionPopUp : ResolutionPopUp
         titleText = "Divine Blessing";
         defaultMessageText = "Please choose an Adventurer to bless.";
         confirmSelectionText = "Are you sure you want to bless this {0}?";
-        confirmCloseText = "Are you sure you don't want to bless an Adventurer this round?";
         buttonText = "Bless";
     }
 

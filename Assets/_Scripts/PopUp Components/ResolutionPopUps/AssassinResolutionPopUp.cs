@@ -54,7 +54,6 @@ public class AssassinResolutionPopUp : ResolutionPopUp
         titleText = "Poison Expert";
         defaultMessageText = "Choose an Adventurer on this Quest to poison.";
         confirmSelectionText = "Are you sure you want to poison this {0}?";
-        confirmCloseText = "Are you sure you don't want to poison an Adventurer this round?";
         buttonText = "Poison";
         assassinConfirmStatText = "Would you like to target this {0}'s Physical or Magical Power?";
     }

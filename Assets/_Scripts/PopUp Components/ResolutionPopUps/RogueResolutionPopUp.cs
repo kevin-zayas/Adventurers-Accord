@@ -22,7 +22,6 @@ public class RogueResolutionPopUp : ResolutionPopUp
         titleText = "Sticky Fingers";
         defaultMessageText = "Choose an Adventurer to steal a Magic Item from.";
         confirmSelectionText = "Are you sure you want to steal this {0}'s {1}?";
-        confirmCloseText = "Are you sure you don't want to steal an item this round?";
         buttonText = "Steal";
     }
 
