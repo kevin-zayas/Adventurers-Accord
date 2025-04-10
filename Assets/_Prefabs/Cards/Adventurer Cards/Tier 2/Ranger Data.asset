@@ -21,16 +21,17 @@ MonoBehaviour:
   <CardDescription>k__BackingField: <color=#FFE000>Summon</color> a <color=#EB000E>2</color>/<color=#000EEB>0</color>
     Wolf companion at this Quest.
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Adventurer II
+  <CardType>k__BackingField: Adventurer
   <AbilityName>k__BackingField: Nature's Companion
-  <CoolDown>k__BackingField: 2
+  <RestPeriod>k__BackingField: 2
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
-  <DescriptionKeys>k__BackingField: []
+  <IsNumerical>k__BackingField: 0

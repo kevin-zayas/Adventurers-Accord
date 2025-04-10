@@ -21,9 +21,9 @@ MonoBehaviour:
   <CardDescription>k__BackingField: 'Resolution Phase: Grant <color=#FFE000>Divine
     Blessing</color> to one Adventurer on this Quest.'
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Adventurer I
+  <CardType>k__BackingField: Adventurer
   <AbilityName>k__BackingField: Divine Blessing
-  <CoolDown>k__BackingField: 1
+  <RestPeriod>k__BackingField: 1
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0

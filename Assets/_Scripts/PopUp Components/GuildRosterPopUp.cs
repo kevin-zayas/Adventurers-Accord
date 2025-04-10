@@ -47,7 +47,7 @@ public class GuildRosterPopUp : NetworkBehaviour
         }
 
         // sort the player's discard pile by current cooldown
-        player.DiscardPile.Sort((x, y) => x.CurrentCooldown.Value.CompareTo(y.CurrentCooldown.Value));
+        player.DiscardPile.Sort((x, y) => x.CurrentRestPeriod.Value.CompareTo(y.CurrentRestPeriod.Value));
 
         foreach (AdventurerCard restingCard in player.DiscardPile)
         {
@@ -94,7 +94,7 @@ public class GuildRosterPopUp : NetworkBehaviour
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.CopyCardData(connection, newCardObject, rosterCardObject);
 
-        int currentCooldown = rosterCardObject.GetComponent<AdventurerCard>().CurrentCooldown.Value + 1;
+        int currentCooldown = rosterCardObject.GetComponent<AdventurerCard>().CurrentRestPeriod.Value + 1;
         TargetSetCardParent(connection, newCardObject, rosterGroup, currentCooldown);
 
         if (rosterGroup == "Active")

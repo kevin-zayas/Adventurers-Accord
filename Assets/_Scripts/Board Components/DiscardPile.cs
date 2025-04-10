@@ -19,7 +19,7 @@ public class DiscardPile : NetworkBehaviour
     {
         card.SetCardParent(gameObject.transform, false);
         player.DiscardPile.Add(card);
-        card.CurrentCooldown.Value += card.Cooldown.Value;
+        card.CurrentRestPeriod.Value += card.RestPeriod.Value;
     }
 
     [Server]
@@ -31,7 +31,7 @@ public class DiscardPile : NetworkBehaviour
 
             foreach (AdventurerCard card in player.DiscardPile)
             {
-                if (card.CurrentCooldown.Value > 0) card.CurrentCooldown.Value--;
+                if (card.CurrentRestPeriod.Value > 0) card.CurrentRestPeriod.Value--;
                 else
                 {
                     card.SetCardParent(player.controlledHand.Value.transform, false);

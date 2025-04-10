@@ -19,7 +19,7 @@ public class CardData : ScriptableObject
     //[field: SerializeField] public Sprite CardSprite { get; private set; }
 
     //Adventurers
-    [field: SerializeField] public int CoolDown { get; set; }
+    [field: SerializeField] public int RestPeriod { get; set; }
 
     //Quests
     [field: SerializeField] public int GoldReward { get; set; }

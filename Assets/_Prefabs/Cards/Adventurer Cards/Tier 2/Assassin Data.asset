@@ -22,13 +22,13 @@ MonoBehaviour:
     an Adventurer on this Quest, decreasing their <color=#EB000E>Physical</color>
     or <color=#000EEB>Magical</color> Power by 2.'
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Adventurer II
+  <CardType>k__BackingField: Adventurer
   <AbilityName>k__BackingField: Poison Expert
-  <CoolDown>k__BackingField: 2
+  <RestPeriod>k__BackingField: 2
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
-  <MaxAdventurerCount>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0

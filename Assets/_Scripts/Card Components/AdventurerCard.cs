@@ -13,8 +13,8 @@ public class AdventurerCard : Card
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
     public readonly SyncVar<Transform> ParentTransform = new();
-    public readonly SyncVar<int> Cooldown = new();
-    public readonly SyncVar<int> CurrentCooldown = new();
+    public readonly SyncVar<int> RestPeriod = new();
+    public readonly SyncVar<int> CurrentRestPeriod = new();
     public readonly SyncVar<bool> DivineBlessing = new();
     private int physicalPoisonTotal = 0;
     private int magicalPoisonTotal = 0;
@@ -27,6 +27,7 @@ public class AdventurerCard : Card
     [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text restPeriodText;
     #endregion
 
     #region Constants
@@ -103,11 +104,25 @@ public class AdventurerCard : Card
     public void ServerGrantDivineBlessing()
     {
         DivineBlessing.Value = true;
-        CurrentCooldown.Value -= 1;
-        print(physicalPoisonTotal);
+        CurrentRestPeriod.Value -= 1;
         if (physicalPoisonTotal > 0) ChangePhysicalPower(physicalPoisonTotal);
         if (magicalPoisonTotal > 0) ChangeMagicalPower(magicalPoisonTotal);
     }
+
+    //[ObserversRpc(BufferLast = true)]
+    //private void ObserversUpdateRestPeriodText(int restPeriod)
+    //{
+    //    restPeriodText.text = restPeriod.ToString();
+    //    UpdateRestPeriodTextColor(restPeriod);
+    //}
+
+    //private void UpdateRestPeriodTextColor(int currentRestPeriod, int restPeriod=0)
+    //{
+    //    if (restPeriod == 0) restPeriod = RestPeriod.Value;
+
+    //    if (currentRestPeriod == restPeriod) restPeriodText.color = Color.black;
+    //    else restPeriodText.color = new Color32(54, 128, 48, 255);
+    //}
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerApplyPoison(bool physicalPoison, bool magicalPoison)
@@ -231,7 +246,8 @@ public class AdventurerCard : Card
     {
         Cost.Value = cardData.Cost;
         AbilityName.Value = cardData.AbilityName;
-        Cooldown.Value = cardData.CoolDown;
+        RestPeriod.Value = cardData.RestPeriod;
+        //CurrentRestPeriod.Value = cardData.RestPeriod;
 
         base.LoadCardData(cardData);
     }
@@ -251,6 +267,7 @@ public class AdventurerCard : Card
         abilityNameText.text = cardData.AbilityName;
         cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
+        restPeriodText.text = cardData.RestPeriod.ToString();
 
         if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
     }
@@ -273,6 +290,7 @@ public class AdventurerCard : Card
         nameText.text = card.CardName.Value;
         abilityNameText.text = card.AbilityName.Value;
         costText.text = card.Cost.Value.ToString();
+        restPeriodText.text = card.RestPeriod.Value.ToString();
 
         UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
 
