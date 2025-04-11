@@ -393,7 +393,7 @@ public class AdventurerCard : Card
         {
             PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Cleric" && !DivineBlessing.Value)
+        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Cleric" && !DivineBlessing.Value && CardName.Value != "Wolf")
         {
             PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
         }
