@@ -19,7 +19,7 @@ public class DiscardPile : NetworkBehaviour
     {
         card.SetCardParent(gameObject.transform, false);
         player.DiscardPile.Add(card);
-        card.CurrentRestPeriod.Value += card.RestPeriod.Value;
+        //card.CurrentRestPeriod.Value += card.RestPeriod.Value;
     }
 
     [Server]
@@ -36,6 +36,7 @@ public class DiscardPile : NetworkBehaviour
                 {
                     card.SetCardParent(player.controlledHand.Value.transform, false);
                     cardsToRemove.Add(card);
+                    card.CurrentRestPeriod.Value = card.RestPeriod.Value;
                 }
             }
 

@@ -105,24 +105,24 @@ public class AdventurerCard : Card
     {
         DivineBlessing.Value = true;
         CurrentRestPeriod.Value -= 1;
+        ObserversUpdateRestPeriodText(CurrentRestPeriod.Value, RestPeriod.Value);
+
         if (physicalPoisonTotal > 0) ChangePhysicalPower(physicalPoisonTotal);
         if (magicalPoisonTotal > 0) ChangeMagicalPower(magicalPoisonTotal);
     }
 
-    //[ObserversRpc(BufferLast = true)]
-    //private void ObserversUpdateRestPeriodText(int restPeriod)
-    //{
-    //    restPeriodText.text = restPeriod.ToString();
-    //    UpdateRestPeriodTextColor(restPeriod);
-    //}
+    [ObserversRpc(BufferLast = true)]
+    private void ObserversUpdateRestPeriodText(int currentRestPeriod, int restPeriod)
+    {
+        restPeriodText.text = currentRestPeriod.ToString();
+        UpdateRestPeriodTextColor(currentRestPeriod, restPeriod);
+    }
 
-    //private void UpdateRestPeriodTextColor(int currentRestPeriod, int restPeriod=0)
-    //{
-    //    if (restPeriod == 0) restPeriod = RestPeriod.Value;
-
-    //    if (currentRestPeriod == restPeriod) restPeriodText.color = Color.black;
-    //    else restPeriodText.color = new Color32(54, 128, 48, 255);
-    //}
+    private void UpdateRestPeriodTextColor(int currentRestPeriod, int restPeriod)
+    {
+        if (currentRestPeriod == restPeriod) restPeriodText.color = Color.black;
+        else restPeriodText.color = new Color32(54, 128, 48, 255);
+    }
 
     [ServerRpc(RequireOwnership = false)]
     public void ServerApplyPoison(bool physicalPoison, bool magicalPoison)
@@ -247,7 +247,7 @@ public class AdventurerCard : Card
         Cost.Value = cardData.Cost;
         AbilityName.Value = cardData.AbilityName;
         RestPeriod.Value = cardData.RestPeriod;
-        //CurrentRestPeriod.Value = cardData.RestPeriod;
+        CurrentRestPeriod.Value = cardData.RestPeriod;
 
         base.LoadCardData(cardData);
     }
@@ -290,7 +290,13 @@ public class AdventurerCard : Card
         nameText.text = card.CardName.Value;
         abilityNameText.text = card.AbilityName.Value;
         costText.text = card.Cost.Value.ToString();
-        restPeriodText.text = card.RestPeriod.Value.ToString();
+
+        if (card.DivineBlessing.Value)
+        {
+            restPeriodText.text = card.CurrentRestPeriod.Value.ToString();
+            UpdateRestPeriodTextColor(card.CurrentRestPeriod.Value, card.RestPeriod.Value);
+        }
+        else restPeriodText.text = card.RestPeriod.Value.ToString();
 
         UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
 
@@ -338,7 +344,12 @@ public class AdventurerCard : Card
     {
         QuestLane questLane = previousParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
-        if (DivineBlessing.Value) DivineBlessing.Value = false;
+        if (DivineBlessing.Value)
+        {
+            DivineBlessing.Value = false;
+            ObserversUpdateRestPeriodText(RestPeriod.Value, RestPeriod.Value);
+        }
+
         if (HasItem.Value) Item.Value.ResetPower();
         physicalPoisonTotal = magicalPoisonTotal = 0;
         ResetPower();
