@@ -163,25 +163,25 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public void HandleEndOfQuest(QuestSummary questSummary)
+    public void HandleEndOfQuest(Dictionary<int,PlayerSummaryData> playerSummaries)
     {
-        QuestSummary = questSummary;
+        //QuestSummary = questSummary;
 
         UpdateTotalPower();
 
         if (MeetsQuestRequirements())
         {
             Status = QuestStatus.Complete;
-            QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Complete!", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
-            CalculateQuestContributions(true);
-            CheckGuildBonus();
-            DistributeBardBonus();
+            //QuestSummary.ObserversSetQuestInfo(QuestCard.Value.CardName.Value, "Complete!", TotalPhysicalPower.Value, QuestCard.Value.PhysicalPower.Value, TotalMagicalPower.Value, QuestCard.Value.MagicalPower.Value);
+            CalculateQuestContributions(true,playerSummaries);
+            CheckGuildBonus(playerSummaries);
+            DistributeBardBonus(playerSummaries);
             
             ReplaceQuestCard();
         }
         else
         {
-            CheckGuildBonus();
+            CheckGuildBonus(playerSummaries);
             foreach (QuestLane lane in questLanes)
             {
                 if (lane.QuestDropZone.transform.childCount > 0)
@@ -201,7 +201,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public void CalculateQuestContributions(bool isQuestComplete)
+    public void CalculateQuestContributions(bool isQuestComplete, Dictionary<int,PlayerSummaryData> playerSummaries = null)
     {
         List<QuestLane> laneList = new(questLanes);
         laneList.Sort((a, b) => b.EffectiveTotalPower.Value.CompareTo(a.EffectiveTotalPower.Value));
@@ -220,7 +220,7 @@ public class QuestLocation : NetworkBehaviour
                 if (lane.EffectiveTotalPower.Value > 0) secondaryContributors.Add(lane);
             }
         }
-        CalculateQuestRwards(primaryContributors, secondaryContributors, isQuestComplete);
+        CalculateQuestRwards(primaryContributors, secondaryContributors, isQuestComplete, playerSummaries);
     }
 
     [Server]
@@ -233,13 +233,13 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void CalculateQuestRwards(List<QuestLane> primaryContributors, List<QuestLane> secondaryContributors, bool isQuestComplete)
+    private void CalculateQuestRwards(List<QuestLane> primaryContributors, List<QuestLane> secondaryContributors, bool isQuestComplete, Dictionary<int, PlayerSummaryData> playerSummaries = null)
     {
         if (primaryContributors.Count == 0)         //all secondary contributors recieve half rewards
         {
             foreach (QuestLane lane in secondaryContributors)
             {
-                if (isQuestComplete) DistributeQuestRewards(lane, false);
+                if (isQuestComplete) DistributeQuestRewards(lane, false, playerSummaries);
                 else
                 {
                     if (MeetsQuestRequirements()) lane.ObserversUpdateRewardIndicator("silver");
@@ -252,7 +252,7 @@ public class QuestLocation : NetworkBehaviour
         {
             foreach (QuestLane lane in primaryContributors)
             {
-                if (isQuestComplete) DistributeQuestRewards(lane, true);
+                if (isQuestComplete) DistributeQuestRewards(lane, true, playerSummaries);
                 else lane.ObserversUpdateRewardIndicator("gold");
             }
 
@@ -263,7 +263,7 @@ public class QuestLocation : NetworkBehaviour
             {
                 if (lane.EffectiveTotalPower.Value == topSecondaryPower)
                 {
-                    if (isQuestComplete) DistributeQuestRewards(lane, false);
+                    if (isQuestComplete) DistributeQuestRewards(lane, false, playerSummaries);
                     else lane.ObserversUpdateRewardIndicator("silver");
                 }
                 else
@@ -276,7 +276,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void DistributeQuestRewards(QuestLane lane, bool primaryContributor)
+    private void DistributeQuestRewards(QuestLane lane, bool primaryContributor, Dictionary<int, PlayerSummaryData> playerSummaries)
     {
         Player player = lane.Player.Value;
         int goldReward;
@@ -303,32 +303,37 @@ public class QuestLocation : NetworkBehaviour
         print($"Player {player.PlayerID.Value} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
         QuestSummary.ObserversSetPlayerSummary(player.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, goldReward, reputationReward, lootReward);
 
+        playerSummaries[player.PlayerID.Value].UpdatePlayerSummary(goldReward, reputationReward, lootReward);
+
     }
 
     [Server]
-    private void CheckGuildBonus()
+    private void CheckGuildBonus(Dictionary<int, PlayerSummaryData> playerSummaries)
     {
         foreach (Player player in GameManager.Instance.Players)
         {
+            PlayerSummaryData playerSummaryData = playerSummaries[player.PlayerID.Value];
+
             if (player.isThievesGuild)
             {
                 if (Status == QuestStatus.Complete)
                 {
                     player.ChangePlayerGold(1);
+                    playerSummaryData.AddBonusReward("First to the Spoils", 1, 0, 0);
                     print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Quest Complete");
 
                     if (UnityEngine.Random.Range(1, 5) == 1) // 25% chance
                     {
-                        Board.Instance.RewardLoot(player, 1); 
+                        Board.Instance.RewardLoot(player, 1);
+                        playerSummaryData.AddBonusReward("First to the Spoils", 0, 0, 1);
                         print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 Loot - Quest Complete");
                     }
-
-                    
                        
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
                 {
                     player.ChangePlayerGold(1);
+                    playerSummaryData.AddBonusReward("Sleight of Hand", 1, 0, 0);
                     print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Stolen Item Count: {player.GuildBonusTracker[QuestLocationIndex]["stolenItems"]}");
                 }
             }
@@ -351,6 +356,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["mostPhysPower"] == 1)
                 {
                     player.ChangePlayerReputation(1);
+                    playerSummaryData.AddBonusReward("Path to Glory", 0, 1, 0);
                     print($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Most Physical Power");
                 }
             }
@@ -359,6 +365,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"] >= 2)
                 {
                     player.ChangePlayerReputation(1);
+                    playerSummaryData.AddBonusReward("Show of Wealth", 0, 1, 0);
                     print($"Merchants Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Magic Item Count: {player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"]}");
                 }
             }
@@ -367,11 +374,13 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
                 {
                     player.ChangePlayerReputation(1);
+                    playerSummaryData.AddBonusReward("Whispered Influence", 0, 1, 0);
                     print($"Assassins Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Curse Spell Count: {player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"]}");
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"] > 0)
                 {
                     player.ChangePlayerGold(2);
+                    playerSummaryData.AddBonusReward("Deadly Bounty", 2, 0, 0);
                     print($"Assassins Guild Bonus - Player {player.PlayerID.Value} +2 GP. - Posoned Adventurer Count: {player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"]}");
                 }
             }
@@ -379,7 +388,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void DistributeBardBonus()
+    private void DistributeBardBonus(Dictionary<int, PlayerSummaryData> playerSummaries)
     {
         int bardBonusGold;
         int bardBonusReputation;
@@ -387,10 +396,12 @@ public class QuestLocation : NetworkBehaviour
         {
             if (lane.BardBonus.Value > 0)
             {
+                Player player = lane.Player.Value;
                 (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
-                lane.Player.Value.ChangePlayerGold(bardBonusGold);
-                lane.Player.Value.ChangePlayerReputation(bardBonusReputation);
-                QuestSummary.ObserversAddBardBonus(lane.Player.Value.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, bardBonusGold, bardBonusReputation);
+                player.ChangePlayerGold(bardBonusGold);
+                player.ChangePlayerReputation(bardBonusReputation);
+                playerSummaries[player.PlayerID.Value].AddBonusReward("Bardsong", bardBonusGold, bardBonusReputation, 0);
+                //QuestSummary.ObserversAddBardBonus(lane.Player.Value.PlayerID.Value, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value, bardBonusGold, bardBonusReputation);
             }
         }
     }

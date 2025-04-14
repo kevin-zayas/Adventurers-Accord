@@ -23,7 +23,47 @@ public class PlayerRoundSummary : MonoBehaviour
         foreach (BonusRewardData bonus in bonusRewards)
         {
             BonusReward newBonus = Instantiate(bonusRewardPrefab, bonusRewardGroup.transform);
-            newBonus.SetBonusReward(bonus.Name, bonus.Amount1, bonus.Type1, bonus.Amount2, bonus.Type2);
+            newBonus.SetBonusReward(bonus.Name, bonus.Gold, bonus.Reputation, bonus.Loot);
+        }
+    }
+}
+
+public class PlayerSummaryData
+{
+    public string PlayerName;
+    public int Gold;
+    public int Reputation;
+    public int Loot;
+    public Dictionary<string,BonusRewardData> BonusRewards;
+    public PlayerSummaryData(string playerName)
+    {
+        PlayerName = playerName;
+        Gold = 0;
+        Reputation = 0;
+        Loot = 0;
+        BonusRewards = new();
+    }
+
+    public void UpdatePlayerSummary(int gold, int reputation, int loot)
+    {
+        Gold += gold;
+        Reputation += reputation;
+        Loot += loot;
+    }
+
+    public void AddBonusReward(string bonusName, int gold, int reputation, int loot)
+    {
+        BonusRewardData bonusRewardData;
+
+        if (BonusRewards.ContainsKey(bonusName))
+        {
+            bonusRewardData = BonusRewards[bonusName];
+            bonusRewardData.UpdateRewardData(gold, reputation, loot);
+        }
+        else
+        {
+            bonusRewardData = new BonusRewardData(bonusName, gold, reputation, loot);
+            BonusRewards.Add(bonusName, bonusRewardData);
         }
     }
 }

@@ -234,6 +234,13 @@ public class Board : NetworkBehaviour
         RoundSummaryPopUp popUp = PopUpManager.Instance.CreateRoundSummaryPopUp();
         Spawn(popUp.gameObject);
 
+        Dictionary<int, PlayerSummaryData> playerSummaries = new();
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            PlayerSummaryData playerSummary = new(player.PlayerID.Value.ToString());
+            playerSummaries.Add(player.PlayerID.Value, playerSummary);
+        }
+
         for (int i = 0; i < QuestLocations.Length; i++)
         {
             if (QuestLocations[i].QuestCard.Value == null)
@@ -241,7 +248,7 @@ public class Board : NetworkBehaviour
                 print("skipping empty quest location");
                 continue;
             }
-
+            QuestLocations[i].HandleEndOfQuest(playerSummaries);
             //QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
         }
 

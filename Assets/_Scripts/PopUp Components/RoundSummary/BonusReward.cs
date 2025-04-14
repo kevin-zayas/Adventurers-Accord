@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class BonusReward : MonoBehaviour
 {
     [SerializeField] private TMP_Text bonusName;
+    [SerializeField] private TMP_Text gold;
+    [SerializeField] private TMP_Text reputation;
+    [SerializeField] private TMP_Text loot;
     [SerializeField] private TMP_Text bonusAmount1;
     [SerializeField] private TMP_Text bonusAmount2;
     [SerializeField] private Image bonusIcon1;
@@ -15,18 +18,28 @@ public class BonusReward : MonoBehaviour
     [SerializeField] private Sprite reputationSprite;
     [SerializeField] private Sprite lootSprite;
 
-    public void SetBonusReward(string name, int amount1, string type1, int amount2=0, string type2="")
+    public void SetBonusReward(string name, int gold, int reputation, int loot)
     {
         bonusName.text = name;
-        bonusAmount1.text = amount1.ToString();
-        SetBonusIcon(type1, bonusIcon1);
+        TMP_Text bonusTextField = bonusAmount1;
 
-        if (amount2 > 0 && !string.IsNullOrEmpty(type2))
+        if (gold != 0)
         {
-            bonusAmount2.text = amount2.ToString();
-            SetBonusIcon(type2, bonusIcon2);
+            bonusTextField.text = gold.ToString();
+            SetBonusIcon("Gold", bonusIcon1);
+            bonusTextField = bonusAmount2;          //this only works because reputation and loot are currently mutually exclusive
         }
-        else
+        if (reputation != 0)
+        {
+            bonusTextField.text = reputation.ToString();
+            SetBonusIcon("Reputation", bonusIcon1);
+        }
+        if (loot != 0)
+        {
+            bonusTextField.text = loot.ToString();
+            SetBonusIcon("Loot", bonusIcon1);
+        }
+        if (bonusAmount2.text == "")
         {
             bonusAmount2.gameObject.SetActive(false);
             bonusIcon2.gameObject.SetActive(false);
@@ -56,17 +69,25 @@ public class BonusReward : MonoBehaviour
 public class BonusRewardData
 {
     public string Name;
-    public int Amount1;
-    public string Type1;
-    public int Amount2;
-    public string Type2;
+    public int Gold;
+    public int Reputation;
+    public int Loot;
 
-    public BonusRewardData(string name, int amount1, string type1, int amount2 = 0, string type2 = "")
+    public BonusRewardData(string name, int gold, int reputation, int loot)
     {
         this.Name = name;
-        this.Amount1 = amount1;
-        this.Type1 = type1;
-        this.Amount2 = amount2;
-        this.Type2 = type2;
+        this.Gold = gold;
+        this.Reputation = reputation;
+        this.Loot = loot;
+        //this.Type1 = type1;
+        //this.Type2 = type2;
     }
+
+    public void UpdateRewardData(int gold, int reputation, int loot)
+    {
+        this.Gold += gold;
+        this.Reputation += reputation;
+        this.Loot += loot;
+    }
+
 }
