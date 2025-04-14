@@ -242,7 +242,7 @@ public class Board : NetworkBehaviour
                 continue;
             }
 
-            QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
+            //QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
         }
 
         popUp.ObserversInitializeRoundSummaryPopUp();

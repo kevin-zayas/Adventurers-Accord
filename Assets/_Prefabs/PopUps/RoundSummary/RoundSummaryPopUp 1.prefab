@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 8194588465754188569}
   - component: {fileID: 2116103978768093714}
   m_Layer: 0
-  m_Name: RoundSummaryPopUp
+  m_Name: RoundSummaryPopUp 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -395,7 +395,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 19
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 1633877454836397216
+  <AssetPathHash>k__BackingField: 2045829129834895025
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}

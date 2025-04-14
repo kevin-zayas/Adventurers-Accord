@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 363837358515380643}
   - component: {fileID: -446183644572633041}
   m_Layer: 0
-  m_Name: QuestSummary
+  m_Name: QuestSummary 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,7 +404,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 8
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 3602600918810615848
+  <AssetPathHash>k__BackingField: 15683860491529998015
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}

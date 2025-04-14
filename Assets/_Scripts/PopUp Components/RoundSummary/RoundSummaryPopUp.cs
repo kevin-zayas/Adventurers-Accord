@@ -9,7 +9,7 @@ public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
 
-    [AllowMutableSyncTypeAttribute] public SyncList<QuestSummary> QuestSummaries = new();
+    //[AllowMutableSyncTypeAttribute] public SyncList<QuestSummary> QuestSummaries = new();
 
     private int playerCount;
     private int totalPlayers;
