@@ -255,7 +255,7 @@ public class Board : NetworkBehaviour
         foreach (Player player in GameManager.Instance.Players)
         {
             PlayerRoundSummaryData playerSummary = playerSummaries[player.PlayerID.Value];
-            popUp.ObserversSetPlayerRoundSummary(playerSummary);
+            popUp.SetPlayerRoundSummary(playerSummary);
         }
 
         popUp.ObserversInitializeRoundSummaryPopUp();

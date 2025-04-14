@@ -10378,7 +10378,7 @@ MonoBehaviour:
     NetworkBehaviour: {fileID: 0}
     _value: 0
   <StartingTurn>k__BackingField: 0
-  <StartingGold>k__BackingField: 100
+  <StartingGold>k__BackingField: 99
   <StartingLoot>k__BackingField: 0
   <ReputationGoal>k__BackingField: 30
   <PlayerSkipTurnStatus>k__BackingField: 

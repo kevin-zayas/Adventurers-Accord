@@ -1,3 +1,4 @@
+using FishNet.Object;
 using System;
 using TMPro;
 using UnityEngine;
@@ -63,6 +64,7 @@ public class BonusRewardData
     public int Gold;
     public int Reputation;
     public int Loot;
+    public BonusRewardData() { }
 
     public BonusRewardData(string name, int gold, int reputation, int loot)
     {

@@ -2,6 +2,7 @@ using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,10 +28,19 @@ public class RoundSummaryPopUp : NetworkBehaviour
         });
     }
 
-    public void ObserversSetPlayerRoundSummary(PlayerRoundSummaryData summaryData)
+    [Server]
+    public void SetPlayerRoundSummary(PlayerRoundSummaryData summaryData)
     {
-        PlayerRoundSummary newPlayerRoundSummary = Instantiate(playerRoundSummaryPrefab, playerRoundSummaryGroup.transform);
-        newPlayerRoundSummary.SetPlayerRoundSummary(summaryData.PlayerName, summaryData.Gold, summaryData.Reputation, summaryData.Loot, summaryData.BonusRewards);
+        PlayerRoundSummary newPlayerRoundSummary = Instantiate(playerRoundSummaryPrefab);
+        Spawn(newPlayerRoundSummary.gameObject);
+        ObserversSetPlayerRoundSummary(newPlayerRoundSummary, summaryData);
+    }
+
+    [ObserversRpc]
+    private void ObserversSetPlayerRoundSummary(PlayerRoundSummary playerRoundSummary, PlayerRoundSummaryData summaryData)
+    {
+        playerRoundSummary.transform.SetParent(playerRoundSummaryGroup.transform);
+        playerRoundSummary.SetPlayerRoundSummary(summaryData.PlayerName, summaryData.Gold, summaryData.Reputation, summaryData.Loot, summaryData.BonusRewards);
     }
 
     [ObserversRpc]

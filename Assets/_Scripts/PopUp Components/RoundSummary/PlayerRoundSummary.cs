@@ -1,9 +1,10 @@
+using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerRoundSummary : MonoBehaviour
+public class PlayerRoundSummary : NetworkBehaviour
 {
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private TMP_Text goldReward;
@@ -37,6 +38,7 @@ public class PlayerRoundSummaryData
     public int Reputation;
     public int Loot;
     public Dictionary<string,BonusRewardData> BonusRewards;
+    public PlayerRoundSummaryData() { }
     public PlayerRoundSummaryData(string playerName)
     {
         PlayerName = playerName;
