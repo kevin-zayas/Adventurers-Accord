@@ -6,9 +6,6 @@ using UnityEngine.UI;
 public class BonusReward : MonoBehaviour
 {
     [SerializeField] private TMP_Text bonusName;
-    [SerializeField] private TMP_Text gold;
-    [SerializeField] private TMP_Text reputation;
-    [SerializeField] private TMP_Text loot;
     [SerializeField] private TMP_Text bonusAmount1;
     [SerializeField] private TMP_Text bonusAmount2;
     [SerializeField] private Image bonusIcon1;
@@ -20,24 +17,26 @@ public class BonusReward : MonoBehaviour
 
     public void SetBonusReward(string name, int gold, int reputation, int loot)
     {
-        bonusName.text = name;
+        bonusName.text = name + " -";
         TMP_Text bonusTextField = bonusAmount1;
+        Image bonusIcon = bonusIcon1;
 
         if (gold != 0)
         {
-            bonusTextField.text = gold.ToString();
+            bonusTextField.text = "+" + gold.ToString();
             SetBonusIcon("Gold", bonusIcon1);
             bonusTextField = bonusAmount2;          //this only works because reputation and loot are currently mutually exclusive
+            bonusIcon = bonusIcon2;
         }
         if (reputation != 0)
         {
-            bonusTextField.text = reputation.ToString();
-            SetBonusIcon("Reputation", bonusIcon1);
+            bonusTextField.text = "+" + reputation.ToString();
+            SetBonusIcon("Reputation", bonusIcon);
         }
         if (loot != 0)
         {
-            bonusTextField.text = loot.ToString();
-            SetBonusIcon("Loot", bonusIcon1);
+            bonusTextField.text = "+" + loot.ToString();
+            SetBonusIcon("Loot", bonusIcon);
         }
         if (bonusAmount2.text == "")
         {
@@ -48,21 +47,13 @@ public class BonusReward : MonoBehaviour
 
     private void SetBonusIcon(string type, Image icon)
     {
-        switch (type)
+        icon.sprite = type switch
         {
-            case "Gold":
-                icon.sprite = goldSprite;
-                break;
-            case "Reputation":
-                icon.sprite = reputationSprite;
-                break;
-            case "Loot":
-                icon.sprite = lootSprite;
-                break;
-            default:
-                icon.sprite = null;
-                break;
-        }
+            "Gold" => goldSprite,
+            "Reputation" => reputationSprite,
+            "Loot" => lootSprite,
+            _ => null,
+        };
     }
 }
 

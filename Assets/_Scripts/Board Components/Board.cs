@@ -234,10 +234,10 @@ public class Board : NetworkBehaviour
         RoundSummaryPopUp popUp = PopUpManager.Instance.CreateRoundSummaryPopUp();
         Spawn(popUp.gameObject);
 
-        Dictionary<int, PlayerSummaryData> playerSummaries = new();
+        Dictionary<int, PlayerRoundSummaryData> playerSummaries = new();
         foreach (Player player in GameManager.Instance.Players)
         {
-            PlayerSummaryData playerSummary = new(player.PlayerID.Value.ToString());
+            PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
             playerSummaries.Add(player.PlayerID.Value, playerSummary);
         }
 
@@ -250,6 +250,12 @@ public class Board : NetworkBehaviour
             }
             QuestLocations[i].HandleEndOfQuest(playerSummaries);
             //QuestLocations[i].HandleEndOfQuest(popUp.QuestSummaries[i]);
+        }
+
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            PlayerRoundSummaryData playerSummary = playerSummaries[player.PlayerID.Value];
+            popUp.ObserversSetPlayerRoundSummary(playerSummary);
         }
 
         popUp.ObserversInitializeRoundSummaryPopUp();

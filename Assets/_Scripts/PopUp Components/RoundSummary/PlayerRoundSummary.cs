@@ -13,29 +13,31 @@ public class PlayerRoundSummary : MonoBehaviour
     [SerializeField] private GameObject bonusRewardGroup;
     [SerializeField] private BonusReward bonusRewardPrefab;
 
-    public void SetPlayerRoundSummary(string playerName, int gold, int reputation, int loot, List<BonusRewardData> bonusRewards)
+    public void SetPlayerRoundSummary(string playerName, int gold, int reputation, int loot, Dictionary<string, BonusRewardData> bonusRewards)
     {
         playerNameText.text = playerName;
         goldReward.text = gold.ToString();
         reputationReward.text = reputation.ToString();
         lootReward.text = loot.ToString();
 
-        foreach (BonusRewardData bonus in bonusRewards)
+        foreach (string bonusName in bonusRewards.Keys)
         {
+            print($"{bonusName} - {bonusRewards[bonusName].Gold} Gold - {bonusRewards[bonusName].Reputation} Reputation - {bonusRewards[bonusName].Loot} Loot");
+            BonusRewardData bonus = bonusRewards[bonusName];
             BonusReward newBonus = Instantiate(bonusRewardPrefab, bonusRewardGroup.transform);
             newBonus.SetBonusReward(bonus.Name, bonus.Gold, bonus.Reputation, bonus.Loot);
         }
     }
 }
 
-public class PlayerSummaryData
+public class PlayerRoundSummaryData
 {
     public string PlayerName;
     public int Gold;
     public int Reputation;
     public int Loot;
     public Dictionary<string,BonusRewardData> BonusRewards;
-    public PlayerSummaryData(string playerName)
+    public PlayerRoundSummaryData(string playerName)
     {
         PlayerName = playerName;
         Gold = 0;

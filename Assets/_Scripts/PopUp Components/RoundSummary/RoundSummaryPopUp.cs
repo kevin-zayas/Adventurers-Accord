@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class RoundSummaryPopUp : NetworkBehaviour
 {
     [SerializeField] Button closeButton;
+    [SerializeField] PlayerRoundSummary playerRoundSummaryPrefab;
+    [SerializeField] GameObject playerRoundSummaryGroup;
 
     //[AllowMutableSyncTypeAttribute] public SyncList<QuestSummary> QuestSummaries = new();
 
@@ -23,6 +25,12 @@ public class RoundSummaryPopUp : NetworkBehaviour
         {
             ServerClosePopUp(LocalConnection);
         });
+    }
+
+    public void ObserversSetPlayerRoundSummary(PlayerRoundSummaryData summaryData)
+    {
+        PlayerRoundSummary newPlayerRoundSummary = Instantiate(playerRoundSummaryPrefab, playerRoundSummaryGroup.transform);
+        newPlayerRoundSummary.SetPlayerRoundSummary(summaryData.PlayerName, summaryData.Gold, summaryData.Reputation, summaryData.Loot, summaryData.BonusRewards);
     }
 
     [ObserversRpc]

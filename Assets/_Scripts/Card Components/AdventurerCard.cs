@@ -133,7 +133,6 @@ public class AdventurerCard : Card
             poisonAmount = Mathf.Min(2, PhysicalPower.Value);
             ChangePhysicalPower(-poisonAmount);
             physicalPoisonTotal += poisonAmount;
-            print(physicalPoisonTotal);
         }
         if (magicalPoison)
         {
