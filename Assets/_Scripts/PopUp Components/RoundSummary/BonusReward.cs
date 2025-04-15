@@ -18,7 +18,7 @@ public class BonusReward : MonoBehaviour
 
     public void SetBonusReward(string name, int gold, int reputation, int loot)
     {
-        bonusName.text = name + " -";
+        bonusName.text = "- " + name;
         TMP_Text bonusTextField = bonusAmount1;
         Image bonusIcon = bonusIcon1;
 
