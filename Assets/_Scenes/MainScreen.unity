@@ -1497,6 +1497,7 @@ MonoBehaviour:
   ClericResolutionPopUpPrefab: {fileID: 777469769855225439, guid: cd7b24ef0f914184b990aff8728c68a2, type: 3}
   RogueResolutionPopUpPrefab: {fileID: 7435975609578241856, guid: 972122f0b3bf0654cb478d8a129d070d, type: 3}
   RoundSummaryPopUpPrefab: {fileID: 8194588465754188569, guid: 4575ed1502623bd4db2c70c8e9db0cc6, type: 3}
+  QuestSummaryPopUpPrefab: {fileID: 226269785406005487, guid: befeb1e1a2c0e1344bbf13041a40c0ce, type: 3}
   ConfirmationPopUpPrefab: {fileID: 5565733294639535862, guid: a83f728f0329d5c42a393a6b53d24ce7, type: 3}
   EquipConfirmationPopUpPrefab: {fileID: 5565733294639535862, guid: a83f728f0329d5c42a393a6b53d24ce7, type: 3}
   SettingsPopUpPrefab: {fileID: 4378698088555545514, guid: 25f44130a4778804a81c07810738a847, type: 3}

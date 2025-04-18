@@ -4,22 +4,26 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PlayerRoundSummary : NetworkBehaviour
+public class PlayerRoundSummary : MonoBehaviour
 {
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private TMP_Text goldReward;
     [SerializeField] private TMP_Text reputationReward;
     [SerializeField] private TMP_Text lootReward;
+    [SerializeField] private TMP_Text physicalPowerText;
+    [SerializeField] private TMP_Text magicalPowerText;
 
     [SerializeField] private GameObject bonusRewardGroup;
     [SerializeField] private BonusReward bonusRewardPrefab;
 
-    public void SetPlayerRoundSummary(string playerName, int gold, int reputation, int loot, Dictionary<string, BonusRewardData> bonusRewards)
+    public PlayerRoundSummary() { }
+    public void SetPlayerSummary(PlayerRoundSummaryData summaryData)
     {
-        playerNameText.text = playerName;
-        goldReward.text = gold.ToString();
-        reputationReward.text = reputation.ToString();
-        lootReward.text = loot.ToString();
+        playerNameText.text = summaryData.PlayerName;
+        goldReward.text = summaryData.Gold.ToString();
+        reputationReward.text = summaryData.Reputation.ToString();
+        lootReward.text = summaryData.Loot.ToString();
+        Dictionary<string, BonusRewardData> bonusRewards = summaryData.BonusRewards;
 
         foreach (string bonusName in bonusRewards.Keys)
         {
@@ -27,6 +31,13 @@ public class PlayerRoundSummary : NetworkBehaviour
             BonusRewardData bonus = bonusRewards[bonusName];
             BonusReward newBonus = Instantiate(bonusRewardPrefab, bonusRewardGroup.transform);
             newBonus.SetBonusReward(bonus.Name, bonus.Gold, bonus.Reputation, bonus.Loot);
+        }
+
+        //playerQuestSummaryData
+        if (physicalPowerText != null)
+        {
+            physicalPowerText.text = summaryData.PhysicalPower.ToString();
+            magicalPowerText.text = summaryData.MagicalPower.ToString();
         }
     }
 }
@@ -37,7 +48,11 @@ public class PlayerRoundSummaryData
     public int Gold;
     public int Reputation;
     public int Loot;
+    public int PhysicalPower;
+    public int MagicalPower;
+
     public Dictionary<string,BonusRewardData> BonusRewards;
+
     public PlayerRoundSummaryData() { }
     public PlayerRoundSummaryData(string playerName)
     {
@@ -48,11 +63,13 @@ public class PlayerRoundSummaryData
         BonusRewards = new();
     }
 
-    public void UpdatePlayerSummary(int gold, int reputation, int loot)
+    public void UpdatePlayerSummary(int gold, int reputation, int loot, int physPower = 0, int magPower = 0)
     {
         Gold += gold;
         Reputation += reputation;
         Loot += loot;
+        PhysicalPower = physPower;
+        MagicalPower = magPower;
     }
 
     public void AddBonusReward(string bonusName, int gold, int reputation, int loot)

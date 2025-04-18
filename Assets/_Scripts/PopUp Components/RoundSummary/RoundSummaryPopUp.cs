@@ -1,50 +1,63 @@
-using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RoundSummaryPopUp : NetworkBehaviour
+public class RoundSummaryPopUp : MonoBehaviour
 {
     [SerializeField] Button closeButton;
+    [SerializeField] Button viewMoreButton;
     [SerializeField] PlayerRoundSummary playerRoundSummaryPrefab;
     [SerializeField] GameObject playerRoundSummaryGroup;
 
-    //[AllowMutableSyncTypeAttribute] public SyncList<QuestSummary> QuestSummaries = new();
+    [SerializeField] List<QuestSummaryData> questSummaryDataList;
 
-    private int playerCount;
-    private int totalPlayers;
-
-    // Start is called before the first frame update
     void Start()
     {
-        if (IsServerInitialized) totalPlayers = GameManager.Instance.Players.Count;
 
         closeButton.onClick.AddListener(() =>
         {
-            ServerClosePopUp(LocalConnection);
+            Destroy(gameObject);
+        });
+
+        viewMoreButton.onClick.AddListener(() =>
+        {
+            print(questSummaryDataList.Count);
+            PopUpManager.Instance.CreateQuestSummaryPopUp(questSummaryDataList);
+
+            //Destroy(GameObject);
         });
     }
 
-    [Server]
-    public void SetPlayerRoundSummary(PlayerRoundSummaryData summaryData)
+    public void InitializeRoundSummaryPopUp(Dictionary<int, PlayerRoundSummaryData> playerSummaries, List<QuestSummaryData> questSummaries)
     {
-        PlayerRoundSummary newPlayerRoundSummary = Instantiate(playerRoundSummaryPrefab);
-        Spawn(newPlayerRoundSummary.gameObject);
-        ObserversSetPlayerRoundSummary(newPlayerRoundSummary, summaryData);
+        questSummaryDataList = questSummaries;
+
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            PlayerRoundSummaryData playerSummaryData = playerSummaries[player.PlayerID.Value];
+            SetPlayerRoundSummary(playerSummaryData);
+        }
+
+        SetPopUpToCanvas();
     }
 
-    [ObserversRpc]
+    public void SetPlayerRoundSummary(PlayerRoundSummaryData summaryData)
+    {
+        PlayerRoundSummary playerRoundSummary = Instantiate(playerRoundSummaryPrefab);
+        playerRoundSummary.SetPlayerSummary(summaryData);
+        playerRoundSummary.transform.SetParent(playerRoundSummaryGroup.transform);
+        
+    }    
+
     private void ObserversSetPlayerRoundSummary(PlayerRoundSummary playerRoundSummary, PlayerRoundSummaryData summaryData)
     {
         playerRoundSummary.transform.SetParent(playerRoundSummaryGroup.transform);
-        playerRoundSummary.SetPlayerRoundSummary(summaryData.PlayerName, summaryData.Gold, summaryData.Reputation, summaryData.Loot, summaryData.BonusRewards);
+        playerRoundSummary.SetPlayerSummary(summaryData);
     }
 
-    [ObserversRpc]
-    public void ObserversInitializeRoundSummaryPopUp()
+    public void SetPopUpToCanvas()
     {
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;
@@ -53,12 +66,4 @@ public class RoundSummaryPopUp : NetworkBehaviour
         rt.offsetMax = Vector2.zero;
         rt.offsetMin = Vector2.zero;
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void ServerClosePopUp(NetworkConnection connection)
-    {
-        playerCount++;
-        PopUpManager.Instance.CloseRoundSummaryPopUp(connection, this.gameObject, playerCount == totalPlayers);
-    }
-
 }

@@ -1,6 +1,7 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PopUpManager : NetworkBehaviour
@@ -14,6 +15,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ResolutionPopUp ClericResolutionPopUpPrefab;
     [SerializeField] ResolutionPopUp RogueResolutionPopUpPrefab;
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
+    [SerializeField] QuestSummaryPopUp QuestSummaryPopUpPrefab;
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
     [SerializeField] ConfirmationPopUp EquipConfirmationPopUpPrefab;
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
@@ -28,14 +30,6 @@ public class PopUpManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-
-    private void Update()
-    {
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    print("Q pressed");
-        //}
     }
 
     [Server]
@@ -62,22 +56,19 @@ public class PopUpManager : NetworkBehaviour
         Despawn(popUp.gameObject);
     }
 
-    [Server]
-    public RoundSummaryPopUp CreateRoundSummaryPopUp()
+    //[Server]
+    [ObserversRpc]
+    public void CreateRoundSummaryPopUp(Dictionary<int, PlayerRoundSummaryData> playerSummaries, List<QuestSummaryData> questSummaries)
     {
         RoundSummaryPopUp popUp = Instantiate(RoundSummaryPopUpPrefab);
-        return popUp;
+        popUp.InitializeRoundSummaryPopUp(playerSummaries, questSummaries);
     }
 
-    [Server]
-    public void CloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp, bool despawn)
+    //[TargetRpc]
+    public void CreateQuestSummaryPopUp(List<QuestSummaryData> questSummaries)
     {
-        TargetCloseRoundSummaryPopUp(networkConnection, popUp);
-
-        if (despawn)
-        {
-            Despawn(popUp);
-        }
+        QuestSummaryPopUp popUp = Instantiate(QuestSummaryPopUpPrefab);
+        popUp.InitializeQuestSummaryPopUp(questSummaries);
     }
 
     [TargetRpc]

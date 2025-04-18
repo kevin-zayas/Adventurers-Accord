@@ -4,96 +4,67 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using static QuestLocation;
 
-public class QuestSummary : NetworkBehaviour
+public class QuestSummary : MonoBehaviour
 {
-    private string questName;
-    private string questStatus;
-
-    private int playerCount = 0;
-
     [SerializeField] private TMP_Text questNameText;
     [SerializeField] private TMP_Text questStatusText;
     [SerializeField] private TMP_Text physicalPower;
     [SerializeField] private TMP_Text magicalPower;
 
     [SerializeField] private TMP_Text[] playerSummaries;
+    [SerializeField] private PlayerRoundSummary playerQuestSummaryPrefab;
+    [SerializeField] private GameObject playerQuestSummaryGroup;
 
-    [SerializeField]
-    [TextArea]
-    private string playerPowerText;
-
-    [SerializeField]
-    [TextArea]
-    private string rewardText;
-
-    [SerializeField]
-    [TextArea]
-    private string penaltyText;
-
-    [SerializeField]
-    private string bardBonusText;
-
-    [ObserversRpc]
-    public void ObserversSetQuestInfo(string name, string status, int totalPhysical, int questPhysical, int totalMagical, int questMagical)
+    public void SetQuestInfo(QuestSummaryData questSummary)
     {
-        questName = name;
-        questStatus = status;
+        questNameText.text = questSummary.QuestName;
+        questStatusText.text = "Quest: " + questSummary.Status.ToString();
 
-        questNameText.text = questName;
-        questStatusText.text = "Quest: " + questStatus;
+        physicalPower.text = $"{questSummary.TotalPhysicalPower} / {questSummary.PhysicalPower}";
+        magicalPower.text = $"{questSummary.TotalMagicalPower}  /  {questSummary.MagicalPower}";
 
-        physicalPower.text = $"{totalPhysical} / {questPhysical}";
-        magicalPower.text = $"{totalMagical} / {questMagical}";
-
-        switch (questStatus)
+        questStatusText.color = questSummary.Status switch
         {
-            case "Complete!":
-                questStatusText.color = Color.green;
-                break;
-            case "Failed":
-                questStatusText.color = Color.red;
-                break;
-            default:
-                questStatusText.color = Color.black;
-                break;
-        }
-    }
+            QuestStatus.Complete => Color.green,
+            QuestStatus.Failed => Color.red,
+            _ => Color.black,
+        };
 
-    [ObserversRpc]
-    public void ObserversSetPlayerSummary(int player, int physPower, int magPower, int gold, int reputation, int loot)
-    {
-        playerSummaries[playerCount].gameObject.SetActive(true);
-        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
-        playerSummaries[playerCount].text += Regex.Unescape(string.Format(rewardText, gold, reputation, loot));
-        playerCount++;
-    }
-
-    [ObserversRpc]
-    public void ObserversSetPlayerSummary(int player, int physPower, int magPower, int reputation)
-    {
-        playerSummaries[playerCount].gameObject.SetActive(true);
-        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
-        playerSummaries[playerCount].text += Regex.Unescape(string.Format(penaltyText, reputation));
-        playerCount++;
-    }
-
-    [ObserversRpc]
-    public void ObserversAddBardBonus(int player, int physPower, int magPower, int bardBonusGold, int bardBonusReputation)
-    {
-        for (int i = 0; i < playerSummaries.Length; i++)
+        for (int i = 0; i < questSummary.QuestPlayerSummaries.Count; i++)
         {
-            if (playerSummaries[i].text.Contains($"Player {player+1}"))
-            {
-                playerSummaries[i].text += Regex.Unescape(string.Format(bardBonusText, bardBonusGold, bardBonusReputation));
-                return;
-            }
+            PlayerRoundSummaryData playerQuestSummaryData = questSummary.QuestPlayerSummaries[i];
+            PlayerRoundSummary newPlayerQuestSummary = Instantiate(playerQuestSummaryPrefab);
+            newPlayerQuestSummary.SetPlayerSummary(playerQuestSummaryData);
+            newPlayerQuestSummary.transform.SetParent(playerQuestSummaryGroup.transform);
         }
-
-        playerSummaries[playerCount].gameObject.SetActive(true);
-        playerSummaries[playerCount].text = Regex.Unescape(string.Format(playerPowerText, player+1, physPower, magPower));
-        playerSummaries[playerCount].text += Regex.Unescape(string.Format("Rewards:"+bardBonusText, bardBonusGold, bardBonusReputation));
-        playerCount++;
+        Canvas.ForceUpdateCanvases();
+        playerQuestSummaryGroup.GetComponent<VerticalLayoutGroup>().enabled = false;
+        playerQuestSummaryGroup.GetComponent<VerticalLayoutGroup>().enabled = true;
     }
-    
+}
+
+public class QuestSummaryData
+{
+    public string QuestName;
+    public int PhysicalPower;
+    public int MagicalPower;
+    public int TotalPhysicalPower;
+    public int TotalMagicalPower;
+    public QuestStatus Status;
+    public Dictionary<int,PlayerRoundSummaryData> QuestPlayerSummaries;
+
+    public QuestSummaryData() { }
+    public QuestSummaryData(QuestLocation questLocation)
+    {
+        QuestName = questLocation.QuestCard.Value.CardName.Value;
+        PhysicalPower = questLocation.QuestCard.Value.PhysicalPower.Value;
+        MagicalPower = questLocation.QuestCard.Value.MagicalPower.Value;
+        TotalPhysicalPower = questLocation.TotalPhysicalPower.Value;
+        TotalMagicalPower = questLocation.TotalMagicalPower.Value;
+        Status = questLocation.Status;
+        QuestPlayerSummaries = new();
+    }
 }
