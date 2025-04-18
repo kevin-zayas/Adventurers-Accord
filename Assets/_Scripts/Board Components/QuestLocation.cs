@@ -17,8 +17,6 @@ public class QuestLocation : NetworkBehaviour
 
     [field: SerializeField] public QuestStatus Status { get; private set; }
 
-    //public QuestSummary QuestSummary { get; private set; }
-
     [field: SerializeField] private CardSlot questPreviewSlot;
 
     private QuestCard previewQuestCard;
@@ -151,7 +149,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public bool MeetsQuestRequirements()
+    public bool AreQuestReqsMet()
     {
         // Check if the Physical Power requirement is met or if no Physical Power is required
         bool physicalRequirementMet = (QuestCard.Value.PhysicalPower.Value == 0 || TotalPhysicalPower.Value >= QuestCard.Value.PhysicalPower.Value);
@@ -169,7 +167,7 @@ public class QuestLocation : NetworkBehaviour
         UpdateTotalPower();
         QuestSummaryData questSummaryData = new(this);
 
-        if (MeetsQuestRequirements())
+        if (AreQuestReqsMet())
         {
             Status = QuestStatus.Complete;
             CalculateQuestContributions(true,playerSummaries,questSummaryData);
@@ -203,28 +201,35 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     public void CalculateQuestContributions(bool isQuestComplete, Dictionary<int,PlayerRoundSummaryData> playerSummaries = null, QuestSummaryData questSummaryData = null)
     {
-        List<QuestLane> laneList = new(questLanes);
-        laneList.Sort((a, b) => b.EffectiveTotalPower.Value.CompareTo(a.EffectiveTotalPower.Value));
 
-        List<QuestLane> primaryContributors = new();
-        List<QuestLane> secondaryContributors = new();
-
-        foreach (QuestLane lane in laneList)
+        // Should be able to use Status instead of isQuestComplete
+        foreach (QuestLane lane in questLanes)
         {
-            if (CheckPrimaryContributor(lane))
+            if (DoesMeetFullReqs(lane))
             {
-                primaryContributors.Add(lane);                                      //primary contributors are those who meet or exceed the quest requirements
+                if (isQuestComplete) DistributeQuestRewards(lane, true, playerSummaries, questSummaryData);
+                lane.ObserversUpdateRewardIndicator("gold");
+            }
+            else if (AreQuestReqsMet() && DoesMeetHalflReqs(lane))
+            {
+                if (isQuestComplete) DistributeQuestRewards(lane, false, playerSummaries, questSummaryData);
+                lane.ObserversUpdateRewardIndicator("silver");
             }
             else
             {
-                if (lane.EffectiveTotalPower.Value > 0) secondaryContributors.Add(lane);
+                lane.ObserversUpdateRewardIndicator("blank");
+                if (isQuestComplete && lane.EffectiveTotalPower.Value > 0)
+                {
+                    PlayerRoundSummaryData playerSummary = new($"Player {lane.Player.Value.PlayerID.Value + 1}");
+                    playerSummary.UpdatePlayerSummary(0, 0, 0, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value);
+                    questSummaryData.QuestPlayerSummaries[lane.Player.Value.PlayerID.Value] = playerSummary;
+                }
             }
         }
-        CalculateQuestRewards(primaryContributors, secondaryContributors, isQuestComplete, playerSummaries, questSummaryData);
     }
 
     [Server]
-    private bool CheckPrimaryContributor(QuestLane lane)
+    private bool DoesMeetFullReqs(QuestLane lane)
     {
         if (QuestCard.Value.PhysicalPower.Value > 0 && lane.TotalPhysicalPower.Value < QuestCard.Value.PhysicalPower.Value) return false;
         if (QuestCard.Value.MagicalPower.Value > 0 && lane.TotalMagicalPower.Value < QuestCard.Value.MagicalPower.Value) return false;
@@ -233,69 +238,21 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void CalculateQuestRewards(List<QuestLane> primaryContributors, List<QuestLane> secondaryContributors, bool isQuestComplete, Dictionary<int, PlayerRoundSummaryData> playerSummaries = null, QuestSummaryData questSummaryData = null)
+    private bool DoesMeetHalflReqs(QuestLane lane)
     {
-        if (primaryContributors.Count == 0)         //all secondary contributors recieve half rewards
-        {
-            foreach (QuestLane lane in secondaryContributors)
-            {
-                if (isQuestComplete) DistributeQuestRewards(lane, false, playerSummaries, questSummaryData);
-                else
-                {
-                    if (MeetsQuestRequirements()) lane.ObserversUpdateRewardIndicator("silver");
-                    else lane.ObserversUpdateRewardIndicator("blank");
-                }
-            }
-            return;
-        }
-        else                                      //give all rewards to primary contributors, top secondary contributor(s) recieves half rewards
-        {
-            foreach (QuestLane lane in primaryContributors)
-            {
-                if (isQuestComplete) DistributeQuestRewards(lane, true, playerSummaries, questSummaryData);
-                else lane.ObserversUpdateRewardIndicator("gold");
-            }
-
-            if (secondaryContributors.Count == 0) return;
-            int topSecondaryPower = secondaryContributors[0].EffectiveTotalPower.Value;
-
-            foreach (QuestLane lane in secondaryContributors)
-            {
-                if (lane.EffectiveTotalPower.Value == topSecondaryPower)
-                {
-                    if (isQuestComplete) DistributeQuestRewards(lane, false, playerSummaries, questSummaryData);
-                    else lane.ObserversUpdateRewardIndicator("silver");
-                }
-                else
-                {
-                    lane.ObserversUpdateRewardIndicator("blank");
-                }
-            }
-            return;
-        }
+        int questPowerTotal = QuestCard.Value.PhysicalPower.Value + QuestCard.Value.MagicalPower.Value;
+        return (lane.EffectiveTotalPower.Value >= questPowerTotal / 2);      // Use 2.0f to avoid integer division truncation if needed
     }
 
     [Server]
-    private void DistributeQuestRewards(QuestLane lane, bool primaryContributor, Dictionary<int, PlayerRoundSummaryData> playerSummaries, QuestSummaryData questSummaryData)
+    private void DistributeQuestRewards(QuestLane lane, bool fullRewards, Dictionary<int, PlayerRoundSummaryData> playerSummaries, QuestSummaryData questSummaryData)
     {
         Player player = lane.Player.Value;
-        int goldReward;
-        int reputationReward;
-        int lootReward;
 
-        if (primaryContributor)
-        {
-            goldReward = QuestCard.Value.GoldReward.Value;
-            reputationReward = QuestCard.Value.ReputationReward.Value;
-            lootReward = QuestCard.Value.LootReward.Value;
-        }
-        else
-        {
-            goldReward = QuestCard.Value.GoldReward.Value / 2;
-            reputationReward = QuestCard.Value.ReputationReward.Value / 2;
-            lootReward = (int)Mathf.Floor(QuestCard.Value.LootReward.Value / 2);
-        }
-
+        (int goldReward, int reputationReward, int lootReward) = fullRewards
+            ? (QuestCard.Value.GoldReward.Value, QuestCard.Value.ReputationReward.Value, QuestCard.Value.LootReward.Value)
+            : (QuestCard.Value.GoldReward.Value / 2, QuestCard.Value.ReputationReward.Value / 2, (int)Mathf.Floor(QuestCard.Value.LootReward.Value / 2));
+        
         player.ChangePlayerGold(goldReward);
         player.ChangePlayerReputation(reputationReward);
         Board.Instance.RewardLoot(player, lootReward);
