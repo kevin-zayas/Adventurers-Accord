@@ -23,7 +23,6 @@ public class RoundSummaryPopUp : MonoBehaviour
 
         viewMoreButton.onClick.AddListener(() =>
         {
-            print(questSummaryDataList.Count);
             PopUpManager.Instance.CreateQuestSummaryPopUp(questSummaryDataList);
 
             //Destroy(GameObject);

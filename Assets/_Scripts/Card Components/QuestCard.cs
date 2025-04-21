@@ -14,10 +14,14 @@ public class QuestCard : Card
     public readonly SyncVar<bool> DisableItems = new();
     public readonly SyncVar<bool> Drain = new();
     public readonly SyncVar<int> GoldReward = new();
+    public readonly SyncVar<int> ReputationReward = new();
     public readonly SyncVar<int> LootReward = new();
+    public readonly SyncVar<int> GoldPenalty = new();
+    public readonly SyncVar<int> ReputationPenalty = new();
+    public readonly SyncVar<int> RestPeriodPenalty = new();
     public readonly SyncVar<int> MagicalDrain = new();
     public readonly SyncVar<int> PhysicalDrain = new();
-    public readonly SyncVar<int> ReputationReward = new();
+    
     [AllowMutableSyncTypeAttribute] public SyncVar<int> PartySizeLimit = new();
     #endregion
 
@@ -43,6 +47,9 @@ public class QuestCard : Card
         GoldReward.Value = cardData.GoldReward;
         ReputationReward.Value = cardData.ReputationReward;
         LootReward.Value = cardData.LootReward;
+        GoldPenalty.Value = cardData.GoldPenalty;
+        ReputationPenalty.Value = cardData.ReputationPenalty;
+        RestPeriodPenalty.Value = cardData.RestPeriodPenalty;
         Drain.Value = cardData.Drain;
         PhysicalDrain.Value = cardData.PhysicalDrain;
         MagicalDrain.Value = cardData.MagicalDrain;

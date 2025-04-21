@@ -111,6 +111,12 @@ public class AdventurerCard : Card
         if (magicalPoisonTotal > 0) ChangeMagicalPower(magicalPoisonTotal);
     }
 
+    [Server]
+    public void ChangeCurrentRestPeriod(int restPeriodDelta)
+    {
+        CurrentRestPeriod.Value += restPeriodDelta;
+    }
+
     [ObserversRpc(BufferLast = true)]
     private void ObserversUpdateRestPeriodText(int currentRestPeriod, int restPeriod)
     {

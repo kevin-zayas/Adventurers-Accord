@@ -138,7 +138,7 @@ public class Board : NetworkBehaviour
     {
        foreach (QuestLocation questLocation in QuestLocations)
         {
-            if (questLocation.Status != QuestLocation.QuestStatus.Complete)
+            if (questLocation.Status != QuestLocation.QuestStatus.Completed)
             {
                 print("active quest found, not all quests are complete");
                 return;

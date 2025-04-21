@@ -22,10 +22,13 @@ MonoBehaviour:
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Quest
   <AbilityName>k__BackingField: 
-  <CoolDown>k__BackingField: 0
+  <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 4
   <ReputationReward>k__BackingField: 2
   <LootReward>k__BackingField: 0
+  <ReputationPenalty>k__BackingField: -1
+  <GoldPenalty>k__BackingField: 0
+  <RestPeriodPenalty>k__BackingField: 0
   <PartySizeLimit>k__BackingField: 3
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0

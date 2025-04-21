@@ -28,14 +28,14 @@ public class QuestSummary : MonoBehaviour
 
         questStatusText.color = questSummary.Status switch
         {
-            QuestStatus.Complete => Color.green,
+            QuestStatus.Completed => Color.green,
             QuestStatus.Failed => Color.red,
             _ => Color.black,
         };
-
-        for (int i = 0; i < questSummary.QuestPlayerSummaries.Count; i++)
+        //for (int i = 0; i < questSummary.QuestPlayerSummaries.Count; i++)
+        foreach (int playerID in questSummary.PlayerQuestSummaries.Keys)
         {
-            PlayerRoundSummaryData playerQuestSummaryData = questSummary.QuestPlayerSummaries[i];
+            PlayerRoundSummaryData playerQuestSummaryData = questSummary.PlayerQuestSummaries[playerID];
             PlayerRoundSummary newPlayerQuestSummary = Instantiate(playerQuestSummaryPrefab);
             newPlayerQuestSummary.SetPlayerSummary(playerQuestSummaryData);
             newPlayerQuestSummary.transform.SetParent(playerQuestSummaryGroup.transform);
@@ -54,7 +54,7 @@ public class QuestSummaryData
     public int TotalPhysicalPower;
     public int TotalMagicalPower;
     public QuestStatus Status;
-    public Dictionary<int,PlayerRoundSummaryData> QuestPlayerSummaries;
+    public Dictionary<int,PlayerRoundSummaryData> PlayerQuestSummaries;
 
     public QuestSummaryData() { }
     public QuestSummaryData(QuestLocation questLocation)
@@ -65,6 +65,6 @@ public class QuestSummaryData
         TotalPhysicalPower = questLocation.TotalPhysicalPower.Value;
         TotalMagicalPower = questLocation.TotalMagicalPower.Value;
         Status = questLocation.Status;
-        QuestPlayerSummaries = new();
+        PlayerQuestSummaries = new();
     }
 }
