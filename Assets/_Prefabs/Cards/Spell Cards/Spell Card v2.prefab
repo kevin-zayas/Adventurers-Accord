@@ -575,7 +575,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 17
+  <PrefabId>k__BackingField: 16
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 8768874883479040942
   <SceneId>k__BackingField: 0
@@ -731,11 +731,11 @@ MonoBehaviour:
   disableScreen: {fileID: 4703320823960298955}
   hoverScreen: {fileID: 4090079527239836241}
   isClone: 0
+  magicalPowerText: {fileID: 1304799766812483540}
+  physicalPowerText: {fileID: 350960116417268844}
   cardImage: {fileID: 6958857792175851566}
   descriptionText: {fileID: 3101418111192428437}
-  magicalPowerText: {fileID: 1304799766812483540}
   nameText: {fileID: 2029664163792765779}
-  physicalPowerText: {fileID: 350960116417268844}
   cardTypeText: {fileID: 7700115405281895742}
   costText: {fileID: 2027397368410273016}
 --- !u!114 &3577841985777620674

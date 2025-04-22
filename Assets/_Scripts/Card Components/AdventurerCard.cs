@@ -321,6 +321,7 @@ public class AdventurerCard : Card
 
         Player player = ControllingPlayer.Value;
         int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
+        player.DispatchedAdventurerCount++;
 
         if (player.isFightersGuild && OriginalPhysicalPower.Value > 0)
         {
@@ -349,6 +350,7 @@ public class AdventurerCard : Card
     {
         QuestLane questLane = previousParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
+
         if (DivineBlessing.Value)
         {
             DivineBlessing.Value = false;
@@ -360,6 +362,7 @@ public class AdventurerCard : Card
         ResetPower();
 
         Player player = ControllingPlayer.Value;
+        player.DispatchedAdventurerCount--;
         int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
 
         if (player.isFightersGuild && OriginalPhysicalPower.Value > 0)

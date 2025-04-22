@@ -238,6 +238,12 @@ public class Board : NetworkBehaviour
         {
             PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
             playerSummaries.Add(player.PlayerID.Value, playerSummary);
+            if (player.DispatchedAdventurerCount == 0)
+            {
+                int oddJobGold = 1 + (GameManager.Instance.RoundNumber + 1) / 2;
+                playerSummary.AddBonusReward("Odd Jobs", oddJobGold, 0, 0);
+                player.ChangePlayerGold(oddJobGold);
+            }
         }
 
         for (int i = 0; i < QuestLocations.Length; i++)

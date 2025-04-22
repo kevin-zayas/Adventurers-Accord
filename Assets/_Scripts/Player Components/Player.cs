@@ -20,6 +20,7 @@ public class Player : NetworkBehaviour
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsReady = new();
     public readonly SyncVar<bool> CanStartGame = new();
     public readonly SyncVar<Hand> controlledHand = new();
+    public int DispatchedAdventurerCount;
 
     [SerializeField] private Hand handPrefab;
     [SerializeField] private AudioMixer masterMixer;
@@ -125,6 +126,7 @@ public class Player : NetworkBehaviour
     [Server]
     public void InitializeGuildBonusTracker()
     {
+        DispatchedAdventurerCount = 0;
         GuildBonusTracker = new()
         {
             { 0, new Dictionary<string, int>() },
