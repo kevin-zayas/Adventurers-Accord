@@ -13,6 +13,8 @@ public class HowToPlayPopUp : PopUp
     [SerializeField]
     private GameObject currentPage;
 
+    [SerializeField] private GameObject content;
+
     [SerializeField] Button leftButton;
     [SerializeField] Button rightButton;
     [SerializeField] Button closeButton;
@@ -36,7 +38,7 @@ public class HowToPlayPopUp : PopUp
         });
 
         currentPage = Instantiate(pages[pageIndex], Vector2.zero, Quaternion.identity);
-        currentPage.transform.SetParent(this.transform, false);
+        currentPage.transform.SetParent(content.transform, false);
 
         leftButton.interactable = false;
     }
@@ -47,7 +49,7 @@ public class HowToPlayPopUp : PopUp
         pageIndex = (pageIndex + changeIndex) % pages.Count;
 
         currentPage = Instantiate(pages[pageIndex], Vector2.zero, Quaternion.identity);
-        currentPage.transform.SetParent(this.transform, false);
+        currentPage.transform.SetParent(content.transform, false);
 
         if (pageIndex == 0) leftButton.interactable = false;
         else leftButton.interactable = true;

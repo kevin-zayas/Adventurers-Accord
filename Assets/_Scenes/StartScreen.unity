@@ -229,8 +229,8 @@ RectTransform:
   m_Children:
   - {fileID: 1658238226}
   - {fileID: 336555265}
-  - {fileID: 1432007756}
   - {fileID: 1583678166}
+  - {fileID: 1432007756}
   m_Father: {fileID: 285254870}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -414,10 +414,10 @@ MonoBehaviour:
   joinGameText: {fileID: 2015104876}
   findGameText: {fileID: 918668521}
   exitButton: {fileID: 1594816352}
-  creditsButton: {fileID: 1583678167}
+  howToPlayButton: {fileID: 1583678167}
   settingsButton: {fileID: 1432007757}
   restartServerButton: {fileID: 771582458}
-  CreditsPopUpPrefab: {fileID: 5221712264653024010, guid: 92696417085daf043bc8375e0b57866c, type: 3}
+  HowToPlayPopUpPrefab: {fileID: 6818122820550205959, guid: ff8fa282c8eddb1488254a0faf70974c, type: 3}
   SettingsPopUpPrefab: {fileID: 4378698088555545514, guid: 25f44130a4778804a81c07810738a847, type: 3}
   masterMixer: {fileID: 24100000, guid: f857909292644af4fa7d2d8b7121a7f3, type: 2}
   usingDynamicServer: 0
@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Credits
+  m_text: How To Play
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -1709,7 +1709,7 @@ GameObject:
   - component: {fileID: 1583678168}
   - component: {fileID: 1583678167}
   m_Layer: 5
-  m_Name: CreditsButton
+  m_Name: HowToPlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

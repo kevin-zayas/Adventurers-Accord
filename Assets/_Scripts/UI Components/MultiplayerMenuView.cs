@@ -11,11 +11,11 @@ public class MultiplayerMenuView : View
     [SerializeField] private TMP_Text joinGameText;
     [SerializeField] private TMP_Text findGameText;
     [SerializeField] private Button exitButton;
-    [SerializeField] private Button creditsButton;
+    [SerializeField] private Button howToPlayButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button restartServerButton;
 
-    [SerializeField] CreditsPopUp CreditsPopUpPrefab;
+    [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
     [SerializeField] private AudioMixer masterMixer;
 
@@ -61,13 +61,13 @@ public class MultiplayerMenuView : View
             rt.offsetMin = Vector2.zero;
         });
 
-        creditsButton.onClick.AddListener(() =>
+        howToPlayButton.onClick.AddListener(() =>
         {
-            CreditsPopUp creditsPopUp = Instantiate(CreditsPopUpPrefab);
-            creditsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            creditsPopUp.transform.localPosition = Vector3.zero;
+            HowToPlayPopUp howToPlayPopUp = Instantiate(HowToPlayPopUpPrefab);
+            howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
+            howToPlayPopUp.transform.localPosition = Vector3.zero;
 
-            RectTransform rt = creditsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
+            RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
             rt.offsetMax = Vector2.zero;
             rt.offsetMin = Vector2.zero;
         });
