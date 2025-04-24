@@ -67,7 +67,12 @@ public class LobbyView : View
             
 
             playerEntries[i].GetComponentInChildren<TMP_Text>().text = playerText;
+
+            if (player.GuildType == GuildType.None) continue;
+
             playerEntries[i].GetComponentInChildren<Image>().sprite = CardDatabase.Instance.GetGuildSprite(player.GuildType);
+            playerEntries[i].GetComponentInChildren<Image>().enabled = true;
+
         }
 
         readyButton.interactable = Player.Instance.GuildType != GuildType.None;
