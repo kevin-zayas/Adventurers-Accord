@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -105}
-  m_SizeDelta: {x: 775, y: 160}
+  m_SizeDelta: {x: 775, y: 185}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6240003137652160923
 CanvasRenderer:
@@ -65,145 +65,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Fighters' Guild thrives on raw strength and teamwork. They dominate
-    quests through sheer force and are rewarded for being unmatched in <color=#A82E2A>Physical</color>
-    Power.
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
-  m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4278195755
-  m_fontColor: {r: 0.16981131, g: 0.084905654, b: 0, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 36
-  m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 30
-  m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &3213866618824108253
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4309123489842274311}
-  - component: {fileID: 6537116966057046900}
-  - component: {fileID: 737409890924662843}
-  m_Layer: 0
-  m_Name: Guild_1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4309123489842274311
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3213866618824108253}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8107096682115131562}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 118.6}
-  m_Pivot: {x: 0.5, y: 1}
---- !u!222 &6537116966057046900
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3213866618824108253}
-  m_CullTransparentMesh: 1
---- !u!114 &737409890924662843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3213866618824108253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: "\u2022 <u>Path to Glory</u></font-weight> \u2013 Gain +1 Reputation if
-    your party contributed the most <color=#A82E2A>Physical</color> Power on a successful
-    Quest."
+  m_text: 'The Thieves'' Guild always finds a way to walk away richer, whether through
+    honest work or underhanded tactics. With a knack for uncovering hidden treasure
+    and disrupting rivals, they excel at making the best of every situation.
+
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -284,7 +151,7 @@ GameObject:
   - component: {fileID: 8272843693014158389}
   - component: {fileID: 8842804271433944587}
   m_Layer: 0
-  m_Name: Guild
+  m_Name: Ability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,7 +174,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 120.4}
+  m_SizeDelta: {x: 700, y: 114.7}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8272843693014158389
 CanvasRenderer:
@@ -337,9 +204,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2022 <u>Strength in Numbers</u> \u2013 If you have at least 3 Adventurers
-    with Physical Power on a Quest, your party gains +1 <color=#A82E2A>Physical</color>
-    Power. "
+  m_text: "\u2022 <u>First to the Spoils</u> \u2013 Gain +1 Gold after completing
+    a successful Quest. Additionally, there is a 25% chance to gain +1 Loot.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -408,7 +274,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &5059780657748005707
+--- !u!1 &6264615752376898924
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,23 +282,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4959920831001529087}
-  - component: {fileID: 8411557086364644173}
-  - component: {fileID: 7059972935167528648}
+  - component: {fileID: 4544203788352958305}
+  - component: {fileID: 4246928009666673153}
+  - component: {fileID: 3995185992947419606}
   m_Layer: 0
-  m_Name: Guild_2
+  m_Name: Ability_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &4959920831001529087
+--- !u!224 &4544203788352958305
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059780657748005707}
+  m_GameObject: {fileID: 6264615752376898924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -443,23 +309,23 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 133.3}
+  m_SizeDelta: {x: 700, y: 77.6}
   m_Pivot: {x: 0.5, y: 1}
---- !u!222 &8411557086364644173
+--- !u!222 &4246928009666673153
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059780657748005707}
+  m_GameObject: {fileID: 6264615752376898924}
   m_CullTransparentMesh: 1
---- !u!114 &7059972935167528648
+--- !u!114 &3995185992947419606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5059780657748005707}
+  m_GameObject: {fileID: 6264615752376898924}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -473,9 +339,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2022 <u>Weapon Mastery</u> \u2013 When equipping a Magic Item that increases
-    <color=#A82E2A>Physical</color> Power, Empower that Adventurer with +1 <color=#A82E2A>Physical</color>
-    Power."
+  m_text: "\u2022 <u>Sleight of Hand</u></font-weight> \u2013 Gain +1 Gold when you
+    steal a rival Adventurer's Magic Item on a Quest.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -609,7 +474,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fighters' Guild
+  m_text: Thieves' Guild
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -690,7 +555,7 @@ GameObject:
   - component: {fileID: 5168087753436787573}
   - component: {fileID: 3959795110960506628}
   m_Layer: 0
-  m_Name: 9 - Fighters Guild
+  m_Name: 12 - Thieves Guild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,7 +582,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 367.75}
-  m_SizeDelta: {x: 820, y: 1049.95}
+  m_SizeDelta: {x: 820, y: 881}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5168087753436787573
 CanvasRenderer:
@@ -788,15 +653,15 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3982537003323554156}
-  - {fileID: 2851086809496970479}
   - {fileID: 6221076232865639367}
+  - {fileID: 884214822858765972}
+  - {fileID: 3806921965132619064}
   - {fileID: 3169214378239838157}
   m_Father: {fileID: 4934590481668214216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -735}
+  m_AnchoredPosition: {x: 0, y: -580}
   m_SizeDelta: {x: 775, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4668739000916374877
@@ -954,13 +819,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8920683786377789129}
-  - {fileID: 4309123489842274311}
-  - {fileID: 4959920831001529087}
+  - {fileID: 4544203788352958305}
   m_Father: {fileID: 4934590481668214216}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -270.4}
+  m_AnchoredPosition: {x: 0, y: -305}
   m_SizeDelta: {x: 775, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6065563740953134348
@@ -1298,7 +1162,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8921334832073319783, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
   m_PrefabInstance: {fileID: 3286291944574570144}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5515258690975718411
+--- !u!1001 &5699892022300653663
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1321,7 +1185,7 @@ PrefabInstance:
     - target: {fileID: 1177701720125259711, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2096d7d0f4273344ebd5f5a4e8bda5d7, type: 3}
+      objectReference: {fileID: 21300000, guid: be40f9b3c12e0b44fac854fb1c28b1cc, type: 3}
     - target: {fileID: 1356007084095882162, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
       value: 5
@@ -1330,13 +1194,17 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2611186758615107600, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
+      propertyPath: m_text
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2728476821446806872, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: Warrior
+      value: Wizard
       objectReference: {fileID: 0}
     - target: {fileID: 2728476821446806872, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_fontSize
-      value: 21.65
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 2922969160115862960, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Enabled
@@ -1380,7 +1248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897460745711348589, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7217952784170868861, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Enabled
@@ -1513,10 +1381,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
---- !u!224 &3982537003323554156 stripped
+--- !u!224 &3806921965132619064 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8921334832073319783, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
-  m_PrefabInstance: {fileID: 5515258690975718411}
+  m_PrefabInstance: {fileID: 5699892022300653663}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5779733971105964714
 PrefabInstance:
@@ -1734,7 +1602,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8921334832073319783, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
   m_PrefabInstance: {fileID: 5779733971105964714}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6656296729003082120
+--- !u!1001 &8614170514269475827
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1750,14 +1618,10 @@ PrefabInstance:
       propertyPath: _componentIndexCache
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 800517241531852951, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1177701720125259711, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2096d7d0f4273344ebd5f5a4e8bda5d7, type: 3}
+      objectReference: {fileID: 21300000, guid: 8daf7a171c118024a8870be1ab7a56cd, type: 3}
     - target: {fileID: 1356007084095882162, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
       value: 5
@@ -1768,11 +1632,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2728476821446806872, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: Warrior
-      objectReference: {fileID: 0}
-    - target: {fileID: 2728476821446806872, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
-      propertyPath: m_fontSize
-      value: 21.65
+      value: Rogue
       objectReference: {fileID: 0}
     - target: {fileID: 2922969160115862960, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Enabled
@@ -1808,7 +1668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4255163859875467751, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Name
-      value: Adventurer Card v3_1
+      value: Adventurer Card v3_4
       objectReference: {fileID: 0}
     - target: {fileID: 5300939677924261238, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Enabled
@@ -1816,7 +1676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6897460745711348589, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7217952784170868861, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Enabled
@@ -1949,8 +1809,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
---- !u!224 &2851086809496970479 stripped
+--- !u!224 &884214822858765972 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8921334832073319783, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
-  m_PrefabInstance: {fileID: 6656296729003082120}
+  m_PrefabInstance: {fileID: 8614170514269475827}
   m_PrefabAsset: {fileID: 0}
