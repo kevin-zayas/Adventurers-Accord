@@ -766,6 +766,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spell Card_1
       objectReference: {fileID: 0}
+    - target: {fileID: 1319356541886740125, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2027397368410273016, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
       value: 3

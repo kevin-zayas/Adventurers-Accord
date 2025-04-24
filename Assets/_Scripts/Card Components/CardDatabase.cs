@@ -176,7 +176,7 @@ public class CardDatabase : NetworkBehaviour
 
     private readonly string poisonKeywordText = "Decreases the <color=#6C00D7>Power</color> of a targeted Adventurer by a specified amount until the Quest is resolved. This value cannot be decreased below 0.";
     private readonly string bardsongKeywordText = "<align=left>Gain rewards based on the number of Bards on this Quest:\n<line-indent=15%>1 Bard:   +1 Gold\n2 Bards: +2 Gold, +1 Reputation\n3 Bards: +4 Gold, +2 Reputation</line-indent></align>";
-    private readonly string divineBlessingKeywordText = "Grants the Adventurer immunity to <color=#6C00D7>Power</color> reducing effects until the Quest is resolved. Also decreases the Adventurer's Recovery Time by 1.";
+    private readonly string divineBlessingKeywordText = "Grants the Adventurer immunity to <color=#6C00D7>Power</color> reducing effects until the Quest is resolved. Also decreases the Adventurer's Rest Period by 1.";
     private readonly string empowerKeywordText = "Increases the <color=#6C00D7>Power</color> of a card by a specified amount. A card can gain <color=#6C00D7>Power</color> in each stat (<color=#EB000E>Physical</color> and <color=#000EEB>Magical</color>) that is non-zero.";
     private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
     private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
