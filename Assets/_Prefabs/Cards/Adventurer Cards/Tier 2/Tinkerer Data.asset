@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Tinkerer
   <PhysicalPower>k__BackingField: 2
-  <MagicalPower>k__BackingField: 2
+  <MagicalPower>k__BackingField: 3
   <OriginalPhysicalPower>k__BackingField: 2
-  <OriginalMagicalPower>k__BackingField: 2
+  <OriginalMagicalPower>k__BackingField: 3
   <Cost>k__BackingField: 8
   <CardDescription>k__BackingField: <color=#FFE000>Empower</color> your Magic Items
     on this Quest with +1 <color=#6C00D7>Power</color>.
@@ -27,6 +27,9 @@ MonoBehaviour:
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
+  <ReputationPenalty>k__BackingField: 0
+  <GoldPenalty>k__BackingField: 0
+  <RestPeriodPenalty>k__BackingField: 0
   <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0

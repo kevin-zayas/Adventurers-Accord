@@ -704,7 +704,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_text
-      value: '+1 Physical Power '
+      value: +1 <color=#EB000E>Physical</color> Power
       objectReference: {fileID: 0}
     - target: {fileID: 3478594553878486444, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_Enabled
@@ -720,7 +720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6348006093116403189, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_text
-      value: when equipped
+      value: when <color=#FFE000>Equipped</color>
       objectReference: {fileID: 0}
     - target: {fileID: 6638356711743144484, guid: d611220e5137274468b13454f2fa4969, type: 3}
       propertyPath: m_text

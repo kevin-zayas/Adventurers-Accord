@@ -34,6 +34,8 @@ public class QuestCard : Card
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text reputationRewardText;
     [SerializeField] private TMP_Text partySizeLimitText;
+    [SerializeField] private TMP_Text reputationPenaltyText;
+    [SerializeField] private TMP_Text restPeriodPenaltyText;
     #endregion
 
     /// <summary>
@@ -76,6 +78,8 @@ public class QuestCard : Card
         reputationRewardText.text = cardData.ReputationReward.ToString();
         lootRewardText.text = cardData.LootReward.ToString();
         partySizeLimitText.text = cardData.PartySizeLimit.ToString();
+        reputationPenaltyText.text = cardData.ReputationPenalty.ToString();
+        restPeriodPenaltyText.text = cardData.RestPeriodPenalty.ToString();
 
         if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
 
@@ -103,6 +107,8 @@ public class QuestCard : Card
         reputationRewardText.text = card.ReputationReward.Value.ToString();
         lootRewardText.text = card.LootReward.Value.ToString();
         partySizeLimitText.text = card.PartySizeLimit.Value.ToString();
+        reputationPenaltyText.text = card.ReputationPenalty.Value.ToString();
+        restPeriodPenaltyText.text = card.RestPeriodPenalty.Value.ToString();
 
         if (card.CardDescription.Value == "") abilityNameObject.SetActive(false);
     }

@@ -587,7 +587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
-      value: Gain +2 Magic Power at this Quest lane
+      value: Boost <color=#000EEB>Magical</color> Power by +2 at this Quest Lane
       objectReference: {fileID: 0}
     - target: {fileID: 3313565800043067953, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
@@ -693,7 +693,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3940136168109046893, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: 8381347151152243069, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -3672523780777450086, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -4959033644106127066, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -5630888917086196066, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: 3577841985777620674, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -773,7 +780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
-      value: Remove all Magic Items in this Quest Lane
+      value: Remove the effects of all Magic Items in this Quest Lane
       objectReference: {fileID: 0}
     - target: {fileID: 3313565800043067953, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
@@ -879,7 +886,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3940136168109046893, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: 8381347151152243069, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -3672523780777450086, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -4959033644106127066, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -5630888917086196066, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: 3577841985777620674, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

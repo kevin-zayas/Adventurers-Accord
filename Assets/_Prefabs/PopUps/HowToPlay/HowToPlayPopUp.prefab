@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.000015258789, y: -0.000017166138}
-  m_SizeDelta: {x: 728.8, y: 15}
+  m_SizeDelta: {x: 725, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5707845145198641874
 CanvasRenderer:
@@ -1423,7 +1423,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0.000015258789, y: -0.000017166138}
-  m_SizeDelta: {x: 728.8, y: 15}
+  m_SizeDelta: {x: 725, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4035977961726811323
 CanvasRenderer:
@@ -2409,13 +2409,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pages:
   - {fileID: 7021995848810397042, guid: aef0124cad6a59d42965dccb4dd3ebaa, type: 3}
-  - {fileID: 7021995848810397042, guid: 7b20397bde92eb540a0023afac00330a, type: 3}
+  - {fileID: 7021995848810397042, guid: 49cf05ab8c98c8c44bb3dc8a8463dfb8, type: 3}
   - {fileID: 7021995848810397042, guid: ec1953e9a9f4a354e8599c6cd271d5c6, type: 3}
   - {fileID: 7021995848810397042, guid: 859b441a7a032e148a6554a5722d723a, type: 3}
   - {fileID: 7021995848810397042, guid: 26ac6e41e27598345a67ae311745a9ec, type: 3}
   - {fileID: 7021995848810397042, guid: 4c5c6238604075b4db05de7929066917, type: 3}
   - {fileID: 7021995848810397042, guid: b7e019f2d78aa0843a503e335f03631b, type: 3}
-  - {fileID: 7021995848810397042, guid: 49cf05ab8c98c8c44bb3dc8a8463dfb8, type: 3}
+  - {fileID: 7021995848810397042, guid: d1e1cd938e46220499ecf899cfa3304c, type: 3}
+  - {fileID: 7021995848810397042, guid: 80d67c5223e77db48a58aef6e79382ef, type: 3}
+  - {fileID: 7021995848810397042, guid: 78bbcc6e7b48ca94299bed2b1f12ac87, type: 3}
+  - {fileID: 7021995848810397042, guid: 930b498b960afab46862c27364a32ab5, type: 3}
+  - {fileID: 7021995848810397042, guid: f9395058aed18ed408a0481d7ad42c5a, type: 3}
+  - {fileID: 7021995848810397042, guid: be69742616f9c4546b9ac13b354eb50f, type: 3}
+  - {fileID: 7021995848810397042, guid: 7b6241f50186f4240935d01aa0cce8f3, type: 3}
   pageIndex: 0
   currentPage: {fileID: 0}
   content: {fileID: 4017777622225328143}
