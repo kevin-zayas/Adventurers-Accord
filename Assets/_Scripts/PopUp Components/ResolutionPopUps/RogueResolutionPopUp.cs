@@ -13,7 +13,6 @@ public class RogueResolutionPopUp : ResolutionPopUp
             
             card.ServerDisableItem("Stolen");
             HandleEndOfResolution(questIndex, card);
-
         });
     }
 
@@ -25,13 +24,12 @@ public class RogueResolutionPopUp : ResolutionPopUp
         buttonText = "Steal";
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    protected override void ServerUpdateGuildBonusTracker(int playerID, int questIndex)
+    protected override void UpdateGuildBonusTracker(int questIndex)
     {
-        Player player = GameManager.Instance.Players[playerID];
-        if (player.isThievesGuild)
+        print($"Guild Type: {Player.Instance.GuildType}");
+        if (Player.Instance.GuildType == CardDatabase.GuildType.ThievesGuild)
         {
-            player.GuildBonusTracker[questIndex]["stolenItems"]++;
+            Player.Instance.ServerUpdateGuildBonusTracker(questIndex, "stolenItems");
         }
     }
 }

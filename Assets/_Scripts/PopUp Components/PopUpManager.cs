@@ -23,8 +23,8 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] GuildRosterPopUp GuildRosterPopUpPrefab;
     [SerializeField] GuildRosterPopUp RivalGuildRosterPopUpPrefab;
 
-    public readonly SyncVar<ResolutionPopUp> CurrentResolutionPopUp = new();
-    public readonly SyncVar<string> CurrentResolutionType = new();
+    public ResolutionPopUp CurrentResolutionPopUp;
+    public string CurrentResolutionType;
     public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
 
     private void Awake()
@@ -32,10 +32,10 @@ public class PopUpManager : NetworkBehaviour
         Instance = this;
     }
 
-    [Server]
-    public ResolutionPopUp CreateResolutionPopUp(string cardName)
+    //[Server]
+    [TargetRpc]
+    public void CreateResolutionPopUp(NetworkConnection connection, string cardName, QuestLocation questLocation)
     {
-
         ResolutionPopUp popUp;
         if (cardName == "Assassin") popUp = Instantiate(AssassinResolutionPopUpPrefab);
         else if (cardName == "Rogue") popUp = Instantiate(RogueResolutionPopUpPrefab);
@@ -43,20 +43,13 @@ public class PopUpManager : NetworkBehaviour
         else
         {
             Debug.LogError($"No Resolution PopUp prefab found for card name: {cardName}");
-            return null;
+            return;
         }
-        CurrentResolutionPopUp.Value = popUp;
-        CurrentResolutionType.Value = cardName;
-        return popUp;
+        popUp.InitializePopUp(questLocation, cardName);
+        CurrentResolutionPopUp = popUp;
+        CurrentResolutionType = cardName;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerDespawnResolutionPopUp(ResolutionPopUp popUp)
-    {
-        Despawn(popUp.gameObject);
-    }
-
-    //[Server]
     [ObserversRpc]
     public void CreateRoundSummaryPopUp(Dictionary<int, PlayerRoundSummaryData> playerSummaries, List<QuestSummaryData> questSummaries)
     {
@@ -64,24 +57,10 @@ public class PopUpManager : NetworkBehaviour
         popUp.InitializeRoundSummaryPopUp(playerSummaries, questSummaries);
     }
 
-    //[TargetRpc]
     public void CreateQuestSummaryPopUp(List<QuestSummaryData> questSummaries)
     {
         QuestSummaryPopUp popUp = Instantiate(QuestSummaryPopUpPrefab);
         popUp.InitializeQuestSummaryPopUp(questSummaries);
-    }
-
-    [TargetRpc]
-    public void TargetCloseRoundSummaryPopUp(NetworkConnection networkConnection, GameObject popUp)
-    {
-        //if (IsServer) return;
-        popUp.SetActive(false);
-
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver)
-        {
-            Player player = GameManager.Instance.Players[LocalConnection.ClientId];
-            this.GameOverPopUpInstance.Value.ServerInitializeGameOverPopup(networkConnection, player);
-        }
     }
 
     [Server]

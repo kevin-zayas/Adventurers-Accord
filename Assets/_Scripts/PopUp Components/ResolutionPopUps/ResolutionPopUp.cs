@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ResolutionPopUp : NetworkBehaviour
+public abstract class ResolutionPopUp : MonoBehaviour
 {
     protected string titleText;
     protected string defaultMessageText;
@@ -35,9 +35,8 @@ public abstract class ResolutionPopUp : NetworkBehaviour
         SetPopUpText();
         SetDefaultPopUpSate();
         closeButton.onClick.AddListener(() => SetConfirmClosePopupState());
-
-
     }
+
     protected virtual void SetDefaultPopUpSate()
     {
         QuestLocation.ServerSetAllowResolution(true);
@@ -85,22 +84,21 @@ public abstract class ResolutionPopUp : NetworkBehaviour
         rightButton.onClick.AddListener(() =>
         {
             GameManager.Instance.ServerCheckForUnresolvedCards();
-            PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
+            Destroy(this.gameObject);
         });
     }
 
     protected void HandleEndOfResolution(int questIndex, AdventurerCard card)
     {
-        ServerUpdateGuildBonusTracker(LocalConnection.ClientId, questIndex);
+        UpdateGuildBonusTracker(questIndex);
         card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
         GameManager.Instance.ServerCheckForUnresolvedCards();
-        PopUpManager.Instance.ServerDespawnResolutionPopUp(this);
+        Destroy(this.gameObject);
     }
 
     protected abstract void SetPopUpText();
 
-    [ServerRpc(RequireOwnership = false)]
-    protected virtual void ServerUpdateGuildBonusTracker(int playerID, int questIndex) { }
+    protected virtual void UpdateGuildBonusTracker(int questIndex) { }
 
 }

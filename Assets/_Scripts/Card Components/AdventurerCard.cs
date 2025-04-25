@@ -393,17 +393,17 @@ public class AdventurerCard : Card
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
         if (!lane.QuestLocation.Value.AllowResolution.Value) return;
 
-        if (PopUpManager.Instance.CurrentResolutionType.Value == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
+        if (PopUpManager.Instance.CurrentResolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
         {
-            PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Assassin" && !DivineBlessing.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        else if (PopUpManager.Instance.CurrentResolutionType == "Assassin" && !DivineBlessing.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
         {
-            PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType.Value == "Cleric" && !DivineBlessing.Value && CardName.Value != "Wolf")
+        else if (PopUpManager.Instance.CurrentResolutionType == "Cleric" && !DivineBlessing.Value && CardName.Value != "Wolf")
         {
-            PopUpManager.Instance.CurrentResolutionPopUp.Value.SetConfirmSelectionState(this);
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
         else
         {

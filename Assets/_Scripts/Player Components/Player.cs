@@ -40,7 +40,6 @@ public class Player : NetworkBehaviour
     {
         base.OnStartServer();
         IsStartingPlayer.Value = GameManager.Instance.Players.Count == 0;
-        //print("new build uploaded");
 
         GameManager.Instance.Players.Add(this);
         GameManager.Instance.CanStartGame.Value = false;
@@ -103,10 +102,8 @@ public class Player : NetworkBehaviour
                 isAssassinsGuild = true;
                 break;
             default:
-                //throw an exception stating that the Guildtype
                 throw new System.Exception($"GuildType : {GuildType} is not valid");
         }
-
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -159,9 +156,14 @@ public class Player : NetworkBehaviour
                 default:
                     //throw an exception stating that the Guildtype
                     throw new System.Exception($"GuildType : {GuildType} is not valid");
-
             }
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerUpdateGuildBonusTracker(int questIndex, string bonusTracker)
+    {
+        GuildBonusTracker[questIndex][bonusTracker]++;
     }
 
     [Server]

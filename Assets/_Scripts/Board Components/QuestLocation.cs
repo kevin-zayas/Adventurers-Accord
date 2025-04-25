@@ -430,7 +430,7 @@ public class QuestLocation : NetworkBehaviour
         {
             AdventurerCard card = cardList[0];
             cardList.RemoveAt(0); 
-            ResolveCard(card);
+            ResolveCard(card, laneIndex);
             return true;
         }
         
@@ -438,38 +438,33 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void ResolveCard(AdventurerCard card)
+    private void ResolveCard(AdventurerCard card, int laneIndex)
     {
         print("Resolving card: " + card.CardName.Value);
-        if (!CheckResolutionValid(card))
+        if (!IsResolutionValid(card.CardName.Value, laneIndex))
         {
             GameManager.Instance.CheckForUnresolvedCards();
             return;
         }
 
-        ResolutionPopUp popUp = PopUpManager.Instance.CreateResolutionPopUp(card.CardName.Value);
-
-        Spawn(popUp.gameObject);
+        PopUpManager.Instance.CreateResolutionPopUp(card.Owner, card.CardName.Value, this);
         GameManager.Instance.SetPlayerTurn(card.ControllingPlayer.Value);
-        TargetResolveCard(card.Owner, popUp, card.CardName.Value);
-        
     }
 
     [Server]
-    private bool CheckResolutionValid(AdventurerCard card)
+    private bool IsResolutionValid(string cardName, int laneIndex)
     {   
-        if (card.CardName.Value == "Rogue")
+        if (cardName == "Rogue")
         {
-            //check for magic items in Quest Location
             foreach (QuestLane lane in questLanes)
             {
+                if (lane == questLanes[laneIndex]) continue;    //skip resolution card's lane
+
                 foreach (Transform cardTransform in lane.QuestDropZone.transform)
                 {
-                    AdventurerCard childCard = cardTransform.GetComponent<AdventurerCard>();
+                    AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-                    if (childCard == card) continue;
-
-                    if (childCard.HasItem.Value)
+                    if (card.HasItem.Value)
                     {
                         return true;
                     }
@@ -478,13 +473,6 @@ public class QuestLocation : NetworkBehaviour
             return false;   //no items found in any lanes       ----TODO: Fix server issue when this is false
         }
         return true;
-    }
-
-    [TargetRpc]
-    public void TargetResolveCard(NetworkConnection networkConnection, ResolutionPopUp popUp, string cardName)
-    {
-        print("Sending popup to local client");
-        popUp.InitializePopUp(this, cardName);
     }
 
     [ServerRpc(RequireOwnership = false)]

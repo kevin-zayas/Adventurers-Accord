@@ -58,13 +58,12 @@ public class AssassinResolutionPopUp : ResolutionPopUp
         assassinConfirmStatText = "Would you like to target this {0}'s Physical or Magical Power?";
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    protected override void ServerUpdateGuildBonusTracker(int playerID, int questIndex)
+    protected override void UpdateGuildBonusTracker(int questIndex)
     {
-        Player player = GameManager.Instance.Players[playerID];
-        if (player.isAssassinsGuild)
-        { 
-            player.GuildBonusTracker[questIndex]["poisonedAdventurers"]++;
+        print($"Guild Type: {Player.Instance.GuildType}");
+        if (Player.Instance.GuildType == CardDatabase.GuildType.AsassinsGuild)
+        {
+            Player.Instance.ServerUpdateGuildBonusTracker(questIndex, "poisonedAdventurers");
         }
     }
 }

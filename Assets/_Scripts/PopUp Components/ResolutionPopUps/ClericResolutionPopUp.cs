@@ -25,8 +25,7 @@ public class ClericResolutionPopUp : ResolutionPopUp
         buttonText = "Bless";
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    protected override void ServerUpdateGuildBonusTracker(int playerID, int questIndex)
+    protected override void UpdateGuildBonusTracker(int questIndex)
     {
         return;
     }
