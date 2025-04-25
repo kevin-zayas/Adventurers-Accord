@@ -442,7 +442,7 @@ public class QuestLocation : NetworkBehaviour
         print("Resolving card: " + card.CardName.Value);
         if (!CheckResolutionValid(card))
         {
-            GameManager.Instance.ServerCheckForUnresolvedCards();
+            GameManager.Instance.CheckForUnresolvedCards();
             return;
         }
 
@@ -474,7 +474,7 @@ public class QuestLocation : NetworkBehaviour
                     }
                 }
             }
-            return false;   //no items found in any lanes
+            return true;   //no items found in any lanes       ----TODO: Fix server issue when this is false
         }
         return true;
     }
