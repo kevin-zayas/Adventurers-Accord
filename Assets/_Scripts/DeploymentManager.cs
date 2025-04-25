@@ -12,7 +12,7 @@ public class DeploymentManager : MonoBehaviour
     [SerializeField] private string deplaymentAuthToken;
 
     private static readonly string appName = "adventurers-accord";
-    private static readonly string appVersion = "test";
+    private static readonly string appVersion = "dev";
     //private static readonly string[] ipList = { "192.168.1.1" };
     private static readonly string[] ipList = { "73.136.136.136" };  //ip in Houston
 

@@ -428,8 +428,9 @@ public class QuestLocation : NetworkBehaviour
         cardList = CardsToResolvePerLane[laneIndex];
         if (cardList.Count > 0)
         {
-            ResolveCard(cardList[0]);
-            cardList.RemoveAt(0);
+            AdventurerCard card = cardList[0];
+            cardList.RemoveAt(0); 
+            ResolveCard(card);
             return true;
         }
         
@@ -474,7 +475,7 @@ public class QuestLocation : NetworkBehaviour
                     }
                 }
             }
-            return true;   //no items found in any lanes       ----TODO: Fix server issue when this is false
+            return false;   //no items found in any lanes       ----TODO: Fix server issue when this is false
         }
         return true;
     }
