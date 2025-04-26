@@ -279,7 +279,7 @@ public class QuestLane : NetworkBehaviour
     public void ServerUpdateDrainEffects(AdventurerCard card)
     {
         if (!QuestCard.Value.Drain.Value) return;
-        if (!card.DivineBlessing.Value)
+        if (!card.IsBlessed.Value)
         {
             throw new System.Exception($"Divine Blessing not applied to {card.CardName.Value}");
         }

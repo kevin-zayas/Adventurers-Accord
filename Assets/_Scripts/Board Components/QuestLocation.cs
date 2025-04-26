@@ -454,25 +454,21 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private bool IsResolutionValid(string cardName, int laneIndex)
     {   
-        if (cardName == "Rogue")
+        if (cardName == "Cleric") return true; // Cleric can always resolve
+
+        foreach (QuestLane lane in questLanes)
         {
-            foreach (QuestLane lane in questLanes)
+            if (lane == questLanes[laneIndex]) continue;    //skip resolution card's lane
+
+            foreach (Transform cardTransform in lane.QuestDropZone.transform)
             {
-                if (lane == questLanes[laneIndex]) continue;    //skip resolution card's lane
+                AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-                foreach (Transform cardTransform in lane.QuestDropZone.transform)
-                {
-                    AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
-
-                    if (card.HasItem.Value)
-                    {
-                        return true;
-                    }
-                }
+                if (cardName == "Rogue" && card.HasItem.Value) return true;
+                else if (cardName == "Assassin" && !card.IsBlessed.Value) return true;
             }
-            return false;   //no items found in any lanes       ----TODO: Fix server issue when this is false
         }
-        return true;
+        return false;   //no valid targets found
     }
 
     [ServerRpc(RequireOwnership = false)]

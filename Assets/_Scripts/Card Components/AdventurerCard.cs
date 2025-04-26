@@ -15,7 +15,7 @@ public class AdventurerCard : Card
     public readonly SyncVar<Transform> ParentTransform = new();
     public readonly SyncVar<int> RestPeriod = new();
     public readonly SyncVar<int> CurrentRestPeriod = new();
-    public readonly SyncVar<bool> DivineBlessing = new();
+    public readonly SyncVar<bool> IsBlessed = new();
     private int physicalPoisonTotal = 0;
     private int magicalPoisonTotal = 0;
     #endregion
@@ -103,7 +103,7 @@ public class AdventurerCard : Card
     [ServerRpc(RequireOwnership = false)]
     public void ServerGrantDivineBlessing()
     {
-        DivineBlessing.Value = true;
+        IsBlessed.Value = true;
         CurrentRestPeriod.Value -= 1;
         ObserversUpdateRestPeriodText(CurrentRestPeriod.Value, RestPeriod.Value);
 
@@ -296,7 +296,7 @@ public class AdventurerCard : Card
         abilityNameText.text = card.AbilityName.Value;
         costText.text = card.Cost.Value.ToString();
 
-        if (card.DivineBlessing.Value)
+        if (card.IsBlessed.Value)
         {
             restPeriodText.text = card.CurrentRestPeriod.Value.ToString();
             UpdateRestPeriodTextColor(card.CurrentRestPeriod.Value, card.RestPeriod.Value);
@@ -351,9 +351,9 @@ public class AdventurerCard : Card
         QuestLane questLane = previousParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
 
-        if (DivineBlessing.Value)
+        if (IsBlessed.Value)
         {
-            DivineBlessing.Value = false;
+            IsBlessed.Value = false;
             ObserversUpdateRestPeriodText(RestPeriod.Value, RestPeriod.Value);
         }
 
@@ -397,11 +397,11 @@ public class AdventurerCard : Card
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType == "Assassin" && !DivineBlessing.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        else if (PopUpManager.Instance.CurrentResolutionType == "Assassin" && !IsBlessed.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType == "Cleric" && !DivineBlessing.Value && CardName.Value != "Wolf")
+        else if (PopUpManager.Instance.CurrentResolutionType == "Cleric" && !IsBlessed.Value && CardName.Value != "Wolf")
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
