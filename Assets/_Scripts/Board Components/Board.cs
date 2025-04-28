@@ -117,9 +117,12 @@ public class Board : NetworkBehaviour
     [Server]
     public void DrawQuestCard(int questSlotIndex)
     {
-        List<CardData> questCardDeck = L1QuestCardDeck.Count > 0 ? L1QuestCardDeck :
-                                        L2QuestCardDeck.Count > 0 ? L2QuestCardDeck :
-                                        L3QuestCardDeck.Count > 0 ? L3QuestCardDeck : null;
+        List<CardData> questCardDeck = CardDatabase.Instance.TestQuestCards.Count > 0
+            ? CardDatabase.Instance.TestQuestCards
+            : L1QuestCardDeck.Count > 0 ? L1QuestCardDeck
+                : L2QuestCardDeck.Count > 0 ? L2QuestCardDeck
+                    : L3QuestCardDeck.Count > 0 ? L3QuestCardDeck
+                        : null;
 
         if (questCardDeck == null) return;
 
@@ -295,7 +298,11 @@ public class Board : NetworkBehaviour
     {
         foreach (Player player in GameManager.Instance.Players)
         {
-            foreach (CardData cardData in CardDatabase.Instance.GuildRosterMap[player.GuildType])
+            List<CardData> startingHand = CardDatabase.Instance.TestRoster.Count > 0
+            ? CardDatabase.Instance.TestRoster
+            : CardDatabase.Instance.GuildRosterMap[player.GuildType];
+
+            foreach (CardData cardData in startingHand)
             {
                 SpawnCard(cardData, player.controlledHand.Value.transform, player);
             }

@@ -16,6 +16,9 @@ public class CardDatabase : NetworkBehaviour
         AsassinsGuild
     }
 
+    public List<CardData> TestQuestCards = new();
+    public List<CardData> TestRoster = new();
+
     public List<CardData> tierOneCards = new();
     public List<CardData> tierTwoCards = new();
 
