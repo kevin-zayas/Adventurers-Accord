@@ -161,7 +161,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    public void HandleEndOfQuest(Dictionary<int,PlayerRoundSummaryData> playerSummaries, List<QuestSummaryData> questSummaries)
+    public void HandleEndOfQuest(List<QuestSummaryData> questSummaries)
     {
         UpdateTotalPower();
         QuestSummaryData questSummaryData = new(this);
@@ -172,35 +172,35 @@ public class QuestLocation : NetworkBehaviour
         if (AreQuestReqsMet())
         {
             Status = QuestStatus.Completed;
-            CalculateQuestContributions(true,playerSummaries,questSummaryData);
-            DistributeBardBonus(playerSummaries, questSummaryData);
+            CalculateQuestContributions(true,questSummaryData);
+            DistributeBardBonus(questSummaryData);
         }
         else
         {
             
             Status = QuestStatus.Failed;
-            CalculateFailedQuestPenalty(playerSummaries, questSummaryData);
+            CalculateFailedQuestPenalty(questSummaryData);
         }
 
         questSummaryData.Status = Status;
-        CheckGuildBonus(playerSummaries, questSummaryData);
+        CheckGuildBonus(questSummaryData);
         ReplaceQuestCard();
         return;
     }
 
     [Server]
-    public void CalculateQuestContributions(bool isRoundOver, Dictionary<int,PlayerRoundSummaryData> playerSummaries = null, QuestSummaryData questSummaryData = null)
+    public void CalculateQuestContributions(bool isRoundOver, QuestSummaryData questSummaryData = null)
     {
         foreach (QuestLane lane in questLanes)
         {
             if (DoesMeetFullReqs(lane))
             {
-                if (isRoundOver) DistributeQuestRewards(lane, true, playerSummaries, questSummaryData);
+                if (isRoundOver) DistributeQuestRewards(lane, true, questSummaryData);
                 lane.ObserversUpdateRewardIndicator("gold");
             }
             else if (AreQuestReqsMet() && DoesMeetHalflReqs(lane))
             {
-                if (isRoundOver) DistributeQuestRewards(lane, false, playerSummaries, questSummaryData);
+                if (isRoundOver) DistributeQuestRewards(lane, false, questSummaryData);
                 lane.ObserversUpdateRewardIndicator("silver");
             }
             else
@@ -243,7 +243,7 @@ public class QuestLocation : NetworkBehaviour
     }
 
     [Server]
-    private void DistributeQuestRewards(QuestLane lane, bool fullRewards, Dictionary<int, PlayerRoundSummaryData> playerSummaries, QuestSummaryData questSummaryData)
+    private void DistributeQuestRewards(QuestLane lane, bool fullRewards, QuestSummaryData questSummaryData)
     {
         Player player = lane.Player.Value;
 
@@ -255,18 +255,14 @@ public class QuestLocation : NetworkBehaviour
         player.ChangePlayerReputation(reputationReward);
         Board.Instance.RewardLoot(player, lootReward);
 
-        print($"Player {player.PlayerID.Value} recieves {goldReward} GP, {reputationReward} Rep. and {lootReward} Loot for their contribution to the quest");
-
         PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
         playerSummary.UpdatePlayerSummary(goldReward, reputationReward, lootReward, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value);
         questSummaryData.PlayerQuestSummaries[player.PlayerID.Value] = playerSummary;
 
-        playerSummaries[player.PlayerID.Value].UpdatePlayerSummary(goldReward, reputationReward, lootReward);
-
     }
 
     [Server]
-    private void CheckGuildBonus(Dictionary<int, PlayerRoundSummaryData> playerSummaries, QuestSummaryData questSummaryData)
+    private void CheckGuildBonus(QuestSummaryData questSummaryData)
     {
         if (Status == QuestStatus.Unchallenged) return;
 
@@ -274,7 +270,6 @@ public class QuestLocation : NetworkBehaviour
         foreach (int playerID in questSummaryData.PlayerQuestSummaries.Keys)
         {
             Player player = GameManager.Instance.Players[playerID];
-            PlayerRoundSummaryData playerSummaryData = playerSummaries[player.PlayerID.Value];
             PlayerRoundSummaryData questPlayerSummaryData = questSummaryData.PlayerQuestSummaries[playerID];
 
             if (player.isThievesGuild)
@@ -282,30 +277,25 @@ public class QuestLocation : NetworkBehaviour
                 if (Status == QuestStatus.Completed)
                 {
                     player.ChangePlayerGold(1);
-                    playerSummaryData.AddBonusReward("First to the Spoils", 1, 0, 0);
                     questPlayerSummaryData.AddBonusReward("First to the Spoils", 1, 0, 0);
-                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Quest Complete");
 
                     if (UnityEngine.Random.Range(1, 5) == 1) // 25% chance
                     {
                         Board.Instance.RewardLoot(player, 1);
-                        playerSummaryData.AddBonusReward("First to the Spoils", 0, 0, 1);
                         questPlayerSummaryData.AddBonusReward("First to the Spoils", 0, 0, 1);
-                        print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 Loot - Quest Complete");
                     }
                        
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
                 {
                     player.ChangePlayerGold(1);
-                    playerSummaryData.AddBonusReward("Sleight of Hand", 1, 0, 0);
                     questPlayerSummaryData.AddBonusReward("Sleight of Hand", 1, 0, 0);
-                    print($"Thieves Guild Bonus - Player {player.PlayerID.Value} +1 GP - Stolen Item Count: {player.GuildBonusTracker[QuestLocationIndex]["stolenItems"]}");
                 }
             }
             else if (player.isFightersGuild && Status == QuestStatus.Completed)
             {
                 int playerPhysPower = questLanes[player.PlayerID.Value].TotalPhysicalPower.Value;
+                if (playerPhysPower <= 0) continue; // No bonus if no physical power
 
                 foreach (QuestLane lane in questLanes)
                 {
@@ -322,9 +312,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["mostPhysPower"] == 1)
                 {
                     player.ChangePlayerReputation(1);
-                    playerSummaryData.AddBonusReward("Path to Glory", 0, 1, 0);
                     questPlayerSummaryData.AddBonusReward("Path to Glory", 0, 1, 0);
-                    print($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Most Physical Power");
                 }
             }
             else if (player.isMerchantsGuild && Status == QuestStatus.Completed)
@@ -332,9 +320,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"] >= 2)
                 {
                     player.ChangePlayerReputation(1);
-                    playerSummaryData.AddBonusReward("Show of Wealth", 0, 1, 0);
                     questPlayerSummaryData.AddBonusReward("Show of Wealth", 0, 1, 0);
-                    print($"Merchants Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Magic Item Count: {player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"]}");
                 }
             }
             else if (player.isAssassinsGuild)
@@ -342,23 +328,20 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
                 {
                     player.ChangePlayerReputation(1);
-                    playerSummaryData.AddBonusReward("Whispered Influence", 0, 1, 0);
                     questPlayerSummaryData.AddBonusReward("Whispered Influence", 0, 1, 0);
-                    print($"Assassins Guild Bonus - Player {player.PlayerID.Value} +1 Rep. - Curse Spell Count: {player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"]}");
                 }
+
                 if (player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"] > 0)
                 {
                     player.ChangePlayerGold(2);
-                    playerSummaryData.AddBonusReward("Deadly Bounty", 2, 0, 0);
                     questPlayerSummaryData.AddBonusReward("Deadly Bounty", 2, 0, 0);
-                    print($"Assassins Guild Bonus - Player {player.PlayerID.Value} +2 GP. - Posoned Adventurer Count: {player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"]}");
                 }
             }
         }
     }
 
     [Server]
-    private void DistributeBardBonus(Dictionary<int, PlayerRoundSummaryData> playerSummaries, QuestSummaryData questSummaryData)
+    private void DistributeBardBonus(QuestSummaryData questSummaryData)
     {
         int bardBonusGold;
         int bardBonusReputation;
@@ -370,14 +353,13 @@ public class QuestLocation : NetworkBehaviour
                 (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
                 player.ChangePlayerGold(bardBonusGold);
                 player.ChangePlayerReputation(bardBonusReputation);
-                playerSummaries[player.PlayerID.Value].AddBonusReward("Bardsong", bardBonusGold, bardBonusReputation, 0);
                 questSummaryData.PlayerQuestSummaries[player.PlayerID.Value].AddBonusReward("Bardsong", bardBonusGold, bardBonusReputation, 0);
             }
         }
     }
 
     [Server]
-    private void CalculateFailedQuestPenalty(Dictionary<int, PlayerRoundSummaryData> playerSummaries, QuestSummaryData questSummaryData)
+    private void CalculateFailedQuestPenalty(QuestSummaryData questSummaryData)
     {
         int goldPenalty = QuestCard.Value.GoldPenalty.Value;
         int reputationPenalty = QuestCard.Value.ReputationPenalty.Value;
@@ -396,15 +378,11 @@ public class QuestLocation : NetworkBehaviour
             {
                 AdventurerCard adventurerCard = cardTransform.GetComponent<AdventurerCard>();
                 adventurerCard.ChangeCurrentRestPeriod(restPeriodPenalty);
-                print($"Player {player.PlayerID.Value +1} - Adventurer {adventurerCard.CardName.Value} - Increase Rest Period by {restPeriodPenalty}");
             }
 
-            print($"Player {player.PlayerID.Value} loses {reputationPenalty} Rep. for failing the quest");
             PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
             playerSummary.UpdatePlayerSummary(goldPenalty, reputationPenalty, 0, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value);
             questSummaryData.PlayerQuestSummaries[player.PlayerID.Value] = playerSummary;
-
-            playerSummaries[player.PlayerID.Value].UpdatePlayerSummary(goldPenalty, reputationPenalty, 0);
         }
     }
 
@@ -433,14 +411,12 @@ public class QuestLocation : NetworkBehaviour
             ResolveCard(card, laneIndex);
             return true;
         }
-        
         return false;
     }
 
     [Server]
     private void ResolveCard(AdventurerCard card, int laneIndex)
     {
-        print("Resolving card: " + card.CardName.Value);
         if (!IsResolutionValid(card.CardName.Value, laneIndex))
         {
             GameManager.Instance.CheckForUnresolvedCards();

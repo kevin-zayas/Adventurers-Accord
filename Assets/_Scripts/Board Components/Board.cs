@@ -235,8 +235,22 @@ public class Board : NetworkBehaviour
     public void CheckQuestsForCompletion()
     {
         List<QuestSummaryData> questSummaries = new();
+
+        for (int i = 0; i < QuestLocations.Length; i++)
+        {
+            if (QuestLocations[i].QuestCard.Value == null) continue;
+            QuestLocations[i].HandleEndOfQuest(questSummaries);
+        }
+
+        Dictionary<int, PlayerRoundSummaryData> playerSummaries = CreatePlayerRoundSummary(questSummaries);
+        PopUpManager.Instance.CreateRoundSummaryPopUp(playerSummaries, questSummaries);
+        GameManager.Instance.EndPhase();
+    }
+
+    private Dictionary<int, PlayerRoundSummaryData> CreatePlayerRoundSummary(List<QuestSummaryData> questSummaries)
+    {
         Dictionary<int, PlayerRoundSummaryData> playerSummaries = new();
-        
+
         foreach (Player player in GameManager.Instance.Players)
         {
             PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
@@ -249,18 +263,16 @@ public class Board : NetworkBehaviour
             }
         }
 
-        for (int i = 0; i < QuestLocations.Length; i++)
+        foreach (QuestSummaryData questSummary in questSummaries)
         {
-            if (QuestLocations[i].QuestCard.Value == null)
+            foreach (int playerID in questSummary.PlayerQuestSummaries.Keys)
             {
-                print("skipping empty quest location");
-                continue;
+                PlayerRoundSummaryData playerSummary = playerSummaries[playerID];
+                PlayerRoundSummaryData playerQuestSummary = questSummary.PlayerQuestSummaries[playerID];
+                playerSummary.UpdatePlayerSummary(playerQuestSummary);
             }
-
-            QuestLocations[i].HandleEndOfQuest(playerSummaries, questSummaries);
         }
-        PopUpManager.Instance.CreateRoundSummaryPopUp(playerSummaries, questSummaries);
-        GameManager.Instance.EndPhase();
+        return playerSummaries;
     }
 
     /// <summary>

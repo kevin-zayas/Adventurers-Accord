@@ -72,6 +72,19 @@ public class PlayerRoundSummaryData
         MagicalPower = magPower;
     }
 
+    public void UpdatePlayerSummary(PlayerRoundSummaryData summaryData)
+    {
+        Gold += summaryData.Gold;
+        Reputation += summaryData.Reputation;
+        Loot += summaryData.Loot;
+
+        foreach (string bonusName in summaryData.BonusRewards.Keys)
+        {
+            BonusRewardData bonusReward = summaryData.BonusRewards[bonusName];
+            AddBonusReward(bonusName, bonusReward.Gold, bonusReward.Reputation, bonusReward.Loot);
+        }
+    }
+
     public void AddBonusReward(string bonusName, int gold, int reputation, int loot)
     {
         BonusRewardData bonusRewardData;
