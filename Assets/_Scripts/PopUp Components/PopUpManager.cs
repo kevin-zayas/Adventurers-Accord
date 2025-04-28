@@ -25,14 +25,12 @@ public class PopUpManager : NetworkBehaviour
 
     public ResolutionPopUp CurrentResolutionPopUp;
     public string CurrentResolutionType;
-    public readonly SyncVar<GameOverPopUp> GameOverPopUpInstance = new();
 
     private void Awake()
     {
         Instance = this;
     }
 
-    //[Server]
     [TargetRpc]
     public void CreateResolutionPopUp(NetworkConnection connection, string cardName, QuestLocation questLocation)
     {
@@ -63,12 +61,10 @@ public class PopUpManager : NetworkBehaviour
         popUp.InitializeQuestSummaryPopUp(questSummaries);
     }
 
-    [Server]
-    public GameOverPopUp CreateGameOverPopUp()
+    public void CreateGameOverPopUp()
     {
         GameOverPopUp popUp = Instantiate(GameOverPopUpPrefab);
-        GameOverPopUpInstance.Value = popUp;
-        return popUp;
+        popUp.InitializeGameOverPopUp();
     }
 
     public ConfirmationPopUp CreateConfirmationPopUp()

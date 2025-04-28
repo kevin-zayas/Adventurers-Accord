@@ -28,10 +28,6 @@ public class ScoreBoardPopUp : NetworkBehaviour
     protected void InitializeScoreBoard()
     {
         int playerCount = GameManager.Instance.Players.Count;
-        //int scoreboardHeight = 4 + 54 * playerCount;
-
-        //RectTransform rectTransform = this.GetComponent<RectTransform>();
-        //rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, scoreboardHeight);
 
         for (int i = 0; i < playerCount; i++)
         {

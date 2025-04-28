@@ -247,17 +247,6 @@ public class GameManager : NetworkBehaviour
                 CheckMerchantsGuildGold();
                 break;
 
-            //case Phase.Recovery:
-            //    DiscardPile.Instance.RecoverAdventurers();
-
-            //    CurrentPhase.Value = Phase.Recruit;
-            //    Board.Instance.ObserversUpdatePhaseText("Recruit");
-
-            //    StartingTurn = (StartingTurn + 1) % Players.Count;
-            //    Turn = StartingTurn;
-            //    SetPlayerTurn(Players[Turn]);
-            //    break;
-
             case Phase.GameOver:
                 EndGame();
                 break;
@@ -326,22 +315,8 @@ public class GameManager : NetworkBehaviour
     public void EndGame()
     {
         Board.Instance.ObserversUpdatePhaseText("", true);
-        LaunchGameOverPopUp();
     }
 
-    /// <summary>
-    /// Launches the Game Over pop-up, calculating the final rankings.
-    /// </summary>
-    [Server]
-    public void LaunchGameOverPopUp()
-    {
-        if (CurrentPhase.Value != Phase.GameOver) return;
-
-        GameOverPopUp popUp = PopUpManager.Instance.CreateGameOverPopUp();
-        Spawn(popUp.gameObject);
-
-        popUp.CalculateRankings();
-    }
 
     [Server]
     public void ResetGuildBonusTrackers()

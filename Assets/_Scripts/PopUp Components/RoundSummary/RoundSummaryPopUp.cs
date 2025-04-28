@@ -18,6 +18,7 @@ public class RoundSummaryPopUp : MonoBehaviour
 
         closeButton.onClick.AddListener(() =>
         {
+            if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver) PopUpManager.Instance.CreateGameOverPopUp();
             Destroy(gameObject);
         });
 
