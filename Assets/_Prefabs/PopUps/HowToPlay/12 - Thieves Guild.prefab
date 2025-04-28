@@ -339,8 +339,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2022 <u>Sleight of Hand</u></font-weight> \u2013 Gain +1 Gold when you
-    steal a rival Adventurer's Magic Item on a Quest.\n"
+  m_text: "\u2022 <u>Sleight of Hand</u></font-weight> \u2013 Gain +1 Gold when your
+    Rogue disables an Adventurer's Magic Item on a Quest.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
+  m_fontSize: 29.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1008,7 +1008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: Sticky Fingers
+      value: Saboteur
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_fontSize
@@ -1660,7 +1660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: Sticky Fingers
+      value: Saboteur
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_fontSize

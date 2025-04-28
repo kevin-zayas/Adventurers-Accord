@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -5, y: -100}
-  m_SizeDelta: {x: 553.6, y: 669.3}
+  m_SizeDelta: {x: 553.6, y: 710.36}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &6240003137652160923
 CanvasRenderer:
@@ -81,8 +81,10 @@ MonoBehaviour:
     can only be equipped on an Adventurer card if the Power being increased is greater
     than 0
 
-    \u2022 Once equipped, Magic Items cannot be unequipped</indent>
+    \u2022 Once equipped, Magic Items cannot be unequipped
 
+    \u2022
+    Each Adventurer can only equip 1 Magic Item</indent>
 
 '
   m_isRightToLeft: 0
@@ -428,7 +430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: Sticky Fingers
+      value: Saboteur
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_fontSize

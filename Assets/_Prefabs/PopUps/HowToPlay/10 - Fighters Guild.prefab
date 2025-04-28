@@ -1144,7 +1144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
-      value: Sticky Fingers
+      value: Saboteur
       objectReference: {fileID: 0}
     - target: {fileID: 4004057442462621200, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_fontSize
