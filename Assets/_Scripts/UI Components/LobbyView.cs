@@ -11,33 +11,23 @@ public class LobbyView : View
     [SerializeField] Button startButton;
     [SerializeField] TMP_Text readyButtonText;
 
-    [SerializeField] Button fightersGuildButton;
-    [SerializeField] Button magesGuildButton;
-    [SerializeField] Button thievesGuildButton;
-    [SerializeField] Button merchantsGuildButton;
-    [SerializeField] Button assassinsGuildButton;
     private Button selectedButton;
-
-    [SerializeField] TMP_Text guildText;
     [SerializeField] GameObject[] playerEntries;
 
-    [field: SerializeField, TextArea(3, 6)] private string fightersGuildText;
-    [field: SerializeField, TextArea(3, 6)] private string magesGuildText;
-    [field: SerializeField, TextArea(3, 6)] private string thievesGuildText;
-    [field: SerializeField, TextArea(3, 6)] private string merchantsGuildText;
-    [field: SerializeField, TextArea(3, 6)] private string assassinsGuildText;
+    [SerializeField] private List<Button> guildButtons = new();
+    [SerializeField] private List<GameObject> guildPages = new();
+    [SerializeField] private List<GuildType> guildTypes = new();
 
-    private readonly Dictionary<GuildType, string> DescriptionMap = new();
+    [SerializeField] private GameObject currentGuildPage;
+    [SerializeField] private GameObject content;
 
     public override void Initialize()
     {
         howToPlayButton.onClick.AddListener(() => PopUpManager.Instance.CreateHowToPlayPopUp());
         readyButton.onClick.AddListener(() => Player.Instance.TogglePlayerIsReady());
         InitializeGuildButtons();
-        InitializeGuildMaps();
 
-        //if (InstanceFinder.IsServer)
-        if (Player.Instance.IsStartingPlayer.Value) // could just check is player 1
+        if (Player.Instance.IsStartingPlayer.Value)
         {
             startButton.onClick.AddListener(() => GameManager.Instance.ServerStartGame());
         }
@@ -45,8 +35,26 @@ public class LobbyView : View
         {
             startButton.gameObject.SetActive(false);
         }
-        //ServerUpdateLobby();
         base.Initialize();
+    }
+
+    private void InitializeGuildButtons()
+    {
+        foreach (Button button in guildButtons)
+        {
+            button.onClick.AddListener(() =>
+            {
+                SetGuildType(button);
+            });
+        }
+    }
+    private void ChangeGuildDescription(int newPageIndex)
+    {
+        Destroy(currentGuildPage);
+
+        currentGuildPage = Instantiate(guildPages[newPageIndex], new Vector2(0f,-45f), Quaternion.identity);
+        currentGuildPage.transform.localScale = new Vector2(.9f, .9f);
+        currentGuildPage.transform.SetParent(content.transform, false);
     }
 
     private void Update()
@@ -74,37 +82,19 @@ public class LobbyView : View
             playerEntries[i].GetComponentInChildren<Image>().enabled = true;
 
         }
-
         readyButton.interactable = Player.Instance.GuildType != GuildType.None;
         readyButtonText.color = Player.Instance.IsReady.Value ? Color.green : Color.red;
         startButton.interactable = GameManager.Instance.CanStartGame.Value;
     }
-    private void SetGuildType(GuildType guildType, Button guildButton)
+    private void SetGuildType(Button guildButton)
     {
-        Player.Instance.ServerSetGuildType(guildType);
+        int guildIndex = guildButtons.IndexOf(guildButton);
+        Player.Instance.ServerSetGuildType(guildTypes[guildIndex]);
         if (selectedButton != null) selectedButton.interactable = true;
         guildButton.interactable = false;
         selectedButton = guildButton;
-        guildText.text = DescriptionMap[guildType];
-        print(guildType);
-    }
+        ChangeGuildDescription(guildIndex);
 
-    private void InitializeGuildButtons()
-    {
-        fightersGuildButton.onClick.AddListener(() => SetGuildType(GuildType.FightersGuild, fightersGuildButton));
-        magesGuildButton.onClick.AddListener(() => SetGuildType(GuildType.MagesGuild, magesGuildButton));
-        thievesGuildButton.onClick.AddListener(() => SetGuildType(GuildType.ThievesGuild, thievesGuildButton));
-        merchantsGuildButton.onClick.AddListener(() => SetGuildType(GuildType.MerchantsGuild, merchantsGuildButton));
-        assassinsGuildButton.onClick.AddListener(() => SetGuildType(GuildType.AsassinsGuild, assassinsGuildButton));
-    }
-
-    private void InitializeGuildMaps()
-    {
-        DescriptionMap.Add(GuildType.FightersGuild, fightersGuildText);
-        DescriptionMap.Add(GuildType.MagesGuild, magesGuildText);
-        DescriptionMap.Add(GuildType.ThievesGuild, thievesGuildText);
-        DescriptionMap.Add(GuildType.MerchantsGuild, merchantsGuildText);
-        DescriptionMap.Add(GuildType.AsassinsGuild, assassinsGuildText);
-        DescriptionMap.Add(GuildType.None, "No Guild Selected");
+        Player.Instance.TogglePlayerIsReady(false);
     }
 }

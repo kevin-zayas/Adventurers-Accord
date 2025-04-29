@@ -195,9 +195,9 @@ public class Player : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void TogglePlayerIsReady()
+    public void TogglePlayerIsReady(bool? isReady = null)
     {
-        IsReady.Value = !IsReady.Value;
+        IsReady.Value = isReady ?? !IsReady.Value;
 
         SyncList<Player> players = GameManager.Instance.Players;
         if (IsReady.Value && players.All(player => player.IsReady.Value))
