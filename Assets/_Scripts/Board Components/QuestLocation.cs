@@ -266,7 +266,6 @@ public class QuestLocation : NetworkBehaviour
     {
         if (Status == QuestStatus.Unchallenged) return;
 
-        //foreach (Player player in GameManager.Instance.Players)
         foreach (int playerID in questSummaryData.PlayerQuestSummaries.Keys)
         {
             Player player = GameManager.Instance.Players[playerID];
@@ -336,6 +335,21 @@ public class QuestLocation : NetworkBehaviour
                     player.ChangePlayerGold(2);
                     questPlayerSummaryData.AddBonusReward("Deadly Bounty", 2, 0, 0);
                 }
+            }
+        }
+
+        foreach (Player player in GameManager.Instance.Players)
+        {
+            if (questSummaryData.PlayerQuestSummaries.ContainsKey(player.PlayerID.Value)) continue;
+            
+            if (player.isAssassinsGuild && player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
+            {
+                PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
+                playerSummary.UpdatePlayerSummary(0, 0, 0, 0, 0);
+                questSummaryData.PlayerQuestSummaries[player.PlayerID.Value] = playerSummary;
+
+                player.ChangePlayerReputation(1);
+                playerSummary.AddBonusReward("Whispered Influence", 0, 1, 0);
             }
         }
     }

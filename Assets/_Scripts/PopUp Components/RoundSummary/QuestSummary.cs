@@ -32,7 +32,7 @@ public class QuestSummary : MonoBehaviour
             QuestStatus.Failed => Color.red,
             _ => Color.black,
         };
-        //for (int i = 0; i < questSummary.QuestPlayerSummaries.Count; i++)
+
         foreach (int playerID in questSummary.PlayerQuestSummaries.Keys)
         {
             PlayerRoundSummaryData playerQuestSummaryData = questSummary.PlayerQuestSummaries[playerID];
