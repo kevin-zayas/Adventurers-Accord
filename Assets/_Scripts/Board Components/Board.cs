@@ -14,7 +14,7 @@ public class Board : NetworkBehaviour
     #region Serialized Fields
     [field: SerializeField] public CardSlot[] DraftCardSlots { get; private set; }
     [field: SerializeField] public QuestLocation[] QuestLocations { get; private set; }
-
+    [field: SerializeField] public GuildStatus[] GuildStatusList{ get; private set; }
     [field: SerializeField] private List<CardData> T1Deck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> T2Deck { get; } = new List<CardData>();
     [field: SerializeField] private List<CardData> ShopLootDeck { get; } = new List<CardData>();
@@ -61,11 +61,16 @@ public class Board : NetworkBehaviour
         }
 
         DealStartingHand();
+        ObserversInitializeGuildStatus();
+    }
 
-        //foreach (Player player in GameManager.Instance.Players)
-        //{
-        //    RewardLoot(player, GameManager.Instance.StartingLoot);
-        //}
+    [ObserversRpc]
+    private void ObserversInitializeGuildStatus()
+    {
+        for (int i = 0; i < GameManager.Instance.Players.Count; i++)
+        {
+            GuildStatusList[i].InitializeGuildStatus(GameManager.Instance.Players[i]);
+        }
     }
 
     /// <summary>

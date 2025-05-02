@@ -78,10 +78,9 @@ public class Player : NetworkBehaviour
         controlledHand.Value = newHandObject;
         newHandObject.controllingPlayer.Value = this;
         newHandObject.playerID.Value = PlayerID.Value;
+
         ObserversRenderHand(newHandObject);
-
         ObserversUpdateGoldText(this.Gold.Value);
-
         InitializeGuildBonusTracker();
 
         switch (GuildType)
@@ -281,6 +280,8 @@ public class Player : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversUpdateGoldText(int gold)
     {
+        Board.Instance.GuildStatusList[PlayerID.Value].SetGoldAmount(gold);
+
         if (!IsOwner) return;
         Board.Instance.goldText.text = gold.ToString();
     }
@@ -288,6 +289,8 @@ public class Player : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     private void ObserversUpdateReputationText(int reputation)
     {
+        Board.Instance.GuildStatusList[PlayerID.Value].SetReputationAmount(reputation);
+
         if (!IsOwner) return;
         Board.Instance.reputationText.text = reputation.ToString();
     }

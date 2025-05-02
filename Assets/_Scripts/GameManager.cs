@@ -12,7 +12,6 @@ public class GameManager : NetworkBehaviour
 
     #region Serialized Fields
     [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
-
     [field: SerializeField] public SyncList<Player> Players { get; } = new SyncList<Player>();
 
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> CanStartGame = new();
@@ -22,7 +21,6 @@ public class GameManager : NetworkBehaviour
     [AllowMutableSyncTypeAttribute] public SyncVar<Phase> CurrentPhase = new(new SyncTypeSettings(WritePermission.ServerOnly));
     [field: SerializeField] public int StartingTurn { get; private set; }
     [field: SerializeField] public int StartingGold { get; private set; }
-    [field: SerializeField] public int StartingLoot { get; private set; }
     [field: SerializeField] public int ReputationGoal { get; private set; }
     [field: SerializeField] public bool[] PlayerSkipTurnStatus { get; private set; }
     [field: SerializeField] public SyncList<bool> PlayerEndRoundStatus { get; } = new SyncList<bool>();
