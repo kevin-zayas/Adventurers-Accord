@@ -65,7 +65,7 @@ public class AdventurerDragDrop : CardDragDrop
         }
         else if (card.IsDraftCard.Value)
         {
-            AssignDraftCardToPlayer();
+            OnCardPurchase();
         }
         else
         {

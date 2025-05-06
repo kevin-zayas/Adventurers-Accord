@@ -1,3 +1,5 @@
+using DG.Tweening;
+using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
@@ -123,6 +125,12 @@ public abstract class CardDragDrop : NetworkBehaviour
         transform.position = startPosition;
     }
 
+    
+    protected void OnCardPurchase()
+    {
+        ServerPlayMoveAnimation(player.PlayerID.Value);
+    }
+
     /// <summary>
     /// Assigns the draft card to the player, updating the game state accordingly.
     /// </summary>
@@ -135,5 +143,31 @@ public abstract class CardDragDrop : NetworkBehaviour
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void ServerPlayMoveAnimation(int playerID)
+    {
+        ObserversPlayMoveAnimation(playerID);
+    }
+
+    [ObserversRpc]
+    protected void ObserversPlayMoveAnimation(int playerID)
+    {
+        Transform guildTransform = Board.Instance.GuildStatusList[playerID].gameObject.transform;
+        Sequence sequence = DOTween.Sequence();
+        if (LocalConnection.ClientId != playerID)
+        {
+            
+            sequence.Append(transform.DOMove(guildTransform.position, .5f));
+            
+        }
+        else
+        {
+            sequence.Append(transform.DOJump(transform.position, 1f, 1, .5f));
+            sequence.OnComplete(AssignDraftCardToPlayer);
+        }
+
+        sequence.Play();
     }
 }

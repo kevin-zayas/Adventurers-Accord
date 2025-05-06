@@ -49,7 +49,7 @@ public class ItemDragDrop : CardDragDrop
                 ResetCardPosition();
                 return;
             }
-            AssignDraftCardToPlayer();
+            OnCardPurchase();
             return;
         }
         AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();

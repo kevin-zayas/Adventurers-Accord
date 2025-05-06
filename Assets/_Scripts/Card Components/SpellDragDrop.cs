@@ -50,7 +50,7 @@ public class SpellDragDrop : CardDragDrop
                 ResetCardPosition();
                 return;
             }
-            AssignDraftCardToPlayer();
+            OnCardPurchase();
             return;
         }
 
