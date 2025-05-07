@@ -159,7 +159,7 @@ public class GameManager : NetworkBehaviour
     public void ConfirmEndRound(int playerID)
     {
         PlayerEndRoundStatus[playerID] = true;
-        Scoreboard.ObserversToggleTurnMarker(playerID, false);
+        Board.Instance.ObserversUpdateTurnMarker(playerID, false);
 
         if (PlayerEndRoundStatus.All(status => status))
         {
@@ -181,7 +181,7 @@ public class GameManager : NetworkBehaviour
             PlayerEndRoundStatus.Add(false);
         }
         ObserversEnableEndRoundButton();
-        Scoreboard.ObserversEnableAllTurnMarkers();
+        Board.Instance.ObserversUpdateTurnMarker();
     }
 
     /// <summary>
@@ -219,7 +219,7 @@ public class GameManager : NetworkBehaviour
                 CurrentPhase.Value = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
                 BeginEndRound();
-                Scoreboard.ObserversEnableAllTurnMarkers();
+                Board.Instance.ObserversUpdateTurnMarker();
                 break;
 
             case Phase.Magic:
@@ -293,8 +293,7 @@ public class GameManager : NetworkBehaviour
             player.SetIsPlayerTurn(player == currentPlayer);
             player.UpdatePlayerView();
         }
-
-        Scoreboard.ObserversUpdateTurnMarker(currentPlayer.PlayerID.Value);
+        Board.Instance.ObserversUpdateTurnMarker(currentPlayer.PlayerID.Value);
     }
 
     /// <summary>

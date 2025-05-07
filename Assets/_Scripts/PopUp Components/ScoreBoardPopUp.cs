@@ -47,20 +47,6 @@ public class ScoreBoardPopUp : NetworkBehaviour
             {
                 ServerCreateGuildRosterPopUp(LocalConnection, player, isViewingRival);
             });
-
-            UpdateTurnMarkers(i, player);
-        }
-    }
-
-    protected void UpdateTurnMarkers(int playerIndex, Player player)
-    {
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
-        {
-            PlayerScores[playerIndex].TurnMarker.SetActive(!GameManager.Instance.PlayerEndRoundStatus[playerIndex]);
-        }
-        else if (player.IsPlayerTurn.Value)
-        {
-            PlayerScores[playerIndex].TurnMarker.SetActive(true);
         }
     }
 
@@ -82,26 +68,5 @@ public class ScoreBoardPopUp : NetworkBehaviour
     public void UpdatePlayerReputation(int playerIndex, int reputation)
     {
         PlayerScores[playerIndex].UpdateReputation(reputation);
-    }
-
-    public void UpdatePlayerTurnMarker(int playerIndex)
-    {
-        for (int i = 0; i < PlayerScores.Count; i++)
-        {
-            PlayerScores[i].TurnMarker.SetActive(i == playerIndex);
-        }
-    }
-
-    public void EnableAllTurnMarkers()
-    {
-        for (int i = 0; i < PlayerScores.Count; i++)
-        {
-            PlayerScores[i].TurnMarker.SetActive(true);
-        }
-    }
-
-    public void ToggleTurnMarker(int playerIndex, bool value)
-    {
-        PlayerScores[playerIndex].TurnMarker.SetActive(value);
     }
 }

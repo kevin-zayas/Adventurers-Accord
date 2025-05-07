@@ -11,8 +11,6 @@ public class PlayerScore : MonoBehaviour
     [SerializeField] private Button rosterButton;
     [SerializeField] private Image guildIcon;
 
-    [field: SerializeField] public GameObject TurnMarker { get; private set; }
-
     public void InitializeScore(int playerID, int gold, int reputation, GuildType guildType)
     {
         playerNameText.text = $"Player {playerID + 1} -";

@@ -73,6 +73,28 @@ public class Board : NetworkBehaviour
         }
     }
 
+    [ObserversRpc]
+    public void ObserversUpdateTurnMarker(int? playerID = null)
+    {
+        for (int i = 0; i < GameManager.Instance.Players.Count; i++)
+        {
+            if (playerID == null)
+            {
+                GuildStatusList[i].SetTurnIndicator(true);
+            }
+            else
+            {
+                GuildStatusList[i].SetTurnIndicator(i == playerID);
+            }
+        }
+    }
+
+    [ObserversRpc]
+    public void ObserversUpdateTurnMarker(int playerID, bool isTurn)
+    {
+        GuildStatusList[playerID].SetTurnIndicator(isTurn);
+    }
+
     /// <summary>
     /// Draws a card from the appropriate deck and places it in the specified slot.
     /// </summary>

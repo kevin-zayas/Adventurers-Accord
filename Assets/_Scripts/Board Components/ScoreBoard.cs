@@ -82,31 +82,4 @@ public class ScoreBoard : NetworkBehaviour
             scoreBoardPopUp.UpdatePlayerReputation(playerID, reputation);
         }
     }
-
-    [ObserversRpc]
-    public void ObserversUpdateTurnMarker(int playerID)
-    {
-        if (scoreBoardPopUp != null)
-        {
-            scoreBoardPopUp.UpdatePlayerTurnMarker(playerID);
-        }
-    }
-
-    [ObserversRpc]
-    public void ObserversEnableAllTurnMarkers()
-    {
-        if (scoreBoardPopUp != null)
-        {
-            scoreBoardPopUp.EnableAllTurnMarkers();
-        }
-    }
-
-    [ObserversRpc]
-    public void ObserversToggleTurnMarker(int playerID, bool value)
-    {
-        if (scoreBoardPopUp != null)
-        {
-            scoreBoardPopUp.ToggleTurnMarker(playerID, value);
-        }
-    }
 }
