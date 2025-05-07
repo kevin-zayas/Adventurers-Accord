@@ -14,6 +14,8 @@ public abstract class CardDragDrop : NetworkBehaviour
     [SerializeField] protected Vector2 startPosition;
     [SerializeField] protected Player player;
     [SerializeField] protected Card card;
+
+    [SerializeField] private float _animationDuration = 0.5f;
     #endregion
 
     protected virtual void Awake()
@@ -159,12 +161,13 @@ public abstract class CardDragDrop : NetworkBehaviour
         if (LocalConnection.ClientId != playerID)
         {
             
-            sequence.Append(transform.DOMove(guildTransform.position, .5f));
+            sequence.Append(transform.DOMove(guildTransform.position, _animationDuration).SetEase(Ease.OutSine));
+            sequence.Join(transform.DOScale(Vector3.zero, _animationDuration).SetEase(Ease.InQuad));
             
         }
         else
         {
-            sequence.Append(transform.DOJump(transform.position, 1f, 1, .5f));
+            sequence.Append(transform.DOJump(transform.position, 10f, 1, _animationDuration));
             sequence.OnComplete(AssignDraftCardToPlayer);
         }
 
