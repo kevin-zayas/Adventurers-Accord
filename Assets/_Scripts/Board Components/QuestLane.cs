@@ -43,6 +43,8 @@ public class QuestLane : NetworkBehaviour
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private Image rewardIndicator;
+    [SerializeField] private Sprite _goldReward;
+    [SerializeField] private Sprite _silverReward;
 
     private void Start()
     {
@@ -355,7 +357,7 @@ public class QuestLane : NetworkBehaviour
             return;
         }
         rewardIndicator.enabled = true;
-        if (color == "gold") rewardIndicator.color = Color.yellow;
-        if (color == "silver") rewardIndicator.color = Color.gray;
+        if (color == "gold") rewardIndicator.sprite = _goldReward;
+        if (color == "silver") rewardIndicator.sprite = _silverReward;
     }
 }
