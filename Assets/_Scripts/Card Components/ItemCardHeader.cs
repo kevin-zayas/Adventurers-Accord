@@ -12,6 +12,8 @@ public class ItemCardHeader : Card
     [AllowMutableSyncTypeAttribute] public SyncVar<Transform> ParentCard = new();
     #endregion
 
+    public bool equippedOnBattlemage = false;
+
     #region UI Elements
     [SerializeField] private TMP_Text disableTypeText;
     [SerializeField] private TMP_Text nameText;
@@ -79,29 +81,23 @@ public class ItemCardHeader : Card
     public override void ResetPower()
     {
         base.ResetPower();
+        if (equippedOnBattlemage) ApplyBalancedArsenal();
         IsDisabled.Value = false;
         ObserversSetDisable(false);
     }
 
-    /// <summary>
-    /// Sets the card's active state and notifies all clients.
-    /// </summary>
-    /// <param name="active">Whether the card should be active or not.</param>
     [Server]
-    public void SetActive(bool active)
+    public void ApplyBalancedArsenal()
     {
-        gameObject.SetActive(active);
-        ObserversSetActive(active);
-    }
-
-    /// <summary>
-    /// Updates the card's active state on all clients.
-    /// </summary>
-    /// <param name="active">The active state to set on all clients.</param>
-    [ObserversRpc(BufferLast = true)]
-    private void ObserversSetActive(bool active)
-    {
-        gameObject.SetActive(active);
+        if (OriginalPhysicalPower.Value > OriginalMagicalPower.Value)
+        {
+            MagicalPower.Value = PhysicalPower.Value;
+        }
+        else
+        {
+            PhysicalPower.Value = MagicalPower.Value;
+        }
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
     }
 
     /// <summary>

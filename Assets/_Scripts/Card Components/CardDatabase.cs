@@ -72,6 +72,7 @@ public class CardDatabase : NetworkBehaviour
         //ADVENTURERERS
         CardKeywordMap.Add("Assassin", new List<string> { "Poison" });//, "Resolution Phase"});
         CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
+        CardKeywordMap.Add("Battlemage", new List<string> { "Magic Items", "Empower" });
         CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });

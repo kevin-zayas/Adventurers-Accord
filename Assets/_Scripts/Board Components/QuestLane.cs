@@ -210,6 +210,8 @@ public class QuestLane : NetworkBehaviour
         {
             card.Item.Value.ChangePhysicalPower(adventurerEffects["Tinkerer"]);
             card.Item.Value.ChangeMagicalPower(adventurerEffects["Tinkerer"]);
+
+            if (card.Item.Value.equippedOnBattlemage) card.Item.Value.ApplyBalancedArsenal();
         }
 
 
@@ -306,15 +308,17 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void UpdateTinkererBuff(int buffDelta)
+    private void UpdateTinkererBuff(int powerDelta)
     {
         foreach (Transform cardTransform in QuestDropZone.transform)
         {
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
             if (!card.HasItem.Value) continue;
 
-            card.Item.Value.ChangePhysicalPower(buffDelta);
-            card.Item.Value.ChangeMagicalPower(buffDelta);
+            card.Item.Value.ChangePhysicalPower(powerDelta);
+            card.Item.Value.ChangeMagicalPower(powerDelta);
+
+            if (card.Item.Value.equippedOnBattlemage) card.Item.Value.ApplyBalancedArsenal();
         }
     }
 

@@ -32,6 +32,7 @@ public class AdventurerCard : Card
 
     #region Constants
     private const string Sorcerer = "Sorcerer";
+    private const string Battlemage = "Battlemage";
     private const string QuestTag = "Quest";
     #endregion
 
@@ -97,7 +98,12 @@ public class AdventurerCard : Card
         itemCardHeader.LoadCardData(itemCardData);
         Item.Value = itemCardHeader;
 
-        if (CardName.Value == Sorcerer || ControllingPlayer.Value.isFightersGuild) ResetPower();
+        if (CardName.Value == Battlemage)
+        {
+            itemCardHeader.equippedOnBattlemage = true;
+            itemCardHeader.ApplyBalancedArsenal();
+        }
+        if (CardName.Value == Sorcerer|| ControllingPlayer.Value.isFightersGuild) ResetPower();
     }
 
     [ServerRpc(RequireOwnership = false)]
