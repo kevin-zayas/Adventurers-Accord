@@ -22,6 +22,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ScoreBoardPopUp ScoreBoardPopUpPrefab;
     [SerializeField] GuildRosterPopUp GuildRosterPopUpPrefab;
     [SerializeField] GuildRosterPopUp RivalGuildRosterPopUpPrefab;
+    [SerializeField] GuildRecapPopUp GuildRecapPopUpPrefab;
 
     public ResolutionPopUp CurrentResolutionPopUp;
     public string CurrentResolutionType;
@@ -65,6 +66,12 @@ public class PopUpManager : NetworkBehaviour
     {
         GameOverPopUp popUp = Instantiate(GameOverPopUpPrefab);
         popUp.InitializeGameOverPopUp();
+    }
+
+    public void CreateGuildRecapPopUp(Player player)
+    {
+        GuildRecapPopUp popUp = Instantiate(GuildRecapPopUpPrefab);
+        popUp.InitializeGuildRecapPopUp(player);
     }
 
     public ConfirmationPopUp CreateConfirmationPopUp()

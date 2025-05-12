@@ -29,7 +29,7 @@ public class Player : NetworkBehaviour
 
     public GuildType GuildType { get; private set; }
     public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }
-    public Dictionary<string, int> GuildRecapTracker { get; private set; } = new();
+    public readonly SyncDictionary<string, int> GuildRecapTracker = new();
 
     public bool isThievesGuild;
     public bool isMagesGuild;
@@ -69,9 +69,6 @@ public class Player : NetworkBehaviour
     public void StartGame()
     {
         PlayerID.Value = GameManager.Instance.Players.IndexOf(this);
-        print("Start Game");
-        print("Player ID: " + PlayerID.Value);
-        print("Client ID: " + Owner.ClientId);
 
         Hand newHandObject = Instantiate(handPrefab, Vector2.zero, Quaternion.identity);
         Spawn(newHandObject.gameObject, Owner);

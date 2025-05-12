@@ -63,11 +63,5 @@ public class GameOverPopUp : MonoBehaviour
             GuildRankings[i].gameObject.SetActive(true);
             GuildRankings[i].InitializeRanking(RankingDataList[i]);
         }
-
-        foreach (KeyValuePair<string, int> kvp in Player.Instance.GuildRecapTracker)
-        {
-            Debug.Log($"{kvp.Key} - {kvp.Value}");
-        }
-            
     }
 }

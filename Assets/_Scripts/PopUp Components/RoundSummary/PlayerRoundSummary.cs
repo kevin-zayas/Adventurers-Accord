@@ -27,7 +27,6 @@ public class PlayerRoundSummary : MonoBehaviour
 
         foreach (string bonusName in bonusRewards.Keys)
         {
-            print($"{bonusName} - {bonusRewards[bonusName].Gold} Gold - {bonusRewards[bonusName].Reputation} Reputation - {bonusRewards[bonusName].Loot} Loot");
             BonusRewardData bonus = bonusRewards[bonusName];
             BonusReward newBonus = Instantiate(bonusRewardPrefab, bonusRewardGroup.transform);
             newBonus.SetBonusReward(bonus.Name, bonus.Gold, bonus.Reputation, bonus.Loot);

@@ -1457,6 +1457,7 @@ MonoBehaviour:
   ScoreBoardPopUpPrefab: {fileID: 8825287681894846986, guid: 862d3f03ff368fc4a9df9618d801e924, type: 3}
   GuildRosterPopUpPrefab: {fileID: 8686305642726650681, guid: ad5639720c5904041880f287c267d455, type: 3}
   RivalGuildRosterPopUpPrefab: {fileID: 8686305642726650681, guid: 3988ceb8677b4c44e8e6cbc1608e0095, type: 3}
+  GuildRecapPopUpPrefab: {fileID: 5904705167613417535, guid: 6fbbf8743985e1244b25c49713319a56, type: 3}
   CurrentResolutionPopUp: {fileID: 0}
   CurrentResolutionType: 
 --- !u!114 &302781916
@@ -9003,14 +9004,6 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1736932375}
   _networkObjectCache: {fileID: 1736932375}
   TestQuestCards: []
-  TestRoster:
-  - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
-  - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
-  - {fileID: 11400000, guid: a5a488f18a019da42864147ae2776293, type: 2}
-  - {fileID: 11400000, guid: 0aadd65b8cc426d49842fa3dbddc45b9, type: 2}
-  - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
-  - {fileID: 11400000, guid: 91d71f636d88a4241ae10df222b41ad0, type: 2}
-  - {fileID: 11400000, guid: 961ff6ee2e1b27c479653bb3c38f6b46, type: 2}
   tierOneCards:
   - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
   - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}

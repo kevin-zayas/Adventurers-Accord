@@ -12,6 +12,7 @@ public class GuildRanking : MonoBehaviour
     [SerializeField] TMP_Text playerReputation;
     [SerializeField] TMP_Text playerGold;
     [SerializeField] Image guildIcon;
+    [SerializeField] Button recapButton;
 
     public void InitializeRanking(GuildRankingData guildRankingData)
     {
@@ -20,6 +21,12 @@ public class GuildRanking : MonoBehaviour
         this.playerReputation.text = guildRankingData.PlayerReputation.ToString();
         this.playerGold.text = guildRankingData.PlayerGold.ToString();
         guildIcon.sprite = CardDatabase.Instance.GetGuildSprite(guildRankingData.GuildType);
+
+        recapButton.onClick.AddListener(() =>
+        { 
+            print("Recap Button Clicked");
+            PopUpManager.Instance.CreateGuildRecapPopUp(guildRankingData.Player);
+        });
     }
 }
 
@@ -30,6 +37,7 @@ public class GuildRankingData
     public int PlayerReputation;
     public int PlayerGold;
     public GuildType GuildType;
+    public Player Player;
 
     public GuildRankingData(int rank, Player player)
     {
@@ -38,5 +46,6 @@ public class GuildRankingData
         this.PlayerReputation = player.Reputation.Value;
         this.PlayerGold = player.Gold.Value;
         this.GuildType = player.GuildType;
+        this.Player = player;
     }
 }
