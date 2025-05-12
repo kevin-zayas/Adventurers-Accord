@@ -50,6 +50,7 @@ public class SpellCard : Card
             {
                 
                 questLane.UpdateGuildBonusPower(0, 2);
+                player.UpdateGuildRecapTracker("Arcane Momentum (+2 M. Power)", 1);
                 print($"Mages Guild Bonus - Player {player.PlayerID.Value} +2 Magical Power");
             }
         }

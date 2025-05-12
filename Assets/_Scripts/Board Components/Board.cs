@@ -211,7 +211,7 @@ public class Board : NetworkBehaviour
     /// </summary>
     /// <param name="slotIndex">The index of the slot to replace the card in.</param>
     [ServerRpc(RequireOwnership = false)]
-    public void ReplaceDraftCard(int slotIndex)
+    public void ServerReplaceDraftCard(int slotIndex)
     {
         List<CardData> deck = slotIndex < 4 ? T1Deck : T2Deck;
 
@@ -287,6 +287,8 @@ public class Board : NetworkBehaviour
                 int oddJobGold = 1 + (GameManager.Instance.RoundNumber + 1) / 2;
                 playerSummary.AddBonusReward("Odd Jobs", oddJobGold, 0, 0);
                 player.ChangePlayerGold(oddJobGold);
+                player.UpdateGuildRecapTracker("Odd Jobs (Count)", 1);
+                player.UpdateGuildRecapTracker("Odd Jobs (Gold)", oddJobGold);
             }
         }
 
@@ -329,6 +331,19 @@ public class Board : NetworkBehaviour
         {
             CardData randomLootData = RewardLootDeck[Random.Range(0, RewardLootDeck.Count)];
             SpawnCard(randomLootData, player.controlledHand.Value.transform, player);
+            if (randomLootData.CardType == "Magic Item")
+            {
+                player.UpdateGuildRecapTracker("Magic Items (Loot)", 1);
+            }
+            else if (randomLootData.CardType == "Magic Spell")
+            {
+                player.UpdateGuildRecapTracker("Magic Spells (Loot)", 1);
+                if (randomLootData.IsNegativeEffect)
+                {
+                    player.UpdateGuildRecapTracker("Magic Spell Curses (Loot)", 1);
+                }
+            }
+
         }
     }
 

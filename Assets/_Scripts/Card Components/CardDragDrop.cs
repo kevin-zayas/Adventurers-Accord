@@ -130,7 +130,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     
     protected void OnCardPurchase()
     {
-        ServerPlayMoveAnimation(player.PlayerID.Value);
+        ServerPlayPurchaseAnimation(player.PlayerID.Value);
     }
 
     /// <summary>
@@ -143,12 +143,12 @@ public abstract class CardDragDrop : NetworkBehaviour
         card.ServerSetCardOwner(player);
         card.ServerSetCardParent(dropZone.transform, false);
         player.ServerChangePlayerGold(-card.Cost.Value);
-        Board.Instance.ReplaceDraftCard(cardSlot.SlotIndex);
+        Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    protected void ServerPlayMoveAnimation(int playerID)
+    protected void ServerPlayPurchaseAnimation(int playerID)
     {
         ObserversPlayMoveAnimation(playerID);
     }

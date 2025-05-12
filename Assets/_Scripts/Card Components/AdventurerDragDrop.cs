@@ -74,6 +74,17 @@ public class AdventurerDragDrop : CardDragDrop
     }
 
     /// <summary>
+    /// Assigns the draft card to the player, updating the game state accordingly.
+    /// </summary>
+    protected override void AssignDraftCardToPlayer()
+    {
+        base.AssignDraftCardToPlayer();
+        player.ServerUpdateGuildRecapTracker("Adventurers Purchased", 1);
+        if (card.Cost.Value == 5) player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T1)", 1);
+        else player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T2)", 1);
+    }
+
+    /// <summary>
     /// Resets the card's position to its original location before dragging.
     /// </summary>
     protected override void ResetCardPosition()

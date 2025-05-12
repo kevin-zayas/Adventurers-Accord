@@ -87,6 +87,7 @@ public class ItemDragDrop : CardDragDrop
     {
         base.AssignDraftCardToPlayer();
         card.gameObject.layer = LayerMask.NameToLayer("Magic Items");
+        Player.Instance.ServerUpdateGuildRecapTracker("Magic Items (Purchased)", 1);
     }
 
     /// <summary>

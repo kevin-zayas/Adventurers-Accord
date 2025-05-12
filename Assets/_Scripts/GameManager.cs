@@ -332,6 +332,7 @@ public class GameManager : NetworkBehaviour
             if (player.isMerchantsGuild)
             {
                 player.ChangePlayerGold(1);
+                player.UpdateGuildRecapTracker("Merchant Guild Bonus (Gold)", 1);
                 print($"Merchant Guild Bonus - Player {player.PlayerID.Value} +1 GP - new round");
             }
         }

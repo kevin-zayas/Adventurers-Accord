@@ -29,6 +29,7 @@ public class Player : NetworkBehaviour
 
     public GuildType GuildType { get; private set; }
     public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }
+    public Dictionary<string, int> GuildRecapTracker { get; private set; } = new();
 
     public bool isThievesGuild;
     public bool isMagesGuild;
@@ -157,6 +158,25 @@ public class Player : NetworkBehaviour
                     throw new System.Exception($"GuildType : {GuildType} is not valid");
             }
         }
+    }
+
+    [Server]
+    public void UpdateGuildRecapTracker(string eventType, int value)
+    {
+        if (GuildRecapTracker.ContainsKey(eventType))
+        {
+            GuildRecapTracker[eventType] += value;
+        }
+        else
+        {
+            GuildRecapTracker.Add(eventType, value);
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerUpdateGuildRecapTracker(string eventType, int value)
+    {
+        UpdateGuildRecapTracker(eventType, value);
     }
 
     [ServerRpc(RequireOwnership = false)]

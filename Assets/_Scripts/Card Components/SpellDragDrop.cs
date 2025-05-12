@@ -81,6 +81,12 @@ public class SpellDragDrop : CardDragDrop
     {
         base.AssignDraftCardToPlayer();
         card.gameObject.layer = LayerMask.NameToLayer("Magic Spells");
+        player.ServerUpdateGuildRecapTracker("Magic Spells (Purchased)", 1);
+
+        if (((SpellCard)card).IsNegativeEffect.Value)
+        {
+            player.ServerUpdateGuildRecapTracker("Magic Spell Curses (Purchased)", 1);
+        }
     }
 
     /// <summary>

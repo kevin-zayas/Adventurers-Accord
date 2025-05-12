@@ -336,6 +336,7 @@ public class AdventurerCard : Card
             if (player.GuildBonusTracker[questIndex]["physAdventurers"] == 3)
             {
                 questLane.UpdateGuildBonusPower(1, 0);
+                player.UpdateGuildRecapTracker("Strength in Numbers (+1 P. Power)", 1);
                 Debug.Log($"Fighters Guild Bonus - Player {player.PlayerID.Value} +1 Physical Power");
             }
         }
@@ -378,6 +379,7 @@ public class AdventurerCard : Card
             if (player.GuildBonusTracker[questIndex]["physAdventurers"] == 2)
             {
                 questLane.UpdateGuildBonusPower(-1, 0);
+                player.UpdateGuildRecapTracker("Strength in Numbers (+1 P. Power)", -1);
                 Debug.Log($"Fighters Guild Bonus Disabled - Player {player.PlayerID.Value}");
             }
         }

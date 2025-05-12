@@ -64,7 +64,10 @@ public class GameOverPopUp : MonoBehaviour
             GuildRankings[i].InitializeRanking(RankingDataList[i]);
         }
 
-        //if (MaxReputation == Player.Instance.Reputation.Value) titleText.text = "Victory!";
-        //else titleText.text = "Defeat!";
+        foreach (KeyValuePair<string, int> kvp in Player.Instance.GuildRecapTracker)
+        {
+            Debug.Log($"{kvp.Key} - {kvp.Value}");
+        }
+            
     }
 }

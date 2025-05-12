@@ -58,6 +58,7 @@ public class ConfirmationPopUp : PopUp
         confirmButton.onClick.AddListener(() =>
         {
             adventurerCard.ServerEquipItem(true, itemCard.Data.Value);
+            Player.Instance.ServerUpdateGuildRecapTracker("Magic Items Equipped", 1);
             itemCard.ServerDespawnItem();
             Destroy(gameObject);
         });
@@ -83,6 +84,8 @@ public class ConfirmationPopUp : PopUp
         {
             spellCard.ServerSetCardParent(dropZone.transform, false);
             questLane.ServerUpdateSpellEffects();
+            Player.Instance.ServerUpdateGuildRecapTracker("Magic Spells Played", 1);
+            if (spellCard.IsNegativeEffect.Value) Player.Instance.ServerUpdateGuildRecapTracker("Magic Spells Played (Curses)", 1);
 
             if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
             {

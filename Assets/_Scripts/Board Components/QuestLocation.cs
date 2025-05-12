@@ -208,6 +208,8 @@ public class QuestLocation : NetworkBehaviour
                 lane.ObserversUpdateRewardIndicator("blank");
                 if (isRoundOver && lane.EffectiveTotalPower.Value > 0)
                 {
+                    lane.Player.Value.UpdateGuildRecapTracker("Quests Completed", 1);
+
                     PlayerRoundSummaryData playerSummary = new($"Player {lane.Player.Value.PlayerID.Value + 1}");
                     playerSummary.UpdatePlayerSummary(0, 0, 0, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value);
                     questSummaryData.PlayerQuestSummaries[lane.Player.Value.PlayerID.Value] = playerSummary;
@@ -259,6 +261,13 @@ public class QuestLocation : NetworkBehaviour
         playerSummary.UpdatePlayerSummary(goldReward, reputationReward, lootReward, lane.TotalPhysicalPower.Value, lane.TotalMagicalPower.Value);
         questSummaryData.PlayerQuestSummaries[player.PlayerID.Value] = playerSummary;
 
+        player.UpdateGuildRecapTracker("Quests Completed", 1);
+        player.UpdateGuildRecapTracker("Quest Reward (Gold)", goldReward);
+        player.UpdateGuildRecapTracker("Quest Reward (Rep)", reputationReward);
+        player.UpdateGuildRecapTracker("Quest Reward (Loot)", lootReward);
+        if (fullRewards) player.UpdateGuildRecapTracker("Quests Completed (Full Rewards)", 1);
+        else player.UpdateGuildRecapTracker("Quests Completed (Half Rewards)", 1);
+
     }
 
     [Server]
@@ -276,11 +285,13 @@ public class QuestLocation : NetworkBehaviour
                 if (Status == QuestStatus.Completed)
                 {
                     player.ChangePlayerGold(1);
+                    player.UpdateGuildRecapTracker("First to the Spoils (Gold)", 1);
                     questPlayerSummaryData.AddBonusReward("First to the Spoils", 1, 0, 0);
 
                     if (UnityEngine.Random.Range(1, 5) == 1) // 25% chance
                     {
                         Board.Instance.RewardLoot(player, 1);
+                        player.UpdateGuildRecapTracker("First to the Spoils (Loot)", 1);
                         questPlayerSummaryData.AddBonusReward("First to the Spoils", 0, 0, 1);
                     }
                        
@@ -288,6 +299,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
                 {
                     player.ChangePlayerGold(1);
+                    player.UpdateGuildRecapTracker("Sleight of Hand (Gold)", 1);
                     questPlayerSummaryData.AddBonusReward("Sleight of Hand", 1, 0, 0);
                 }
             }
@@ -311,6 +323,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["mostPhysPower"] == 1)
                 {
                     player.ChangePlayerReputation(1);
+                    player.UpdateGuildRecapTracker("Path to Glory (Rep)", 1);
                     questPlayerSummaryData.AddBonusReward("Path to Glory", 0, 1, 0);
                 }
             }
@@ -319,6 +332,7 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"] >= 2)
                 {
                     player.ChangePlayerReputation(1);
+                    player.UpdateGuildRecapTracker("Show of Wealth (Rep)", 1);
                     questPlayerSummaryData.AddBonusReward("Show of Wealth", 0, 1, 0);
                 }
             }
@@ -327,12 +341,14 @@ public class QuestLocation : NetworkBehaviour
                 if (player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
                 {
                     player.ChangePlayerReputation(1);
+                    player.UpdateGuildRecapTracker("Whispered Influence (Rep)", 1);
                     questPlayerSummaryData.AddBonusReward("Whispered Influence", 0, 1, 0);
                 }
 
                 if (player.GuildBonusTracker[QuestLocationIndex]["poisonedAdventurers"] > 0)
                 {
                     player.ChangePlayerGold(2);
+                    player.UpdateGuildRecapTracker("Deadly Bounty (Gold)", 2);
                     questPlayerSummaryData.AddBonusReward("Deadly Bounty", 2, 0, 0);
                 }
             }
@@ -349,6 +365,7 @@ public class QuestLocation : NetworkBehaviour
                 questSummaryData.PlayerQuestSummaries[player.PlayerID.Value] = playerSummary;
 
                 player.ChangePlayerReputation(1);
+                player.UpdateGuildRecapTracker("Whispered Influence (Rep)", 1);
                 playerSummary.AddBonusReward("Whispered Influence", 0, 1, 0);
             }
         }
@@ -367,6 +384,8 @@ public class QuestLocation : NetworkBehaviour
                 (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
                 player.ChangePlayerGold(bardBonusGold);
                 player.ChangePlayerReputation(bardBonusReputation);
+                player.UpdateGuildRecapTracker("Bardsong (Gold)", bardBonusGold);
+                player.UpdateGuildRecapTracker("Bardsong (Rep)", bardBonusReputation);
                 questSummaryData.PlayerQuestSummaries[player.PlayerID.Value].AddBonusReward("Bardsong", bardBonusGold, bardBonusReputation, 0);
             }
         }
@@ -387,6 +406,9 @@ public class QuestLocation : NetworkBehaviour
             player = lane.Player.Value;
             player.ChangePlayerGold(goldPenalty);
             player.ChangePlayerReputation(reputationPenalty);
+            player.UpdateGuildRecapTracker("Quest Penalty (Gold)", goldPenalty);
+            player.UpdateGuildRecapTracker("Quest Penalty (Rep)", reputationPenalty);
+            player.UpdateGuildRecapTracker("Quests Failed", 1);
 
             foreach (Transform cardTransform in lane.QuestDropZone.transform)
             {
@@ -431,6 +453,7 @@ public class QuestLocation : NetworkBehaviour
     [Server]
     private void ResolveCard(AdventurerCard card, int laneIndex)
     {
+        card.ControllingPlayer.Value.UpdateGuildRecapTracker($"{card.CardName.Value} Resolutions Possible", 1);
         if (!IsResolutionValid(card.CardName.Value, laneIndex))
         {
             GameManager.Instance.CheckForUnresolvedCards();

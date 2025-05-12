@@ -27,6 +27,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     public virtual void InitializePopUp(QuestLocation questLocation, string cardName)
     {
+        Player.Instance.ServerUpdateGuildRecapTracker($"{cardName} Resolutions Prompted", 1);
         QuestLocation = questLocation;
         transform.SetParent(questLocation.transform);
         transform.localPosition = new Vector3(0, -175f, 0);  //bottom center of quest location
@@ -90,6 +91,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     protected void HandleEndOfResolution(int questIndex, AdventurerCard card)
     {
+        Player.Instance.ServerUpdateGuildRecapTracker($"{PopUpManager.Instance.CurrentResolutionType} Resolutions Completed", 1);
         UpdateGuildBonusTracker(questIndex);
         card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
 
