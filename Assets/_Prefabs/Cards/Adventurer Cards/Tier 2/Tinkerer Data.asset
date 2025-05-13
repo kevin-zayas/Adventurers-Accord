@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Tinkerer
   <PhysicalPower>k__BackingField: 2
-  <MagicalPower>k__BackingField: 3
+  <MagicalPower>k__BackingField: 2
   <OriginalPhysicalPower>k__BackingField: 2
-  <OriginalMagicalPower>k__BackingField: 3
+  <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 8
   <CardDescription>k__BackingField: <color=#FFE000>Empower</color> your Magic Items
-    on this Quest with +1 <color=#6C00D7>Power</color>.
+    on this Quest with +2 <color=#6C00D7>Power</color>.
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Adventurer
   <AbilityName>k__BackingField: Magic Item Savant

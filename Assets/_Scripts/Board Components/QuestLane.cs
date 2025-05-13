@@ -38,7 +38,7 @@ public class QuestLane : NetworkBehaviour
     private bool EnchanterBuff;
     private bool TinkererBuff;
     private const int EnchanterEmpower = 2;
-    private const int TinkererEmpower = 1;
+    private const int TinkererEmpower = 2;
 
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;

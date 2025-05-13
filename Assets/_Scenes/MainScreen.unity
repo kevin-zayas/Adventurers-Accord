@@ -9466,8 +9466,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 1736932375}
   _networkObjectCache: {fileID: 1736932375}
-  TestQuestCards:
-  - {fileID: 11400000, guid: a6a0429864df8414d898a2267bfd05e4, type: 2}
+  TestQuestCards: []
   TestRoster: []
   tierOneCards:
   - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
