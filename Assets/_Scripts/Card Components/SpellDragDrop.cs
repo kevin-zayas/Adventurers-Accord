@@ -58,14 +58,14 @@ public class SpellDragDrop : CardDragDrop
 
         if (questLane.QuestCard.Value.BlockSpells.Value)
         {
-            Debug.Log("Spells can't be used on this Quest");
+            PopUpManager.Instance.CreateToastPopUp("Magic Spells cannot be used on this Quest");
             ResetCardPosition();
             return;
         }
 
         if (questLane.QuestDropZone.transform.childCount == 0)
         {
-            Debug.Log("Spells can't be used on a lane with no Adventurers");
+            PopUpManager.Instance.CreateToastPopUp("Magic Spells cannot be used on a lane with no Adventurers");
             ResetCardPosition();
             return;
         }
