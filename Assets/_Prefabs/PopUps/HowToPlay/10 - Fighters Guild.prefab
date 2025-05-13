@@ -112,7 +112,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -105}
-  m_SizeDelta: {x: 775, y: 160}
+  m_SizeDelta: {x: 775, y: 185}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6240003137652160923
 CanvasRenderer:
@@ -142,9 +142,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Fighters' Guild thrives on raw strength and teamwork. They dominate
-    quests through sheer force and are rewarded for being unmatched in <color=#A82E2A>Physical</color>
-    Power.
+  m_text: The Fighters' Guild earns glory through strength and unity. They overwhelm
+    their foes with sheer might and coordinated tactics, gaining recognition for
+    dominating the battlefield and demonstrating unmatched weapon expertise.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -870,7 +870,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 367.75}
-  m_SizeDelta: {x: 820, y: 1049.95}
+  m_SizeDelta: {x: 820, y: 1100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5168087753436787573
 CanvasRenderer:
@@ -1057,7 +1057,7 @@ GameObject:
   - component: {fileID: 8385496285570553607}
   - component: {fileID: 5808379039594367764}
   m_Layer: 0
-  m_Name: Text Group 2
+  m_Name: Roster Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1083,7 +1083,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -735}
+  m_AnchoredPosition: {x: 0, y: -800}
   m_SizeDelta: {x: 775, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4668739000916374877
@@ -1247,7 +1247,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -270.4}
+  m_AnchoredPosition: {x: 0, y: -325}
   m_SizeDelta: {x: 775, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6065563740953134348
@@ -1824,7 +1824,7 @@ PrefabInstance:
     - target: {fileID: 1177701720125259711, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9cd3aff1c380ba6419180f4624988f6e, type: 3}
+      objectReference: {fileID: 21300000, guid: 99b1d7c9a2e2e7844bb742db77189309, type: 3}
     - target: {fileID: 1356007084095882162, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
       value: 5

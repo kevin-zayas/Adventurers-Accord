@@ -997,7 +997,7 @@ GameObject:
   - component: {fileID: 8385496285570553607}
   - component: {fileID: 5808379039594367764}
   m_Layer: 0
-  m_Name: Text Group 2
+  m_Name: Roster Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

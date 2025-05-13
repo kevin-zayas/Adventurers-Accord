@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 8385496285570553607}
   - component: {fileID: 5808379039594367764}
   m_Layer: 0
-  m_Name: Text Group 2
+  m_Name: Roster Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1390,7 +1390,7 @@ PrefabInstance:
     - target: {fileID: 1177701720125259711, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9cd3aff1c380ba6419180f4624988f6e, type: 3}
+      objectReference: {fileID: 21300000, guid: 99b1d7c9a2e2e7844bb742db77189309, type: 3}
     - target: {fileID: 1356007084095882162, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
       value: 5
@@ -1610,7 +1610,7 @@ PrefabInstance:
     - target: {fileID: 1177701720125259711, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fb82bf9f3534fd44ea45623cb612cdc7, type: 3}
+      objectReference: {fileID: 21300000, guid: 34b9e99f29ab3d6448d4781e3dff8d0d, type: 3}
     - target: {fileID: 1356007084095882162, guid: 5e67c198810f21e429ee617c286546ab, type: 3}
       propertyPath: m_text
       value: 5
