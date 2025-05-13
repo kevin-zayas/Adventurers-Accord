@@ -75,11 +75,21 @@ public abstract class CardDragDrop : NetworkBehaviour
     protected virtual bool CanStartDrag()
     {
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
-        if (!card.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
-        if (card.IsDraftCard.Value && !player.IsPlayerTurn.Value) return false;
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.GameOver) return false; // Prevent dragging after the game ends
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
-        if (card.IsDraftCard.Value && player.Gold.Value < card.Cost.Value) return false;    // Check player gold if dragging a DraftCard
+        if (!card.IsDraftCard.Value && !IsOwner) // Prevent dragging non-draft cards if not owner
+        {
+            PopUpManager.Instance.CreateToastPopUp("You cannot move another player's card");
+            return false; 
+        }
+        if (card.IsDraftCard.Value && !player.IsPlayerTurn.Value)
+        {
+            PopUpManager.Instance.CreateToastPopUp("You can only purchase cards on your turn");
+            return false;
+        }
+        if (card.IsDraftCard.Value && player.Gold.Value < card.Cost.Value) // Check player gold if dragging a DraftCard
+        {
+            PopUpManager.Instance.CreateToastPopUp("Insufficient Gold");
+            return false;    
+        }
         return true;
     }
 
@@ -107,6 +117,7 @@ public abstract class CardDragDrop : NetworkBehaviour
         if (dropZone == null || startParentTransform == dropZone.transform)
         {
             Debug.Log("Not over a valid drop zone or still in the starting zone");
+            PopUpManager.Instance.CreateToastPopUp("Invalid placement");
             ResetCardPosition();
             return;
         }

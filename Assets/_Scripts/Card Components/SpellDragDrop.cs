@@ -21,8 +21,17 @@ public class SpellDragDrop : CardDragDrop
     {
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
-        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic) return false; // Prevent dragging during all phases except Magic
-        if (transform.parent.CompareTag("Quest")) return false; // Prevent dragging if the card is already in a quest lane
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic) // Prevent dragging during all phases except Magic
+        {
+            PopUpManager.Instance.CreateToastPopUp("You can only use Magic Spells during Magic Phase");
+            return false; 
+        }
+
+        if (transform.parent.CompareTag("Quest")) // Prevent dragging if the card is already in a quest lane
+        {
+            PopUpManager.Instance.CreateToastPopUp("You cannot move Magic Spells that have already been cast");
+            return false; 
+        }
 
         return true;
     }
@@ -45,11 +54,6 @@ public class SpellDragDrop : CardDragDrop
     {
         if (card.IsDraftCard.Value)
         {
-            if (!dropZone.CompareTag("Hand"))
-            {
-                ResetCardPosition();
-                return;
-            }
             OnCardPurchase();
             return;
         }

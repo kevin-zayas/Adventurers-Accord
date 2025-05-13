@@ -20,9 +20,6 @@ public class ItemDragDrop : CardDragDrop
     protected override bool CanStartDrag()
     {
         if (!base.CanStartDrag()) return false;
-        //if (!itemCard.IsDraftCard.Value && !IsOwner) return false; // Prevent dragging non-draft cards if not owner
-        //if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution) return false;
-
         return true;
     }
 
@@ -44,11 +41,6 @@ public class ItemDragDrop : CardDragDrop
     {
         if (card.IsDraftCard.Value)
         {
-            if (!dropZone.CompareTag("Hand"))
-            {
-                ResetCardPosition();
-                return;
-            }
             OnCardPurchase();
             return;
         }
@@ -56,14 +48,18 @@ public class ItemDragDrop : CardDragDrop
 
         if (adventurerCard.IsDraftCard.Value || adventurerCard.HasItem.Value || !adventurerCard.IsOwner)
         {
-            Debug.Log("Cannot equip item: card already has an item, is a draft card, or is not owned by the player.");
+            string message;
+            if (adventurerCard.HasItem.Value) message = "Cannot equip Magic Item: Adventurer already has an item equipped";
+            else message = "Cannot equip Magic Item: Adventurer does not belong to the player";
+
+            PopUpManager.Instance.CreateToastPopUp(message);
             ResetCardPosition();
             return;
         }
 
         if (adventurerCard.ParentTransform.Value.CompareTag("Quest"))
         {
-            Debug.Log("Cannot equip item: card is currently on a quest.");
+            PopUpManager.Instance.CreateToastPopUp("Cannot equip Magic Item: Adventurer is on a quest");
             ResetCardPosition();
             return;
         }
@@ -71,7 +67,7 @@ public class ItemDragDrop : CardDragDrop
         if ((card.MagicalPower.Value > 0 && adventurerCard.OriginalMagicalPower.Value == 0) ||
             (card.PhysicalPower.Value > 0 && adventurerCard.OriginalPhysicalPower.Value == 0))
         {
-            Debug.Log("Cannot equip item: card does not have the required power type.");
+            PopUpManager.Instance.CreateToastPopUp("Cannot equip Magic Item: Adventurer does not have the required Power");
             ResetCardPosition();
             return;
         }

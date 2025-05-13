@@ -33,8 +33,17 @@ public class AdventurerDragDrop : CardDragDrop
     protected override bool CanStartDrag()
     {
         if (!base.CanStartDrag()) return false;
-
-        if (!player.IsPlayerTurn.Value) return false; // Allow dragging only during player's turn
+        if (card.IsDraftCard.Value) return true;
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch) // Prevent dragging during all phases except Dispatch
+        {
+            PopUpManager.Instance.CreateToastPopUp("You can only move Adventurers during Dispatch Phase");
+            return false;
+        }
+        if (!player.IsPlayerTurn.Value) // Allow dragging only during player's turn
+        {
+            PopUpManager.Instance.CreateToastPopUp("You can only dispatch Adventurers during your turn");
+            return false; 
+        }
         if (card.CardName.Value == "Wolf") return false;
 
         return true;
@@ -61,6 +70,7 @@ public class AdventurerDragDrop : CardDragDrop
 
         if (dropZone.CompareTag("Quest") && IsQuestLaneFull(questLane))
         {
+            PopUpManager.Instance.CreateToastPopUp("This Quest's party size limit has been reached");
             ResetCardPosition();
         }
         else if (card.IsDraftCard.Value)

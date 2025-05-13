@@ -395,27 +395,29 @@ public class AdventurerCard : Card
     public void OnResolutionClick()
     {
         if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Resolution) return;
-        if (!GameManager.Instance.Players[LocalConnection.ClientId].IsPlayerTurn.Value) return;
+        if (!Player.Instance.IsPlayerTurn.Value) return;
         if (ParentTransform.Value == null) return;
 
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
-        if (!lane.QuestLocation.Value.AllowResolution.Value) return;
+        if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
 
-        if (PopUpManager.Instance.CurrentResolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
+        string resolutionType = PopUpManager.Instance.CurrentResolutionType;
+
+        if (resolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType == "Assassin" && !IsBlessed.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
+        else if (resolutionType == "Assassin" && !IsBlessed.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
-        else if (PopUpManager.Instance.CurrentResolutionType == "Cleric" && !IsBlessed.Value && CardName.Value != "Wolf")
+        else if (resolutionType == "Cleric" && !IsBlessed.Value && CardName.Value != "Wolf")
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
         else
         {
-            Debug.Log("Invalid target");
+            PopUpManager.Instance.CreateToastPopUp("Invalid target");
         }
     }
 
