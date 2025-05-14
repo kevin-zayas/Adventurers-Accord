@@ -16,7 +16,7 @@ public class GuildRanking : MonoBehaviour
 
     public void InitializeRanking(GuildRankingData guildRankingData)
     {
-        this.rank.text = guildRankingData.Rank.ToString();
+        this.rank.text = guildRankingData.Rank.ToString() + ".";
         this.playerName.text = guildRankingData.PlayerName;
         this.playerReputation.text = guildRankingData.PlayerReputation.ToString();
         this.playerGold.text = guildRankingData.PlayerGold.ToString();
