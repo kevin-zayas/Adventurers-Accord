@@ -53,7 +53,7 @@ public class LobbyView : View
         Destroy(currentGuildPage);
 
         currentGuildPage = Instantiate(guildPages[newPageIndex], new Vector2(0f,-50f), Quaternion.identity);
-        currentGuildPage.transform.localScale = new Vector2(.9f, .9f);
+        currentGuildPage.transform.localScale = new Vector2(.85f, .85f);
         currentGuildPage.transform.SetParent(content.transform, false);
     }
 
