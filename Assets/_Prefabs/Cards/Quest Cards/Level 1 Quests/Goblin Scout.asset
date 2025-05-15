@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Goblin Scout
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Goblin Scout
-  <PhysicalPower>k__BackingField: 5
+  <PhysicalPower>k__BackingField: 6
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0

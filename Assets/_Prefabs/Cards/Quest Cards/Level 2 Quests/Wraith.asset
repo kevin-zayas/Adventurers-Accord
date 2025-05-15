@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Wraith
   <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 9
+  <MagicalPower>k__BackingField: 10
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0

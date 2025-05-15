@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stone Golem
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Stone Golem
-  <PhysicalPower>k__BackingField: 9
+  <PhysicalPower>k__BackingField: 10
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0

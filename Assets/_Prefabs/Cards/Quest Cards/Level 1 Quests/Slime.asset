@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Slime
-  <PhysicalPower>k__BackingField: 3
-  <MagicalPower>k__BackingField: 3
+  <PhysicalPower>k__BackingField: 4
+  <MagicalPower>k__BackingField: 4
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 4
   <ReputationReward>k__BackingField: 2
-  <LootReward>k__BackingField: 0
+  <LootReward>k__BackingField: 1
   <ReputationPenalty>k__BackingField: -1
   <GoldPenalty>k__BackingField: 0
   <RestPeriodPenalty>k__BackingField: 0

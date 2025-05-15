@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Orc Warrior
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Orc Warrior
-  <PhysicalPower>k__BackingField: 6
+  <PhysicalPower>k__BackingField: 7
   <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0

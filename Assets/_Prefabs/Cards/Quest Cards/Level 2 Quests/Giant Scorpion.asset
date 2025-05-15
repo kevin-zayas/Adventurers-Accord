@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Giant Scorpion
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Giant Scorpion
-  <PhysicalPower>k__BackingField: 7
-  <MagicalPower>k__BackingField: 5
+  <PhysicalPower>k__BackingField: 8
+  <MagicalPower>k__BackingField: 6
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 8
   <ReputationReward>k__BackingField: 4
-  <LootReward>k__BackingField: 2
+  <LootReward>k__BackingField: 3
   <ReputationPenalty>k__BackingField: -2
   <GoldPenalty>k__BackingField: 0
   <RestPeriodPenalty>k__BackingField: 1

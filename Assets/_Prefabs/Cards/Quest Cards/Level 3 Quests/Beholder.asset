@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Beholder
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Beholder
-  <PhysicalPower>k__BackingField: 8
-  <MagicalPower>k__BackingField: 8
+  <PhysicalPower>k__BackingField: 9
+  <MagicalPower>k__BackingField: 9
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
   <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 12
   <ReputationReward>k__BackingField: 6
-  <LootReward>k__BackingField: 2
+  <LootReward>k__BackingField: 3
   <ReputationPenalty>k__BackingField: -3
   <GoldPenalty>k__BackingField: 0
   <RestPeriodPenalty>k__BackingField: 2

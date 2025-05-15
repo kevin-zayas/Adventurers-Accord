@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardName>k__BackingField: Orc Shaman
   <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 6
+  <MagicalPower>k__BackingField: 7
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 0
