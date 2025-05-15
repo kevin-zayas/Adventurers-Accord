@@ -20,10 +20,13 @@ public class GuildRecapPopUp : PopUp
     }
     public void InitializeGuildRecapPopUp(Player player)
     {
-        foreach (KeyValuePair<string, int> kvp in player.GuildRecapTracker)
+        var sortedKeys = new List<string>(player.GuildRecapTracker.Keys);
+        sortedKeys.Sort();
+        foreach (string key in sortedKeys)
         {
+            int value = player.GuildRecapTracker[key];
             GameObject newGuildRecap = Instantiate(guildRecap, recapGroup.transform);
-            newGuildRecap.GetComponent<TMP_Text>().text = $"{kvp.Key} : {kvp.Value}";
+            newGuildRecap.GetComponent<TMP_Text>().text = $"{key} : {value}";
             newGuildRecap.SetActive(true);
         }
 
