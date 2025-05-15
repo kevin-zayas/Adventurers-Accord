@@ -1026,7 +1026,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
-      value: Boost <color=#EB000E>Physical</color> Power by +2 at this Quest Lane
+      value: Grant an Adventuring Party +2 <color=#EB000E>Physical</color> Power
       objectReference: {fileID: 0}
     - target: {fileID: 3313565800043067953, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text

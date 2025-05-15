@@ -18,16 +18,19 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 2
   <Cost>k__BackingField: 2
-  <CardDescription>k__BackingField: Boost <color=#000EEB>Magical</color> Power by
-    +2 at this Quest Lane
+  <CardDescription>k__BackingField: Grant an Adventuring Party +2 <color=#000EEB>Magical</color>
+    Power
   <CardSubDescription>k__BackingField: 
   <CardType>k__BackingField: Magic Spell
   <AbilityName>k__BackingField: 
-  <CoolDown>k__BackingField: 0
+  <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
-  <MaxAdventurerCount>k__BackingField: 0
+  <ReputationPenalty>k__BackingField: 0
+  <GoldPenalty>k__BackingField: 0
+  <RestPeriodPenalty>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0

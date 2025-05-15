@@ -88,8 +88,8 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("+2 Sword", new List<string> { "Magic Items", "Equip" });
 
         //SPELLS
-        CardKeywordMap.Add("Cloud of Daggers", new List<string> {"Boost", "Magic Spells", "Magic Phase" });
-        CardKeywordMap.Add("Fireball", new List<string> { "Boost", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Cloud of Daggers", new List<string> {"Grant", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Fireball", new List<string> { "Grant", "Magic Spells", "Magic Phase" });
         CardKeywordMap.Add("Grease", new List<string> { "Disable", "Magic Spells", "Magic Phase" });
         CardKeywordMap.Add("Hex", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
         CardKeywordMap.Add("Mana Drain", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
@@ -115,7 +115,7 @@ public class CardDatabase : NetworkBehaviour
 
         KeywordDefinitionMap.Add("Magic Spells", magicSpellKeywordText);
         KeywordDefinitionMap.Add("Afflict", afflictKeywordText);
-        KeywordDefinitionMap.Add("Boost", boostKeywordText);
+        KeywordDefinitionMap.Add("Grant", grantKeywordText);
 
         KeywordDefinitionMap.Add("Magic Phase", magicPhaseKeywordText);
         KeywordDefinitionMap.Add("Resolution Phase", resolutionPhaseKeywordText);
@@ -190,7 +190,7 @@ public class CardDatabase : NetworkBehaviour
 
     private readonly string magicSpellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the card onto an Adventuring Party.";
     private readonly string afflictKeywordText = "Decreases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends. This value cannot be decreased below 0.";
-    private readonly string boostKeywordText = "Increases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends.";
+    private readonly string grantKeywordText = "Increases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends.";
 
     private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
     private readonly string magicPhaseKeywordText = "The phase in which players can play Magic Spells to affect the outcome of a Quest.";

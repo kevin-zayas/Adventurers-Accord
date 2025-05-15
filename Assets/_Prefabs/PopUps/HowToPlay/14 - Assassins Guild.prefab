@@ -1602,7 +1602,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
-      value: Afflict -2 <color=#000EEB>Magical</color> Power at this Quest Lane
+      value: Afflict an Adventuring Party with -2 <color=#000EEB>Magical</color>
+        Power
       objectReference: {fileID: 0}
     - target: {fileID: 3313565800043067953, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
@@ -1797,7 +1798,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3101418111192428437, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
-      value: Afflict -2 <color=#EB000E>Physical</color> Power at this Quest Lane
+      value: Afflict an Adventuring Party with -2 <color=#EB000E>Physical</color>
+        Power
       objectReference: {fileID: 0}
     - target: {fileID: 3313565800043067953, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_text
