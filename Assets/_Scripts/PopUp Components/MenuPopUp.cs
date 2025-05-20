@@ -9,16 +9,10 @@ public class MenuPopUp : MonoBehaviour
     [SerializeField] Button settingsButton;
     [SerializeField] Button exitGameButton;
     [SerializeField] Button restartServerButton;
-    [SerializeField] Image rayCastBlocker;
-    [SerializeField] GameObject menu;
-    [SerializeField] Canvas canvas;
-
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
 
-    private bool isMenuActive = false;
-    private PopUp popUp;
-    private ConfirmationPopUp confirmationPopUp;
+    public MenuPopUpManager MenuManager;
 
     private void Start()
     {
@@ -26,19 +20,19 @@ public class MenuPopUp : MonoBehaviour
 
         howToPlayButton.onClick.AddListener(() =>
         {
-            popUp = PopUpManager.Instance.CreateHowToPlayPopUp();
+            MenuManager.popUp = PopUpManager.Instance.CreateHowToPlayPopUp();
             CloseMenu();
         });
 
         creditsButton.onClick.AddListener(() =>
         {
-            popUp = PopUpManager.Instance.CreateCreditsPopUp();
+            MenuManager.popUp = PopUpManager.Instance.CreateCreditsPopUp();
             CloseMenu();
         });
 
         settingsButton.onClick.AddListener(() =>
         {
-            popUp = PopUpManager.Instance.CreateSettingsPopUp();
+            MenuManager.popUp = PopUpManager.Instance.CreateSettingsPopUp();
             CloseMenu();
         });
 
@@ -46,42 +40,16 @@ public class MenuPopUp : MonoBehaviour
 
         restartServerButton.onClick.AddListener(() =>
         {
-            confirmationPopUp = PopUpManager.Instance.CreateConfirmationPopUp();
-            confirmationPopUp.InitializeRestartServerPopUp();
+            MenuManager.confirmationPopUp = PopUpManager.Instance.CreateConfirmationPopUp();
+            MenuManager.confirmationPopUp.InitializeRestartServerPopUp();
 
             CloseMenu();
         });
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            if (popUp != null) 
-            { 
-                Destroy(popUp.gameObject);
-                popUp = null;
-                return;
-            }
-            else if (confirmationPopUp != null)
-            {
-                Destroy(confirmationPopUp.gameObject);
-                confirmationPopUp = null;
-                return;
-            }
-
-            this.gameObject.transform.SetAsLastSibling();
-            isMenuActive = !isMenuActive;
-            rayCastBlocker.enabled = isMenuActive;
-            menu.SetActive(isMenuActive);
-        }
-    }
-
     private void CloseMenu()
     {
-        isMenuActive = false;
-        rayCastBlocker.enabled = false;
-        menu.SetActive(false);
+        Destroy(gameObject);
     }
 
     public void Quit()
