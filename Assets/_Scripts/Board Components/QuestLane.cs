@@ -74,7 +74,7 @@ public class QuestLane : NetworkBehaviour
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
             if (IsGreased && card.HasItem.Value) card.DisableItem("Greased");
-            if (QuestCard.Value.DisableItems.Value && card.HasItem.Value) card.DisableItem("Nullified");
+            if (QuestCard.Value.DisableItems.Value && card.HasItem.Value) card.DisableItem("Disabled");
 
             PhysicalPower.Value += card.PhysicalPower.Value;
             MagicalPower.Value += card.MagicalPower.Value;

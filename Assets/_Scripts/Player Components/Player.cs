@@ -134,7 +134,7 @@ public class Player : NetworkBehaviour
             {
                 case CardDatabase.GuildType.ThievesGuild:
                     GuildBonusTracker[i].Add("didCompleteQuest", 0);
-                    GuildBonusTracker[i].Add("stolenItems", 0);
+                    GuildBonusTracker[i].Add("disabledItems", 0);
                     break;
                 case CardDatabase.GuildType.MagesGuild:
                     GuildBonusTracker[i].Add("spellsPlayed", 0);

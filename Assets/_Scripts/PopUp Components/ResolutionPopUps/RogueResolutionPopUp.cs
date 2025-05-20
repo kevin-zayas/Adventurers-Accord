@@ -18,10 +18,10 @@ public class RogueResolutionPopUp : ResolutionPopUp
 
     protected override void SetPopUpText()
     {
-        titleText = "Sticky Fingers";
-        defaultMessageText = "Choose an Adventurer to steal a Magic Item from.";
-        confirmSelectionText = "Are you sure you want to steal this {0}'s {1}?";
-        buttonText = "Steal";
+        titleText = "Saboteur";
+        defaultMessageText = "Choose an Adventurer with a Magic Item to disable.";
+        confirmSelectionText = "Are you sure you want to disable this {0}'s {1}?";
+        buttonText = "Disable";
     }
 
     protected override void UpdateGuildBonusTracker(int questIndex)
@@ -29,7 +29,7 @@ public class RogueResolutionPopUp : ResolutionPopUp
         print($"Guild Type: {Player.Instance.GuildType}");
         if (Player.Instance.GuildType == CardDatabase.GuildType.ThievesGuild)
         {
-            Player.Instance.ServerUpdateGuildBonusTracker(questIndex, "stolenItems");
+            Player.Instance.ServerUpdateGuildBonusTracker(questIndex, "disabledItems");
         }
     }
 }

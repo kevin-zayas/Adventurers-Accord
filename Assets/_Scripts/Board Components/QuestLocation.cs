@@ -296,7 +296,7 @@ public class QuestLocation : NetworkBehaviour
                     }
                        
                 }
-                if (player.GuildBonusTracker[QuestLocationIndex]["stolenItems"] > 0)
+                if (player.GuildBonusTracker[QuestLocationIndex]["disabledItems"] > 0)
                 {
                     player.ChangePlayerGold(1);
                     player.UpdateGuildRecapTracker("Sleight of Hand (Gold)", 1);
