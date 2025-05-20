@@ -12,7 +12,7 @@ public class GuildRosterPopUp : NetworkBehaviour
     [SerializeField] private GameObject restingRosterGroup;
 
     [SerializeField] private GameObject cooldownDisplayPrefab;
-    // Start is called before the first frame update
+
     void Start()
     {
         closeButton.onClick.AddListener(() =>

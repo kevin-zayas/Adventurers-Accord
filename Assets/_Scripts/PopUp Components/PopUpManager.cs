@@ -24,6 +24,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] GuildRosterPopUp RivalGuildRosterPopUpPrefab;
     [SerializeField] GuildRecapPopUp GuildRecapPopUpPrefab;
     [SerializeField] ToastPopUp ToastPopUpPrefab;
+    [SerializeField] AdventurerRegistryPopUp AdventurerRegistryPopUpPrefab;
 
     public ResolutionPopUp CurrentResolutionPopUp;
     public string CurrentResolutionType;
@@ -121,5 +122,13 @@ public class PopUpManager : NetworkBehaviour
         else guildRosterPopUp = Instantiate(GuildRosterPopUpPrefab);
 
         return guildRosterPopUp;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerCreateAdventurerRegistryPopUp(NetworkConnection connection)
+    {
+        AdventurerRegistryPopUp popUp = Instantiate(AdventurerRegistryPopUpPrefab);
+        Spawn(popUp.gameObject);
+        popUp.TargetInitializeAdventurerRegistry(connection);
     }
 }

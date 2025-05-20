@@ -1760,6 +1760,7 @@ MonoBehaviour:
   RivalGuildRosterPopUpPrefab: {fileID: 8686305642726650681, guid: 3988ceb8677b4c44e8e6cbc1608e0095, type: 3}
   GuildRecapPopUpPrefab: {fileID: 5904705167613417535, guid: 6fbbf8743985e1244b25c49713319a56, type: 3}
   ToastPopUpPrefab: {fileID: 6192678854107621520, guid: c999b4d30a132924294d3d7eea034afe, type: 3}
+  AdventurerRegistryPopUpPrefab: {fileID: 4393527362865348237, guid: 427e0c759d9cfc742ab992310617ee66, type: 3}
   CurrentResolutionPopUp: {fileID: 0}
   CurrentResolutionType: 
 --- !u!114 &302781916
@@ -9467,19 +9468,24 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1736932375}
   _networkObjectCache: {fileID: 1736932375}
   TestQuestCards: []
-  TestRoster: []
-  tierOneCards:
+  TestRoster:
   - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
   - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
   - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
   - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
   - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
-  tierTwoCards:
+  tierOneAdventurers:
+  - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
+  - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
+  - {fileID: 11400000, guid: c887ccc45ec684c458f7ef9ee83da836, type: 2}
+  - {fileID: 11400000, guid: d78eb4a2ba802744c8ff4debcf7624da, type: 2}
+  - {fileID: 11400000, guid: 68cb17239975b91429653d7454bec765, type: 2}
+  tierTwoAdventurers:
   - {fileID: 11400000, guid: e5a6e37d13df22d4fa71b3be31d11f16, type: 2}
+  - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
   - {fileID: 11400000, guid: d0faf7741a01275479f4578619b694b8, type: 2}
   - {fileID: 11400000, guid: 7bf5cf46159ffde4787ab1f32053c9d6, type: 2}
   - {fileID: 11400000, guid: a5a488f18a019da42864147ae2776293, type: 2}
-  - {fileID: 11400000, guid: 4eb47838157b298439492b52fef9f526, type: 2}
   - {fileID: 11400000, guid: 90927bb70acde1546a840d3c4a3af481, type: 2}
   levelOneQuestCards:
   - {fileID: 11400000, guid: 3e8fd8c8d1cb6c1458ac8d76c03cdbe9, type: 2}
@@ -11524,6 +11530,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuPopUpPrefab: {fileID: 2442701237052241021, guid: db198446467a0044cad6f5b02366bea7, type: 3}
+  popUp: {fileID: 0}
+  confirmationPopUp: {fileID: 0}
 --- !u!1 &2126073144
 GameObject:
   m_ObjectHideFlags: 0

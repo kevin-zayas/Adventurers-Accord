@@ -19,8 +19,8 @@ public class CardDatabase : NetworkBehaviour
     public List<CardData> TestQuestCards = new();
     public List<CardData> TestRoster = new();
 
-    public List<CardData> tierOneCards = new();
-    public List<CardData> tierTwoCards = new();
+    public List<CardData> tierOneAdventurers = new();
+    public List<CardData> tierTwoAdventurers = new();
 
     public List<CardData> levelOneQuestCards = new();
     public List<CardData> levelTwoQuestCards = new();
@@ -136,8 +136,8 @@ public class CardDatabase : NetworkBehaviour
 
     private void InitializeSpriteMaps()
     {
-        SaveSprites(tierOneCards, "Card_Sprites/");
-        SaveSprites(tierTwoCards, "Card_Sprites/");
+        SaveSprites(tierOneAdventurers, "Card_Sprites/");
+        SaveSprites(tierTwoAdventurers, "Card_Sprites/");
         CardSpriteMap.Add("Wolf", Resources.Load<Sprite>("Card_Sprites/Wolf"));
 
         SaveSprites(itemCards, "ItemSpell_Sprites/");

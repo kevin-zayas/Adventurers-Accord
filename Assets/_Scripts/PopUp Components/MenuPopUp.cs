@@ -5,6 +5,7 @@ public class MenuPopUp : MonoBehaviour
 {
     [SerializeField] Button closeMenuButton;
     [SerializeField] Button howToPlayButton;
+    [SerializeField] Button adventurerRegistryButton;
     [SerializeField] Button creditsButton;
     [SerializeField] Button settingsButton;
     [SerializeField] Button exitGameButton;
@@ -24,9 +25,9 @@ public class MenuPopUp : MonoBehaviour
             CloseMenu();
         });
 
-        creditsButton.onClick.AddListener(() =>
+        adventurerRegistryButton.onClick.AddListener(() =>
         {
-            MenuManager.popUp = PopUpManager.Instance.CreateCreditsPopUp();
+            PopUpManager.Instance.ServerCreateAdventurerRegistryPopUp(Player.Instance.Owner);
             CloseMenu();
         });
 
@@ -36,7 +37,11 @@ public class MenuPopUp : MonoBehaviour
             CloseMenu();
         });
 
-        exitGameButton.onClick.AddListener(() => Quit());
+        creditsButton.onClick.AddListener(() =>
+        {
+            MenuManager.popUp = PopUpManager.Instance.CreateCreditsPopUp();
+            CloseMenu();
+        });
 
         restartServerButton.onClick.AddListener(() =>
         {
@@ -45,6 +50,8 @@ public class MenuPopUp : MonoBehaviour
 
             CloseMenu();
         });
+
+        exitGameButton.onClick.AddListener(() => Quit());
     }
 
     private void CloseMenu()

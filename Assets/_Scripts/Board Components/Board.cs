@@ -187,8 +187,8 @@ public class Board : NetworkBehaviour
     {
         for (int i = 0; i < cardFrequency; i++)
         {
-            T1Deck.AddRange(CardDatabase.Instance.tierOneCards);
-            T2Deck.AddRange(CardDatabase.Instance.tierTwoCards);
+            T1Deck.AddRange(CardDatabase.Instance.tierOneAdventurers);
+            T2Deck.AddRange(CardDatabase.Instance.tierTwoAdventurers);
             ShopLootDeck.AddRange(CardDatabase.Instance.itemCards);
             RewardLootDeck.AddRange(CardDatabase.Instance.itemCards);
         }
