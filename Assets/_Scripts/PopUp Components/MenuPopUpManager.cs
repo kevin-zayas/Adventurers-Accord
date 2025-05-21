@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuPopUpManager : MonoBehaviour
 {
     [SerializeField] MenuPopUp menuPopUpPrefab;
+    [SerializeField] Button menuButton;
     public PopUp popUp;
     public bool registryPopUpActive;
     private MenuPopUp menu;
@@ -14,6 +16,7 @@ public class MenuPopUpManager : MonoBehaviour
     private void Start()
     {
         canvas = GameObject.Find("Canvas");
+        menuButton.onClick.AddListener(() => CreateMenuPopUp());
     }
 
     private void Update()
@@ -41,10 +44,15 @@ public class MenuPopUpManager : MonoBehaviour
                         return;
                     }
                 }
-                menu = Instantiate(menuPopUpPrefab, canvas.transform);
-                menu.MenuManager = this;
+                CreateMenuPopUp();
             }
             return;
         }
+    }
+
+    private void CreateMenuPopUp()
+    {
+        menu = Instantiate(menuPopUpPrefab, canvas.transform);
+        menu.MenuManager = this;
     }
 }
