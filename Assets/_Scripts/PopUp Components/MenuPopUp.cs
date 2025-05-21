@@ -27,6 +27,7 @@ public class MenuPopUp : MonoBehaviour
 
         adventurerRegistryButton.onClick.AddListener(() =>
         {
+            MenuManager.registryPopUpActive = true;
             PopUpManager.Instance.ServerCreateAdventurerRegistryPopUp(Player.Instance.Owner);
             CloseMenu();
         });
@@ -45,8 +46,9 @@ public class MenuPopUp : MonoBehaviour
 
         restartServerButton.onClick.AddListener(() =>
         {
-            MenuManager.confirmationPopUp = PopUpManager.Instance.CreateConfirmationPopUp();
-            MenuManager.confirmationPopUp.InitializeRestartServerPopUp();
+            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+            popUp.InitializeRestartServerPopUp();
+            MenuManager.popUp = popUp;
 
             CloseMenu();
         });

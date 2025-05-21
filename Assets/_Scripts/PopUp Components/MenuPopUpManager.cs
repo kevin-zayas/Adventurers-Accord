@@ -7,7 +7,7 @@ public class MenuPopUpManager : MonoBehaviour
 {
     [SerializeField] MenuPopUp menuPopUpPrefab;
     public PopUp popUp;
-    public ConfirmationPopUp confirmationPopUp;
+    public bool registryPopUpActive;
     private MenuPopUp menu;
     private GameObject canvas;
 
@@ -23,25 +23,28 @@ public class MenuPopUpManager : MonoBehaviour
             if (menu != null)
             {
                 Destroy(menu.gameObject);
-                return;
             }
             else if (popUp != null)
             {
                 Destroy(popUp.gameObject);
                 popUp = null;
-                return;
             }
-            else if (confirmationPopUp != null)
+            else 
             {
-                Destroy(confirmationPopUp.gameObject);
-                confirmationPopUp = null;
-                return;
-            }
-            else
-            {
+                if (registryPopUpActive)
+                {
+                    registryPopUpActive = false;
+                    Transform registryTransform = canvas.transform.Find("AdventurerRegistryPopUp(Clone)");
+                    if (registryTransform != null)
+                    {
+                        registryTransform.GetComponent<AdventurerRegistryPopUp>().ServerClosePopUp();
+                        return;
+                    }
+                }
                 menu = Instantiate(menuPopUpPrefab, canvas.transform);
                 menu.MenuManager = this;
             }
+            return;
         }
     }
 }

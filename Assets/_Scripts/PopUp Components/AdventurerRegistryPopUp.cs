@@ -74,12 +74,10 @@ public class AdventurerRegistryPopUp : NetworkBehaviour
                 }
             }
         }
-
-
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerClosePopUp()
+    public void ServerClosePopUp()
     {
         Despawn(gameObject);
     }
