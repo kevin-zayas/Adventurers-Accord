@@ -35,14 +35,11 @@ public class ScoreBoard : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void ServerCreateScoreBoardPopUp(NetworkConnection connection)
     {
-        ScoreBoardPopUp popUp = PopUpManager.Instance.CreateScoreBoardPopUp();
-        Spawn(popUp.gameObject);
-        popUp.TargetInitializeScoreboard(connection);
-        TargetSetScoreBoardPopUp(connection, popUp); 
+        PopUpManager.Instance.CreateScoreBoardPopUp(connection);
     }
 
     [TargetRpc]
-    private void TargetSetScoreBoardPopUp(NetworkConnection connection, ScoreBoardPopUp scoreBoardPopUp)
+    public void TargetSetScoreBoardPopUp(NetworkConnection connection, ScoreBoardPopUp scoreBoardPopUp)
     {
         this.scoreBoardPopUp = scoreBoardPopUp;
     }

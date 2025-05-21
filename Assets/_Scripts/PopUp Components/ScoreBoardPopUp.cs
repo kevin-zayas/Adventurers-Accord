@@ -1,6 +1,5 @@
 using FishNet.Connection;
 using FishNet.Object;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +10,15 @@ public class ScoreBoardPopUp : NetworkBehaviour
     [SerializeField] private PlayerScore playerScorePrefab;
     [SerializeField] private GameObject playerScoreGroup;
     [SerializeField] private GameObject rosterGroup;
+    [SerializeField] private Button closeButton;
+
+    void Start()
+    {
+        closeButton.onClick.AddListener(() =>
+        {
+            ServerClosePopUp();
+        });
+    }
 
     [TargetRpc]
     public void TargetInitializeScoreboard(NetworkConnection connection)
@@ -53,10 +61,7 @@ public class ScoreBoardPopUp : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void ServerCreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival)
     {
-        GuildRosterPopUp popup = PopUpManager.Instance.CreateGuildRosterPopUp(isViewingRival);
-        Spawn(popup.gameObject);
-        popup.TargetInitializeGuildRoster(connection, player, isViewingRival);
-        ScoreBoard.Instance.TargetSetGuildRosterPopUp(connection, popup);
+        PopUpManager.Instance.CreateGuildRosterPopUp(connection, player, isViewingRival);
         Despawn(gameObject);
     }
 
@@ -68,5 +73,11 @@ public class ScoreBoardPopUp : NetworkBehaviour
     public void UpdatePlayerReputation(int playerIndex, int reputation)
     {
         PlayerScores[playerIndex].UpdateReputation(reputation);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void ServerClosePopUp()
+    {
+        Despawn(gameObject);
     }
 }

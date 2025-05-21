@@ -107,21 +107,24 @@ public class PopUpManager : NetworkBehaviour
     }
 
     [Server]
-    public ScoreBoardPopUp CreateScoreBoardPopUp()
+    public void CreateScoreBoardPopUp(NetworkConnection connection)
     {
         ScoreBoardPopUp scoreBoardPopUp = Instantiate(ScoreBoardPopUpPrefab);
-        return scoreBoardPopUp;
+        Spawn(scoreBoardPopUp.gameObject);
+        scoreBoardPopUp.TargetInitializeScoreboard(connection);
+        ScoreBoard.Instance.TargetSetScoreBoardPopUp(connection, scoreBoardPopUp);
     }
 
     [Server]
-    public GuildRosterPopUp CreateGuildRosterPopUp(bool isViewingRival)
+    public void CreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival)
     {
         GuildRosterPopUp guildRosterPopUp;
-
         if (isViewingRival) guildRosterPopUp = Instantiate(RivalGuildRosterPopUpPrefab);
         else guildRosterPopUp = Instantiate(GuildRosterPopUpPrefab);
 
-        return guildRosterPopUp;
+        Spawn(guildRosterPopUp.gameObject);
+        guildRosterPopUp.TargetInitializeGuildRoster(connection, player, isViewingRival);
+        ScoreBoard.Instance.TargetSetGuildRosterPopUp(connection, guildRosterPopUp);
     }
 
     [ServerRpc(RequireOwnership = false)]
