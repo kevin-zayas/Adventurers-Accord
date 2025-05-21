@@ -69,7 +69,7 @@ public class ItemCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
-        isClone = true;
+        IsClone = true;
         ItemCard card = originalCard as ItemCard;
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];
@@ -90,7 +90,7 @@ public class ItemCard : Card
     [TargetRpc]
     public void TargetCopyItemHeaderData(NetworkConnection connection, ItemCardHeader itemHeader)
     {
-        isClone = true;
+        IsClone = true;
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[itemHeader.CardName.Value];
 
         physicalPowerText.text = itemHeader.PhysicalPower.Value.ToString();

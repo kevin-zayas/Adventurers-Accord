@@ -74,6 +74,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     /// <returns>True if the drag can start, otherwise false.</returns>
     protected virtual bool CanStartDrag()
     {
+        if (card.IsClone) return false;
         if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
         if (!card.IsDraftCard.Value && !IsOwner) // Prevent dragging non-draft cards if not owner
         {

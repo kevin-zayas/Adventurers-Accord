@@ -229,11 +229,11 @@ public class AdventurerCard : Card
     /// </summary>
     /// <param name="disableType">The type of disable action to apply to the item.</param>
     [Server]
-    public void DisableItem(string disableType)
+    public void DisableItem()
     {
         if (!HasItem.Value || Item.Value.IsDisabled.Value) return;
 
-        Item.Value.DisableItem(disableType);
+        Item.Value.DisableItem();
 
         if (CardName.Value == Sorcerer || ControllingPlayer.Value.isFightersGuild) ResetPower();
     }
@@ -243,9 +243,9 @@ public class AdventurerCard : Card
     /// </summary>
     /// <param name="disableType">The type of disable action to apply to the item.</param>
     [ServerRpc(RequireOwnership = false)]
-    public void ServerDisableItem(string disableType)
+    public void ServerDisableItem()
     {
-        DisableItem(disableType);
+        DisableItem();
     }
 
     /// <summary>
@@ -291,7 +291,7 @@ public class AdventurerCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
-        isClone = true;
+        IsClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];
@@ -312,6 +312,11 @@ public class AdventurerCard : Card
         UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
 
         if (card.AbilityName.Value == "") abilityNameObject.SetActive(false);
+
+        //if (card.HasItem.Value)
+        //{
+        //    if (card.Item.Value.IsDisabled.Value) Item.Value.DisableItem();
+        //}
     }
 
     /// <summary>

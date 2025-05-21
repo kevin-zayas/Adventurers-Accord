@@ -2,6 +2,7 @@ using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -105,7 +106,7 @@ public class ItemCardHeader : Card
     /// </summary>
     /// <param name="disableType">The type of disable action to apply.</param>
     [Server]
-    public void DisableItem(string disableType)
+    public void DisableItem()
     {
         if (IsDisabled.Value) return;
 
@@ -115,7 +116,6 @@ public class ItemCardHeader : Card
 
         ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         ObserversSetDisable(true);
-        ObserversSetDisableText(disableType);
     }
 
     /// <summary>
@@ -123,19 +123,10 @@ public class ItemCardHeader : Card
     /// </summary>
     /// <param name="value">Whether the card should be disabled or not.</param>
     [ObserversRpc(BufferLast = true)]
-    private void ObserversSetDisable(bool value)
+    private void ObserversSetDisable(bool value, string disableType = "Disabled")
     {
         gameObject.transform.GetChild(1).gameObject.SetActive(value);
-    }
-
-    /// <summary>
-    /// Sets the disable type text on all clients.
-    /// </summary>
-    /// <param name="disableType">The type of disable action to display.</param>
-    [ObserversRpc(BufferLast = true)]
-    private void ObserversSetDisableText(string disableType)
-    {
-        disableTypeText.text = disableType;
+        if (value) disableTypeText.text = disableType;
     }
 
     /// <summary>
@@ -144,15 +135,21 @@ public class ItemCardHeader : Card
     /// <param name="connection">The network connection of the target client.</param>
     /// <param name="originalCard">The original card to copy data from.</param>
     [TargetRpc]
-    public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
+    public void TargetCopyCardData(NetworkConnection connection, Card originalCard, bool isItemDisabled)
     {
-        isClone = true;
+        IsClone = true;
         AdventurerCard card = originalCard as AdventurerCard;
         ItemCardHeader item = card.Item.Value;
 
         physicalPowerText.text = item.PhysicalPower.Value.ToString();
         magicalPowerText.text = item.MagicalPower.Value.ToString();
         nameText.text = item.CardName.Value;
+
+        if (isItemDisabled)
+        {
+            gameObject.transform.GetChild(1).gameObject.SetActive(true);
+            disableTypeText.text = "Disabled";
+        }
 
         UpdatePowerTextColor(item.PhysicalPower.Value, item.MagicalPower.Value, item.OriginalPhysicalPower.Value, item.OriginalMagicalPower.Value);
     }

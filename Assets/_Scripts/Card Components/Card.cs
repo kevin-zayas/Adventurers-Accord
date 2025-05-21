@@ -19,26 +19,20 @@ public abstract class Card : NetworkBehaviour
     public readonly SyncVar<CardData> Data = new();
     public readonly SyncVar<Player> ControllingPlayer = new();
     public readonly SyncVar<Hand> ControllingPlayerHand = new();
+    public bool IsClone { get; protected set; }
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsDraftCard = new();
     #endregion
 
     [SerializeField] protected Image disableScreen;
     [SerializeField] protected Image hoverScreen;
-    [SerializeField] protected bool isClone = false;
     [SerializeField] protected TMP_Text magicalPowerText;
     [SerializeField] protected TMP_Text physicalPowerText;
     protected Player player;
 
     private void Start()
     {
-        //if (IsServerInitialized && !ControllingPlayer.Value)
-        //{
-        //    IsDraftCard.Value = true;
-        //}
-        //else      //may need to add this back when putting it on dedicated server
-        //{
-        player = GameManager.Instance.Players[LocalConnection.ClientId];
-        //}
+        player = Player.Instance;
+        IsClone = false;
     }
     /// <summary>
     /// Sets the card's owner and updates the controlling player's hand.
@@ -215,7 +209,7 @@ public abstract class Card : NetworkBehaviour
 
     public virtual void OnHover()
     {
-        if (isClone) return;  // Do not show hover screen for enlarged/spotlight cards
+        if (IsClone) return;  // Do not show hover screen for enlarged/spotlight cards
 
         if (ShouldToggleDisableScreen()) ToggleDisableScreen(true);
         else ToggleHoverScreen(true);

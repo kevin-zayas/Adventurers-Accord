@@ -118,7 +118,7 @@ public class SpellCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
-        isClone = true;
+        IsClone = true;
         SpellCard card = originalCard as SpellCard;
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];

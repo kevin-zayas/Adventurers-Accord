@@ -94,7 +94,7 @@ public class QuestCard : Card
     [TargetRpc]
     public override void TargetCopyCardData(NetworkConnection connection, Card originalCard)
     {
-        isClone = true;
+        IsClone = true;
         QuestCard card = originalCard as QuestCard;
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[card.CardName.Value];

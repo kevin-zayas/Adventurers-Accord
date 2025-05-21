@@ -171,7 +171,9 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
         // Copy data into Adventurer Card's Item Header
         if (newCard is AdventurerCard adventurerCard && adventurerCard.HasItem.Value)
         {
-            adventurerCard.Item.Value.TargetCopyCardData(connection, originalCard);
+            AdventurerCard card = originalCard as AdventurerCard;
+            bool isItemDisabled = card.Item.Value.IsDisabled.Value;
+            adventurerCard.Item.Value.TargetCopyCardData(connection, originalCard, isItemDisabled);
             adventurerCard.Item.Value.GetComponent<SpotlightCard>().referenceCard = originalCard.GetComponent<AdventurerCard>().Item.Value.gameObject;
         }
     }

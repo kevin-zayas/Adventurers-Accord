@@ -29,7 +29,7 @@ public class QuestLane : NetworkBehaviour
     [AllowMutableSyncTypeAttribute] public SyncVar<int> CurrentAdventurerCount = new();
 
     public readonly SyncVar<int> EffectiveTotalPower = new();
-    [field: SerializeField] public bool IsGreased { get; private set; }
+    [field: SerializeField] public bool IsPartyGreased { get; private set; }
 
     private readonly Dictionary<string, int> adventurerEffects = new();
 
@@ -73,13 +73,12 @@ public class QuestLane : NetworkBehaviour
             Transform cardTransform = QuestDropZone.transform.GetChild(i);
             AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
 
-            if (IsGreased && card.HasItem.Value) card.DisableItem("Greased");
-            if (QuestCard.Value.DisableItems.Value && card.HasItem.Value) card.DisableItem("Disabled");
+            if ((IsPartyGreased || QuestCard.Value.DisableItems.Value) && card.HasItem.Value) card.DisableItem();
 
             PhysicalPower.Value += card.PhysicalPower.Value;
             MagicalPower.Value += card.MagicalPower.Value;
 
-            if (!IsGreased && card.HasItem.Value)
+            if (!IsPartyGreased && card.HasItem.Value)
             {
                 PhysicalPower.Value += card.Item.Value.PhysicalPower.Value;
                 MagicalPower.Value += card.Item.Value.MagicalPower.Value;
@@ -126,7 +125,7 @@ public class QuestLane : NetworkBehaviour
             SpellPhysicalPower.Value += spellCard.PhysicalPower.Value;
             SpellMagicalPower.Value += spellCard.MagicalPower.Value;
 
-            if (spellCard.CardName.Value == "Grease") IsGreased = true;
+            if (spellCard.CardName.Value == "Grease") IsPartyGreased = true;
         }
 
         UpdateQuestLanePower();
@@ -178,7 +177,7 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void ClearSpellEffects()
     {
-        IsGreased = false;
+        IsPartyGreased = false;
         for (int i = 0; i < SpellDropZone.transform.childCount; i++)
         {
             Transform spellCardTransform = SpellDropZone.transform.GetChild(i);

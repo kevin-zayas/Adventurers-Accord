@@ -11,7 +11,7 @@ public class RogueResolutionPopUp : ResolutionPopUp
         {
             int questIndex = QuestLocation.QuestLocationIndex;
             
-            card.ServerDisableItem("Disabled");
+            card.ServerDisableItem();
             HandleEndOfResolution(questIndex, card);
         });
     }
