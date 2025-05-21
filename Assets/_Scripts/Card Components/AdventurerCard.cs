@@ -408,15 +408,16 @@ public class AdventurerCard : Card
 
         string resolutionType = PopUpManager.Instance.CurrentResolutionType;
 
-        if (resolutionType == "Rogue" && HasItem.Value && !Item.Value.IsDisabled.Value)
-        {
-            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
-        }
-        else if (resolutionType == "Assassin" && !IsBlessed.Value && (MagicalPower.Value > 0 || PhysicalPower.Value > 0))
-        {
-            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
-        }
-        else if (resolutionType == "Cleric" && !IsBlessed.Value && CardName.Value != "Wolf")
+        bool isNotPlayer = ControllingPlayer.Value != Player.Instance;
+        bool hasActiveItem = HasItem.Value && !Item.Value.IsDisabled.Value;
+        bool hasPower = MagicalPower.Value > 0 || PhysicalPower.Value > 0;
+        bool isWolf = CardName.Value == "Wolf";
+
+        bool validTarget = (resolutionType == "Rogue" && isNotPlayer && hasActiveItem) ||
+                           (resolutionType == "Assassin" && isNotPlayer && !IsBlessed.Value && hasPower) ||
+                           (resolutionType == "Cleric" && !IsBlessed.Value && !isWolf);
+
+        if (validTarget)
         {
             PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         }
