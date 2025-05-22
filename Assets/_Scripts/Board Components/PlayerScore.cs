@@ -13,7 +13,7 @@ public class PlayerScore : MonoBehaviour
 
     public void InitializeScore(int playerID, int gold, int reputation, GuildType guildType)
     {
-        playerNameText.text = $"Player {playerID + 1} -";
+        playerNameText.text = $"Player {playerID + 1}";
         goldText.text = gold.ToString();
         reputationText.text = reputation.ToString();
         guildIcon.sprite = CardDatabase.Instance.GetGuildSprite(guildType);

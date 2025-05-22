@@ -312,11 +312,6 @@ public class AdventurerCard : Card
         UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
 
         if (card.AbilityName.Value == "") abilityNameObject.SetActive(false);
-
-        //if (card.HasItem.Value)
-        //{
-        //    if (card.Item.Value.IsDisabled.Value) Item.Value.DisableItem();
-        //}
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ public class EndRoundView : View
     {
         endRoundButton.onClick.AddListener(() =>
         {
-            GameManager.Instance.ConfirmEndRound(Player.Instance.PlayerID.Value);  //can just do Player.Inance.PlayerID
+            GameManager.Instance.ConfirmEndRound(Player.Instance.PlayerID.Value);
             endRoundButton.interactable = false;
             turnTracker.SetActive(false);
         });

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class GuildRosterPopUp : NetworkBehaviour
 {
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button goBackButton;
     [SerializeField] private GameObject activeRosterGroup;
     [SerializeField] private GameObject restingRosterGroup;
 
@@ -18,6 +19,11 @@ public class GuildRosterPopUp : NetworkBehaviour
         closeButton.onClick.AddListener(() =>
         {
             ServerClosePopUp();
+        });
+
+        goBackButton.onClick.AddListener(() =>
+        {
+            ServerClosePopUp(true, LocalConnection);
         });
     }
 
@@ -144,8 +150,9 @@ public class GuildRosterPopUp : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void ServerClosePopUp()
+    private void ServerClosePopUp(bool launchScoreboard = false, NetworkConnection connection = null)
     {
+        if (launchScoreboard) PopUpManager.Instance.CreateScoreBoardPopUp(connection);
         Despawn(gameObject);
     }
 }

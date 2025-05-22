@@ -1,16 +1,23 @@
 using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreBoard : NetworkBehaviour
 {
     public static ScoreBoard Instance;
     private ScoreBoardPopUp scoreBoardPopUp;
     private GuildRosterPopUp guildRosterPopUp;
+    [SerializeField] private Button scoreboardButton;
 
     private void Awake()
     {
         Instance = this;
+
+        scoreboardButton.onClick.AddListener(() =>
+        {
+            ServerCreateScoreBoardPopUp(LocalConnection);
+        });
     }
 
     private void Update()
