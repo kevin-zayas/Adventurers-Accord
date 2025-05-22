@@ -255,7 +255,6 @@ public class Player : NetworkBehaviour
 
             case GameManager.Phase.Magic:
                 ViewManager.Instance.Show<EndRoundView>();
-                GameObject.Find("EndRoundView").GetComponent<EndRoundView>().playerID = PlayerID.Value;
                 break;
 
             case GameManager.Phase.GameOver:

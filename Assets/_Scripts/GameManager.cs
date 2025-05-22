@@ -12,19 +12,20 @@ public class GameManager : NetworkBehaviour
 
     #region Serialized Fields
     [field: SerializeField] public ScoreBoard Scoreboard { get; private set; }
-    [field: SerializeField] public SyncList<Player> Players { get; } = new SyncList<Player>();
+    public SyncList<Player> Players { get; } = new SyncList<Player>();
 
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> CanStartGame = new();
-    [field: SerializeField] public bool DidStartGame { get; private set; }
-    [field: SerializeField] public int Turn { get; private set; }
+    public bool DidStartGame { get; private set; }
+    public SyncVar<int> Turn { get; } = new();
+    public int ClientTurn { get; private set;}
 
-    [AllowMutableSyncTypeAttribute] public SyncVar<Phase> CurrentPhase = new(new SyncTypeSettings(WritePermission.ServerOnly));
-    [field: SerializeField] public int StartingTurn { get; private set; }
+    [AllowMutableSyncTypeAttribute] public SyncVar<Phase> CurrentPhase = new();
+    public int StartingTurn { get; private set; }
     [field: SerializeField] public int StartingGold { get; private set; }
     [field: SerializeField] public int ReputationGoal { get; private set; }
-    [field: SerializeField] public bool[] PlayerSkipTurnStatus { get; private set; }
-    [field: SerializeField] public SyncList<bool> PlayerEndRoundStatus { get; } = new SyncList<bool>();
-    [field: SerializeField] public int RoundNumber { get; private set; }
+    public bool[] PlayerSkipTurnStatus { get; private set; }
+    public SyncList<bool> PlayerEndRoundStatus { get; } = new SyncList<bool>();
+    public int RoundNumber { get; private set; }
     #endregion
 
     #region Game Phases
@@ -34,6 +35,7 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+        Turn.OnChange += Turn_OnChange;
     }
 
     private void Update()
@@ -47,12 +49,6 @@ public class GameManager : NetworkBehaviour
             print("restarting server");
         }
     }
-
-    //[ObserversRpc]
-    //public void ObserversSetCanStartGame(bool value)
-    //{
-    //    CanStartGame.Value = value;
-    //}
 
     [Server]
     public void SetCanStartGame(bool value)
@@ -91,7 +87,7 @@ public class GameManager : NetworkBehaviour
         DidStartGame = true;
 
         PlayerSkipTurnStatus = new bool[Players.Count];
-        SetPlayerTurn(Players[Turn]);
+        SetPlayerTurn(Players[Turn.Value]);
     }
 
     /// <summary>
@@ -114,9 +110,9 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void EndTurn(bool passTurn)
     {
-        if (passTurn) PlayerSkipTurnStatus[Turn] = true;
+        if (passTurn) PlayerSkipTurnStatus[Turn.Value] = true;
 
-        Turn = (Turn + 1) % Players.Count;
+        Turn.Value = (Turn.Value + 1) % Players.Count;
 
         if (PlayerSkipTurnStatus.All(status => status))
         {
@@ -124,12 +120,12 @@ public class GameManager : NetworkBehaviour
             return;
         }
 
-        while (PlayerSkipTurnStatus[Turn])
+        while (PlayerSkipTurnStatus[Turn.Value])
         {
-            Turn = (Turn + 1) % Players.Count;
+            Turn.Value = (Turn.Value + 1) % Players.Count;
         }
 
-        SetPlayerTurn(Players[Turn]);
+        SetPlayerTurn(Players[Turn.Value]);
     }
 
     /// <summary>
@@ -205,8 +201,8 @@ public class GameManager : NetworkBehaviour
             case Phase.Recruit:
                 CurrentPhase.Value = Phase.Dispatch;
                 Board.Instance.ObserversUpdatePhaseText("Dispatch");
-                Turn = StartingTurn;
-                SetPlayerTurn(Players[Turn]);
+                Turn.Value = StartingTurn;
+                SetPlayerTurn(Players[Turn.Value]);
                 break;
 
             case Phase.Dispatch:
@@ -236,8 +232,8 @@ public class GameManager : NetworkBehaviour
                 Board.Instance.ObserversUpdatePhaseText("Recruit");
 
                 StartingTurn = (StartingTurn + 1) % Players.Count;
-                Turn = StartingTurn;
-                SetPlayerTurn(Players[Turn]);
+                Turn.Value = StartingTurn;
+                SetPlayerTurn(Players[Turn.Value]);
                 RoundNumber++;
 
                 DiscardPile.Instance.RecoverAdventurers();
@@ -335,5 +331,16 @@ public class GameManager : NetworkBehaviour
                 player.UpdateGuildRecapTracker("Merchant Guild Bonus (Gold)", 1);
             }
         }
+    }
+
+    private void Turn_OnChange(int prev, int next, bool asServer)
+    {
+        if (asServer) ObserversUpdateTurn(next);
+    }
+
+    [ObserversRpc]
+    private void ObserversUpdateTurn(int turn)
+    {
+        ClientTurn = turn;
     }
 }

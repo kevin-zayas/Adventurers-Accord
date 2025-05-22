@@ -252,7 +252,7 @@ public class Board : NetworkBehaviour
     public void ObserversUpdatePhaseText(string phase, bool gameOver = false)
     {
         phaseText.GetComponent<FlashingEffect>().FlashEffect();
-        phaseText.text = gameOver ? "Game Over!" : $"Phase : {phase}";
+        phaseText.text = gameOver ? "Game Over!" : $"{phase} Phase";
     }
 
     /// <summary>

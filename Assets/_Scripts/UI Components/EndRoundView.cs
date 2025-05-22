@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class EndRoundView : View
 {
-    [SerializeField]
-    private Button endRoundButton;
-
-    public int playerID;
-    public TMP_Text text;
+    [SerializeField] private Button endRoundButton;
+    [SerializeField] private TMP_Text turnText;
+    [SerializeField] private GameObject turnTracker;
+    [SerializeField] private FlashingEffect flash;
+    
 
     public override void Initialize()
     {
         endRoundButton.onClick.AddListener(() =>
         {
-            GameManager.Instance.ConfirmEndRound(playerID);
+            GameManager.Instance.ConfirmEndRound(Player.Instance.PlayerID.Value);  //can just do Player.Inance.PlayerID
             endRoundButton.interactable = false;
-            text.gameObject.SetActive(false);
+            turnTracker.SetActive(false);
         });
 
         base.Initialize();
@@ -29,13 +29,13 @@ public class EndRoundView : View
         if (!endRoundButton.interactable)
         {
             endRoundButton.interactable = true;
-            text.gameObject.SetActive(true);
-            text.GetComponent<FlashingEffect>().FlashEffect();
+            turnTracker.SetActive(true);
+            flash.FlashEffect();
         }
     }
     public override void Show(object args = null)
     {
         base.Show(args);
-        text.GetComponent<FlashingEffect>().FlashEffect();
+        flash.FlashEffect();
     }
 }
