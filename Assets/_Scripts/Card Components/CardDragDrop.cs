@@ -15,7 +15,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     [SerializeField] protected Player player;
     [SerializeField] protected Card card;
 
-    [SerializeField] private float _animationDuration = 0.5f;
+    [SerializeField] private float _animationDuration = 0.75f;
     #endregion
 
     protected virtual void Awake()

@@ -6,7 +6,7 @@ using static CardDatabase;
 
 public class LobbyView : View
 {
-    [SerializeField] Button howToPlayButton;
+    //[SerializeField] Button howToPlayButton;
     [SerializeField] Button readyButton;
     [SerializeField] Button startButton;
     [SerializeField] TMP_Text readyButtonText;
@@ -23,7 +23,7 @@ public class LobbyView : View
 
     public override void Initialize()
     {
-        howToPlayButton.onClick.AddListener(() => PopUpManager.Instance.CreateHowToPlayPopUp());
+        //howToPlayButton.onClick.AddListener(() => PopUpManager.Instance.CreateHowToPlayPopUp());
         readyButton.onClick.AddListener(() => Player.Instance.TogglePlayerIsReady());
         InitializeGuildButtons();
 
