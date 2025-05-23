@@ -28,6 +28,12 @@ public class MenuPopUpManager : MonoBehaviour
             if (menu != null)
             {
                 Destroy(menu.gameObject);
+
+                if (popUp != null)
+                {
+                    Destroy(popUp.gameObject);
+                    popUp = null;
+                }
             }
             else if (popUp != null)
             {

@@ -53,23 +53,13 @@ public class MultiplayerMenuView : View
         settingsButton.onClick.AddListener(() =>
         {
             SettingsPopUp settingsPopUp = Instantiate(SettingsPopUpPrefab);
-            settingsPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            settingsPopUp.transform.localPosition = Vector3.zero;
-
-            RectTransform rt = settingsPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
-            rt.offsetMax = Vector2.zero;
-            rt.offsetMin = Vector2.zero;
+            settingsPopUp.DisableGoBackButton();
         });
 
         howToPlayButton.onClick.AddListener(() =>
         {
             HowToPlayPopUp howToPlayPopUp = Instantiate(HowToPlayPopUpPrefab);
-            howToPlayPopUp.transform.SetParent(GameObject.Find("Canvas").transform);
-            howToPlayPopUp.transform.localPosition = Vector3.zero;
-
-            RectTransform rt = howToPlayPopUp.GetComponent<RectTransform>();      // modify transform so raycast blocker can stretch across the screen
-            rt.offsetMax = Vector2.zero;
-            rt.offsetMin = Vector2.zero;
+            howToPlayPopUp.DisableGoBackButton();
         });
 
         restartServerButton.onClick.AddListener(() =>

@@ -49,8 +49,6 @@ public class MenuPopUp : MonoBehaviour
             ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
             popUp.InitializeRestartServerPopUp();
             MenuManager.popUp = popUp;
-
-            CloseMenu();
         });
 
         exitGameButton.onClick.AddListener(() => Quit());

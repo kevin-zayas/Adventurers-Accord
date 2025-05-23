@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SettingsPopUp : PopUp
 {
     [SerializeField] Button closeButton;
+    [SerializeField] Button goBackButton;
     [SerializeField] Slider volumeSlider;
     [SerializeField] AudioMixer masterMixer;
 
@@ -16,7 +17,19 @@ public class SettingsPopUp : PopUp
             Destroy(gameObject);
         });
 
+        goBackButton.onClick.AddListener(() =>
+        {
+            gameObject.SetActive(false);
+            MenuPopUpManager.Instance.CreateMenuPopUp();
+            Destroy(gameObject);
+        });
+
         SetVolume(PlayerPrefs.GetFloat("SavedMasterVolume", 50));
+    }
+
+    public void DisableGoBackButton()
+    {
+        goBackButton.gameObject.SetActive(false);
     }
 
     public void SetVolume(float _value)
