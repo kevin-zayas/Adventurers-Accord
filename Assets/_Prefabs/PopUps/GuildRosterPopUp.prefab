@@ -1556,7 +1556,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7529910800338755733, guid: afe449c569c3d974d9d35b5baaed401a, type: 3}
       propertyPath: m_Name
-      value: Button
+      value: GoBackButton
       objectReference: {fileID: 0}
     - target: {fileID: 8213552201584956570, guid: afe449c569c3d974d9d35b5baaed401a, type: 3}
       propertyPath: m_Pivot.x

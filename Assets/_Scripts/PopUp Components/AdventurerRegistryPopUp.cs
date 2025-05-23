@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AdventurerRegistryPopUp : NetworkBehaviour
 {
     [SerializeField] private Button closeButton;
+    [SerializeField] private Button goBackButton;
     [SerializeField] private GameObject[] registryGroups;
     [SerializeField] Card cardPrefab;
 
@@ -15,6 +16,12 @@ public class AdventurerRegistryPopUp : NetworkBehaviour
         closeButton.onClick.AddListener(() =>
         {
             ServerClosePopUp();
+        });
+        goBackButton.onClick.AddListener(() =>
+        {
+            gameObject.SetActive(false);
+            ServerClosePopUp();
+            MenuPopUpManager.Instance.CreateMenuPopUp();
         });
     }
 

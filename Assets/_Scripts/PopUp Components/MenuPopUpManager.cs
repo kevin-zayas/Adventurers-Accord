@@ -12,9 +12,11 @@ public class MenuPopUpManager : MonoBehaviour
     public bool registryPopUpActive;
     private MenuPopUp menu;
     private GameObject canvas;
+    public static MenuPopUpManager Instance { get; private set; }
 
     private void Start()
     {
+        Instance = this;
         canvas = GameObject.Find("Canvas");
         menuButton.onClick.AddListener(() => CreateMenuPopUp());
     }
@@ -50,7 +52,7 @@ public class MenuPopUpManager : MonoBehaviour
         }
     }
 
-    private void CreateMenuPopUp()
+    public void CreateMenuPopUp()
     {
         menu = Instantiate(menuPopUpPrefab, canvas.transform);
         menu.MenuManager = this;
