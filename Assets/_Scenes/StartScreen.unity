@@ -766,9 +766,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deplaymentAuthToken: token 63cd9a6e-131d-4fe7-893b-c6c750c44b58
-  joinGameButton: {fileID: 0}
-  joinGameButtonText: {fileID: 0}
-  findGameButtonText: {fileID: 0}
+  joinGameButton: {fileID: 2117357872}
+  joinGameButtonText: {fileID: 2117357871}
+  findGameButtonText: {fileID: 786069994}
   networkManagerObject: {fileID: 2084902069}
 --- !u!1 &477213039
 GameObject:
@@ -1515,7 +1515,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Created by Kevin Z
+  m_text: Created by Kevin Zayas
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}

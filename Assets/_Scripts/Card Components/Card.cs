@@ -32,7 +32,6 @@ public abstract class Card : NetworkBehaviour
     private void Start()
     {
         player = Player.Instance;
-        IsClone = false;
     }
     /// <summary>
     /// Sets the card's owner and updates the controlling player's hand.

@@ -1749,7 +1749,6 @@ MonoBehaviour:
     _value: 1
   disableScreen: {fileID: 1188314931012720159}
   hoverScreen: {fileID: 2178383836538393221}
-  isClone: 0
   magicalPowerText: {fileID: 2611186758615107600}
   physicalPowerText: {fileID: 6897460745711348589}
   HasItem:
