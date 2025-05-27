@@ -42,7 +42,7 @@ public class GuildRankingData
     public GuildRankingData(int rank, Player player)
     {
         this.Rank = rank;
-        this.PlayerName = $"Player {player.PlayerID.Value + 1} -";
+        this.PlayerName = $"Player {player.PlayerID.Value + 1}";
         this.PlayerReputation = player.Reputation.Value;
         this.PlayerGold = player.Gold.Value;
         this.GuildType = player.GuildType;
