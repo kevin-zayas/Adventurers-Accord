@@ -19,12 +19,14 @@ public class MultiplayerMenuView : View
     [SerializeField] SettingsPopUp SettingsPopUpPrefab;
     [SerializeField] private AudioMixer masterMixer;
 
-    [SerializeField] private bool usingDynamicServer;
+    [SerializeField] private DeploymentManager deploymentManager;
+    private bool usingDynamicServer;
 
     private void Start()
     {
         float volume = PlayerPrefs.GetFloat("SavedMasterVolume", 50);
         masterMixer.SetFloat("MasterVolume", Mathf.Log10(volume / 100) * 20f);
+        usingDynamicServer = deploymentManager.UsingDynamicServer;
     }
     public override void Initialize()
     {

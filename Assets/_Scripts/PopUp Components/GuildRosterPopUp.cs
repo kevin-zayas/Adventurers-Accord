@@ -44,26 +44,29 @@ public class GuildRosterPopUp : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     protected void ServerPopulateGuildRoster(NetworkConnection connection, Player player)
     {
+        bool hasAdventurerCard = false;
         foreach (Transform handCard in player.controlledHand.Value.transform)
         {
             if (handCard.GetComponent<AdventurerCard>() != null)
             {
+                hasAdventurerCard = true;
                 AddCardToRoster(connection, handCard.gameObject, "Active");
             }
         }
 
-        // sort the player's discard pile by current cooldown
-        player.DiscardPile.Sort((x, y) => x.CurrentRestPeriod.Value.CompareTo(y.CurrentRestPeriod.Value));
+        if (!hasAdventurerCard) TargetDisableRoster(connection, "Active");
+        if (player.DiscardPile.Count == 0)
+        {
+            TargetDisableRoster(connection, "Resting");
+            return;
+        }
 
+        // Sort the player's discard pile by current cooldown
+        player.DiscardPile.Sort((x, y) => x.CurrentRestPeriod.Value.CompareTo(y.CurrentRestPeriod.Value));
         foreach (AdventurerCard restingCard in player.DiscardPile)
         {
             AddCardToRoster(connection, restingCard.gameObject, "Resting");
-            
         }
-
-        // disable the roster group if there are no cards in it
-        if (player.controlledHand.Value.transform.childCount == 0) TargetDisableRoster(connection, "Active");
-        if (player.DiscardPile.Count == 0) TargetDisableRoster(connection, "Resting");
     }
 
     [ServerRpc(RequireOwnership = false)]

@@ -23,6 +23,9 @@ public class DeploymentManager : MonoBehaviour
     [SerializeField] private GameObject networkManagerObject;
     private Tugboat tugboatComponent;
 
+    [Header("Dynamic Server Settings")]
+    public bool UsingDynamicServer;
+
     public static DeploymentManager Instance { get; private set; }
 
     private void Awake()
