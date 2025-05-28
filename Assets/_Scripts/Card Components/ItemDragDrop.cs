@@ -1,11 +1,7 @@
-using FishNet.Object;
 using UnityEngine;
 
 public class ItemDragDrop : CardDragDrop
 {
-    #region Serialized Fields
-    //[SerializeField] private ItemCard itemCard;
-    #endregion
 
     protected override void Start()
     {

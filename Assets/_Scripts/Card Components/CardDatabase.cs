@@ -28,7 +28,7 @@ public class CardDatabase : NetworkBehaviour
 
     public List<CardData> spellCards = new();
     public List<CardData> itemCards = new();
-
+    public List<CardData> potionCards = new();
     public List<CardData> rareItemCards = new();
 
     public List<CardData> fightersGuildRoster = new();
@@ -42,6 +42,7 @@ public class CardDatabase : NetworkBehaviour
     public ItemCard itemCardPrefab;
     public SpellCard spellCardPrefab;
     public QuestCard questCardPrefab;
+    public PotionCard potionCardPrefab;
 
     public CardData wolfCardData;
 
@@ -142,6 +143,7 @@ public class CardDatabase : NetworkBehaviour
 
         SaveSprites(itemCards, "ItemSpell_Sprites/");
         SaveSprites(spellCards, "ItemSpell_Sprites/");
+        SaveSprites(potionCards, "ItemSpell_Sprites/");
         SaveSprites(rareItemCards, "ItemSpell_Sprites/");
 
         SaveSprites(levelOneQuestCards, "Quest_Sprites/");

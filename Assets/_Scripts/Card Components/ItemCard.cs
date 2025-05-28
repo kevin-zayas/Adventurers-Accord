@@ -3,7 +3,6 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ItemCard : Card
 {
@@ -33,8 +32,6 @@ public class ItemCard : Card
     public override void LoadCardData(CardData cardData)
     {
         SubDescription.Value = cardData.CardSubDescription;
-        Data.Value = cardData;
-        Cost.Value = cardData.Cost;
 
         base.LoadCardData(cardData);
     }
@@ -54,7 +51,7 @@ public class ItemCard : Card
         cardTypeText.text = cardData.CardType;
         costText.text = cardData.Cost.ToString();
 
-        cardImage.sprite = Resources.Load<Sprite>("ItemSpell_Sprites/" + cardData.CardName);
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
     }
 
     /// <summary>

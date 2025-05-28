@@ -1,4 +1,3 @@
-using FishNet.Object;
 using UnityEngine;
 
 public class AdventurerDragDrop : CardDragDrop
@@ -18,7 +17,7 @@ public class AdventurerDragDrop : CardDragDrop
     /// </summary>
     /// <param name="collision">The collision data associated with this event.</param>
     protected override void OnCollisionEnter2D(Collision2D collision)
-    {   
+    {
         //revisit after tuning dragging logic. this may not even be possible if you can only drag cards during dispatch.
         if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return; // Prevent dragging onto Magic Item
@@ -42,7 +41,7 @@ public class AdventurerDragDrop : CardDragDrop
         if (!player.IsPlayerTurn.Value) // Allow dragging only during player's turn
         {
             PopUpManager.Instance.CreateToastPopUp("You can only dispatch Adventurers during your turn");
-            return false; 
+            return false;
         }
         if (card.CardName.Value == "Wolf") return false;
 

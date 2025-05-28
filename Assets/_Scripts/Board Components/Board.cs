@@ -370,6 +370,7 @@ public class Board : NetworkBehaviour
         {
             "Magic Item" => CardDatabase.Instance.itemCardPrefab,
             "Magic Spell" => CardDatabase.Instance.spellCardPrefab,
+            "Potion" => CardDatabase.Instance.potionCardPrefab,
             _ => CardDatabase.Instance.adventurerCardPrefab,
         };
         Card card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);

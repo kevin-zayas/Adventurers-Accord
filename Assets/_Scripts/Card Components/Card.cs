@@ -155,6 +155,7 @@ public abstract class Card : NetworkBehaviour
         OriginalPhysicalPower.Value = cardData.OriginalPhysicalPower;
         OriginalMagicalPower.Value = cardData.OriginalMagicalPower;
         CardName.Value = cardData.CardName;
+        Cost.Value = cardData.Cost;
         CardDescription.Value = cardData.CardDescription;
         Data.Value = cardData;
 
@@ -221,7 +222,7 @@ public abstract class Card : NetworkBehaviour
     public virtual bool ShouldToggleDisableScreen()
     {
         if (IsDraftCard.Value && player.Gold.Value < Cost.Value) return true; // Check player gold if hovering a DraftCard
-        else return false;   
+        else return false;
     }
 
     public virtual void OnPointerExit()
@@ -231,7 +232,7 @@ public abstract class Card : NetworkBehaviour
     }
 
     protected void ToggleDisableScreen(bool toggle)
-    { 
+    {
         disableScreen.gameObject.SetActive(toggle);
         if (toggle) hoverScreen.gameObject.SetActive(false);
     }

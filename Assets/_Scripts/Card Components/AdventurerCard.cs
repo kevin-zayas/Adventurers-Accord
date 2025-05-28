@@ -4,7 +4,6 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AdventurerCard : Card
 {
@@ -40,7 +39,7 @@ public class AdventurerCard : Card
         //}
         //else      //may need to add this back when putting it on dedicated server
         //{
-            player = GameManager.Instance.Players[LocalConnection.ClientId];
+        player = GameManager.Instance.Players[LocalConnection.ClientId];
         //}
     }
 
@@ -62,7 +61,7 @@ public class AdventurerCard : Card
         }
 
         ParentTransform.Value = newParent;
-        
+
     }
 
     /// <summary>
@@ -99,7 +98,7 @@ public class AdventurerCard : Card
             itemCardHeader.equippedOnBattlemage = true;
             itemCardHeader.ApplyBalancedArsenal();
         }
-        if (CardName.Value == Sorcerer|| ControllingPlayer.Value.isFightersGuild) ResetPower();
+        if (CardName.Value == Sorcerer || ControllingPlayer.Value.isFightersGuild) ResetPower();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -251,7 +250,6 @@ public class AdventurerCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        Cost.Value = cardData.Cost;
         AbilityName.Value = cardData.AbilityName;
         RestPeriod.Value = cardData.RestPeriod;
         CurrentRestPeriod.Value = cardData.RestPeriod;
@@ -266,8 +264,6 @@ public class AdventurerCard : Card
     [ObserversRpc(BufferLast = true)]
     protected override void ObserversLoadCardData(CardData cardData)
     {
-        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
-
         physicalPowerText.text = cardData.PhysicalPower.ToString();
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
@@ -276,6 +272,7 @@ public class AdventurerCard : Card
         costText.text = cardData.Cost.ToString();
         restPeriodText.text = cardData.RestPeriod.ToString();
 
+        cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
         if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
     }
 

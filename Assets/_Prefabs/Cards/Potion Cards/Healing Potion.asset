@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
+  m_Name: Healing Potion
+  m_EditorClassIdentifier: 
+  <CardName>k__BackingField: Healing Potion
+  <PhysicalPower>k__BackingField: 0
+  <MagicalPower>k__BackingField: 0
+  <OriginalPhysicalPower>k__BackingField: 0
+  <OriginalMagicalPower>k__BackingField: 0
+  <Cost>k__BackingField: 3
+  <CardDescription>k__BackingField: Reduce the Rest Period of an Adventurer by 1
+  <CardSubDescription>k__BackingField: 
+  <CardType>k__BackingField: Potion
+  <AbilityName>k__BackingField: 
+  <RestPeriod>k__BackingField: 0
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <ReputationPenalty>k__BackingField: 0
+  <GoldPenalty>k__BackingField: 0
+  <RestPeriodPenalty>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
+  <Drain>k__BackingField: 0
+  <PhysicalDrain>k__BackingField: 0
+  <MagicalDrain>k__BackingField: 0
+  <DisableItems>k__BackingField: 0
+  <BlockSpells>k__BackingField: 0
+  <IsNegativeEffect>k__BackingField: 0
+  <IsNumerical>k__BackingField: 0

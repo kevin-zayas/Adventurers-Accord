@@ -1,4 +1,3 @@
-using FishNet.Object;
 using UnityEngine;
 
 public class SpellDragDrop : CardDragDrop
@@ -24,13 +23,13 @@ public class SpellDragDrop : CardDragDrop
         if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic) // Prevent dragging during all phases except Magic
         {
             PopUpManager.Instance.CreateToastPopUp("You can only use Magic Spells during Magic Phase");
-            return false; 
+            return false;
         }
 
         if (transform.parent.CompareTag("Quest")) // Prevent dragging if the card is already in a quest lane
         {
             PopUpManager.Instance.CreateToastPopUp("You cannot move Magic Spells that have already been cast");
-            return false; 
+            return false;
         }
 
         return true;

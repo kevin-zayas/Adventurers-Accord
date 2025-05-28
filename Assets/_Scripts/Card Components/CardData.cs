@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
@@ -12,7 +11,7 @@ public class CardData : ScriptableObject
     [field: SerializeField] public int OriginalPhysicalPower { get; set; }
     [field: SerializeField] public int OriginalMagicalPower { get; set; }
     [field: SerializeField] public int Cost { get; set; }
-    [field: SerializeField, TextArea(3,10)] public string CardDescription { get; set; }
+    [field: SerializeField, TextArea(3, 10)] public string CardDescription { get; set; }
     [field: SerializeField, TextArea(2, 10)] public string CardSubDescription { get; set; }
     [field: SerializeField] public string CardType { get; set; }
     [field: SerializeField] public string AbilityName { get; set; }

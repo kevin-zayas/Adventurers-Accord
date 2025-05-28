@@ -4,7 +4,6 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class QuestCard : Card
 {
@@ -21,7 +20,7 @@ public class QuestCard : Card
     public readonly SyncVar<int> RestPeriodPenalty = new();
     public readonly SyncVar<int> MagicalDrain = new();
     public readonly SyncVar<int> PhysicalDrain = new();
-    
+
     [AllowMutableSyncTypeAttribute] public SyncVar<int> PartySizeLimit = new();
     #endregion
 
@@ -55,7 +54,6 @@ public class QuestCard : Card
         MagicalDrain.Value = cardData.MagicalDrain;
         DisableItems.Value = cardData.DisableItems;
         BlockSpells.Value = cardData.BlockSpells;
-        Data.Value = cardData;
         PartySizeLimit.Value = cardData.PartySizeLimit;
 
         base.LoadCardData(cardData);

@@ -3,7 +3,6 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SpellCard : Card
 {
@@ -29,7 +28,7 @@ public class SpellCard : Card
             MagicalPower.Value = MagicalPower.Value > 0 ? MagicalPower.Value + 1 : MagicalPower.Value < 0 ? MagicalPower.Value - 1 : MagicalPower.Value;
 
             ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
-            
+
         }
         else if (parent.CompareTag("Quest") && player.isMagesGuild)
         {
@@ -44,7 +43,7 @@ public class SpellCard : Card
 
             if (player.GuildBonusTracker[questIndex]["spellsPlayed"] == 2 && questLane.CurrentAdventurerCount.Value > 0)
             {
-                
+
                 questLane.UpdateGuildBonusPower(0, 2);
                 player.UpdateGuildRecapTracker("Arcane Momentum (+2 M. Power)", 1);
                 print($"Mages Guild Bonus - Player {player.PlayerID.Value} +2 Magical Power");
@@ -81,10 +80,8 @@ public class SpellCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
-        Cost.Value = cardData.Cost;
         IsNegativeEffect.Value = cardData.IsNegativeEffect;
         IsNumerical.Value = cardData.IsNumerical;
-
 
         base.LoadCardData(cardData);
     }
