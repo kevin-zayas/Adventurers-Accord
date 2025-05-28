@@ -177,7 +177,6 @@ public class QuestLocation : NetworkBehaviour
         }
         else
         {
-            
             Status = QuestStatus.Failed;
             CalculateFailedQuestPenalty(questSummaryData);
         }

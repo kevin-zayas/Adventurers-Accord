@@ -17,7 +17,6 @@ public class ItemCardHeader : Card
 
     #region UI Elements
     [SerializeField] private TMP_Text disableTypeText;
-    [SerializeField] private TMP_Text nameText;
     #endregion
 
     /// <summary>

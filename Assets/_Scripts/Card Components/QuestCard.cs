@@ -28,10 +28,8 @@ public class QuestCard : Card
     #region UI Elements
     [SerializeField] private TMP_Text abilityNameText;
     [SerializeField] private GameObject abilityNameObject;
-    [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text goldRewardText;
     [SerializeField] private TMP_Text lootRewardText;
-    [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text reputationRewardText;
     [SerializeField] private TMP_Text partySizeLimitText;
     [SerializeField] private TMP_Text reputationPenaltyText;

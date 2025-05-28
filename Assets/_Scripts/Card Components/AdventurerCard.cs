@@ -23,10 +23,6 @@ public class AdventurerCard : Card
     #region UI Elements
     [SerializeField] private GameObject abilityNameObject;
     [SerializeField] private TMP_Text abilityNameText;
-    [SerializeField] private TMP_Text cardTypeText;
-    [SerializeField] private Image cardImage;
-    [SerializeField] private TMP_Text costText;
-    [SerializeField] private TMP_Text nameText;
     [SerializeField] private TMP_Text restPeriodText;
     #endregion
 

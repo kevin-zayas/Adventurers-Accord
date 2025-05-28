@@ -27,6 +27,10 @@ public abstract class Card : NetworkBehaviour
     [SerializeField] protected Image hoverScreen;
     [SerializeField] protected TMP_Text magicalPowerText;
     [SerializeField] protected TMP_Text physicalPowerText;
+    [SerializeField] protected TMP_Text cardTypeText;
+    [SerializeField] protected Image cardImage;
+    [SerializeField] protected TMP_Text costText;
+    [SerializeField] protected TMP_Text nameText;
     protected Player player;
 
     private void Start()

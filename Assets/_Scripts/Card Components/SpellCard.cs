@@ -13,11 +13,7 @@ public class SpellCard : Card
     #endregion
 
     #region UI Elements
-    [SerializeField] private Image cardImage;
     [SerializeField] private TMP_Text descriptionText;
-    [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text cardTypeText;
-    [SerializeField] private TMP_Text costText;
     #endregion
 
 
