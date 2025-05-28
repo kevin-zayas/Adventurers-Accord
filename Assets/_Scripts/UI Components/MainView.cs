@@ -10,12 +10,18 @@ public class MainView : View
 
     public override void Initialize()
     {
-        GameManager gm = GameManager.Instance;
-
         endTurnButton.onClick.AddListener(() =>
         {
-            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-            popUp.InitializeEndTurnPopUp();
+            if (PlayerPrefs.GetInt("ShowEndTurnConfirmation") == 1)
+            {
+                ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+                popUp.InitializeEndTurnPopUp();
+            }
+            else
+            {
+                GameManager.Instance.EndTurn(true);
+            }
+            
         });
 
         base.Initialize();
@@ -25,11 +31,5 @@ public class MainView : View
     {
         base.Show(args);
         text.GetComponent<FlashingEffect>().FlashEffect();
-    }
-
-
-    public void SetEndTurnButtonActive(bool value)
-    {
-        endTurnButton.interactable = value;
     }
 }

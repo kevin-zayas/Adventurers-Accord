@@ -31,14 +31,12 @@ public class ConfirmationPopUp : PopUp
     {
         cancelButton.onClick.AddListener(() =>
         {
-            GameObject.Find("MainView").GetComponent<MainView>().SetEndTurnButtonActive(true);
             Destroy(gameObject);
         });
 
         confirmButton.onClick.AddListener(() =>
         {
             GameManager.Instance.EndTurn(true);
-            GameObject.Find("MainView").GetComponent<MainView>().SetEndTurnButtonActive(true);
             Destroy(gameObject);
         });
 

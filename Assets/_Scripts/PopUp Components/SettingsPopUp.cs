@@ -7,6 +7,7 @@ public class SettingsPopUp : PopUp
     [SerializeField] Button closeButton;
     [SerializeField] Button goBackButton;
     [SerializeField] Slider volumeSlider;
+    [SerializeField] Toggle confirmationToggle;
     [SerializeField] AudioMixer masterMixer;
 
     protected override void Start()
@@ -24,6 +25,12 @@ public class SettingsPopUp : PopUp
             Destroy(gameObject);
         });
 
+        confirmationToggle.onValueChanged.AddListener((value) =>
+        {
+            PlayerPrefs.SetInt("ShowEndTurnConfirmation", value ? 1 : 0);
+        });
+
+        confirmationToggle.isOn = PlayerPrefs.GetInt("ShowEndTurnConfirmation", 0) == 1;
         SetVolume(PlayerPrefs.GetFloat("SavedMasterVolume", 50));
     }
 
