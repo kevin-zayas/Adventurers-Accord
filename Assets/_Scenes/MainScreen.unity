@@ -10193,8 +10193,8 @@ MonoBehaviour:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
     _value: 0
-  <StartingGold>k__BackingField: 50
-  <ReputationGoal>k__BackingField: 3
+  <StartingGold>k__BackingField: 10
+  <ReputationGoal>k__BackingField: 25
 --- !u!114 &1927639718
 MonoBehaviour:
   m_ObjectHideFlags: 0
