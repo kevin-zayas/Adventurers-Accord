@@ -23,6 +23,10 @@ public class ConfirmationPopUp : PopUp
     const string castSpellSelfTitle = "Cast {0} {1} your party?";
     const string castSpellMessage = "You will not be able to undo this action";
 
+    // Use Potion Confirmation
+    const string usePotionTitle = "Use this {0} on your {1}?";
+    const string usePotionMessage = "You will not be able to undo this action.";
+
     // Restart Server Confirmation
     const string restartServerTitle = "Restart Server?";
     const string restartServerMessage = "This will reset the game for all players and cannot be undone.";
@@ -63,7 +67,6 @@ public class ConfirmationPopUp : PopUp
 
         titleText.text = string.Format(equipItemTitle, itemCard.CardName.Value, adventurerCard.CardName.Value);
         messageText.text = equipItemMessage;
-
         FormatTextTransforms();
     }
 
@@ -105,6 +108,27 @@ public class ConfirmationPopUp : PopUp
         }
                 
         messageText.text = castSpellMessage;
+        FormatTextTransforms();
+    }
+
+    public void InitializeUsePotionPopUp(AdventurerCard adventurerCard, PotionCard potionCard)
+    {
+        cancelButton.onClick.AddListener(() =>
+        {
+            potionCard.ServerSetCardParent(potionCard.ControllingPlayerHand.Value.transform, true);
+            Destroy(gameObject);
+        });
+
+        confirmButton.onClick.AddListener(() =>
+        {
+            potionCard.UsePotion(adventurerCard);
+            Player.Instance.ServerUpdateGuildRecapTracker("Potions Used", 1);
+            potionCard.ServerDespawnCard();
+            Destroy(gameObject);
+        });
+
+        titleText.text = string.Format(usePotionTitle, potionCard.CardName.Value, adventurerCard.CardName.Value);
+        messageText.text = usePotionMessage;
         FormatTextTransforms();
     }
 

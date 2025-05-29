@@ -67,11 +67,8 @@ public class PotionDragDrop : CardDragDrop
             ResetCardPosition();
             return;
         }
-        //ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-        //popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
-
-        potionCard.UsePotion(adventurerCard);
-        potionCard.ServerDespawnCard();
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+        popUp.InitializeUsePotionPopUp(adventurerCard, potionCard);
     }
 
     /// <summary>
