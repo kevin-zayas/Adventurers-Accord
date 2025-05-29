@@ -16,15 +16,6 @@ public class ItemCard : Card
     #endregion
 
     /// <summary>
-    /// Despawns the item on the server.
-    /// </summary>
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerDespawnItem()
-    {
-        this.Despawn();
-    }
-
-    /// <summary>
     /// Loads the card data and updates the relevant SyncVars on the server.
     /// </summary>
     /// <param name="cardData">The card data to load.</param>

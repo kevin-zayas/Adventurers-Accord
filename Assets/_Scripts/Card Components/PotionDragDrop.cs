@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static PotionCard;
 
 public class PotionDragDrop : CardDragDrop
 {
@@ -60,18 +59,19 @@ public class PotionDragDrop : CardDragDrop
             return;
         }
 
-        //if ((card.MagicalPower.Value > 0 && adventurerCard.OriginalMagicalPower.Value == 0) ||
-        //    (card.PhysicalPower.Value > 0 && adventurerCard.OriginalPhysicalPower.Value == 0))
-        //{
-        //    PopUpManager.Instance.CreateToastPopUp("Cannot equip Magic Item: Adventurer does not have the required Power");
-        //    ResetCardPosition();
-        //    return;
-        //}
+        PotionCard potionCard = card as PotionCard;
 
+        if (potionCard.PotionType.Value == Potion.Healing && adventurerCard.CurrentRestPeriod.Value == 0)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Cannot use potion: Adventurer's Rest Period is already 0");
+            ResetCardPosition();
+            return;
+        }
         //ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         //popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
-        PotionCard potion = card as PotionCard;
-        potion.UsePotion(adventurerCard);
+
+        potionCard.UsePotion(adventurerCard);
+        potionCard.ServerDespawnCard();
     }
 
     /// <summary>

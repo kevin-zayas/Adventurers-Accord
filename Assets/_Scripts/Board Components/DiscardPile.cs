@@ -30,12 +30,12 @@ public class DiscardPile : NetworkBehaviour
 
             foreach (AdventurerCard card in player.DiscardPile)
             {
-                if (card.CurrentRestPeriod.Value > 0) card.CurrentRestPeriod.Value--;
+                if (card.CurrentRestPeriod.Value > 0) card.ChangeCurrentRestPeriod(-1);
                 else
                 {
                     card.SetCardParent(player.controlledHand.Value.transform, false);
                     cardsToRemove.Add(card);
-                    card.CurrentRestPeriod.Value = card.RestPeriod.Value;
+                    card.ResetCurrentRestPeriod();
                 }
             }
 

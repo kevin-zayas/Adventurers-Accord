@@ -27,7 +27,7 @@ public class EquipItemPopUp : MonoBehaviour
         confirmButton.onClick.AddListener(() =>
         {
             adventurerCard.ServerEquipItem(true, itemCardObject.GetComponent<ItemCard>().Data.Value);
-            itemCardObject.GetComponent<ItemCard>().ServerDespawnItem();
+            itemCardObject.GetComponent<ItemCard>().ServerDespawnCard();
             Destroy(gameObject);
         });
     }

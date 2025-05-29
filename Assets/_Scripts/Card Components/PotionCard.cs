@@ -1,12 +1,25 @@
 using FishNet.Connection;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static CardData;
 
 public class PotionCard : Card
 {
+    #region SyncVars
+    public readonly SyncVar<Potion> PotionType = new();
+    #endregion
+    public enum Potion
+    {
+        Healing,
+        Strength,
+        Intelligence,
+        Agility,
+        Stamina
+    }
     #region UI Elements
     [SerializeField] private TMP_Text descriptionText;
     #endregion
@@ -18,6 +31,7 @@ public class PotionCard : Card
     [Server]
     public override void LoadCardData(CardData cardData)
     {
+        PotionType.Value = cardData.PotionType;
         base.LoadCardData(cardData);
     }
 
@@ -60,8 +74,23 @@ public class PotionCard : Card
         //UpdatePowerTextColor(card.PhysicalPower.Value, card.MagicalPower.Value, card.OriginalPhysicalPower.Value, card.OriginalMagicalPower.Value);
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public void UsePotion(AdventurerCard adventurerCard)
     {
-        Destroy(gameObject);
+        switch (PotionType.Value)
+        {
+            case Potion.Healing:
+                ApplyHealingPotion(adventurerCard);
+                break;
+            default:
+                Debug.LogError($"Unknown potion type: {PotionType.Value}");
+                break;
+        }
+    }
+
+    [Server]
+    private void ApplyHealingPotion(AdventurerCard adventurerCard)
+    {
+        adventurerCard.ChangeCurrentRestPeriod(-1, true);
     }
 }

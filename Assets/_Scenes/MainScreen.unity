@@ -9242,6 +9242,8 @@ MonoBehaviour:
   TestQuestCards: []
   TestRoster:
   - {fileID: 11400000, guid: e14b1a9da3affbe4eab3b186cf1a5541, type: 2}
+  - {fileID: 11400000, guid: e14b1a9da3affbe4eab3b186cf1a5541, type: 2}
+  - {fileID: 11400000, guid: e14b1a9da3affbe4eab3b186cf1a5541, type: 2}
   tierOneAdventurers:
   - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
   - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
@@ -10198,7 +10200,7 @@ MonoBehaviour:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
     _value: 0
-  <StartingGold>k__BackingField: 10
+  <StartingGold>k__BackingField: 50
   <ReputationGoal>k__BackingField: 25
 --- !u!114 &1927639718
 MonoBehaviour:

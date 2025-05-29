@@ -1,4 +1,5 @@
 using UnityEngine;
+using static PotionCard;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class CardData : ScriptableObject
@@ -38,6 +39,6 @@ public class CardData : ScriptableObject
     [field: SerializeField] public bool IsNegativeEffect { get; set; }
     [field: SerializeField] public bool IsNumerical { get; set; }
 
-    //[field: SerializeField] public List<string> DescriptionKeys { get; set; }
-
+    //Potions
+    [field: SerializeField] public Potion PotionType { get; set; }
 }

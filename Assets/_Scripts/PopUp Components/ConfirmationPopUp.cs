@@ -57,7 +57,7 @@ public class ConfirmationPopUp : PopUp
         {
             adventurerCard.ServerEquipItem(true, itemCard.Data.Value);
             Player.Instance.ServerUpdateGuildRecapTracker("Magic Items Equipped", 1);
-            itemCard.ServerDespawnItem();
+            itemCard.ServerDespawnCard();
             Destroy(gameObject);
         });
 

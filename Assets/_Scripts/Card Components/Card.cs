@@ -37,6 +37,16 @@ public abstract class Card : NetworkBehaviour
     {
         player = Player.Instance;
     }
+
+    /// <summary>
+    /// Despawns the card on the server.
+    /// </summary>
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerDespawnCard()
+    {
+        this.Despawn();
+    }
+
     /// <summary>
     /// Sets the card's owner and updates the controlling player's hand.
     /// </summary>
