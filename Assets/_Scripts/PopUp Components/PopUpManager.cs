@@ -29,6 +29,7 @@ public class PopUpManager : NetworkBehaviour
 
     public ResolutionPopUp CurrentResolutionPopUp { get; private set; }
     public string CurrentResolutionType { get; private set; }
+    private PotionCard currentResolutionPotion;
 
     private void Awake()
     {
@@ -54,14 +55,23 @@ public class PopUpManager : NetworkBehaviour
 
     public void CreatePotionResolutionPopUp(PotionCard potionCard, QuestLocation questLocation)
     {
+        if (currentResolutionPotion != null)
+        {
+            currentResolutionPotion.transform.SetParent(potionCard.ControllingPlayerHand.Value.transform, false);
+            currentResolutionPotion.gameObject.SetActive(true);
+            Destroy(CurrentResolutionPopUp.gameObject);
+        }
+
         PotionResolutionPopUp popUp = Instantiate(PotionResolutionPopUpPrefab);
         popUp.InitializePopUp(questLocation, potionCard);
+        currentResolutionPotion = potionCard;
         CurrentResolutionPopUp = popUp;
         CurrentResolutionType = potionCard.CardName.Value;
     }
 
     public void ClearResolutionType()
     {
+        currentResolutionPotion = null;
         CurrentResolutionPopUp = null;
         CurrentResolutionType = null;
     }
