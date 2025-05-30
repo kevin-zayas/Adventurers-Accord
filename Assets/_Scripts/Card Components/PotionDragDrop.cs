@@ -98,6 +98,11 @@ public class PotionDragDrop : CardDragDrop
 
     protected void HandleQuestEndDrag(AdventurerCard adventurerCard)
     {
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
+        {
+            GameManager.Instance.ServerResetPlayerEndRoundConfirmation(player.PlayerID.Value, LocalConnection);
+        }
+
         QuestLane lane = adventurerCard.transform.parent.parent.GetComponent<QuestLane>();
         QuestLocation questLocation = lane.QuestLocation.Value;
 

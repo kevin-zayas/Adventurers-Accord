@@ -73,6 +73,7 @@ public class SpellDragDrop : CardDragDrop
             return;
         }
 
+        GameManager.Instance.ServerResetPlayerEndRoundConfirmation(player.PlayerID.Value, LocalConnection);
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
     }

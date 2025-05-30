@@ -418,14 +418,13 @@ public class AdventurerCard : Card
     {
         //if (!Player.Instance.IsPlayerTurn.Value) return;
         if (ParentTransform.Value == null) return;
+        QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
+        if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
         if (ControllingPlayer.Value != Player.Instance)
         {
             PopUpManager.Instance.CreateToastPopUp("Cannot use Potion: Adventurer does not belong to the player");
             return;
         }
-
-        QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
-        if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
 
         string resolutionType = PopUpManager.Instance.CurrentResolutionType;
         if (resolutionType == null) return;

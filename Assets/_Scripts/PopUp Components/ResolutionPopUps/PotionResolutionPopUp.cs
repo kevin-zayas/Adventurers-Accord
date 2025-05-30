@@ -16,6 +16,11 @@ public class PotionResolutionPopUp : ResolutionPopUp
 
         rightButton.onClick.AddListener(() =>
         {
+            if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
+            {
+                GameManager.Instance.ServerResetEndRoundConfirmations();
+            }
+
             potionCard.UsePotion(card);
             card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
             potionCard.ServerDespawnCard();

@@ -1,4 +1,5 @@
 using FishNet.CodeGenerating;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Linq;
@@ -17,14 +18,14 @@ public class GameManager : NetworkBehaviour
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> CanStartGame = new();
     public bool DidStartGame { get; private set; }
     public SyncVar<int> Turn { get; } = new();
-    public int ClientTurn { get; private set;}
+    public int ClientTurn { get; private set; }
 
     [AllowMutableSyncTypeAttribute] public SyncVar<Phase> CurrentPhase = new();
     public int StartingTurn { get; private set; }
     [field: SerializeField] public int StartingGold { get; private set; }
     [field: SerializeField] public int ReputationGoal { get; private set; }
     public bool[] PlayerSkipTurnStatus { get; private set; }
-    public SyncList<bool> PlayerEndRoundStatus { get; } = new SyncList<bool>();
+    public SyncList<bool> PlayerEndRoundConfirmations { get; } = new SyncList<bool>();
     public int RoundNumber { get; private set; }
     #endregion
 
@@ -111,7 +112,6 @@ public class GameManager : NetworkBehaviour
     public void EndTurn(bool passTurn)
     {
         if (passTurn) PlayerSkipTurnStatus[Turn.Value] = true;
-
         Turn.Value = (Turn.Value + 1) % Players.Count;
 
         if (PlayerSkipTurnStatus.All(status => status))
@@ -134,10 +134,10 @@ public class GameManager : NetworkBehaviour
     [Server]
     private void BeginEndRound()
     {
-        PlayerEndRoundStatus.Clear();
+        PlayerEndRoundConfirmations.Clear();
         for (int i = 0; i < Players.Count; i++)
         {
-            PlayerEndRoundStatus.Add(false);
+            PlayerEndRoundConfirmations.Add(false);
         }
         foreach (Player player in Players)
         {
@@ -154,13 +154,12 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ConfirmEndRound(int playerID)
     {
-        PlayerEndRoundStatus[playerID] = true;
+        PlayerEndRoundConfirmations[playerID] = true;
         Board.Instance.ObserversUpdateTurnMarker(playerID, false);
 
-        if (PlayerEndRoundStatus.All(status => status))
+        if (PlayerEndRoundConfirmations.All(status => status))
         {
             ObserversEnableEndRoundButton();
-            //EndPhase();
             Board.Instance.CheckQuestsForCompletion();
         }
     }
@@ -169,15 +168,23 @@ public class GameManager : NetworkBehaviour
     /// Refreshes the end round status, resetting all players' statuses and enabling the end round button.
     /// </summary>
     [ServerRpc(RequireOwnership = false)]
-    public void ServerRefreshEndRoundStatus()
+    public void ServerResetEndRoundConfirmations()
     {
-        PlayerEndRoundStatus.Clear();
+        PlayerEndRoundConfirmations.Clear();
         for (int i = 0; i < Players.Count; i++)
         {
-            PlayerEndRoundStatus.Add(false);
+            PlayerEndRoundConfirmations.Add(false);
         }
         ObserversEnableEndRoundButton();
         Board.Instance.ObserversUpdateTurnMarker();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerResetPlayerEndRoundConfirmation(int playerID, NetworkConnection connection)
+    {
+        PlayerEndRoundConfirmations[playerID] = false;
+        TargetEnableEndRoundButon(connection);
+        Board.Instance.ObserversUpdateTurnMarker(playerID, true);
     }
 
     /// <summary>
@@ -185,6 +192,12 @@ public class GameManager : NetworkBehaviour
     /// </summary>
     [ObserversRpc(BufferLast = true)]
     private void ObserversEnableEndRoundButton()
+    {
+        GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundUI();
+    }
+
+    [TargetRpc]
+    private void TargetEnableEndRoundButon(NetworkConnection connection)
     {
         GameObject.Find("EndRoundView").GetComponent<EndRoundView>().EnableEndRoundUI();
     }

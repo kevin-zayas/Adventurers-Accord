@@ -88,11 +88,7 @@ public class ConfirmationPopUp : PopUp
             Player.Instance.ServerUpdateGuildRecapTracker("Magic Spells Played", 1);
             if (spellCard.IsNegativeEffect.Value) Player.Instance.ServerUpdateGuildRecapTracker("Magic Spells Played (Curses)", 1);
 
-            if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
-            {
-                GameManager.Instance.ServerRefreshEndRoundStatus();
-            }
-
+            GameManager.Instance.ServerResetEndRoundConfirmations();
             Destroy(gameObject);
         });
 
