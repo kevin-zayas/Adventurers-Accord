@@ -1,11 +1,8 @@
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using static CardData;
 
 public class PotionCard : Card
 {
@@ -15,10 +12,9 @@ public class PotionCard : Card
     public enum Potion
     {
         Healing,
+        Power,
         Strength,
-        Intelligence,
-        Agility,
-        Stamina
+        Intelligence
     }
     #region UI Elements
     [SerializeField] private TMP_Text descriptionText;
@@ -82,6 +78,9 @@ public class PotionCard : Card
             case Potion.Healing:
                 ApplyHealingPotion(adventurerCard);
                 break;
+            case Potion.Power:
+                ApplyPotionOfPower(adventurerCard);
+                break;
             default:
                 Debug.LogError($"Unknown potion type: {PotionType.Value}");
                 break;
@@ -93,4 +92,12 @@ public class PotionCard : Card
     {
         adventurerCard.ChangeCurrentRestPeriod(-1, true);
     }
+
+    [Server]
+    private void ApplyPotionOfPower(AdventurerCard adventurerCard)
+    {
+        adventurerCard.ApplyPotionPhysicalPower(1);
+        adventurerCard.ApplyPotionMagicalPower(1);
+    }
+
 }

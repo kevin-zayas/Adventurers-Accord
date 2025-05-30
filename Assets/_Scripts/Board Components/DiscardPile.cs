@@ -18,7 +18,7 @@ public class DiscardPile : NetworkBehaviour
     {
         card.SetCardParent(gameObject.transform, false);
         player.DiscardPile.Add(card);
-        //card.CurrentRestPeriod.Value += card.RestPeriod.Value;
+        card.ResetPotionPower();
     }
 
     [Server]

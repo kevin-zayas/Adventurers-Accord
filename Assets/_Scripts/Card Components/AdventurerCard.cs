@@ -15,6 +15,8 @@ public class AdventurerCard : Card
     public readonly SyncVar<int> RestPeriod = new();
     public readonly SyncVar<int> CurrentRestPeriod = new();
     public readonly SyncVar<bool> IsBlessed = new();
+    private int potionPhysicalPower;
+    private int potionMagicalPower;
     private int physicalPoisonTotal = 0;
     private int magicalPoisonTotal = 0;
     #endregion
@@ -214,8 +216,8 @@ public class AdventurerCard : Card
     [Server]
     public override void ResetPower()
     {
-        PhysicalPower.Value = OriginalPhysicalPower.Value;
-        MagicalPower.Value = OriginalMagicalPower.Value;
+        PhysicalPower.Value = OriginalPhysicalPower.Value + potionPhysicalPower;
+        MagicalPower.Value = OriginalMagicalPower.Value + potionMagicalPower;
 
         if (CardName.Value == Sorcerer && HasItem.Value && !Item.Value.IsDisabled.Value) MagicalPower.Value += 2;
         if (ControllingPlayer.Value.isFightersGuild && HasItem.Value && !Item.Value.IsDisabled.Value && Item.Value.PhysicalPower.Value > 0)
@@ -416,16 +418,18 @@ public class AdventurerCard : Card
     {
         //if (!Player.Instance.IsPlayerTurn.Value) return;
         if (ParentTransform.Value == null) return;
+        if (ControllingPlayer.Value != Player.Instance) return; // only allow potions to be used on your own cards
 
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
         if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
 
         string resolutionType = PopUpManager.Instance.CurrentResolutionType;
         if (resolutionType == null) return;
-        bool isPlayer = ControllingPlayer.Value == Player.Instance;
         bool isWolf = CardName.Value == "Wolf";
+        bool hasPower = OriginalMagicalPower.Value > 0 || OriginalPhysicalPower.Value > 0;
 
-        bool validTarget = (resolutionType == "Healing Potion" && isPlayer && CurrentRestPeriod.Value > 0 && !isWolf);
+        bool validTarget = (resolutionType == "Healing Potion" && CurrentRestPeriod.Value > 0 && !isWolf) ||
+                           (resolutionType == "Potion of Power" && hasPower);
 
         if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         else PopUpManager.Instance.CreateToastPopUp("Invalid target");
@@ -437,5 +441,38 @@ public class AdventurerCard : Card
         if (CardName.Value == "Wolf") ToggleDisableScreen(true);
 
         return false;
+    }
+
+    [Server]
+    public void ApplyPotionPhysicalPower(int power)
+    {
+        if (ParentTransform.Value == null) return;
+
+        if (OriginalPhysicalPower.Value > 0)
+        {
+            potionPhysicalPower += power;
+            PhysicalPower.Value += power;
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
+        }
+    }
+
+    [Server]
+    public void ApplyPotionMagicalPower(int power)
+    {
+        if (ParentTransform.Value == null) return;
+
+        if (OriginalMagicalPower.Value > 0)
+        {
+            potionMagicalPower += power;
+            MagicalPower.Value += power;
+            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
+        }
+    }
+
+    [Server]
+    public void ResetPotionPower()
+    {
+        potionPhysicalPower = potionMagicalPower = 0;
+        ResetPower();
     }
 }
