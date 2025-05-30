@@ -27,8 +27,8 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ToastPopUp ToastPopUpPrefab;
     [SerializeField] AdventurerRegistryPopUp AdventurerRegistryPopUpPrefab;
 
-    public ResolutionPopUp CurrentResolutionPopUp;
-    public string CurrentResolutionType;
+    public ResolutionPopUp CurrentResolutionPopUp { get; private set; }
+    public string CurrentResolutionType { get; private set; }
 
     private void Awake()
     {
@@ -58,6 +58,12 @@ public class PopUpManager : NetworkBehaviour
         popUp.InitializePopUp(questLocation, potionCard);
         CurrentResolutionPopUp = popUp;
         CurrentResolutionType = potionCard.CardName.Value;
+    }
+
+    public void ClearResolutionType()
+    {
+        CurrentResolutionPopUp = null;
+        CurrentResolutionType = null;
     }
 
     [ObserversRpc]

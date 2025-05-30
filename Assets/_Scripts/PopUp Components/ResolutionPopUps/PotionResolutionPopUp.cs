@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class PotionResolutionPopUp : ResolutionPopUp
 {
     PotionCard potionCard;
@@ -23,6 +19,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
             potionCard.UsePotion(card);
             card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
             potionCard.ServerDespawnCard();
+            PopUpManager.Instance.ClearResolutionType();
             Destroy(gameObject);
         });
     }
@@ -47,7 +44,8 @@ public class PotionResolutionPopUp : ResolutionPopUp
         {
             potionCard.transform.SetParent(potionCard.ControllingPlayerHand.Value.transform, false);
             potionCard.gameObject.SetActive(true);
-            Destroy(this.gameObject);
+            PopUpManager.Instance.ClearResolutionType();
+            Destroy(gameObject);
         });
     }
 
