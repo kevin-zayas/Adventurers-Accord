@@ -412,6 +412,25 @@ public class AdventurerCard : Card
         else PopUpManager.Instance.CreateToastPopUp("Invalid target");
     }
 
+    public void OnPotionResolutionClick()
+    {
+        //if (!Player.Instance.IsPlayerTurn.Value) return;
+        if (ParentTransform.Value == null) return;
+
+        QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
+        if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
+
+        string resolutionType = PopUpManager.Instance.CurrentResolutionType;
+        if (resolutionType == null) return;
+        bool isPlayer = ControllingPlayer.Value == Player.Instance;
+        bool isWolf = CardName.Value == "Wolf";
+
+        bool validTarget = (resolutionType == "Healing Potion" && isPlayer && CurrentRestPeriod.Value > 0 && !isWolf);
+
+        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
+        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
+    }
+
     public override bool ShouldToggleDisableScreen()
     {
         if (base.ShouldToggleDisableScreen()) return true;

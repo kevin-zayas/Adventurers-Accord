@@ -66,7 +66,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
         leftButton.onClick.AddListener(() => SetDefaultPopUpSate());
     }
 
-    protected void SetConfirmClosePopupState()
+    protected virtual void SetConfirmClosePopupState()
     {
         QuestLocation.ServerSetAllowResolution(false);
 

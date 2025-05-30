@@ -14,6 +14,7 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] ResolutionPopUp AssassinResolutionPopUpPrefab;
     [SerializeField] ResolutionPopUp ClericResolutionPopUpPrefab;
     [SerializeField] ResolutionPopUp RogueResolutionPopUpPrefab;
+    [SerializeField] PotionResolutionPopUp PotionResolutionPopUpPrefab;
     [SerializeField] RoundSummaryPopUp RoundSummaryPopUpPrefab;
     [SerializeField] QuestSummaryPopUp QuestSummaryPopUpPrefab;
     [SerializeField] ConfirmationPopUp ConfirmationPopUpPrefab;
@@ -49,6 +50,14 @@ public class PopUpManager : NetworkBehaviour
         popUp.InitializePopUp(questLocation, cardName);
         CurrentResolutionPopUp = popUp;
         CurrentResolutionType = cardName;
+    }
+
+    public void CreatePotionResolutionPopUp(PotionCard potionCard, QuestLocation questLocation)
+    {
+        PotionResolutionPopUp popUp = Instantiate(PotionResolutionPopUpPrefab);
+        popUp.InitializePopUp(questLocation, potionCard);
+        CurrentResolutionPopUp = popUp;
+        CurrentResolutionType = potionCard.CardName.Value;
     }
 
     [ObserversRpc]

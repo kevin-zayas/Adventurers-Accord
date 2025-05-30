@@ -1751,6 +1751,10 @@ MonoBehaviour:
   hoverScreen: {fileID: 2178383836538393221}
   magicalPowerText: {fileID: 2611186758615107600}
   physicalPowerText: {fileID: 6897460745711348589}
+  cardTypeText: {fileID: 1412657023948964493}
+  cardImage: {fileID: 1177701720125259711}
+  costText: {fileID: 1356007084095882162}
+  nameText: {fileID: 2728476821446806872}
   HasItem:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
@@ -1761,10 +1765,6 @@ MonoBehaviour:
     _value: {fileID: 0}
   abilityNameObject: {fileID: 800517241531852951}
   abilityNameText: {fileID: 4004057442462621200}
-  cardTypeText: {fileID: 1412657023948964493}
-  cardImage: {fileID: 1177701720125259711}
-  costText: {fileID: 1356007084095882162}
-  nameText: {fileID: 2728476821446806872}
   restPeriodText: {fileID: 8282507515288726928}
 --- !u!114 &2922969160115862960
 MonoBehaviour:
@@ -1910,6 +1910,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 2375407051779204461}
+          m_TargetAssemblyTypeName: AdventurerCard, Assembly-CSharp
+          m_MethodName: OnPotionResolutionClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 0
     callback:
       m_PersistentCalls:
@@ -1973,7 +1985,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 7
+  <PrefabId>k__BackingField: 21
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10827810311632333306
   <SceneId>k__BackingField: 0

@@ -38,7 +38,7 @@ public class AdventurerDragDrop : CardDragDrop
             PopUpManager.Instance.CreateToastPopUp("You can only move Adventurers during Dispatch Phase");
             return false;
         }
-        if (!player.IsPlayerTurn.Value) // Allow dragging only during player's turn
+        if (!player.IsPlayerTurn.Value)
         {
             PopUpManager.Instance.CreateToastPopUp("You can only dispatch Adventurers during your turn");
             return false;

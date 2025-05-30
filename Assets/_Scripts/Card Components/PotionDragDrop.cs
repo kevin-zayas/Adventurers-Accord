@@ -17,6 +17,12 @@ public class PotionDragDrop : CardDragDrop
     protected override bool CanStartDrag()
     {
         if (!base.CanStartDrag()) return false;
+        if (card.IsDraftCard.Value) return true;
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution)
+        {
+            PopUpManager.Instance.CreateToastPopUp("You cannot use potions during Resolution Phase");
+            return false;
+        }
         return true;
     }
 
@@ -41,8 +47,27 @@ public class PotionDragDrop : CardDragDrop
             OnCardPurchase();
             return;
         }
+
         AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
 
+        if (adventurerCard.ParentTransform.Value.CompareTag("Quest"))
+        {
+            if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Dispatch && !player.IsPlayerTurn.Value)
+            {
+                PopUpManager.Instance.CreateToastPopUp("You can only use potions on dispatched Adventurers during your turn");
+                ResetCardPosition();
+                return;
+            }
+            HandleQuestEndDrag(adventurerCard);
+            return;
+        }
+        HandleHandEndDrag(adventurerCard);
+        return;
+        
+    }
+
+    protected void HandleHandEndDrag(AdventurerCard adventurerCard)
+    {
         if (adventurerCard.IsDraftCard.Value || !adventurerCard.IsOwner)
         {
             string message = "Cannot use Potion: Adventurer does not belong to the player";
@@ -52,15 +77,9 @@ public class PotionDragDrop : CardDragDrop
             return;
         }
 
-        if (adventurerCard.ParentTransform.Value.CompareTag("Quest"))
-        {
-            PopUpManager.Instance.CreateToastPopUp("Cannot use potion: Adventurer is on a quest");
-            ResetCardPosition();
-            return;
-        }
-
         PotionCard potionCard = card as PotionCard;
 
+        // might need to make a potionCard.CanUseHealingPotion method to prevent duplicated logic in OnPotionResolutionClick
         if (potionCard.PotionType.Value == Potion.Healing && adventurerCard.CurrentRestPeriod.Value == 0)
         {
             PopUpManager.Instance.CreateToastPopUp("Cannot use potion: Adventurer's Rest Period is already 0");
@@ -69,6 +88,16 @@ public class PotionDragDrop : CardDragDrop
         }
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeUsePotionPopUp(adventurerCard, potionCard);
+    }
+
+    protected void HandleQuestEndDrag(AdventurerCard adventurerCard)
+    {
+        QuestLane lane = adventurerCard.transform.parent.parent.GetComponent<QuestLane>();
+        QuestLocation questLocation = lane.QuestLocation.Value;
+
+        PopUpManager.Instance.CreatePotionResolutionPopUp(card as PotionCard, questLocation);
+        card.gameObject.SetActive(false);
+        return;
     }
 
     /// <summary>
