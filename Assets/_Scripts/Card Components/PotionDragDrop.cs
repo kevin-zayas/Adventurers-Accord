@@ -100,7 +100,7 @@ public class PotionDragDrop : CardDragDrop
     {
         if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
         {
-            GameManager.Instance.ServerResetPlayerEndRoundConfirmation(player.PlayerID.Value, LocalConnection);
+            GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value, true);
         }
 
         QuestLane lane = adventurerCard.transform.parent.parent.GetComponent<QuestLane>();
@@ -117,8 +117,8 @@ public class PotionDragDrop : CardDragDrop
     protected override void AssignDraftCardToPlayer()
     {
         base.AssignDraftCardToPlayer();
-        card.gameObject.layer = LayerMask.NameToLayer("Magic Items");
-        Player.Instance.ServerUpdateGuildRecapTracker("Magic Items (Purchased)", 1);
+        //card.gameObject.layer = LayerMask.NameToLayer("Magic Items");
+        //Player.Instance.ServerUpdateGuildRecapTracker("Magic Items (Purchased)", 1);
     }
 
     /// <summary>

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class EndRoundView : View
 {
-    [SerializeField] private Button endRoundButton;
     [SerializeField] private TMP_Text turnText;
     [SerializeField] private GameObject turnTracker;
     [SerializeField] private FlashingEffect flash;
@@ -14,10 +13,10 @@ public class EndRoundView : View
 
     public override void Initialize()
     {
-        endRoundButton.onClick.AddListener(() =>
+        endTurnButton.onClick.AddListener(() =>
         {
             GameManager.Instance.ConfirmEndRound(Player.Instance.PlayerID.Value);
-            endRoundButton.interactable = false;
+            endTurnButton.interactable = false;
             turnTracker.SetActive(false);
         });
 
@@ -26,9 +25,9 @@ public class EndRoundView : View
 
     public void EnableEndRoundUI()
     {
-        if (!endRoundButton.interactable)
+        if (!endTurnButton.interactable)
         {
-            endRoundButton.interactable = true;
+            endTurnButton.interactable = true;
             turnTracker.SetActive(true);
             flash.FlashEffect();
         }

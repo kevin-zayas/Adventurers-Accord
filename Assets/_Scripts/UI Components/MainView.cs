@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class MainView : View
 {
-    [SerializeField] private Button endTurnButton;
-
     public TMP_Text text;
 
     public override void Initialize()

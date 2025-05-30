@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class View : MonoBehaviour
 {
+    [SerializeField] protected Button endTurnButton;
     public bool IsInitialized { get; private set; }
 
     public virtual void Initialize()
@@ -17,5 +19,10 @@ public abstract class View : MonoBehaviour
     public virtual void Hide()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetButtonInteractable(bool value) 
+    {
+        endTurnButton.interactable = value;
     }
 }

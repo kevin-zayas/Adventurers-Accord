@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PotionResolutionPopUp : ResolutionPopUp
 {
     PotionCard potionCard;
@@ -7,6 +9,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
         this.potionCard = potionCard;
         confirmCloseText = "Do you want to cancel the use of this potion?";
         base.InitializePopUp(questLocation, potionCard.CardName.Value);
+        SetEndTurnButtonActive(false);
     }
 
     public override void SetConfirmSelectionState(AdventurerCard card)
@@ -25,6 +28,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
             card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
             potionCard.ServerDespawnCard();
             PopUpManager.Instance.ClearResolutionType();
+            SetEndTurnButtonActive(true);
             Destroy(gameObject);
         });
     }
@@ -50,6 +54,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
             potionCard.transform.SetParent(potionCard.ControllingPlayerHand.Value.transform, false);
             potionCard.gameObject.SetActive(true);
             PopUpManager.Instance.ClearResolutionType();
+            SetEndTurnButtonActive(true);
             Destroy(gameObject);
         });
     }
@@ -65,5 +70,26 @@ public class PotionResolutionPopUp : ResolutionPopUp
     protected override void UpdateGuildBonusTracker(int questIndex)
     {
         return;
+    }
+
+    private void SetEndTurnButtonActive(bool value)
+    {
+        GameManager.Phase phase = GameManager.Instance.CurrentPhase.Value;
+        View view;
+
+        switch (phase)
+        {
+            case GameManager.Phase.Dispatch:
+                view = GameObject.Find("MainView").GetComponent<MainView>();
+                break;
+            case GameManager.Phase.Magic:
+                view = GameObject.Find("EndRoundView").GetComponent<EndRoundView>();
+                break;
+            default:
+                Debug.LogError("Error - Potion quest drag logic reached during invalid phase");
+                return;
+        }
+
+        view.SetButtonInteractable(value);
     }
 }

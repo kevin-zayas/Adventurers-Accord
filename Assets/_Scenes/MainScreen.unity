@@ -1449,8 +1449,6 @@ MonoBehaviour:
   GuildRecapPopUpPrefab: {fileID: 5904705167613417535, guid: 6fbbf8743985e1244b25c49713319a56, type: 3}
   ToastPopUpPrefab: {fileID: 6192678854107621520, guid: c999b4d30a132924294d3d7eea034afe, type: 3}
   AdventurerRegistryPopUpPrefab: {fileID: 4393527362865348237, guid: 427e0c759d9cfc742ab992310617ee66, type: 3}
-  CurrentResolutionPopUp: {fileID: 0}
-  CurrentResolutionType: 
 --- !u!114 &302781916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2951,6 +2949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b11253d7bc92fe41aaaac7ef848cc9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endTurnButton: {fileID: 0}
   readyButton: {fileID: 1848696477}
   startButton: {fileID: 365181861}
   readyButtonText: {fileID: 1457073912}
@@ -4927,6 +4926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d249a97babb2d374991059b76ff2d163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endTurnButton: {fileID: 0}
   waitingText: {fileID: 1253046174}
 --- !u!1 &757689180
 GameObject:
@@ -9034,7 +9034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865ca83bb70d5034883b730d37304f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endRoundButton: {fileID: 1950382647}
+  endTurnButton: {fileID: 1950382647}
   turnText: {fileID: 891140444}
   turnTracker: {fileID: 346727402}
   flash: {fileID: 891140443}
@@ -11139,6 +11139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2ae5ea47715b746a46d83b259963ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endTurnButton: {fileID: 0}
 --- !u!224 &2052932489 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8213552201584956570, guid: afe449c569c3d974d9d35b5baaed401a, type: 3}

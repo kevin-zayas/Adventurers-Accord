@@ -180,10 +180,10 @@ public class GameManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerResetPlayerEndRoundConfirmation(int playerID, NetworkConnection connection)
+    public void ServerResetPlayerEndRoundConfirmation(NetworkConnection connection,int playerID, bool isPotion = false)
     {
         PlayerEndRoundConfirmations[playerID] = false;
-        TargetEnableEndRoundButon(connection);
+        if (!isPotion) TargetEnableEndRoundButon(connection);   //potions will enable/disable the button with their own logic
         Board.Instance.ObserversUpdateTurnMarker(playerID, true);
     }
 
