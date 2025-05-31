@@ -74,7 +74,7 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("Assassin", new List<string> { "Poison" });//, "Resolution Phase"});
         CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
         CardKeywordMap.Add("Battlemage", new List<string> { "Magic Items", "Empower" });
-        CardKeywordMap.Add("Cleric", new List<string> { "Protection" });
+        CardKeywordMap.Add("Cleric", new List<string> { "Protection", "Rest Period" });
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
         CardKeywordMap.Add("Rogue", new List<string> { "Disable" });//, "Resolution Phase"});
@@ -95,6 +95,10 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("Hex", new List<string> { "Afflict", "Spells", "Magic Phase" });
         CardKeywordMap.Add("Mana Drain", new List<string> { "Afflict", "Spells", "Magic Phase" });
 
+        //POTIONS
+        CardKeywordMap.Add("Healing Potion", new List<string> { "Potions", "Rest Period"});
+        CardKeywordMap.Add("Potion of Power", new List<string> { "Potions" });
+
         //QUESTS
         CardKeywordMap.Add("Giant Scorpion", new List<string> { "Weaken" });
         CardKeywordMap.Add("Lich", new List<string> { "Weaken" });
@@ -110,6 +114,7 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Empower", empowerKeywordText);
         KeywordDefinitionMap.Add("Summon", summonKeywordText);
         KeywordDefinitionMap.Add("Disable", disableKeywordText);
+        KeywordDefinitionMap.Add("Rest Period", restPeriodKeywordText);
 
         KeywordDefinitionMap.Add("Magic Items", magicItemKeywordText);
         KeywordDefinitionMap.Add("Equip", equipKeywordText);
@@ -117,6 +122,8 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Spells", spellKeywordText);
         KeywordDefinitionMap.Add("Afflict", afflictKeywordText);
         //KeywordDefinitionMap.Add("Grant", grantKeywordText);
+
+        KeywordDefinitionMap.Add("Potions", potionKeywordText);
 
         KeywordDefinitionMap.Add("Magic Phase", magicPhaseKeywordText);
         KeywordDefinitionMap.Add("Resolution Phase", resolutionPhaseKeywordText);
@@ -186,6 +193,7 @@ public class CardDatabase : NetworkBehaviour
     private readonly string empowerKeywordText = "Increases the <color=#6C00D7>Power</color> of a card by a specified amount. A card can gain <color=#6C00D7>Power</color> in each stat (<color=#EB000E>Physical</color> and <color=#000EEB>Magical</color>) that is non-zero.";
     private readonly string summonKeywordText = "Spawns a card at the specified Quest location. The summoned card counts as an Adventurer.";
     private readonly string disableKeywordText = "Temporarily nullifies the effects of a specified Magic Item. The item is restored to normal after the Quest ends.";
+    private readonly string restPeriodKeywordText = "After completing a Quest, Adventurers enter a Rest Period where they become temporarily unavailable. They return to your Hand after a set number of rounds.";
 
     private readonly string magicItemKeywordText = "Grants a permanent boost to the <color=#6C00D7>Power</color> of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
     private readonly string equipKeywordText = "To equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding <color=#6C00D7>Power</color> must be greater than 0 to equip the item.";
@@ -193,6 +201,8 @@ public class CardDatabase : NetworkBehaviour
     private readonly string spellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the Spell card onto an Adventuring Party.";
     private readonly string afflictKeywordText = "Decreases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends. This value cannot be decreased below 0.";
     //private readonly string grantKeywordText = "Increases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends.";
+
+    private readonly string potionKeywordText = "Applies a temporary effect to an Adventurer until they complete a Quest. Use during any phase except Resolution Phase by dragging the Potion card onto an Adventurer in your Hand, or onto a Quest to select an Adventurer.";
 
     private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
     private readonly string magicPhaseKeywordText = "The phase in which players can play Spells to affect the outcome of a Quest.";
