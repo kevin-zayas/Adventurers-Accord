@@ -1,4 +1,5 @@
 using UnityEngine;
+using static Card;
 using static PotionCard;
 
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
@@ -14,9 +15,8 @@ public class CardData : ScriptableObject
     [field: SerializeField] public int Cost { get; set; }
     [field: SerializeField, TextArea(3, 10)] public string CardDescription { get; set; }
     [field: SerializeField, TextArea(2, 10)] public string CardSubDescription { get; set; }
-    [field: SerializeField] public string CardType { get; set; }
+    [field: SerializeField] public CardType CardType { get; set; }
     [field: SerializeField] public string AbilityName { get; set; }
-    //[field: SerializeField] public Sprite CardSprite { get; private set; }
 
     //Adventurers
     [field: SerializeField] public int RestPeriod { get; set; }

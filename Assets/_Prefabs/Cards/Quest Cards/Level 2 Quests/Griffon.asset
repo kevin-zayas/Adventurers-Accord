@@ -20,7 +20,7 @@ MonoBehaviour:
   <Cost>k__BackingField: 0
   <CardDescription>k__BackingField: 
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Quest
+  <CardType>k__BackingField: 4
   <AbilityName>k__BackingField: 
   <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 8
@@ -37,3 +37,4 @@ MonoBehaviour:
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
   <IsNumerical>k__BackingField: 0
+  <PotionType>k__BackingField: 0

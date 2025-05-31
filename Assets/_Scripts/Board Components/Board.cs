@@ -4,6 +4,7 @@ using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static Card;
 
 public class Board : NetworkBehaviour
 {
@@ -331,16 +332,16 @@ public class Board : NetworkBehaviour
         {
             CardData randomLootData = RewardLootDeck[Random.Range(0, RewardLootDeck.Count)];
             SpawnCard(randomLootData, player.controlledHand.Value.transform, player);
-            if (randomLootData.CardType == "Magic Item")
+            if (randomLootData.CardType == CardType.MagicItem)
             {
                 player.UpdateGuildRecapTracker("Magic Items (Loot)", 1);
             }
-            else if (randomLootData.CardType == "Magic Spell")
+            else if (randomLootData.CardType == CardType.Spell)
             {
-                player.UpdateGuildRecapTracker("Magic Spells (Loot)", 1);
+                player.UpdateGuildRecapTracker("Spells (Loot)", 1);
                 if (randomLootData.IsNegativeEffect)
                 {
-                    player.UpdateGuildRecapTracker("Magic Spell Curses (Loot)", 1);
+                    player.UpdateGuildRecapTracker("Curse Spells (Loot)", 1);
                 }
             }
 
@@ -368,9 +369,9 @@ public class Board : NetworkBehaviour
     {
         Card cardPrefab = cardData.CardType switch
         {
-            "Magic Item" => CardDatabase.Instance.itemCardPrefab,
-            "Magic Spell" => CardDatabase.Instance.spellCardPrefab,
-            "Potion" => CardDatabase.Instance.potionCardPrefab,
+            CardType.MagicItem => CardDatabase.Instance.itemCardPrefab,
+            CardType.Spell => CardDatabase.Instance.spellCardPrefab,
+            CardType.Potion => CardDatabase.Instance.potionCardPrefab,
             _ => CardDatabase.Instance.adventurerCardPrefab,
         };
         Card card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity);

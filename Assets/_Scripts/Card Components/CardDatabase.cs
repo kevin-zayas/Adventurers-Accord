@@ -89,11 +89,11 @@ public class CardDatabase : NetworkBehaviour
         CardKeywordMap.Add("+2 Sword", new List<string> { "Magic Items", "Equip" });
 
         //SPELLS
-        CardKeywordMap.Add("Cloud of Daggers", new List<string> {"Magic Spells", "Magic Phase" });
-        CardKeywordMap.Add("Fireball", new List<string> { "Magic Spells", "Magic Phase" });
-        CardKeywordMap.Add("Grease", new List<string> { "Disable", "Magic Spells", "Magic Phase" });
-        CardKeywordMap.Add("Hex", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
-        CardKeywordMap.Add("Mana Drain", new List<string> { "Afflict", "Magic Spells", "Magic Phase" });
+        CardKeywordMap.Add("Cloud of Daggers", new List<string> {"Spells", "Magic Phase" });
+        CardKeywordMap.Add("Fireball", new List<string> { "Spells", "Magic Phase" });
+        CardKeywordMap.Add("Grease", new List<string> { "Disable", "Spells", "Magic Phase" });
+        CardKeywordMap.Add("Hex", new List<string> { "Afflict", "Spells", "Magic Phase" });
+        CardKeywordMap.Add("Mana Drain", new List<string> { "Afflict", "Spells", "Magic Phase" });
 
         //QUESTS
         CardKeywordMap.Add("Giant Scorpion", new List<string> { "Weaken" });
@@ -114,7 +114,7 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Magic Items", magicItemKeywordText);
         KeywordDefinitionMap.Add("Equip", equipKeywordText);
 
-        KeywordDefinitionMap.Add("Magic Spells", magicSpellKeywordText);
+        KeywordDefinitionMap.Add("Spells", spellKeywordText);
         KeywordDefinitionMap.Add("Afflict", afflictKeywordText);
         //KeywordDefinitionMap.Add("Grant", grantKeywordText);
 
@@ -190,12 +190,12 @@ public class CardDatabase : NetworkBehaviour
     private readonly string magicItemKeywordText = "Grants a permanent boost to the <color=#6C00D7>Power</color> of an Adventurer, or provides a special ability. Magic Items cannot be removed once Equipped.";
     private readonly string equipKeywordText = "To equip a card, drag a Magic Item card onto an Adventurer in your hand. The Adventurer's corresponding <color=#6C00D7>Power</color> must be greater than 0 to equip the item.";
 
-    private readonly string magicSpellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the card onto an Adventuring Party.";
+    private readonly string spellKeywordText = "Provides a one-time effect on a Quest. Play during the Magic Phase by dragging the Spell card onto an Adventuring Party.";
     private readonly string afflictKeywordText = "Decreases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends. This value cannot be decreased below 0.";
     //private readonly string grantKeywordText = "Increases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends.";
 
     private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
-    private readonly string magicPhaseKeywordText = "The phase in which players can play Magic Spells to affect the outcome of a Quest.";
+    private readonly string magicPhaseKeywordText = "The phase in which players can play Spells to affect the outcome of a Quest.";
 
     private readonly string weakenKeywordText = "Reduces the <color=#6C00D7>Power</color> of all Adventurers on this Quest by a specified amount until the Quest ends. This value cannot be decreased below 0.";
 }

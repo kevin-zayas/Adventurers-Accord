@@ -20,15 +20,21 @@ MonoBehaviour:
   <Cost>k__BackingField: 4
   <CardDescription>k__BackingField: +2 <color=#000EEB>Magical</color> Power
   <CardSubDescription>k__BackingField: when <color=#FFE000>Equipped</color>
-  <CardType>k__BackingField: Magic Item
+  <CardType>k__BackingField: 1
   <AbilityName>k__BackingField: 
+  <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 0
   <ReputationReward>k__BackingField: 0
   <LootReward>k__BackingField: 0
+  <ReputationPenalty>k__BackingField: 0
+  <GoldPenalty>k__BackingField: 0
+  <RestPeriodPenalty>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
   <DisableItems>k__BackingField: 0
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
-  <DescriptionKeys>k__BackingField: []
+  <IsNumerical>k__BackingField: 0
+  <PotionType>k__BackingField: 0

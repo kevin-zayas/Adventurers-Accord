@@ -70,13 +70,13 @@ MonoBehaviour:
     Party or disrupt a rival guild''s plans.
 
 
-    To use a Magic Spell, simply drag
-    and drop the card onto your chosen Adventuring Party and the spell will take
-    effect immediately and be displayed below the Quest.
+    To use a Spell, simply drag and
+    drop the card onto your chosen Adventuring Party and the spell will take effect
+    immediately and be displayed below the Quest.
 
 
-    Magic Spells can only
-    be played during the Magic Phase.
+    Spells can only be played
+    during the Magic Phase.
 
 
 '
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Magic Spells
+  m_text: Spells
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -441,7 +441,7 @@ GameObject:
   - component: {fileID: 5168087753436787573}
   - component: {fileID: 3959795110960506628}
   m_Layer: 0
-  m_Name: 5 - Magic Spells
+  m_Name: 5 - Spells
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -693,6 +693,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7700115405281895742, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: Spell
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -3940136168109046893, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     - {fileID: 8381347151152243069, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
@@ -897,6 +901,10 @@ PrefabInstance:
     - target: {fileID: 7184070916402621257, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700115405281895742, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+      propertyPath: m_text
+      value: Spell
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -3940136168109046893, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}

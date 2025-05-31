@@ -11,6 +11,7 @@ public class PotionCard : Card
     #endregion
     public enum Potion
     {
+        None,
         Healing,
         Power,
         Strength,
@@ -42,7 +43,7 @@ public class PotionCard : Card
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
         descriptionText.text = cardData.CardDescription;
-        cardTypeText.text = cardData.CardType;
+        cardTypeText.text = cardData.CardType.ToString();
         costText.text = cardData.Cost.ToString();
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];

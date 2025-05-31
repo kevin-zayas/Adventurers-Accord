@@ -33,6 +33,16 @@ public abstract class Card : NetworkBehaviour
     [SerializeField] protected TMP_Text nameText;
     protected Player player;
 
+    public enum CardType
+    {
+        Adventurer,
+        MagicItem,
+        Spell,
+        Potion,
+        Quest,
+        Summon
+    }
+
     private void Start()
     {
         player = Player.Instance;

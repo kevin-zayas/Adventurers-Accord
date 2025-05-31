@@ -426,10 +426,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "<u>Magic Phase</u> \u2013 Magic Phase is the last chance for players to
-    impact Quests before rewards/penalties are calculated. Players can use Magic
-    Spells on any Quest either to support an Adventuring Party and enable them to
-    earn extra rewards, or to sabotage a rival guild and deprive them of rewards.\n\nOnce
-    all players have decide to end the round, rewards/penalties will be distributed.
+    impact Quests before rewards/penalties are calculated. Players can use Spells
+    on any Quest either to support an Adventuring Party and enable them to earn extra
+    rewards, or to sabotage a rival guild and deprive them of rewards.\n\nOnce all
+    players have decide to end the round, rewards/penalties will be distributed.
     If you have chosen to end the round and another guild plays a Spell, you will
     be given a chance to respond before the round ends."
   m_isRightToLeft: 0

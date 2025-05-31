@@ -39,7 +39,7 @@ public class ItemCard : Card
         nameText.text = cardData.CardName;
         descriptionText.text = cardData.CardDescription;
         subDescriptionText.text = cardData.CardSubDescription;
-        cardTypeText.text = cardData.CardType;
+        cardTypeText.text = cardData.CardType.ToString();
         costText.text = cardData.Cost.ToString();
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];

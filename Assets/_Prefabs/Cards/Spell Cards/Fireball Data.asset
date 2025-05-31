@@ -21,7 +21,7 @@ MonoBehaviour:
   <CardDescription>k__BackingField: Grant an Adventuring Party +2 <color=#000EEB>Magical</color>
     Power
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Magic Spell
+  <CardType>k__BackingField: 2
   <AbilityName>k__BackingField: 
   <RestPeriod>k__BackingField: 0
   <GoldReward>k__BackingField: 0
@@ -38,3 +38,4 @@ MonoBehaviour:
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
   <IsNumerical>k__BackingField: 1
+  <PotionType>k__BackingField: 0

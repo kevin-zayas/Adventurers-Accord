@@ -85,8 +85,8 @@ public class ConfirmationPopUp : PopUp
         {
             spellCard.ServerSetCardParent(dropZone.transform, false);
             questLane.ServerUpdateSpellEffects();
-            Player.Instance.ServerUpdateGuildRecapTracker("Magic Spells Played", 1);
-            if (spellCard.IsNegativeEffect.Value) Player.Instance.ServerUpdateGuildRecapTracker("Magic Spells Played (Curses)", 1);
+            Player.Instance.ServerUpdateGuildRecapTracker("Spells Played", 1);
+            if (spellCard.IsNegativeEffect.Value) Player.Instance.ServerUpdateGuildRecapTracker("Spells Played (Curses)", 1);
 
             GameManager.Instance.ServerResetEndRoundConfirmations();
             Destroy(gameObject);

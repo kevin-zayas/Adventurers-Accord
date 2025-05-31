@@ -22,13 +22,13 @@ public class SpellDragDrop : CardDragDrop
         if (card.IsDraftCard.Value) return true;
         if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic) // Prevent dragging during all phases except Magic
         {
-            PopUpManager.Instance.CreateToastPopUp("You can only use Magic Spells during Magic Phase");
+            PopUpManager.Instance.CreateToastPopUp("You can only use Spells during Magic Phase");
             return false;
         }
 
         if (transform.parent.CompareTag("Quest")) // Prevent dragging if the card is already in a quest lane
         {
-            PopUpManager.Instance.CreateToastPopUp("You cannot move Magic Spells that have already been cast");
+            PopUpManager.Instance.CreateToastPopUp("You cannot move Spells that have already been cast");
             return false;
         }
 
@@ -61,14 +61,14 @@ public class SpellDragDrop : CardDragDrop
 
         if (questLane.QuestCard.Value.BlockSpells.Value)
         {
-            PopUpManager.Instance.CreateToastPopUp("Magic Spells cannot be used on this Quest");
+            PopUpManager.Instance.CreateToastPopUp("Spells cannot be used on this Quest");
             ResetCardPosition();
             return;
         }
 
         if (questLane.QuestDropZone.transform.childCount == 0)
         {
-            PopUpManager.Instance.CreateToastPopUp("Magic Spells cannot be used on a lane with no Adventurers");
+            PopUpManager.Instance.CreateToastPopUp("Spells cannot be used on a lane with no Adventurers");
             ResetCardPosition();
             return;
         }
@@ -85,11 +85,11 @@ public class SpellDragDrop : CardDragDrop
     {
         base.AssignDraftCardToPlayer();
         card.gameObject.layer = LayerMask.NameToLayer("Magic Spells");
-        player.ServerUpdateGuildRecapTracker("Magic Spells (Purchased)", 1);
+        player.ServerUpdateGuildRecapTracker("Spells (Purchased)", 1);
 
         if (((SpellCard)card).IsNegativeEffect.Value)
         {
-            player.ServerUpdateGuildRecapTracker("Magic Spell Curses (Purchased)", 1);
+            player.ServerUpdateGuildRecapTracker("Curse Spells (Purchased)", 1);
         }
     }
 
