@@ -279,7 +279,7 @@ public class QuestLocation : NetworkBehaviour
             Player player = GameManager.Instance.Players[playerID];
             PlayerRoundSummaryData questPlayerSummaryData = questSummaryData.PlayerQuestSummaries[playerID];
 
-            if (player.isThievesGuild)
+            if (player.IsThievesGuild)
             {
                 if (Status == QuestStatus.Completed)
                 {
@@ -302,7 +302,7 @@ public class QuestLocation : NetworkBehaviour
                     questPlayerSummaryData.AddBonusReward("Sleight of Hand", 1, 0, 0);
                 }
             }
-            else if (player.isFightersGuild && Status == QuestStatus.Completed)
+            else if (player.IsFightersGuild && Status == QuestStatus.Completed)
             {
                 int playerPhysPower = questLanes[player.PlayerID.Value].TotalPhysicalPower.Value;
                 if (playerPhysPower <= 0) continue; // No bonus if no physical power
@@ -326,7 +326,7 @@ public class QuestLocation : NetworkBehaviour
                     questPlayerSummaryData.AddBonusReward("Path to Glory", 0, 1, 0);
                 }
             }
-            else if (player.isMerchantsGuild && Status == QuestStatus.Completed)
+            else if (player.IsMerchantsGuild && Status == QuestStatus.Completed)
             {
                 if (player.GuildBonusTracker[QuestLocationIndex]["magicItemsDispatched"] >= 2)
                 {
@@ -335,7 +335,7 @@ public class QuestLocation : NetworkBehaviour
                     questPlayerSummaryData.AddBonusReward("Show of Wealth", 0, 1, 0);
                 }
             }
-            else if (player.isAssassinsGuild)
+            else if (player.IsAssassinsGuild)
             {
                 if (player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
                 {
@@ -357,7 +357,7 @@ public class QuestLocation : NetworkBehaviour
         {
             if (questSummaryData.PlayerQuestSummaries.ContainsKey(player.PlayerID.Value)) continue;
             
-            if (player.isAssassinsGuild && player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
+            if (player.IsAssassinsGuild && player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
             {
                 PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
                 playerSummary.UpdatePlayerSummary(0, 0, 0, 0, 0);

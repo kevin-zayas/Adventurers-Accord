@@ -31,11 +31,12 @@ public class Player : NetworkBehaviour
     public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }
     public readonly SyncDictionary<string, int> GuildRecapTracker = new();
 
-    public bool isThievesGuild;
-    public bool isMagesGuild;
-    public bool isFightersGuild;
-    public bool isMerchantsGuild;
-    public bool isAssassinsGuild;
+    public bool IsThievesGuild { get; private set; }
+    public bool IsMagesGuild { get; private set; }
+    public bool IsFightersGuild { get; private set; }
+    public bool IsMerchantsGuild { get; private set; }
+    public bool IsAssassinsGuild { get; private set; }
+    public bool IsAnimating { get; private set; }
 
     public override void OnStartServer()
     {
@@ -84,19 +85,19 @@ public class Player : NetworkBehaviour
         switch (GuildType)
         {
             case GuildType.ThievesGuild:
-                isThievesGuild = true;
+                IsThievesGuild = true;
                 break;
             case GuildType.MagesGuild:
-                isMagesGuild = true;
+                IsMagesGuild = true;
                 break;
             case GuildType.FightersGuild:
-                isFightersGuild = true;
+                IsFightersGuild = true;
                 break;
             case GuildType.MerchantsGuild:
-                isMerchantsGuild = true;
+                IsMerchantsGuild = true;
                 break;
             case GuildType.AsassinsGuild:
-                isAssassinsGuild = true;
+                IsAssassinsGuild = true;
                 break;
             default:
                 throw new System.Exception($"GuildType : {GuildType} is not valid");
@@ -309,5 +310,10 @@ public class Player : NetworkBehaviour
 
         if (!IsOwner) return;
         Board.Instance.reputationText.text = reputation.ToString();
+    }
+
+    public void SetIsAnimating(bool value)
+    {
+        IsAnimating = value;
     }
 }

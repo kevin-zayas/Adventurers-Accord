@@ -91,6 +91,7 @@ public abstract class CardDragDrop : NetworkBehaviour
             PopUpManager.Instance.CreateToastPopUp("Insufficient Gold");
             return false;    
         }
+        if (player.IsAnimating) return false;
         return true;
     }
 
@@ -141,6 +142,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     
     protected void OnCardPurchase()
     {
+        player.SetIsAnimating(true);
         ServerPlayPurchaseAnimation(player.PlayerID.Value);
     }
 
@@ -179,7 +181,11 @@ public abstract class CardDragDrop : NetworkBehaviour
         else
         {
             sequence.Append(transform.DOJump(transform.position, 10f, 1, _animationDuration));
-            sequence.OnComplete(AssignDraftCardToPlayer);
+            sequence.OnComplete(() =>
+            {
+                AssignDraftCardToPlayer();
+                player.SetIsAnimating(false);
+            });
         }
 
         sequence.Play();

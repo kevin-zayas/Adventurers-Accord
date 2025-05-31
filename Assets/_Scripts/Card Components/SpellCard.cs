@@ -21,7 +21,7 @@ public class SpellCard : Card
     {
         Player player = ControllingPlayer.Value;
 
-        if (parent.CompareTag("Hand") && player.isMagesGuild && IsNumerical.Value)
+        if (parent.CompareTag("Hand") && player.IsMagesGuild && IsNumerical.Value)
         {
             ResetPower();
             PhysicalPower.Value = PhysicalPower.Value > 0 ? PhysicalPower.Value + 1 : PhysicalPower.Value < 0 ? PhysicalPower.Value - 1 : PhysicalPower.Value;
@@ -30,7 +30,7 @@ public class SpellCard : Card
             ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
 
         }
-        else if (parent.CompareTag("Quest") && player.isMagesGuild)
+        else if (parent.CompareTag("Quest") && player.IsMagesGuild)
         {
             QuestLane questLane = parent.parent.GetComponent<QuestLane>();
             int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
@@ -49,7 +49,7 @@ public class SpellCard : Card
                 print($"Mages Guild Bonus - Player {player.PlayerID.Value} +2 Magical Power");
             }
         }
-        else if (parent.CompareTag("Quest") && player.isAssassinsGuild && IsNegativeEffect.Value)
+        else if (parent.CompareTag("Quest") && player.IsAssassinsGuild && IsNegativeEffect.Value)
         {
             QuestLane questLane = parent.parent.GetComponent<QuestLane>();
             int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;

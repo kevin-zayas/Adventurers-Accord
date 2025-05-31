@@ -338,7 +338,7 @@ public class GameManager : NetworkBehaviour
     {
         foreach (Player player in Players)
         {
-            if (player.isMerchantsGuild)
+            if (player.IsMerchantsGuild)
             {
                 player.ChangePlayerGold(1);
                 player.UpdateGuildRecapTracker("Merchant Guild Bonus (Gold)", 1);
