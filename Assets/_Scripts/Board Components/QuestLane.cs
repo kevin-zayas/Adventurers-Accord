@@ -227,11 +227,11 @@ public class QuestLane : NetworkBehaviour
                 QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Add(card);
                 break;
             case "Enchanter":
-                if (adventurerEffects["Enchanter"] == 1) EnchanterBuff = true;
-                UpdateEnchanterBuff(EnchanterEmpower);     //check for card ID here so enchanter cant buff itself if changing Enchanter stats
+                EnchanterBuff = adventurerEffects["Enchanter"] > 0;
+                UpdateEnchanterBuff(EnchanterEmpower, card);
                 break;
             case "Tinkerer":
-                if (adventurerEffects["Tinkerer"] == 1) TinkererBuff = true;
+                TinkererBuff = adventurerEffects["Tinkerer"] > 0;
                 UpdateTinkererBuff(TinkererEmpower);     
                 break;
             case "Ranger":
@@ -261,11 +261,11 @@ public class QuestLane : NetworkBehaviour
                 QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Remove(card);
                 break;
             case "Enchanter":
-                if (adventurerEffects["Enchanter"] == 0) EnchanterBuff = false;
+                EnchanterBuff = adventurerEffects["Enchanter"] > 0;
                 UpdateEnchanterBuff(-EnchanterEmpower);
                 break;
             case "Tinkerer":
-                if (adventurerEffects["Tinkerer"] == 0) TinkererBuff = false;
+                TinkererBuff = adventurerEffects["Tinkerer"] > 0;
                 UpdateTinkererBuff(-TinkererEmpower);
                 break;
             case "Ranger":
@@ -294,12 +294,12 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void UpdateEnchanterBuff(int buffDelta) 
+    private void UpdateEnchanterBuff(int buffDelta, AdventurerCard enchanterCard = null) 
     {
         foreach (Transform cardTransform in QuestDropZone.transform)
         {
-            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();         // Enchanter is 0,0 so wont be buffed anyway, but we may want to change in the future
-            if (card.CardName.Value == "Enchanter") continue;                 // If we change, will need to figure out how to differentiate Enchanter buffs so multiple enchanters can buff each other 
+            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+            if (enchanterCard == card) continue; //prevent the enchanter from buffing itself
 
             card.ChangePhysicalPower(buffDelta);
             card.ChangeMagicalPower(buffDelta);
