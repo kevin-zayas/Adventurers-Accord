@@ -214,7 +214,7 @@ public class Board : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerReplaceDraftCard(int slotIndex)
     {
-        List<CardData> deck = slotIndex < 4 ? T1Deck : T2Deck;
+        List<CardData> deck = slotIndex < 4 ? T1Deck : slotIndex < 8 ? T2Deck : ShopLootDeck;
 
         if (deck.Count > 0)
         {
