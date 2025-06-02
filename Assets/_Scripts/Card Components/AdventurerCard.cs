@@ -436,7 +436,8 @@ public class AdventurerCard : Card
 
         bool validTarget = (resolutionType == "Healing Potion" && CurrentRestPeriod.Value > 0 && !isWolf) ||
                            (resolutionType == "Potion of Power" && hasPower) ||
-                           (resolutionType == "Potion of Strength");
+                           (resolutionType == "Potion of Strength") ||
+                           (resolutionType == "Potion of Intelligence");
 
         if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         else PopUpManager.Instance.CreateToastPopUp("Invalid target");
