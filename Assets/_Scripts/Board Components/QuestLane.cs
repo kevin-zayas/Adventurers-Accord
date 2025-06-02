@@ -201,14 +201,16 @@ public class QuestLane : NetworkBehaviour
 
         if (EnchanterBuff)
         {
-            card.ChangePhysicalPower(EnchanterEmpower*adventurerEffects["Enchanter"]);
-            card.ChangeMagicalPower(EnchanterEmpower*adventurerEffects["Enchanter"]);
+            int powerDelta = EnchanterEmpower * adventurerEffects["Enchanter"];
+            card.ChangePhysicalPower(powerDelta);
+            card.ChangeMagicalPower(powerDelta);
         }
 
         if (TinkererBuff && card.HasItem.Value)
         {
-            card.Item.Value.ChangePhysicalPower(adventurerEffects["Tinkerer"]);
-            card.Item.Value.ChangeMagicalPower(adventurerEffects["Tinkerer"]);
+            int powerDelta = TinkererEmpower * adventurerEffects["Tinkerer"];
+            card.Item.Value.ChangePhysicalPower(powerDelta);
+            card.Item.Value.ChangeMagicalPower(powerDelta);
 
             if (card.Item.Value.equippedOnBattlemage) card.Item.Value.ApplyBalancedArsenal();
         }
@@ -304,6 +306,17 @@ public class QuestLane : NetworkBehaviour
             card.ChangePhysicalPower(buffDelta);
             card.ChangeMagicalPower(buffDelta);
         } 
+    }
+
+    [Server]
+    public void ApplyEnchanterBuff(AdventurerCard adventurerCard, bool physicalBuff, bool magicalBuff)
+    {
+        if (!EnchanterBuff) return;
+        int buffValue = EnchanterEmpower * adventurerEffects["Enchanter"];
+        if (adventurerCard.CardName.Value == "Enchanter") buffValue -= EnchanterEmpower; //prevent the enchanter from buffing itself
+
+        if (physicalBuff) adventurerCard.ChangePhysicalPower(buffValue);
+        if (magicalBuff) adventurerCard.ChangeMagicalPower(buffValue);
     }
 
     [Server]

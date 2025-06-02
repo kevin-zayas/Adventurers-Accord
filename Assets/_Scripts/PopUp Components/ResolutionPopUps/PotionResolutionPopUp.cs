@@ -23,9 +23,10 @@ public class PotionResolutionPopUp : ResolutionPopUp
             {
                 GameManager.Instance.ServerResetEndRoundConfirmations();
             }
+            QuestLane questLane = card.ParentTransform.Value.parent.GetComponent<QuestLane>();
 
             potionCard.UsePotion(card);
-            card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+            questLane.ServerUpdateQuestLanePower();
             potionCard.ServerDespawnCard();
             PopUpManager.Instance.ClearResolutionType();
             SetEndTurnButtonActive(true);

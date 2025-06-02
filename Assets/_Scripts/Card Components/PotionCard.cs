@@ -110,13 +110,21 @@ public class PotionCard : Card
     [Server]
     private void ApplyPotionOfStrength(AdventurerCard adventurerCard)
     {
+        bool increasedFromZero = adventurerCard.OriginalPhysicalPower.Value == 0 && adventurerCard.potionBasePhysicalPower.Value == 0;
         adventurerCard.ApplyPotionPhysicalPower(4, true);
+
+        QuestLane questLane = adventurerCard.ParentTransform.Value.parent.GetComponent<QuestLane>();
+        if (questLane != null) questLane.ApplyEnchanterBuff(adventurerCard, increasedFromZero, false);
     }
 
     [Server]
     private void ApplyPotionOfIntelligence(AdventurerCard adventurerCard)
     {
+        bool increasedFromZero = adventurerCard.OriginalMagicalPower.Value == 0 && adventurerCard.potionBaseMagicalPower.Value == 0;
         adventurerCard.ApplyPotionMagicalPower(4, true);
+
+        QuestLane questLane = adventurerCard.ParentTransform.Value.parent.GetComponent<QuestLane>();
+        if (questLane != null) questLane.ApplyEnchanterBuff(adventurerCard, false, increasedFromZero);
     }
 
 }
