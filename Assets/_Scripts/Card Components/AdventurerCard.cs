@@ -17,8 +17,10 @@ public class AdventurerCard : Card
     public readonly SyncVar<bool> IsBlessed = new();
     private int potionPhysicalPower;
     private int potionMagicalPower;
-    private int physicalPoisonTotal = 0;
-    private int magicalPoisonTotal = 0;
+    public readonly SyncVar<int> potionBasePhysicalPower = new ();
+    public readonly SyncVar<int> potionBaseMagicalPower = new();
+    private int physicalPoisonTotal;
+    private int magicalPoisonTotal;
     #endregion
 
     #region UI Elements
@@ -177,7 +179,7 @@ public class AdventurerCard : Card
     {
         if (ParentTransform.Value == null) return; // || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
-        if (OriginalPhysicalPower.Value > 0)
+        if (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0)
         {
             PhysicalPower.Value = Mathf.Max(0, PhysicalPower.Value + power); // Clamping value
             ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
@@ -203,7 +205,7 @@ public class AdventurerCard : Card
     {
         if (ParentTransform.Value == null) return; // || !ParentTransform.Value.CompareTag(QuestTag)) return;
 
-        if (OriginalMagicalPower.Value > 0)
+        if (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0)
         {
             MagicalPower.Value = Mathf.Max(0, MagicalPower.Value + powerChange); // Clamping value
             ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
@@ -216,8 +218,8 @@ public class AdventurerCard : Card
     [Server]
     public override void ResetPower()
     {
-        PhysicalPower.Value = OriginalPhysicalPower.Value + potionPhysicalPower;
-        MagicalPower.Value = OriginalMagicalPower.Value + potionMagicalPower;
+        PhysicalPower.Value = Mathf.Max(OriginalPhysicalPower.Value, potionBasePhysicalPower.Value) + potionPhysicalPower;
+        MagicalPower.Value = Mathf.Max(OriginalMagicalPower.Value, potionBaseMagicalPower.Value) + potionMagicalPower;
 
         if (CardName.Value == Sorcerer && HasItem.Value && !Item.Value.IsDisabled.Value) MagicalPower.Value += 2;
         if (ControllingPlayer.Value.IsFightersGuild && HasItem.Value && !Item.Value.IsDisabled.Value && Item.Value.PhysicalPower.Value > 0)
@@ -429,10 +431,12 @@ public class AdventurerCard : Card
         string resolutionType = PopUpManager.Instance.CurrentResolutionType;
         if (resolutionType == null) return;
         bool isWolf = CardName.Value == "Wolf";
-        bool hasPower = OriginalMagicalPower.Value > 0 || OriginalPhysicalPower.Value > 0;
+        bool hasPower = (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0) || 
+                        (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0 );
 
         bool validTarget = (resolutionType == "Healing Potion" && CurrentRestPeriod.Value > 0 && !isWolf) ||
-                           (resolutionType == "Potion of Power" && hasPower);
+                           (resolutionType == "Potion of Power" && hasPower) ||
+                           (resolutionType == "Potion of Strength");
 
         if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
         else PopUpManager.Instance.CreateToastPopUp("Invalid target");
@@ -447,35 +451,51 @@ public class AdventurerCard : Card
     }
 
     [Server]
-    public void ApplyPotionPhysicalPower(int power)
+    public void ApplyPotionPhysicalPower(int power, bool overridePower = false)
     {
         if (ParentTransform.Value == null) return;
 
-        if (OriginalPhysicalPower.Value > 0)
+        if (overridePower)
+        {
+            if (OriginalPhysicalPower.Value >= power) return;
+            if (potionBasePhysicalPower.Value >= power) return;
+            potionBasePhysicalPower.Value = power;
+            PhysicalPower.Value = (power - OriginalPhysicalPower.Value) + PhysicalPower.Value;
+        }
+        else if (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0)
         {
             potionPhysicalPower += power;
             PhysicalPower.Value += power;
-            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         }
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
     }
 
     [Server]
-    public void ApplyPotionMagicalPower(int power)
+    public void ApplyPotionMagicalPower(int power, bool overridePower = false)
     {
         if (ParentTransform.Value == null) return;
 
-        if (OriginalMagicalPower.Value > 0)
+        if (overridePower)
+        {
+            if (OriginalMagicalPower.Value >= power) return;
+            if (potionBaseMagicalPower.Value >= power) return;
+            potionBaseMagicalPower.Value = power;
+            MagicalPower.Value = (power - OriginalMagicalPower.Value) + MagicalPower.Value;
+
+        }
+        else if (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0)
         {
             potionMagicalPower += power;
             MagicalPower.Value += power;
-            ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
         }
+        ObserversUpdatePowerText(PhysicalPower.Value, MagicalPower.Value);
     }
 
     [Server]
     public void ResetPotionPower()
     {
         potionPhysicalPower = potionMagicalPower = 0;
+        potionBasePhysicalPower.Value = potionBaseMagicalPower.Value = 0; 
         ResetPower();
     }
 }

@@ -10,26 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18d19fb73ebfa3b4786f1d66252225b4, type: 3}
-  m_Name: Fire Elemental
+  m_Name: Potion of Strength
   m_EditorClassIdentifier: 
-  <CardName>k__BackingField: Fire Elemental
+  <CardName>k__BackingField: Potion of Strength
   <PhysicalPower>k__BackingField: 0
-  <MagicalPower>k__BackingField: 15
+  <MagicalPower>k__BackingField: 0
   <OriginalPhysicalPower>k__BackingField: 0
   <OriginalMagicalPower>k__BackingField: 0
-  <Cost>k__BackingField: 0
-  <CardDescription>k__BackingField: 
+  <Cost>k__BackingField: 4
+  <CardDescription>k__BackingField: Set an Adventurer's base Physical Power to 4.
+    Has no effect if it is 4 or higher
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: 4
+  <CardType>k__BackingField: 3
   <AbilityName>k__BackingField: 
   <RestPeriod>k__BackingField: 0
-  <GoldReward>k__BackingField: 12
-  <ReputationReward>k__BackingField: 6
-  <LootReward>k__BackingField: 3
-  <ReputationPenalty>k__BackingField: -3
+  <GoldReward>k__BackingField: 0
+  <ReputationReward>k__BackingField: 0
+  <LootReward>k__BackingField: 0
+  <ReputationPenalty>k__BackingField: 0
   <GoldPenalty>k__BackingField: 0
-  <RestPeriodPenalty>k__BackingField: 2
-  <PartySizeLimit>k__BackingField: 5
+  <RestPeriodPenalty>k__BackingField: 0
+  <PartySizeLimit>k__BackingField: 0
   <Drain>k__BackingField: 0
   <PhysicalDrain>k__BackingField: 0
   <MagicalDrain>k__BackingField: 0
@@ -37,4 +38,4 @@ MonoBehaviour:
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
   <IsNumerical>k__BackingField: 0
-  <PotionType>k__BackingField: 0
+  <PotionType>k__BackingField: 3

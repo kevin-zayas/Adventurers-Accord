@@ -9242,11 +9242,15 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 1736932375}
   TestQuestCards: []
   TestRoster:
-  - {fileID: 11400000, guid: e14b1a9da3affbe4eab3b186cf1a5541, type: 2}
-  - {fileID: 11400000, guid: e14b1a9da3affbe4eab3b186cf1a5541, type: 2}
   - {fileID: 11400000, guid: 61cd59fb49228264a9230ffce34220b4, type: 2}
   - {fileID: 11400000, guid: 61cd59fb49228264a9230ffce34220b4, type: 2}
   - {fileID: 11400000, guid: 61cd59fb49228264a9230ffce34220b4, type: 2}
+  - {fileID: 11400000, guid: a3734c7699eeac14f94facb8d8b0efc0, type: 2}
+  - {fileID: 11400000, guid: a3734c7699eeac14f94facb8d8b0efc0, type: 2}
+  - {fileID: 11400000, guid: a3734c7699eeac14f94facb8d8b0efc0, type: 2}
+  - {fileID: 11400000, guid: a3734c7699eeac14f94facb8d8b0efc0, type: 2}
+  - {fileID: 11400000, guid: d0faf7741a01275479f4578619b694b8, type: 2}
+  - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
   tierOneAdventurers:
   - {fileID: 11400000, guid: baa0b3c7db741b944813f6ede3df30be, type: 2}
   - {fileID: 11400000, guid: 836db6947ad41ae43a9139419f4a4c02, type: 2}
@@ -9291,6 +9295,7 @@ MonoBehaviour:
   potionCards:
   - {fileID: 11400000, guid: e14b1a9da3affbe4eab3b186cf1a5541, type: 2}
   - {fileID: 11400000, guid: 61cd59fb49228264a9230ffce34220b4, type: 2}
+  - {fileID: 11400000, guid: a3734c7699eeac14f94facb8d8b0efc0, type: 2}
   rareItemCards:
   - {fileID: 11400000, guid: 91d71f636d88a4241ae10df222b41ad0, type: 2}
   - {fileID: 11400000, guid: c500df85dafcef347b39c6d2bf104cf4, type: 2}

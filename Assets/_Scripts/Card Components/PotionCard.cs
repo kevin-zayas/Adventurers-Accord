@@ -82,6 +82,9 @@ public class PotionCard : Card
             case Potion.Power:
                 ApplyPotionOfPower(adventurerCard);
                 break;
+            case Potion.Strength:
+                ApplyPotionOfStrength(adventurerCard);
+                break;
             default:
                 Debug.LogError($"Unknown potion type: {PotionType.Value}");
                 break;
@@ -99,6 +102,12 @@ public class PotionCard : Card
     {
         adventurerCard.ApplyPotionPhysicalPower(1);
         adventurerCard.ApplyPotionMagicalPower(1);
+    }
+
+    [Server]
+    private void ApplyPotionOfStrength(AdventurerCard adventurerCard)
+    {
+        adventurerCard.ApplyPotionPhysicalPower(4, true);
     }
 
 }

@@ -86,7 +86,8 @@ public class PotionDragDrop : CardDragDrop
             ResetCardPosition();
             return;
         }
-        else if (potionCard.PotionType.Value == Potion.Power && adventurerCard.OriginalPhysicalPower.Value == 0 && adventurerCard.OriginalMagicalPower.Value == 0)
+        else if (potionCard.PotionType.Value == Potion.Power && (adventurerCard.OriginalPhysicalPower.Value == 0 && adventurerCard.potionBasePhysicalPower.Value == 0) && 
+                                                                 adventurerCard.OriginalMagicalPower.Value == 0 && adventurerCard.potionBaseMagicalPower.Value == 0)
         {
             PopUpManager.Instance.CreateToastPopUp("Cannot use potion: Adventurer cannot be empowered");
             ResetCardPosition();
