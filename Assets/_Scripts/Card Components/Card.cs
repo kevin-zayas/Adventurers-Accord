@@ -65,7 +65,7 @@ public abstract class Card : NetworkBehaviour
     public void SetCardOwner(Player player)
     {
         ControllingPlayer.Value = player;
-        ControllingPlayerHand.Value = player.controlledHand.Value;
+        ControllingPlayerHand.Value = player.ControlledHand.Value;
         GiveOwnership(player.Owner);
         IsDraftCard.Value = false;
     }
@@ -112,7 +112,7 @@ public abstract class Card : NetworkBehaviour
     public virtual void ServerSetCardOwner(Player owningPlayer)
     {
         ControllingPlayer.Value = owningPlayer;
-        ControllingPlayerHand.Value = owningPlayer.controlledHand.Value;
+        ControllingPlayerHand.Value = owningPlayer.ControlledHand.Value;
         GiveOwnership(owningPlayer.Owner);
         IsDraftCard.Value = false;
     }

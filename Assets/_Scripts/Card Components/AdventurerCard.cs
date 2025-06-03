@@ -327,7 +327,7 @@ public class AdventurerCard : Card
 
         Player player = ControllingPlayer.Value;
         int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
-        player.DispatchedAdventurerCount++;
+        player.UpdateDispatchedAdventurerCount(1);
 
         if (player.IsFightersGuild && OriginalPhysicalPower.Value > 0)
         {
@@ -369,7 +369,7 @@ public class AdventurerCard : Card
         ResetPower();
 
         Player player = ControllingPlayer.Value;
-        player.DispatchedAdventurerCount--;
+        player.UpdateDispatchedAdventurerCount(-1);
         int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
 
         if (player.IsFightersGuild && OriginalPhysicalPower.Value > 0)
@@ -422,6 +422,8 @@ public class AdventurerCard : Card
         if (ParentTransform.Value == null) return;
         QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
         if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
+        if (PopUpManager.Instance.ResolvingPlayer != Player.Instance) return;
+
         if (ControllingPlayer.Value != Player.Instance)
         {
             PopUpManager.Instance.CreateToastPopUp("Cannot use Potion: Adventurer does not belong to the player");

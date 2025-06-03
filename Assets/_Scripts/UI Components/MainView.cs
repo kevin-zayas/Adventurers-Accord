@@ -1,10 +1,13 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class MainView : View
 {
-    public TMP_Text text;
+    [SerializeField] private TMP_Text yourTurnText;
+    [SerializeField] private TMP_Text oddJobsGold;
+    [SerializeField] private GameObject oddJobsBanner;
 
     public override void Initialize()
     {
@@ -28,6 +31,14 @@ public class MainView : View
     public override void Show(object args = null) 
     {
         base.Show(args);
-        text.GetComponent<FlashingEffect>().FlashEffect();
+        yourTurnText.GetComponent<FlashingEffect>().FlashEffect();
+    }
+
+    public void UpdateOddJobsBanner(bool isEnabled)
+    {
+        oddJobsBanner.SetActive(isEnabled);
+
+        int oddJobGold = 1 + (GameManager.Instance.RoundNumber.Value + 1) / 2;
+        oddJobsGold.text = oddJobGold.ToString();
     }
 }

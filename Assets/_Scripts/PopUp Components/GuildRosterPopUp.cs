@@ -45,7 +45,7 @@ public class GuildRosterPopUp : NetworkBehaviour
     protected void ServerPopulateGuildRoster(NetworkConnection connection, Player player)
     {
         bool hasAdventurerCard = false;
-        foreach (Transform handCard in player.controlledHand.Value.transform)
+        foreach (Transform handCard in player.ControlledHand.Value.transform)
         {
             if (handCard.GetComponent<AdventurerCard>() != null)
             {
@@ -74,7 +74,7 @@ public class GuildRosterPopUp : NetworkBehaviour
     {
         List<AdventurerCard> rivalRoster = new List<AdventurerCard>();
 
-        foreach (Transform handCard in player.controlledHand.Value.transform)
+        foreach (Transform handCard in player.ControlledHand.Value.transform)
         {
             if (handCard.GetComponent<AdventurerCard>() != null)
             {

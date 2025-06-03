@@ -26,7 +26,7 @@ public class GameManager : NetworkBehaviour
     [field: SerializeField] public int ReputationGoal { get; private set; }
     public bool[] PlayerSkipTurnStatus { get; private set; }
     public SyncList<bool> PlayerEndRoundConfirmations { get; } = new SyncList<bool>();
-    public int RoundNumber { get; private set; }
+    public SyncVar<int> RoundNumber { get; } = new();
     #endregion
 
     #region Game Phases
@@ -72,7 +72,7 @@ public class GameManager : NetworkBehaviour
     [Server]
     public void StartGame()
     {
-        RoundNumber = 1;
+        RoundNumber.Value = 1;
         CurrentPhase.Value = Phase.Recruit;
         Board.Instance.ObserversUpdatePhaseText("Recruit");
 
@@ -247,7 +247,7 @@ public class GameManager : NetworkBehaviour
                 StartingTurn = (StartingTurn + 1) % Players.Count;
                 Turn.Value = StartingTurn;
                 SetPlayerTurn(Players[Turn.Value]);
-                RoundNumber++;
+                RoundNumber.Value++;
 
                 DiscardPile.Instance.RecoverAdventurers();
                 ResetGuildBonusTrackers();

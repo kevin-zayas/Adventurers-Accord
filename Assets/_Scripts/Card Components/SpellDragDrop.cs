@@ -72,7 +72,10 @@ public class SpellDragDrop : CardDragDrop
             ResetCardPosition();
             return;
         }
-
+        if (PopUpManager.Instance.CurrentResolutionPopUp != null)
+        {
+            PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();
+        }
         GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);

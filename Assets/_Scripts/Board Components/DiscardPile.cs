@@ -37,7 +37,7 @@ public class DiscardPile : NetworkBehaviour
                 if (card.CurrentRestPeriod.Value > 0) card.ChangeCurrentRestPeriod(-1);
                 else
                 {
-                    card.SetCardParent(player.controlledHand.Value.transform, false);
+                    card.SetCardParent(player.ControlledHand.Value.transform, false);
                     cardsToRemove.Add(card);
                     card.ResetCurrentRestPeriod();
                 }

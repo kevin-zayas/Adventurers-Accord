@@ -360,7 +360,7 @@ public class QuestLane : NetworkBehaviour
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
         wolfCard.SetCardOwner(controllingPlayer);
-        wolfCard.SetCardParent(Player.Value.controlledHand.Value.transform,false);
+        wolfCard.SetCardParent(Player.Value.ControlledHand.Value.transform,false);
         wolfCard.SetCardParent(QuestDropZone.transform, false);
     }
 

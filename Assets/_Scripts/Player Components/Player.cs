@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using static CardDatabase;
+using static GameManager;
 
 public class Player : NetworkBehaviour
 {
@@ -19,8 +20,8 @@ public class Player : NetworkBehaviour
     public readonly SyncVar<int> Reputation = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsReady = new();
     public readonly SyncVar<bool> CanStartGame = new();
-    public readonly SyncVar<Hand> controlledHand = new();
-    public int DispatchedAdventurerCount;
+    public readonly SyncVar<Hand> ControlledHand = new();
+    public int DispatchedAdventurerCount { get; private set; }
 
     [SerializeField] private Hand handPrefab;
     [SerializeField] private AudioMixer masterMixer;
@@ -74,7 +75,7 @@ public class Player : NetworkBehaviour
         Hand newHandObject = Instantiate(handPrefab, Vector2.zero, Quaternion.identity);
         Spawn(newHandObject.gameObject, Owner);
 
-        controlledHand.Value = newHandObject;
+        ControlledHand.Value = newHandObject;
         newHandObject.controllingPlayer.Value = this;
         newHandObject.playerID.Value = PlayerID.Value;
 
@@ -195,7 +196,7 @@ public class Player : NetworkBehaviour
         if (!IsOwner)
         {
             hand.GetComponent<BoxCollider2D>().enabled = false;
-            hand.gameObject.transform.SetPosition(true, new Vector2(960,-300));
+            hand.gameObject.transform.SetPosition(true, new Vector2(960, -300));
             return;
         }
 
@@ -234,31 +235,32 @@ public class Player : NetworkBehaviour
     }
 
     [TargetRpc]
-    private void TargetUpdatePlayerView(NetworkConnection networkConnection, bool isPlayerTurn, GameManager.Phase currentPhase)
+    private void TargetUpdatePlayerView(NetworkConnection networkConnection, bool isPlayerTurn, Phase currentPhase)
     {
-        switch (currentPhase) 
-        {            
-            case GameManager.Phase.Recruit:
-            case GameManager.Phase.Dispatch:
+        switch (currentPhase)
+        {
+            case Phase.Recruit:
+            case Phase.Dispatch:
 
                 if (isPlayerTurn) ViewManager.Instance.Show<MainView>();
                 else ViewManager.Instance.Show<WaitView>();
 
-                if (currentPhase == GameManager.Phase.Recruit) ViewManager.Instance.EnableRecruitUI();
-                else ViewManager.Instance.EnableQuestUI();
+                ViewManager.Instance.MainView.UpdateOddJobsBanner(isPlayerTurn && currentPhase == Phase.Dispatch);
 
+                if (currentPhase == Phase.Recruit) ViewManager.Instance.EnableRecruitUI();
+                else ViewManager.Instance.EnableQuestUI();
                 break;
 
-            case GameManager.Phase.Resolution:
+            case Phase.Resolution:
                 if (isPlayerTurn) ViewManager.Instance.Show<ResolutionView>();
                 else ViewManager.Instance.Show<WaitView>();
                 break;
 
-            case GameManager.Phase.Magic:
+            case Phase.Magic:
                 ViewManager.Instance.Show<EndRoundView>();
                 break;
 
-            case GameManager.Phase.GameOver:
+            case Phase.GameOver:
                 ViewManager.Instance.Show<ResolutionView>();        //blank view with no buttons
                 break;
         }
@@ -315,5 +317,18 @@ public class Player : NetworkBehaviour
     public void SetIsAnimating(bool value)
     {
         IsAnimating = value;
+    }
+
+    [Server]
+    public void UpdateDispatchedAdventurerCount(int value)
+    {
+        DispatchedAdventurerCount += value;
+        TargetUpdateOddJobbsBanner(Owner, DispatchedAdventurerCount == 0);
+    }
+
+    [TargetRpc]
+    private void TargetUpdateOddJobbsBanner(NetworkConnection connection, bool value)
+    {
+        ViewManager.Instance.MainView.UpdateOddJobsBanner(value);
     }
 }

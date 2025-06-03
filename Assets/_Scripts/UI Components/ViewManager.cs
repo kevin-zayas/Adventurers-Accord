@@ -8,11 +8,12 @@ public class ViewManager : MonoBehaviour
     [SerializeField] private View[] views;
     [SerializeField] private View defaultView;
     [SerializeField] private bool autoInitialize;
-
     [SerializeField] private GameObject recruitUI;
     [SerializeField] private GameObject questUI;
 
     private View currentView;
+    public MainView MainView;
+    public EndRoundView EndRoundView;
 
     private void Awake()
     {

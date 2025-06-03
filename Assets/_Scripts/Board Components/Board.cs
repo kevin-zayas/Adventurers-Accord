@@ -291,7 +291,7 @@ public class Board : NetworkBehaviour
             playerSummaries.Add(player.PlayerID.Value, playerSummary);
             if (player.DispatchedAdventurerCount == 0)
             {
-                int oddJobGold = 1 + (GameManager.Instance.RoundNumber + 1) / 2;
+                int oddJobGold = 1 + (GameManager.Instance.RoundNumber.Value + 1) / 2;
                 playerSummary.AddBonusReward("Odd Jobs", oddJobGold, 0, 0);
                 player.ChangePlayerGold(oddJobGold);
                 player.UpdateGuildRecapTracker("Odd Jobs (Count)", 1);
@@ -337,7 +337,7 @@ public class Board : NetworkBehaviour
         for (int i = 0; i < lootAmount; i++)
         {
             CardData randomLootData = RewardLootDeck[Random.Range(0, RewardLootDeck.Count)];
-            SpawnCard(randomLootData, player.controlledHand.Value.transform, player);
+            SpawnCard(randomLootData, player.ControlledHand.Value.transform, player);
             if (randomLootData.CardType == CardType.MagicItem)
             {
                 player.UpdateGuildRecapTracker("Magic Items (Loot)", 1);
@@ -365,7 +365,7 @@ public class Board : NetworkBehaviour
 
             foreach (CardData cardData in startingHand)
             {
-                SpawnCard(cardData, player.controlledHand.Value.transform, player);
+                SpawnCard(cardData, player.ControlledHand.Value.transform, player);
             }
         }
     }
