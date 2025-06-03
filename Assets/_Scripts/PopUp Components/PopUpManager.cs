@@ -153,6 +153,12 @@ public class PopUpManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
+    public void ServerCreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival)
+    {
+        CreateGuildRosterPopUp(connection, player, isViewingRival);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
     public void ServerCreateAdventurerRegistryPopUp(NetworkConnection connection)
     {
         AdventurerRegistryPopUp popUp = Instantiate(AdventurerRegistryPopUpPrefab);

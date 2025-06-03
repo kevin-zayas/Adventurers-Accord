@@ -25,7 +25,7 @@ public class Player : NetworkBehaviour
     [SerializeField] private Hand handPrefab;
     [SerializeField] private AudioMixer masterMixer;
 
-    [field: SerializeField] public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
+    public List<AdventurerCard> DiscardPile { get; } = new List<AdventurerCard>();
 
     public GuildType GuildType { get; private set; }
     public Dictionary<int, Dictionary<string, int>> GuildBonusTracker { get; private set; }

@@ -1,5 +1,8 @@
+using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 
 public class DiscardPile : NetworkBehaviour
 {
@@ -7,7 +10,8 @@ public class DiscardPile : NetworkBehaviour
     public static DiscardPile Instance { get; private set; }
     #endregion
 
-    // Start is called before the first frame update
+    [SerializeField] private TMP_Text restingAdventurerCount;
+
     void Start()
     {
         Instance = this;
@@ -43,7 +47,14 @@ public class DiscardPile : NetworkBehaviour
             {
                 player.DiscardPile.Remove(card);
             }
+
+            TargetUpdateRestingCount(player.Owner, player.DiscardPile.Count);
         }
-        //GameManager.Instance.EndPhase();
+    }
+
+    [TargetRpc]
+    private void TargetUpdateRestingCount(NetworkConnection connection, int discardPileCount)
+    {
+        restingAdventurerCount.text = discardPileCount.ToString();
     }
 }

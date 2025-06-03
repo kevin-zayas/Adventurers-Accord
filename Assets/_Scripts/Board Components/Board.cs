@@ -4,6 +4,7 @@ using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using static Card;
 
 public class Board : NetworkBehaviour
@@ -28,8 +29,9 @@ public class Board : NetworkBehaviour
     [SerializeField] private TMP_Text t2DeckTrackerText;
     [SerializeField] private TMP_Text lootDeckTrackerText;
     [SerializeField] private TMP_Text phaseText;
-    [SerializeField] public TMP_Text goldText;
-    [SerializeField] public TMP_Text reputationText;
+    [SerializeField] private Button restingAdventurerButton;
+    public TMP_Text goldText;
+    public TMP_Text reputationText;
     #endregion
 
     #region Constants
@@ -40,6 +42,10 @@ public class Board : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+        restingAdventurerButton.onClick.AddListener(() =>
+        {
+            PopUpManager.Instance.ServerCreateGuildRosterPopUp(LocalConnection, Player.Instance, false);
+        });
     }
 
     /// <summary>
