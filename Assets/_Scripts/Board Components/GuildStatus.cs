@@ -10,6 +10,7 @@ public class GuildStatus : MonoBehaviour
     [SerializeField] private TMP_Text reputationAmount;
     [SerializeField] private GameObject ownerBorder;
     [SerializeField] private GameObject turnIndicator;
+    [SerializeField] private Button guildRosterButton;
 
     public void InitializeGuildStatus(Player player)
     {
@@ -17,15 +18,13 @@ public class GuildStatus : MonoBehaviour
         SetGoldAmount(player.Gold.Value);
         SetReputationAmount(player.Reputation.Value);
         gameObject.SetActive(true);
+        ownerBorder.SetActive(player.IsOwner);
 
-        if (player.IsOwner)
+        guildRosterButton.onClick.AddListener(() =>
         {
-            ownerBorder.SetActive(true);
-        }
-        else
-        {
-            ownerBorder.SetActive(false);
-        }
+            PopUpManager.Instance.ServerCreateGuildRosterPopUp(Player.Instance.Owner, player, player != Player.Instance);
+        });
+
     }
 
     public void SetGuildSprite(GuildType guildType)
