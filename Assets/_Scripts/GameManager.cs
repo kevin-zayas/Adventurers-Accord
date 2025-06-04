@@ -3,6 +3,7 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : NetworkBehaviour
@@ -27,6 +28,10 @@ public class GameManager : NetworkBehaviour
     public bool[] PlayerSkipTurnStatus { get; private set; }
     public SyncList<bool> PlayerEndRoundConfirmations { get; } = new SyncList<bool>();
     public SyncVar<int> RoundNumber { get; } = new();
+
+    [SerializeField] private TMP_Text countdown;
+    private readonly SyncVar<float> countdownTime = new();
+
     #endregion
 
     #region Game Phases
@@ -39,8 +44,14 @@ public class GameManager : NetworkBehaviour
         Turn.OnChange += Turn_OnChange;
     }
 
+    private void Start()
+    {
+        if (IsServerInitialized) countdownTime.Value = 60f * 60f; // 60 minutes timer
+    }
+
     private void Update()
     {
+        UpdateCountDown();
         if (!IsServerInitialized) return;
 
         if (DidStartGame && Players.Count == 0)
@@ -49,6 +60,22 @@ public class GameManager : NetworkBehaviour
             DidStartGame = false;
             print("restarting server");
         }
+    }
+
+    private void UpdateCountDown()
+    {
+        if (countdownTime.Value == 0f) return;
+
+        if (IsServerInitialized)
+        {
+            countdownTime.Value -= Time.deltaTime;
+            if (countdownTime.Value < 0f) countdownTime.Value = 0f;
+        }
+
+        int minutes = Mathf.FloorToInt(countdownTime.Value / 60f);
+        int seconds = Mathf.FloorToInt(countdownTime.Value % 60f);
+        countdown.text = $"{minutes:00}:{seconds:00}";
+        countdown.color = countdownTime.Value <= 5 * 60f ? Color.red : Color.white;
     }
 
     [Server]
@@ -180,7 +207,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerResetPlayerEndRoundConfirmation(NetworkConnection connection,int playerID, bool isPotion = false)
+    public void ServerResetPlayerEndRoundConfirmation(NetworkConnection connection, int playerID, bool isPotion = false)
     {
         PlayerEndRoundConfirmations[playerID] = false;
         if (!isPotion) TargetEnableEndRoundButon(connection);   //potions will enable/disable the button with their own logic
