@@ -13,6 +13,7 @@ public class GuildRosterPopUp : NetworkBehaviour
     [SerializeField] private GameObject restingRosterGroup;
 
     [SerializeField] private GameObject cooldownDisplayPrefab;
+    [SerializeField] private Toggle showActiveAdventurersToggle;
 
     void Start()
     {
@@ -25,6 +26,16 @@ public class GuildRosterPopUp : NetworkBehaviour
         {
             ServerClosePopUp(true, LocalConnection);
         });
+
+        if (showActiveAdventurersToggle == null) return;
+
+        showActiveAdventurersToggle.onValueChanged.AddListener((value) =>
+        {
+            activeRosterGroup.SetActive(value);
+            PlayerPrefs.SetInt("ShowActiveAdventurers", value ? 1 : 0);
+        });
+
+        showActiveAdventurersToggle.isOn = PlayerPrefs.GetInt("ShowActiveAdventurers", 0) == 1;
     }
 
     [TargetRpc]
@@ -54,12 +65,12 @@ public class GuildRosterPopUp : NetworkBehaviour
             }
         }
 
-        if (!hasAdventurerCard) TargetDisableRoster(connection, "Active");
-        if (player.DiscardPile.Count == 0)
-        {
-            TargetDisableRoster(connection, "Resting");
-            return;
-        }
+        //if (!hasAdventurerCard) TargetDisableRoster(connection, "Active");
+        //if (player.DiscardPile.Count == 0)
+        //{
+        //    TargetDisableRoster(connection, "Resting");
+        //    return;
+        //}
 
         // Sort the player's discard pile by current cooldown
         player.DiscardPile.Sort((x, y) => x.CurrentRestPeriod.Value.CompareTo(y.CurrentRestPeriod.Value));
