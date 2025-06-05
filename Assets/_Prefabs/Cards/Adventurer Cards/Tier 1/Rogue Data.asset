@@ -18,11 +18,11 @@ MonoBehaviour:
   <OriginalPhysicalPower>k__BackingField: 2
   <OriginalMagicalPower>k__BackingField: 0
   <Cost>k__BackingField: 5
-  <CardDescription>k__BackingField: 'Resolution Phase: <color=#FFE000>Disable</color>
+  <CardDescription>k__BackingField: 'Ability Phase: <color=#FFE000>Disable</color>
     a Magic Item equipped by another Adventurer on this Quest until the Quest is
     resolved.'
   <CardSubDescription>k__BackingField: 
-  <CardType>k__BackingField: Adventurer
+  <CardType>k__BackingField: 0
   <AbilityName>k__BackingField: Saboteur
   <RestPeriod>k__BackingField: 1
   <GoldReward>k__BackingField: 0
@@ -39,3 +39,4 @@ MonoBehaviour:
   <BlockSpells>k__BackingField: 0
   <IsNegativeEffect>k__BackingField: 0
   <IsNumerical>k__BackingField: 0
+  <PotionType>k__BackingField: 0

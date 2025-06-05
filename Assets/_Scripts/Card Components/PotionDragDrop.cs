@@ -18,9 +18,9 @@ public class PotionDragDrop : CardDragDrop
     {
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
-        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Resolution)
+        if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Ability)
         {
-            PopUpManager.Instance.CreateToastPopUp("You cannot use potions during Resolution Phase");
+            PopUpManager.Instance.CreateToastPopUp("You cannot use potions during Ability Phase");
             return false;
         }
         return true;

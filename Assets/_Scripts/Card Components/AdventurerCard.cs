@@ -394,7 +394,7 @@ public class AdventurerCard : Card
     /// </summary>
     public void OnResolutionClick()
     {
-        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Resolution) return;
+        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Ability) return;
         if (!Player.Instance.IsPlayerTurn.Value) return;
         if (ParentTransform.Value == null) return;
 

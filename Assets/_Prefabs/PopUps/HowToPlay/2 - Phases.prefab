@@ -706,11 +706,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<u>Resolution Phase</u> \u2013 Some Adventurer Cards have abilities that
-    require the player to make a choice. These choices are resolved during Resolution
-    Phase. For example, if you have a Rogue on a Quest, you will need to select which
-    Adventurer you want to steal from. \n\nWhen resolving these abilities, keep in
-    mind that your Adventurer can only affect cards that are on the same Quest."
+  m_text: "<u>Ability Phase</u> \u2013 Some Adventurer Cards have abilities that
+    require the player to make a choice. These choices are resolved during Ability
+    Phase. For example, if you have an Assassin on a Quest, you will need to select
+    which Adventurer you want to poison.\n\nWhen resolving these abilities, keep
+    in mind that your Adventurer can only affect cards that are on the same Quest."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
   m_sharedMaterial: {fileID: -8468092706294974671, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}

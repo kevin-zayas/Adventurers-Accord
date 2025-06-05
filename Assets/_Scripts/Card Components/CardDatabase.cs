@@ -71,13 +71,13 @@ public class CardDatabase : NetworkBehaviour
     private void InitializeCardKeywordMap()
     {
         //ADVENTURERERS
-        CardKeywordMap.Add("Assassin", new List<string> { "Poison" });//, "Resolution Phase"});
+        CardKeywordMap.Add("Assassin", new List<string> { "Poison" });//, "Ability Phase"});
         CardKeywordMap.Add("Bard", new List<string> { "Bardsong" });
         CardKeywordMap.Add("Battlemage", new List<string> { "Magic Items", "Empower" });
         CardKeywordMap.Add("Cleric", new List<string> { "Protection", "Rest Period" });
         CardKeywordMap.Add("Enchanter", new List<string> { "Empower" });
         CardKeywordMap.Add("Ranger", new List<string> { "Summon" });
-        CardKeywordMap.Add("Rogue", new List<string> { "Disable" });//, "Resolution Phase"});
+        CardKeywordMap.Add("Rogue", new List<string> { "Disable" });//, "Ability Phase"});
         CardKeywordMap.Add("Sorcerer", new List<string> { "Empower" });
         CardKeywordMap.Add("Tinkerer", new List<string> { "Empower"  });
         //CardKeywordMap.Add("", new List<string> { "" });
@@ -126,7 +126,7 @@ public class CardDatabase : NetworkBehaviour
         KeywordDefinitionMap.Add("Potions", potionKeywordText);
 
         KeywordDefinitionMap.Add("Magic Phase", magicPhaseKeywordText);
-        KeywordDefinitionMap.Add("Resolution Phase", resolutionPhaseKeywordText);
+        KeywordDefinitionMap.Add("Ability Phase", abilityPhaseKeywordText);
 
         KeywordDefinitionMap.Add("Weaken", weakenKeywordText);
 
@@ -202,9 +202,9 @@ public class CardDatabase : NetworkBehaviour
     private readonly string afflictKeywordText = "Decreases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends. This value cannot be decreased below 0.";
     //private readonly string grantKeywordText = "Increases the <color=#6C00D7>Power</color> of an Adventuring Party by a specified amount until the Quest ends.";
 
-    private readonly string potionKeywordText = "Applies a temporary effect to an Adventurer until they complete a Quest. Use during any phase except Resolution Phase by dragging the Potion card onto an Adventurer in your Hand, or onto a Quest to select an Adventurer.";
+    private readonly string potionKeywordText = "Applies a temporary effect to an Adventurer until they complete a Quest. Use during any phase except Ability Phase by dragging the Potion card onto an Adventurer in your Hand, or onto a Quest to select an Adventurer.";
 
-    private readonly string resolutionPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
+    private readonly string abilityPhaseKeywordText = "The phase where abilities requiring player decisions are executed, and their effects are applied.";
     private readonly string magicPhaseKeywordText = "The phase in which players can play Spells to affect the outcome of a Quest.";
 
     private readonly string weakenKeywordText = "Reduces the <color=#6C00D7>Power</color> of all Adventurers on this Quest by a specified amount until the Quest ends. This value cannot be decreased below 0.";

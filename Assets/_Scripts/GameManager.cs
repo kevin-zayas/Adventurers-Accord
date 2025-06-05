@@ -35,7 +35,7 @@ public class GameManager : NetworkBehaviour
     #endregion
 
     #region Game Phases
-    public enum Phase { Recruit, Dispatch, Magic, Resolution, Recovery, GameOver }
+    public enum Phase { Recruit, Dispatch, Magic, Ability, Recovery, GameOver }
     #endregion
 
     private void Awake()
@@ -246,12 +246,12 @@ public class GameManager : NetworkBehaviour
                 break;
 
             case Phase.Dispatch:
-                CurrentPhase.Value = Phase.Resolution;
-                Board.Instance.ObserversUpdatePhaseText("Resolution");
+                CurrentPhase.Value = Phase.Ability;
+                Board.Instance.ObserversUpdatePhaseText("Ability");
                 CheckForUnresolvedCards();
                 break;
 
-            case Phase.Resolution:
+            case Phase.Ability:
                 CurrentPhase.Value = Phase.Magic;
                 Board.Instance.ObserversUpdatePhaseText("Magic");
                 BeginEndRound();

@@ -251,7 +251,7 @@ public class Player : NetworkBehaviour
                 else ViewManager.Instance.EnableQuestUI();
                 break;
 
-            case Phase.Resolution:
+            case Phase.Ability:
                 if (isPlayerTurn) ViewManager.Instance.Show<ResolutionView>();
                 else ViewManager.Instance.Show<WaitView>();
                 break;
