@@ -1003,19 +1003,21 @@ MonoBehaviour:
     _value: 0
   disableScreen: {fileID: 0}
   hoverScreen: {fileID: 7497135699735217334}
-  isClone: 0
   magicalPowerText: {fileID: 3313565800043067953}
   physicalPowerText: {fileID: 8026055629125033657}
+  cardTypeText: {fileID: 0}
+  cardImage: {fileID: 6958857792175851566}
+  costText: {fileID: 0}
+  nameText: {fileID: 2029664163792765779}
   PartySizeLimit:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
     _value: 0
   abilityNameText: {fileID: 7136576047852920583}
-  abilityNameObject: {fileID: 5754032108738682450}
-  cardImage: {fileID: 6958857792175851566}
+  abilityDescriptionText: {fileID: 0}
+  abilityBox: {fileID: 0}
   goldRewardText: {fileID: 3602657811630039641}
   lootRewardText: {fileID: 3652389081552512586}
-  nameText: {fileID: 2029664163792765779}
   reputationRewardText: {fileID: 2629700042581359098}
   partySizeLimitText: {fileID: 3074421225653699412}
   reputationPenaltyText: {fileID: 3510146270180312798}

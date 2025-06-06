@@ -26,7 +26,8 @@ public class QuestCard : Card
 
     #region UI Elements
     [SerializeField] private TMP_Text abilityNameText;
-    [SerializeField] private GameObject abilityNameObject;
+    [SerializeField] private TMP_Text abilityDescriptionText;
+    [SerializeField] private GameObject abilityBox;
     [SerializeField] private TMP_Text goldRewardText;
     [SerializeField] private TMP_Text lootRewardText;
     [SerializeField] private TMP_Text reputationRewardText;
@@ -43,6 +44,7 @@ public class QuestCard : Card
     public override void LoadCardData(CardData cardData)
     {
         AbilityName.Value = cardData.AbilityName;
+        CardDescription.Value = cardData.CardDescription;
         GoldReward.Value = cardData.GoldReward;
         ReputationReward.Value = cardData.ReputationReward;
         LootReward.Value = cardData.LootReward;
@@ -70,6 +72,7 @@ public class QuestCard : Card
         magicalPowerText.text = cardData.MagicalPower.ToString();
         nameText.text = cardData.CardName;
         abilityNameText.text = cardData.AbilityName;
+        abilityDescriptionText.text = cardData.CardDescription;
         goldRewardText.text = cardData.GoldReward.ToString();
         reputationRewardText.text = cardData.ReputationReward.ToString();
         lootRewardText.text = cardData.LootReward.ToString();
@@ -77,7 +80,7 @@ public class QuestCard : Card
         reputationPenaltyText.text = cardData.ReputationPenalty.ToString();
         restPeriodPenaltyText.text = cardData.RestPeriodPenalty.ToString();
 
-        if (cardData.AbilityName == "") abilityNameObject.SetActive(false);
+        if (cardData.AbilityName == "") abilityBox.SetActive(false);
 
         cardImage.sprite = CardDatabase.Instance.CardSpriteMap[cardData.CardName];
     }
@@ -99,6 +102,7 @@ public class QuestCard : Card
         magicalPowerText.text = card.MagicalPower.Value.ToString();
         nameText.text = card.CardName.Value;
         abilityNameText.text = card.AbilityName.Value;
+        abilityDescriptionText.text = card.CardDescription.Value;
         goldRewardText.text = card.GoldReward.Value.ToString();
         reputationRewardText.text = card.ReputationReward.Value.ToString();
         lootRewardText.text = card.LootReward.Value.ToString();
@@ -106,6 +110,6 @@ public class QuestCard : Card
         reputationPenaltyText.text = card.ReputationPenalty.Value.ToString();
         restPeriodPenaltyText.text = card.RestPeriodPenalty.Value.ToString();
 
-        if (card.CardDescription.Value == "") abilityNameObject.SetActive(false);
+        if (card.CardDescription.Value == "") abilityBox.SetActive(false);
     }
 }
