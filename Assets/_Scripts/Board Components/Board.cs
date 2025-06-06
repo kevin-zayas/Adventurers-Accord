@@ -151,12 +151,11 @@ public class Board : NetworkBehaviour
     [Server]
     public void DrawQuestCard(int questSlotIndex)
     {
-        List<CardData> questCardDeck = CardDatabase.Instance.TestQuestCards.Count > 0
-            ? CardDatabase.Instance.TestQuestCards
+        List<CardData> questCardDeck = CardDatabase.Instance.TestQuestCards.Count > 0 ? CardDatabase.Instance.TestQuestCards
             : L1QuestCardDeck.Count > 0 ? L1QuestCardDeck
-                : L2QuestCardDeck.Count > 0 ? L2QuestCardDeck
-                    : L3QuestCardDeck.Count > 0 ? L3QuestCardDeck
-                        : null;
+            : L2QuestCardDeck.Count > 0 ? L2QuestCardDeck
+            : L3QuestCardDeck.Count > 0 ? L3QuestCardDeck
+            : null;
 
         if (questCardDeck == null) return;
 
