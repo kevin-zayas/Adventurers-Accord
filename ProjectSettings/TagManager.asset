@@ -12,6 +12,7 @@ TagManager:
   - Quest
   - Canvas
   - Discard
+  - Slot
   layers:
   - Default
   - TransparentFX
