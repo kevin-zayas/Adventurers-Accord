@@ -296,9 +296,9 @@ MonoBehaviour:
   visualShadow: {fileID: 4655257411883921324}
   shakeParent: {fileID: 3131920512494550093}
   tiltParent: {fileID: 4212271551886177345}
-  cardImage: {fileID: 0}
+  cardImage: {fileID: 3563263049819272553}
   followSpeed: 15
-  rotationAmount: 2.5
+  rotationAmount: 1
   rotationSpeed: 15
   autoTiltAmount: 30
   manualTiltAmount: 20

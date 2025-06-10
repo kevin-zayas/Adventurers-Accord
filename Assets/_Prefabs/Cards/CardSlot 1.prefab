@@ -25,7 +25,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 979138173749275187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -90}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -79,11 +79,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 552028595947599474, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 150.6
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 552028595947599474, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 211.2
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 552028595947599474, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
       propertyPath: m_LocalPosition.x
@@ -133,21 +133,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6061855093233227271, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
-      propertyPath: moveSpeedLimit
-      value: 6000
-      objectReference: {fileID: 0}
     - target: {fileID: 7358487287014078421, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
       propertyPath: m_Name
       value: Card 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7505165583602274339, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7505165583602274339, guid: 2709561877a4dfe4fb74c90ad3c68277, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
