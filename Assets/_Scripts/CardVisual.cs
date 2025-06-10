@@ -10,7 +10,7 @@ public class CardVisual : MonoBehaviour
     public CardHandler parentCard;
     private Transform cardTransform;
     private Vector3 rotationDelta;
-    private int savedIndex;
+    //private int savedIndex;
     Vector3 movementDelta;
     private Canvas canvas;
 
@@ -43,7 +43,7 @@ public class CardVisual : MonoBehaviour
     [Header("Select Parameters")]
     [SerializeField] private float selectPunchAmount = 20;
 
-    [Header("Hober Parameters")]
+    [Header("Hover Parameters")]
     [SerializeField] private float hoverPunchAngle = 5;
     [SerializeField] private float hoverTransition = .15f;
 
@@ -58,7 +58,6 @@ public class CardVisual : MonoBehaviour
 
     private float curveYOffset;
     private float curveRotationOffset;
-    private Coroutine pressCoroutine;
 
     private void Start()
     {
@@ -83,10 +82,10 @@ public class CardVisual : MonoBehaviour
         parentCard.SelectEvent.AddListener(Select);
 
         //Initialization
-        initalize = true;
+        initalize = false;
     }
 
-    public void UpdateIndex(int length)
+    public void UpdateIndex()
     {
         transform.SetSiblingIndex(parentCard.transform.parent.GetSiblingIndex());
     }
@@ -146,7 +145,7 @@ public class CardVisual : MonoBehaviour
     {
         DOTween.Kill(2, true);
         float dir = state ? 1 : 0;
-        shakeParent.DOPunchPosition(shakeParent.up * selectPunchAmount * dir, scaleTransition, 10, 1);
+        shakeParent.DOPunchPosition(dir * selectPunchAmount * shakeParent.up, scaleTransition, 10, 1);
         shakeParent.DOPunchRotation(Vector3.forward * (hoverPunchAngle / 2), hoverTransition, 20, 1).SetId(2);
 
         if (scaleAnimations)

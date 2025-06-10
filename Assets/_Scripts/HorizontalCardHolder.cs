@@ -1,15 +1,14 @@
-using System;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
 using System.Linq;
+using UnityEngine;
 
 public class HorizontalCardHolder : MonoBehaviour
 {
 
     [SerializeField] private CardHandler selectedCard;
-    [SerializeReference] private CardHandler hoveredCard;
+    //[SerializeReference] private CardHandler hoveredCard;
 
     [SerializeField] private GameObject slotPrefab;
     private RectTransform rect;
@@ -35,8 +34,8 @@ public class HorizontalCardHolder : MonoBehaviour
 
         foreach (CardHandler card in cards)
         {
-            card.PointerEnterEvent.AddListener(CardPointerEnter);
-            card.PointerExitEvent.AddListener(CardPointerExit);
+            //card.PointerEnterEvent.AddListener(CardPointerEnter);
+            //card.PointerExitEvent.AddListener(CardPointerExit);
             card.BeginDragEvent.AddListener(BeginDrag);
             card.EndDragEvent.AddListener(EndDrag);
             card.name = cardCount.ToString();
@@ -51,10 +50,12 @@ public class HorizontalCardHolder : MonoBehaviour
             for (int i = 0; i < cards.Count; i++)
             {
                 if (cards[i].cardVisual != null)
-                    cards[i].cardVisual.UpdateIndex(transform.childCount);
+                    cards[i].cardVisual.UpdateIndex();
             }
         }
     }
+
+    // Add Method to create slots dynamically
 
     private void BeginDrag(CardHandler card)
     {
@@ -76,28 +77,18 @@ public class HorizontalCardHolder : MonoBehaviour
 
     }
 
-    void CardPointerEnter(CardHandler card)
-    {
-        hoveredCard = card;
-    }
+    //void CardPointerEnter(CardHandler card)
+    //{
+    //    hoveredCard = card;
+    //}
 
-    void CardPointerExit(CardHandler card)
-    {
-        hoveredCard = null;
-    }
+    //void CardPointerExit(CardHandler card)
+    //{
+    //    hoveredCard = null;
+    //}
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            if (hoveredCard != null)
-            {
-                Destroy(hoveredCard.transform.parent.gameObject);
-                cards.Remove(hoveredCard);
-
-            }
-        }
-
         if (Input.GetMouseButtonDown(1))
         {
             foreach (CardHandler card in cards)
@@ -157,7 +148,7 @@ public class HorizontalCardHolder : MonoBehaviour
         //Updated Visual Indexes
         foreach (CardHandler card in cards)
         {
-            card.cardVisual.UpdateIndex(transform.childCount);
+            card.cardVisual.UpdateIndex();
         }
     }
 

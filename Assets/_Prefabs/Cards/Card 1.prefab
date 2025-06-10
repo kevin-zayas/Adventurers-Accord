@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e43b5f7b1bf59ce499f3a9d64db9d2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  instantiateVisual: 1
+  instantiateVisual: 0
   moveSpeedLimit: 4500
   selected: 0
   selectionOffset: 50

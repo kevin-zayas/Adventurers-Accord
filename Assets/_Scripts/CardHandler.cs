@@ -82,8 +82,8 @@ public class CardHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         offset = mousePosition - (Vector2)transform.position;
         isDragging = true;
-        canvas.GetComponent<GraphicRaycaster>().enabled = false;
-        imageComponent.raycastTarget = false;
+        //canvas.GetComponent<GraphicRaycaster>().enabled = false;
+        //imageComponent.raycastTarget = false;
 
         wasDragged = true;
     }
@@ -96,8 +96,8 @@ public class CardHandler : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     {
         EndDragEvent.Invoke(this);
         isDragging = false;
-        canvas.GetComponent<GraphicRaycaster>().enabled = true;
-        imageComponent.raycastTarget = true;
+        //canvas.GetComponent<GraphicRaycaster>().enabled = true;
+        //imageComponent.raycastTarget = true;
 
         StartCoroutine(FrameWait());
 
