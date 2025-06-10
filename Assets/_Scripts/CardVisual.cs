@@ -82,7 +82,7 @@ public class CardVisual : MonoBehaviour
         parentCard.SelectEvent.AddListener(Select);
 
         //Initialization
-        initalize = false;
+        initalize = true;
     }
 
     public void UpdateIndex()

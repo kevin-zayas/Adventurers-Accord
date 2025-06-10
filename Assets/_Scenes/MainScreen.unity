@@ -12912,6 +12912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedCard: {fileID: 0}
+  hoveredCard: {fileID: 0}
   slotPrefab: {fileID: 979138173749275187, guid: 1a389e37d66eac44b9527a86ae43ba18, type: 3}
   cardsToSpawn: 8
   cards: []
