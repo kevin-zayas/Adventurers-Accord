@@ -365,11 +365,7 @@ public class Board : NetworkBehaviour
 
             foreach (CardData cardData in startingHand)
             {
-                //Testing Hand Slots
-                Hand hand = player.ControlledHand.Value;
-                GameObject handSlot = Instantiate(handSlotPrefab, hand.transform);
-                Spawn(handSlot);
-                SpawnCard(cardData, handSlot.transform, player);
+                SpawnCard(cardData, player.ControlledHand.Value.transform, player);
             }
         }
     }
@@ -388,9 +384,15 @@ public class Board : NetworkBehaviour
 
         Spawn(card.gameObject);
         card.LoadCardData(cardData);
-        if (player != null) card.SetCardOwner(player);
-        card.SetCardParent(transform, false);
-
+        if (player == null)     //Draft Card
+        {
+            card.SetCardParent(transform, false);
+        }
+        else                    //Roster/Loot Card
+        {
+            card.SetCardOwner(player);
+            player.ControlledHand.Value.AddCardToHand(card);
+        }
         return card;
     }
 }

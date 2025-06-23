@@ -51,14 +51,14 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     /// <summary>
     /// Begins the drag operation for the card and reverts card scale back to base
     /// </summary>
-    public override void BeginDrag()
-    {
-        if (CanStartDrag())
-        {
-            base.BeginDrag();
-            transform.localScale = Vector3.one;
-        }
-    }
+    //public override void BeginDrag()
+    //{
+    //    if (CanStartDrag())
+    //    {
+    //        base.BeginDrag();
+    //        transform.localScale = Vector3.one;
+    //    }
+    //}
 
     /// <summary>
     /// Handles the specific logic when the drag operation ends.

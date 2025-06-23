@@ -1789,6 +1789,29 @@ MonoBehaviour:
   player: {fileID: 0}
   card: {fileID: 0}
   _animationDuration: 0.75
+  wasDragged: 0
+  moveSpeedLimit: 6000
+  PointerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  BeginDragEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndDragEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  SelectEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5300939677924261238
 MonoBehaviour:
   m_ObjectHideFlags: 0

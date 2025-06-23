@@ -4,8 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
-public abstract class CardInteractionHandler : NetworkBehaviour
+public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
     #region Serialized Fields
     [SerializeField] protected bool isDragging = false;
@@ -19,6 +23,22 @@ public abstract class CardInteractionHandler : NetworkBehaviour
 
     [SerializeField] private float _animationDuration = 0.75f;
     #endregion
+
+    [HideInInspector] public bool wasDragged;
+    private Vector3 offset;
+
+    [Header("Movement")]
+    [SerializeField] private float moveSpeedLimit = 6000;
+
+    [Header("Events")] 
+    [HideInInspector] public UnityEvent<CardInteractionHandler> PointerEnterEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler> PointerExitEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler, bool> PointerUpEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler> PointerDownEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler> BeginDragEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler> EndDragEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler, bool> SelectEvent;
+    
 
     protected virtual void Awake()
     {
@@ -42,9 +62,27 @@ public abstract class CardInteractionHandler : NetworkBehaviour
     {
         if (isDragging)
         {
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = (Vector2)worldPosition;
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = worldPosition;
         }
+        //ClampPosition();
+
+        //if (isDragging)
+        //{
+        //    Vector2 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - offset;
+        //    Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
+        //    Vector2 velocity = direction * Mathf.Min(moveSpeedLimit, Vector2.Distance(transform.position, targetPosition) / Time.deltaTime);
+        //    transform.Translate(velocity * Time.deltaTime);
+        //}
+    }
+
+    void ClampPosition()
+    {
+        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        Vector3 clampedPosition = transform.position;
+        clampedPosition.x = Mathf.Clamp(clampedPosition.x, -screenBounds.x, screenBounds.x);
+        clampedPosition.y = Mathf.Clamp(clampedPosition.y, -screenBounds.y, screenBounds.y);
+        transform.position = new Vector3(clampedPosition.x, clampedPosition.y, 0);
     }
 
     /// <summary>
@@ -68,6 +106,66 @@ public abstract class CardInteractionHandler : NetworkBehaviour
             dropZone = null;
             //print("exiting dropzone");
         }
+    }
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        BeginDragEvent.Invoke(this);
+
+        //startPosition = transform.position;
+        //startParentTransform = transform.parent;
+        //transform.SetParent(canvas.transform, true);
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        offset = mousePosition - (Vector2)transform.position;
+        isDragging = true;
+        //canvas.GetComponent<GraphicRaycaster>().enabled = false;
+        //imageComponent.raycastTarget = false;
+
+        wasDragged = true;
+
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        EndDragEvent.Invoke(this);
+
+        isDragging = false;
+        //ResetCardPosition();
+        //canvas.GetComponent<GraphicRaycaster>().enabled = true;
+        //imageComponent.raycastTarget = true;
+
+        StartCoroutine(FrameWait());
+
+        IEnumerator FrameWait()
+        {
+            yield return new WaitForEndOfFrame();
+            wasDragged = false;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        PointerEnterEvent.Invoke(this);
+        //isHovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        PointerExitEvent.Invoke(this);
+        //isHovering = false;
+    }
+
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
     }
 
     /// <summary>
@@ -100,32 +198,32 @@ public abstract class CardInteractionHandler : NetworkBehaviour
     /// <summary>
     /// Begins the drag operation for the card.
     /// </summary>
-    public virtual void BeginDrag()
-    {
-        startPosition = transform.position;
-        startParentTransform = transform.parent;
-        isDragging = true;
+    //public virtual void BeginDrag()
+    //{
+    //    startPosition = transform.position;
+    //    startParentTransform = transform.parent;
+    //    isDragging = true;
 
-        transform.SetParent(canvas.transform, true);
-    }
+    //    transform.SetParent(canvas.transform, true);
+    //}
 
     /// <summary>
     /// Ends the drag operation for the card, handling card placement and validation.
     /// </summary>
     public virtual void EndDrag()
     {
-        if (!isDragging) return;
+        //if (!isDragging) return;
 
-        isDragging = false;
+        //isDragging = false;
 
-        if (dropZone == null || startParentTransform == dropZone.transform)
-        {
-            PopUpManager.Instance.CreateToastPopUp("Invalid placement");
-            ResetCardPosition();
-            return;
-        }
+        //if (dropZone == null || startParentTransform == dropZone.transform)
+        //{
+        //    PopUpManager.Instance.CreateToastPopUp("Invalid placement");
+        //    ResetCardPosition();
+        //    return;
+        //}
 
-        HandleEndDrag();
+        //HandleEndDrag();
     }
 
     /// <summary>
@@ -138,7 +236,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour
     /// </summary>
     protected virtual void ResetCardPosition()
     {
-        transform.position = startPosition;
+        transform.localPosition = Vector3.zero;
     }
 
 
@@ -191,5 +289,20 @@ public abstract class CardInteractionHandler : NetworkBehaviour
         }
 
         sequence.Play();
+    }
+
+    public int SiblingAmount()
+    {
+        return transform.parent.CompareTag("Slot") ? transform.parent.parent.childCount - 1 : 0;
+    }
+
+    public int ParentIndex()
+    {
+        return transform.parent.CompareTag("Slot") ? transform.parent.GetSiblingIndex() : 0;
+    }
+
+    public float NormalizedPosition()
+    {
+        return transform.parent.CompareTag("Slot") ? ExtensionMethods.Remap((float)ParentIndex(), 0, (float)(transform.parent.parent.childCount - 1), 0, 1) : 0;
     }
 }
