@@ -30,6 +30,7 @@ public class Board : NetworkBehaviour
     [SerializeField] private TMP_Text lootDeckTrackerText;
     [SerializeField] private TMP_Text phaseText;
     [SerializeField] private Button restingAdventurerButton;
+    [SerializeField] GameObject handSlotPrefab;
     public TMP_Text goldText;
     public TMP_Text reputationText;
     #endregion
@@ -364,7 +365,11 @@ public class Board : NetworkBehaviour
 
             foreach (CardData cardData in startingHand)
             {
-                SpawnCard(cardData, player.ControlledHand.Value.transform, player);
+                //Testing Hand Slots
+                Hand hand = player.ControlledHand.Value;
+                GameObject handSlot = Instantiate(handSlotPrefab, hand.transform);
+                Spawn(handSlot);
+                SpawnCard(cardData, handSlot.transform, player);
             }
         }
     }

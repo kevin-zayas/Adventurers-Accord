@@ -1582,13 +1582,13 @@ GameObject:
   - component: {fileID: 8496964743069183986}
   - component: {fileID: 2511035250748740981}
   - component: {fileID: 2375407051779204461}
-  - component: {fileID: 565309220462768973}
+  - component: {fileID: 2922969160115862960}
   - component: {fileID: 5300939677924261238}
   - component: {fileID: 4105403660370424556}
   - component: {fileID: 8948479971837407625}
   - component: {fileID: 8006336252910119709}
   m_Layer: 8
-  m_Name: Adventurer Card v4
+  m_Name: Adventurer Card v4 Backup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1766,7 +1766,7 @@ MonoBehaviour:
   abilityNameObject: {fileID: 800517241531852951}
   abilityNameText: {fileID: 4004057442462621200}
   restPeriodText: {fileID: 8282507515288726928}
---- !u!114 &565309220462768973
+--- !u!114 &2922969160115862960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1775,7 +1775,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4255163859875467751}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1973750d127d51b48b424d1761f39db0, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e82621df6b02be48bfad9da126b3078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 1
@@ -1788,7 +1788,7 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0}
   player: {fileID: 0}
   card: {fileID: 0}
-  _animationDuration: 0.75
+  _animationDuration: 0.5
 --- !u!114 &5300939677924261238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1801,7 +1801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
   referenceCard: {fileID: 0}
@@ -1838,8 +1838,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 565309220462768973}
-          m_TargetAssemblyTypeName: AdventurerCardInteractionHandler, Assembly-CSharp
+        - m_Target: {fileID: 2922969160115862960}
+          m_TargetAssemblyTypeName: AdventurerDragDrop, Assembly-CSharp
           m_MethodName: BeginDrag
           m_Mode: 1
           m_Arguments:
@@ -1866,8 +1866,8 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 565309220462768973}
-          m_TargetAssemblyTypeName: CardInteractionHandler, Assembly-CSharp
+        - m_Target: {fileID: 2922969160115862960}
+          m_TargetAssemblyTypeName: AdventurerDragDrop, Assembly-CSharp
           m_MethodName: EndDrag
           m_Mode: 1
           m_Arguments:
@@ -1956,8 +1956,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 2375407051779204461}
-  - {fileID: 565309220462768973}
-  - {fileID: 0}
+  - {fileID: 2922969160115862960}
   - {fileID: 5300939677924261238}
   - {fileID: -6211479231835834888}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -1986,9 +1985,9 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 27
+  <PrefabId>k__BackingField: 21
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 10827810311632333306
+  <AssetPathHash>k__BackingField: 1949439136185660670
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -2684,7 +2683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
 --- !u!1 &7458769641897504679
