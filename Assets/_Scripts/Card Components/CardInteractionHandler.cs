@@ -36,7 +36,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> PointerUpEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler> PointerDownEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler> BeginDragEvent;
-    [HideInInspector] public UnityEvent<CardInteractionHandler> EndDragEvent;
+    [HideInInspector] public UnityEvent<CardInteractionHandler, bool> EndDragEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> SelectEvent;
     
 
@@ -112,7 +112,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         BeginDragEvent.Invoke(this);
 
         //startPosition = transform.position;
-        //startParentTransform = transform.parent;
+        startParentTransform = transform.parent.CompareTag("Slot") ? transform.parent.parent : transform.parent;
+
         //transform.SetParent(canvas.transform, true);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -131,10 +132,23 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        EndDragEvent.Invoke(this);
-
         isDragging = false;
-        //ResetCardPosition();
+
+        if (dropZone == null || startParentTransform == dropZone.transform)
+        {
+            EndDragEvent.Invoke(this, true);
+
+            if (!transform.parent.CompareTag("Slot"))
+            {
+                PopUpManager.Instance.CreateToastPopUp("Invalid placement");
+                ResetCardPosition();
+            }
+            return;
+        }
+
+        HandleEndDrag();
+        EndDragEvent.Invoke(this, false);
+
         //canvas.GetComponent<GraphicRaycaster>().enabled = true;
         //imageComponent.raycastTarget = true;
 
@@ -254,7 +268,9 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
 
         card.ServerSetCardOwner(player);
-        card.ServerSetCardParent(dropZone.transform, false);
+        //card.ServerSetCardParent(dropZone.transform, false);
+        player.ControlledHand.Value.AddCardToHand(card);
+        card.transform.localPosition = Vector3.zero;
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);

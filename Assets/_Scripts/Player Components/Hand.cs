@@ -55,16 +55,15 @@ public class Hand : NetworkBehaviour
     }
 
 
-    void EndDrag(CardInteractionHandler card)
+    void EndDrag(CardInteractionHandler card, bool returningToHand)
     {
         if (selectedCard == null)
             return;
 
-        selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
+        if (returningToHand) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
 
         rect.sizeDelta += Vector2.right;
         rect.sizeDelta -= Vector2.right;
-
         selectedCard = null;
 
     }
