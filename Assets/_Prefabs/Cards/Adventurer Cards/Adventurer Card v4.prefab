@@ -1577,13 +1577,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8921334832073319783}
-  - component: {fileID: 6357886304690900734}
-  - component: {fileID: 7217952784170868861}
-  - component: {fileID: 8496964743069183986}
-  - component: {fileID: 2511035250748740981}
   - component: {fileID: 2375407051779204461}
   - component: {fileID: 565309220462768973}
   - component: {fileID: 5300939677924261238}
+  - component: {fileID: -7345696642839331292}
+  - component: {fileID: 6357886304690900734}
+  - component: {fileID: 7158342743110960501}
+  - component: {fileID: 7217952784170868861}
+  - component: {fileID: 8496964743069183986}
+  - component: {fileID: 2511035250748740981}
   - component: {fileID: 4105403660370424556}
   - component: {fileID: 8948479971837407625}
   - component: {fileID: 8006336252910119709}
@@ -1614,6 +1616,134 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2375407051779204461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255163859875467751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: added44e882a6634ea11dd42d61d6c6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 8948479971837407625}
+  _networkObjectCache: {fileID: 8948479971837407625}
+  IsDraftCard:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 1
+  disableScreen: {fileID: 1188314931012720159}
+  hoverScreen: {fileID: 2178383836538393221}
+  magicalPowerText: {fileID: 2611186758615107600}
+  physicalPowerText: {fileID: 6897460745711348589}
+  cardTypeText: {fileID: 1412657023948964493}
+  cardImage: {fileID: 1177701720125259711}
+  costText: {fileID: 1356007084095882162}
+  nameText: {fileID: 2728476821446806872}
+  HasItem:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 0
+  Item:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: {fileID: 0}
+  abilityNameObject: {fileID: 800517241531852951}
+  abilityNameText: {fileID: 4004057442462621200}
+  restPeriodText: {fileID: 8282507515288726928}
+--- !u!114 &565309220462768973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255163859875467751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1973750d127d51b48b424d1761f39db0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 8948479971837407625}
+  _networkObjectCache: {fileID: 8948479971837407625}
+  isDragging: 0
+  canvas: {fileID: 0}
+  cardCanvas: {fileID: -7345696642839331292}
+  dropZone: {fileID: 0}
+  startParentTransform: {fileID: 0}
+  startPosition: {x: 0, y: 0}
+  player: {fileID: 0}
+  card: {fileID: 0}
+  _animationDuration: 0.75
+  wasDragged: 0
+  moveSpeedLimit: 6000
+  PointerEnterEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerExitEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerUpEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerDownEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  BeginDragEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndDragEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  SelectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5300939677924261238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255163859875467751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 8948479971837407625}
+  _networkObjectCache: {fileID: 8948479971837407625}
+  referenceCard: {fileID: 0}
+  isEnlargedCard: 0
+  isSpotlightCard: 0
+  keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
+  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
+--- !u!223 &-7345696642839331292
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255163859875467751}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!225 &6357886304690900734
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1626,6 +1756,23 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &7158342743110960501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255163859875467751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &7217952784170868861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1728,110 +1875,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
---- !u!114 &2375407051779204461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4255163859875467751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: added44e882a6634ea11dd42d61d6c6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 8948479971837407625}
-  _networkObjectCache: {fileID: 8948479971837407625}
-  IsDraftCard:
-    NetworkManager: {fileID: 0}
-    NetworkBehaviour: {fileID: 0}
-    _value: 1
-  disableScreen: {fileID: 1188314931012720159}
-  hoverScreen: {fileID: 2178383836538393221}
-  magicalPowerText: {fileID: 2611186758615107600}
-  physicalPowerText: {fileID: 6897460745711348589}
-  cardTypeText: {fileID: 1412657023948964493}
-  cardImage: {fileID: 1177701720125259711}
-  costText: {fileID: 1356007084095882162}
-  nameText: {fileID: 2728476821446806872}
-  HasItem:
-    NetworkManager: {fileID: 0}
-    NetworkBehaviour: {fileID: 0}
-    _value: 0
-  Item:
-    NetworkManager: {fileID: 0}
-    NetworkBehaviour: {fileID: 0}
-    _value: {fileID: 0}
-  abilityNameObject: {fileID: 800517241531852951}
-  abilityNameText: {fileID: 4004057442462621200}
-  restPeriodText: {fileID: 8282507515288726928}
---- !u!114 &565309220462768973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4255163859875467751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1973750d127d51b48b424d1761f39db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 8948479971837407625}
-  _networkObjectCache: {fileID: 8948479971837407625}
-  isDragging: 0
-  canvas: {fileID: 0}
-  dropZone: {fileID: 0}
-  startParentTransform: {fileID: 0}
-  startPosition: {x: 0, y: 0}
-  player: {fileID: 0}
-  card: {fileID: 0}
-  _animationDuration: 0.75
-  wasDragged: 0
-  moveSpeedLimit: 6000
-  PointerEnterEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PointerExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PointerUpEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PointerDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  BeginDragEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  EndDragEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  SelectEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &5300939677924261238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4255163859875467751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 8948479971837407625}
-  _networkObjectCache: {fileID: 8948479971837407625}
-  referenceCard: {fileID: 0}
-  isEnlargedCard: 0
-  isSpotlightCard: 0
-  keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
-  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
 --- !u!114 &4105403660370424556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1980,7 +2023,6 @@ MonoBehaviour:
   NetworkBehaviours:
   - {fileID: 2375407051779204461}
   - {fileID: 565309220462768973}
-  - {fileID: 0}
   - {fileID: 5300939677924261238}
   - {fileID: -6211479231835834888}
   InitializedParentNetworkBehaviour: {fileID: 0}
@@ -2707,7 +2749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
 --- !u!1 &7458769641897504679

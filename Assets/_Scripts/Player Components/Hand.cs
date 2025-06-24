@@ -55,7 +55,7 @@ public class Hand : NetworkBehaviour
     }
 
 
-    void EndDrag(CardInteractionHandler card, bool returningToHand)
+    void EndDrag(CardInteractionHandler cardHandler, bool returningToHand)
     {
         if (selectedCard == null)
             return;
@@ -65,15 +65,16 @@ public class Hand : NetworkBehaviour
         rect.sizeDelta += Vector2.right;
         rect.sizeDelta -= Vector2.right;
         selectedCard = null;
+        cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
 
     }
 
-    void CardPointerEnter(CardInteractionHandler card)
+    void CardPointerEnter(CardInteractionHandler cardHandler)
     {
-        hoveredCard = card;
+        hoveredCard = cardHandler;
     }
 
-    void CardPointerExit(CardInteractionHandler card)
+    void CardPointerExit(CardInteractionHandler cardHandler)
     {
         hoveredCard = null;
     }

@@ -15,6 +15,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [SerializeField] protected bool isDragging = false;
 
     [SerializeField] protected GameObject canvas;
+    [SerializeField] protected Canvas cardCanvas;
     [SerializeField] protected GameObject dropZone;
     [SerializeField] protected Transform startParentTransform;
     [SerializeField] protected Vector2 startPosition;
@@ -113,12 +114,13 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
         //startPosition = transform.position;
         startParentTransform = transform.parent.CompareTag("Slot") ? transform.parent.parent : transform.parent;
-
         //transform.SetParent(canvas.transform, true);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         offset = mousePosition - (Vector2)transform.position;
         isDragging = true;
+        cardCanvas.overrideSorting = true;
+        cardCanvas.sortingOrder = 100;
         //canvas.GetComponent<GraphicRaycaster>().enabled = false;
         //imageComponent.raycastTarget = false;
 
@@ -133,7 +135,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         isDragging = false;
-
+        
         if (dropZone == null || startParentTransform == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);
