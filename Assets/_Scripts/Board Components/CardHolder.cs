@@ -1,66 +1,67 @@
 using DG.Tweening;
-using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-public class Hand : NetworkBehaviour
+public class CardHolder : NetworkBehaviour
 {
-    public readonly SyncVar<Player> controllingPlayer = new();
-    public readonly SyncVar<int> playerID = new();
-    public int SlotIndex { get; private set; }
-
-    [SerializeField] GameObject handSlotPrefab;
-    [SerializeField] private CardInteractionHandler selectedCard;
-    [SerializeReference] private CardInteractionHandler hoveredCard;
+    [SerializeField] protected GameObject handSlotPrefab;
+    [SerializeField] protected CardInteractionHandler selectedCard;
+    [SerializeReference] protected CardInteractionHandler hoveredCard;
     public List<CardInteractionHandler> cardHandlers;
 
-    private RectTransform rect;
-    private bool isCrossing = false;
+    protected RectTransform rect;
+    protected bool isCrossing = false;
 
-
-    private void Start()
+    protected virtual void Start()
     {
         rect = GetComponent<RectTransform>();
     }
 
-    [ObserversRpc]
-    [TargetRpc]
-    public void CreateHandSlot(NetworkConnection connection)
-    {
-        Instantiate(handSlotPrefab, transform);
-        SlotIndex = transform.childCount - 1;
-    }
-
     [Server]
-    public void AddCardToHand(Card card)
+    public void AddCard(Card card)
     {
         GameObject handSlot = Instantiate(handSlotPrefab, transform);
         Spawn(handSlot);
         card.SetCardParent(handSlot.transform, false);
 
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
-        cardHandlers.Add(cardHandler);      //Might be able to just add the card itself. During swap just compare cartd positions?
+        cardHandlers.Add(cardHandler);      //Might be able to just add the card itself. During swap just compare card positions?
         cardHandler.PointerEnterEvent.AddListener(CardPointerEnter);
         cardHandler.PointerExitEvent.AddListener(CardPointerExit);
         cardHandler.BeginDragEvent.AddListener(BeginDrag);
         cardHandler.EndDragEvent.AddListener(EndDrag);
     }
 
-    private void BeginDrag(CardInteractionHandler card)
+    [ServerRpc]
+    public void MoveCard(Card card, Transform newTransform)
+    {
+        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
+        cardHandlers.Remove(cardHandler);
+        cardHandler.PointerEnterEvent.RemoveListener(CardPointerEnter);
+        cardHandler.PointerExitEvent.RemoveListener(CardPointerExit);
+        cardHandler.BeginDragEvent.RemoveListener(BeginDrag);
+        cardHandler.EndDragEvent.RemoveListener(EndDrag);
+
+        EndDrag(cardHandler, false);
+        GameObject slot = card.transform.parent.gameObject;
+        card.SetCardParent(newTransform, false);
+        Despawn(slot);
+
+    }
+
+    protected void BeginDrag(CardInteractionHandler card)
     {
         selectedCard = card;
     }
 
 
-    void EndDrag(CardInteractionHandler cardHandler, bool returningToHand)
+    protected void EndDrag(CardInteractionHandler cardHandler, bool returningToSlot)
     {
         if (selectedCard == null)
             return;
 
-        if (returningToHand) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
+        if (returningToSlot) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
 
         rect.sizeDelta += Vector2.right;
         rect.sizeDelta -= Vector2.right;
@@ -69,12 +70,12 @@ public class Hand : NetworkBehaviour
 
     }
 
-    void CardPointerEnter(CardInteractionHandler cardHandler)
+    protected void CardPointerEnter(CardInteractionHandler cardHandler)
     {
         hoveredCard = cardHandler;
     }
 
-    void CardPointerExit(CardInteractionHandler cardHandler)
+    protected void CardPointerExit(CardInteractionHandler cardHandler)
     {
         hoveredCard = null;
     }
@@ -93,7 +94,12 @@ public class Hand : NetworkBehaviour
             return;
         if (isCrossing)
             return;
-        
+
+        SwapCheck();
+    }
+
+    protected void SwapCheck()
+    {
         for (int i = 0; i < cardHandlers.Count; i++)
         {
 
@@ -117,7 +123,7 @@ public class Hand : NetworkBehaviour
         }
     }
 
-    void Swap(int index)
+    protected void Swap(int index)
     {
         isCrossing = true;
 

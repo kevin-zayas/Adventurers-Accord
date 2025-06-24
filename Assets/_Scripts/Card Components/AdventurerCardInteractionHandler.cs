@@ -65,12 +65,22 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     /// </summary>
     protected override void HandleEndDrag()
     {
+        bool returningToSlot = false;
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
 
-        if (dropZone.CompareTag("Quest") && IsQuestLaneFull(questLane))
+        if (dropZone.CompareTag("Quest"))
         {
-            PopUpManager.Instance.CreateToastPopUp("This Quest's party size limit has been reached");
-            ResetCardPosition();
+            if (IsQuestLaneFull(questLane))
+            {
+                PopUpManager.Instance.CreateToastPopUp("This Quest's party size limit has been reached");
+                //ResetCardPosition();
+                returningToSlot = true;
+            }
+            else
+            {
+                Hand.Instance.MoveCard(card, dropZone.transform);
+                //add card to quest lane
+            }
         }
         else if (card.IsDraftCard.Value)
         {
@@ -80,6 +90,8 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         {
             card.ServerSetCardParent(dropZone.transform, false);
         }
+
+        EndDragEvent.Invoke(this, returningToSlot);
     }
 
     /// <summary>

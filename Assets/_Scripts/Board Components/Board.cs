@@ -391,7 +391,7 @@ public class Board : NetworkBehaviour
         else                    //Roster/Loot Card
         {
             card.SetCardOwner(player);
-            player.ControlledHand.Value.AddCardToHand(card);
+            player.ControlledHand.Value.AddCard(card);
         }
         return card;
     }

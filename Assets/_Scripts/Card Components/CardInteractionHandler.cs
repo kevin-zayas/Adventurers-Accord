@@ -149,7 +149,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         }
 
         HandleEndDrag();
-        EndDragEvent.Invoke(this, false);
+        //EndDragEvent.Invoke(this, false);
 
         //canvas.GetComponent<GraphicRaycaster>().enabled = true;
         //imageComponent.raycastTarget = true;
@@ -271,7 +271,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
         card.ServerSetCardOwner(player);
         //card.ServerSetCardParent(dropZone.transform, false);
-        player.ControlledHand.Value.AddCardToHand(card);
+        player.ControlledHand.Value.AddCard(card);
         card.transform.localPosition = Vector3.zero;
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
