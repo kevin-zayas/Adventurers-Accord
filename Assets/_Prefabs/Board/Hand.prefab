@@ -166,7 +166,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: -4189799564275192412}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -177,7 +178,7 @@ MonoBehaviour:
   _initializeOrder: 0
   _preventDespawnOnDisconnect: 0
   _defaultDespawnType: 0
-  _initializedValusSet: 0
+  _initializedValusSet: 1
   NetworkObserver: {fileID: 0}
   _enablePrediction: 0
   _predictionType: 0
@@ -192,15 +193,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 32
+  <PrefabId>k__BackingField: 33
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 13621974257867424731
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: -540, z: 0}
+    Position: {x: 0, y: 0, z: 0}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!114 &-4189799564275192412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,4 +217,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7094362613940595149}
   _networkObjectCache: {fileID: 7094362613940595149}
-  handSlotPrefab: {fileID: 979138173749275187, guid: 8b2c280b58b95b64eb32c5c8aba28c4e, type: 3}
+  cardSlotPrefab: {fileID: 979138173749275187, guid: 8b2c280b58b95b64eb32c5c8aba28c4e, type: 3}
+  selectedCard: {fileID: 0}
+  hoveredCard: {fileID: 0}
+  cardHandlers: []

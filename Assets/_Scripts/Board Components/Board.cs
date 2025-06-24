@@ -14,7 +14,7 @@ public class Board : NetworkBehaviour
     #endregion
 
     #region Serialized Fields
-    [field: SerializeField] public CardSlot[] DraftCardSlots { get; private set; }
+    [field: SerializeField] public DraftCardSlot[] DraftCardSlots { get; private set; }
     [field: SerializeField] public QuestLocation[] QuestLocations { get; private set; }
     [field: SerializeField] public GuildStatus[] GuildStatusList{ get; private set; }
     [field: SerializeField] private List<CardData> T1Deck { get; } = new List<CardData>();
@@ -118,7 +118,7 @@ public class Board : NetworkBehaviour
         List<CardData> deck = slotIndex < 4 ? T1Deck : T2Deck;
         CardData randomCardData = deck[Random.Range(0, deck.Count)];
 
-        SpawnCard(randomCardData, DraftCardSlots[slotIndex].transform);
+        SpawnCard(randomCardData, DraftCardSlots[slotIndex]);
         deck.Remove(randomCardData);
         ObserversUpdateDeckTrackers(T1Deck.Count, T2Deck.Count);
     }
@@ -132,7 +132,7 @@ public class Board : NetworkBehaviour
     {
         CardData randomLootData = ShopLootDeck[Random.Range(0, ShopLootDeck.Count)];
         
-        Card lootCard = SpawnCard(randomLootData, DraftCardSlots[slotIndex].transform);
+        Card lootCard = SpawnCard(randomLootData, DraftCardSlots[slotIndex]);
         ObserversSetCardLayer(lootCard.gameObject);
 
         ShopLootDeck.Remove(randomLootData);
@@ -337,7 +337,7 @@ public class Board : NetworkBehaviour
         for (int i = 0; i < lootAmount; i++)
         {
             CardData randomLootData = RewardLootDeck[Random.Range(0, RewardLootDeck.Count)];
-            SpawnCard(randomLootData, player.ControlledHand.Value.transform, player);
+            SpawnCard(randomLootData, player.ControlledHand.Value, player);
             if (randomLootData.CardType == CardType.MagicItem)
             {
                 player.UpdateGuildRecapTracker("Magic Items (Loot)", 1);
@@ -365,13 +365,13 @@ public class Board : NetworkBehaviour
 
             foreach (CardData cardData in startingHand)
             {
-                SpawnCard(cardData, player.ControlledHand.Value.transform, player);
+                SpawnCard(cardData, player.ControlledHand.Value, player);
             }
         }
     }
 
     [Server]
-    private Card SpawnCard(CardData cardData, Transform transform, Player player = null)
+    private Card SpawnCard(CardData cardData, CardHolder cardHolder, Player player = null)
     {
         Card cardPrefab = cardData.CardType switch
         {
@@ -384,15 +384,9 @@ public class Board : NetworkBehaviour
 
         Spawn(card.gameObject);
         card.LoadCardData(cardData);
-        if (player == null)     //Draft Card
-        {
-            card.SetCardParent(transform, false);
-        }
-        else                    //Roster/Loot Card
-        {
-            card.SetCardOwner(player);
-            player.ControlledHand.Value.AddCard(card);
-        }
+        if (player != null) card.SetCardOwner(player);
+        cardHolder.AddCard(card);
+        
         return card;
     }
 }

@@ -140,7 +140,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         {
             EndDragEvent.Invoke(this, true);
 
-            if (!transform.parent.CompareTag("Slot"))
+            if (!transform.parent.CompareTag("Slot"))       //only works for quests (until card holder is added)
             {
                 PopUpManager.Instance.CreateToastPopUp("Invalid placement");
                 ResetCardPosition();
@@ -267,12 +267,14 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// </summary>
     protected virtual void AssignDraftCardToPlayer()
     {
-        CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
+        DraftCardSlot cardSlot = startParentTransform.GetComponent<DraftCardSlot>();
 
         card.ServerSetCardOwner(player);
         //card.ServerSetCardParent(dropZone.transform, false);
-        player.ControlledHand.Value.AddCard(card);
+        cardSlot.MoveCard(card, Hand.Instance.transform);
+        //Hand.Instance.AddCard(card);
         card.transform.localPosition = Vector3.zero;
+
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
         GameManager.Instance.EndTurn(false);

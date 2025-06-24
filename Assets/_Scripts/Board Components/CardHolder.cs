@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CardHolder : NetworkBehaviour
 {
-    [SerializeField] protected GameObject handSlotPrefab;
+    [SerializeField] protected GameObject cardSlotPrefab;
     [SerializeField] protected CardInteractionHandler selectedCard;
     [SerializeReference] protected CardInteractionHandler hoveredCard;
     public List<CardInteractionHandler> cardHandlers;
@@ -19,35 +19,25 @@ public class CardHolder : NetworkBehaviour
     }
 
     [Server]
-    public void AddCard(Card card)
+    public virtual void AddCard(Card card)
     {
-        GameObject handSlot = Instantiate(handSlotPrefab, transform);
-        Spawn(handSlot);
-        card.SetCardParent(handSlot.transform, false);
+        GameObject cardSlot = Instantiate(cardSlotPrefab, transform);
+        Spawn(cardSlot);
+        card.SetCardParent(cardSlot.transform, false);
 
-        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
-        cardHandlers.Add(cardHandler);      //Might be able to just add the card itself. During swap just compare card positions?
-        cardHandler.PointerEnterEvent.AddListener(CardPointerEnter);
-        cardHandler.PointerExitEvent.AddListener(CardPointerExit);
-        cardHandler.BeginDragEvent.AddListener(BeginDrag);
-        cardHandler.EndDragEvent.AddListener(EndDrag);
+        AddCardHandlerListeners(card);
     }
 
-    [ServerRpc]
-    public void MoveCard(Card card, Transform newTransform)
+    [ServerRpc] //require ownership = false?
+    public virtual void MoveCard(Card card, Transform newTransform)
     {
+        RemoveCardHandlerListeners(card);
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
-        cardHandlers.Remove(cardHandler);
-        cardHandler.PointerEnterEvent.RemoveListener(CardPointerEnter);
-        cardHandler.PointerExitEvent.RemoveListener(CardPointerExit);
-        cardHandler.BeginDragEvent.RemoveListener(BeginDrag);
-        cardHandler.EndDragEvent.RemoveListener(EndDrag);
 
         EndDrag(cardHandler, false);
         GameObject slot = card.transform.parent.gameObject;
         card.SetCardParent(newTransform, false);
         Despawn(slot);
-
     }
 
     protected void BeginDrag(CardInteractionHandler card)
@@ -61,10 +51,11 @@ public class CardHolder : NetworkBehaviour
         if (selectedCard == null)
             return;
 
-        if (returningToSlot) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
+        //will this always be true? once quest lanes are set up? snap animation to holder
+        if (returningToSlot) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack); 
 
-        rect.sizeDelta += Vector2.right;
-        rect.sizeDelta -= Vector2.right;
+        //rect.sizeDelta += Vector2.right;
+        //rect.sizeDelta -= Vector2.right;
         selectedCard = null;
         cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
 
@@ -147,5 +138,27 @@ public class CardHolder : NetworkBehaviour
         //{
         //    card.cardVisual.UpdateIndex();
         //}
+    }
+
+    protected void AddCardHandlerListeners(Card card)
+    {
+        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
+        if (cardHandler == null)
+            return;
+        cardHandlers.Add(cardHandler);      //Might be able to just add the card itself. During swap just compare card positions?
+        cardHandler.PointerEnterEvent.AddListener(CardPointerEnter);
+        cardHandler.PointerExitEvent.AddListener(CardPointerExit);
+        cardHandler.BeginDragEvent.AddListener(BeginDrag);
+        cardHandler.EndDragEvent.AddListener(EndDrag);
+    }
+
+    protected void RemoveCardHandlerListeners(Card card)
+    {
+        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
+        cardHandlers.Remove(cardHandler);
+        cardHandler.PointerEnterEvent.RemoveListener(CardPointerEnter);
+        cardHandler.PointerExitEvent.RemoveListener(CardPointerExit);
+        cardHandler.BeginDragEvent.RemoveListener(BeginDrag);
+        cardHandler.EndDragEvent.RemoveListener(EndDrag);
     }
 }

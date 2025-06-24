@@ -151,7 +151,7 @@ public abstract class CardDragDrop : NetworkBehaviour
     /// </summary>
     protected virtual void AssignDraftCardToPlayer()
     {
-        CardSlot cardSlot = startParentTransform.GetComponent<CardSlot>();
+        DraftCardSlot cardSlot = startParentTransform.GetComponent<DraftCardSlot>();
 
         card.ServerSetCardOwner(player);
         card.ServerSetCardParent(dropZone.transform, false);

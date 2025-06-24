@@ -91,7 +91,7 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
             card.ServerSetCardParent(dropZone.transform, false);
         }
 
-        EndDragEvent.Invoke(this, returningToSlot);
+        //EndDragEvent.Invoke(this, returningToSlot);
     }
 
     /// <summary>
