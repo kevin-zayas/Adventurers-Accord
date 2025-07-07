@@ -10,21 +10,21 @@ public class DraftCardSlot : CardHolder
     // Start is called before the first frame update
 
     [Server]
-    public override void AddCard(Card card)
+    public override void AddCard(Card card, Transform cardHolderTransform)
     {
         card.SetCardParent(cardSlot.transform, false);
-        AddCardHandlerListeners(card);
+        AddCardHandlerListeners(null, card);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public override void MoveCard(Card card, Transform newTransform)
     {
-        RemoveCardHandlerListeners(card);
+        RemoveCardHandlerListeners(null, card);
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
 
-        EndDrag(cardHandler, false);
+        TargetEndDrag(card.Owner, cardHandler, false);        //needs to happen on the target
         CardHolder cardHolder = newTransform.GetComponent<CardHolder>();
-        cardHolder.AddCard(card);
+        cardHolder.AddCard(card, newTransform);
         //card.SetCardParent(newTransform, false);
     }
 }

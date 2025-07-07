@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Hand : CardHolder
 {
-    public static Hand Instance { get; private set; }
+    //public static Hand Instance { get; private set; }
     public readonly SyncVar<Player> controllingPlayer = new();
     public readonly SyncVar<int> playerID = new();
 
@@ -21,7 +21,7 @@ public class Hand : CardHolder
 
     protected override void Start()
     {
-        Instance = this;
+        //Instance = this;
         base.Start();
     }
 

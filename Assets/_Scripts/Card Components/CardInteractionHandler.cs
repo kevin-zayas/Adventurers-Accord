@@ -270,10 +270,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         DraftCardSlot cardSlot = startParentTransform.GetComponent<DraftCardSlot>();
 
         card.ServerSetCardOwner(player);
-        //card.ServerSetCardParent(dropZone.transform, false);
-        cardSlot.MoveCard(card, Hand.Instance.transform);
-        //Hand.Instance.AddCard(card);
-        card.transform.localPosition = Vector3.zero;
+        cardSlot.MoveCard(card, player.ControlledHand.Value.transform);
 
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
@@ -305,6 +302,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             {
                 AssignDraftCardToPlayer();
                 player.SetIsAnimating(false);
+                cardCanvas.overrideSorting = false;
             });
         }
 

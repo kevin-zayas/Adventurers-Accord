@@ -385,7 +385,7 @@ public class Board : NetworkBehaviour
         Spawn(card.gameObject);
         card.LoadCardData(cardData);
         if (player != null) card.SetCardOwner(player);
-        cardHolder.AddCard(card);
+        cardHolder.AddCard(card, cardHolder.transform);
         
         return card;
     }

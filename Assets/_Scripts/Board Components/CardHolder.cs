@@ -1,4 +1,5 @@
 using DG.Tweening;
+using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,19 +20,34 @@ public class CardHolder : NetworkBehaviour
     }
 
     [Server]
-    public virtual void AddCard(Card card)
+    public virtual void AddCard(Card card, Transform cardHolderTransform)
     {
-        GameObject cardSlot = Instantiate(cardSlotPrefab, transform);
+        GameObject cardSlot = Instantiate(cardSlotPrefab);
         Spawn(cardSlot);
+        ObserversSetCardSlotParent(cardSlot);
         card.SetCardParent(cardSlot.transform, false);
+        ObserversResetCardPosition(card);
 
-        AddCardHandlerListeners(card);
+        AddCardHandlerListeners(card.Owner, card);
     }
+
+    [ObserversRpc]
+    protected void ObserversSetCardSlotParent(GameObject cardSlot)
+    {
+        cardSlot.transform.SetParent(transform);
+    }
+
+    [ObserversRpc]
+    protected void ObserversResetCardPosition(Card card)
+    {
+        card.transform.localPosition = Vector3.zero;
+    }
+    
 
     [ServerRpc] //require ownership = false?
     public virtual void MoveCard(Card card, Transform newTransform)
     {
-        RemoveCardHandlerListeners(card);
+        RemoveCardHandlerListeners(card.Owner, card);
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
 
         EndDrag(cardHandler, false);
@@ -54,11 +70,16 @@ public class CardHolder : NetworkBehaviour
         //will this always be true? once quest lanes are set up? snap animation to holder
         if (returningToSlot) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack); 
 
-        //rect.sizeDelta += Vector2.right;
-        //rect.sizeDelta -= Vector2.right;
+        rect.sizeDelta += Vector2.right;
+        rect.sizeDelta -= Vector2.right;
         selectedCard = null;
         cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
+    }
 
+    [TargetRpc]
+    protected void TargetEndDrag(NetworkConnection connection, CardInteractionHandler cardHandler, bool returningToSlot)
+    {
+        EndDrag(cardHandler, returningToSlot);
     }
 
     protected void CardPointerEnter(CardInteractionHandler cardHandler)
@@ -140,7 +161,8 @@ public class CardHolder : NetworkBehaviour
         //}
     }
 
-    protected void AddCardHandlerListeners(Card card)
+    [ObserversRpc][TargetRpc]
+    protected void AddCardHandlerListeners(NetworkConnection connection, Card card)
     {
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
         if (cardHandler == null)
@@ -152,7 +174,8 @@ public class CardHolder : NetworkBehaviour
         cardHandler.EndDragEvent.AddListener(EndDrag);
     }
 
-    protected void RemoveCardHandlerListeners(Card card)
+    [ObserversRpc][TargetRpc]
+    protected void RemoveCardHandlerListeners(NetworkConnection connection, Card card)
     {
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
         cardHandlers.Remove(cardHandler);
