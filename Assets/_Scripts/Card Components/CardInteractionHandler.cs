@@ -1,5 +1,6 @@
 using DG.Tweening;
 using FishNet.Object;
+using GameKit.Dependencies.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -66,24 +67,6 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = worldPosition;
         }
-        //ClampPosition();
-
-        //if (isDragging)
-        //{
-        //    Vector2 targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - offset;
-        //    Vector2 direction = (targetPosition - (Vector2)transform.position).normalized;
-        //    Vector2 velocity = direction * Mathf.Min(moveSpeedLimit, Vector2.Distance(transform.position, targetPosition) / Time.deltaTime);
-        //    transform.Translate(velocity * Time.deltaTime);
-        //}
-    }
-
-    void ClampPosition()
-    {
-        Vector2 screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
-        Vector3 clampedPosition = transform.position;
-        clampedPosition.x = Mathf.Clamp(clampedPosition.x, -screenBounds.x, screenBounds.x);
-        clampedPosition.y = Mathf.Clamp(clampedPosition.y, -screenBounds.y, screenBounds.y);
-        transform.position = new Vector3(clampedPosition.x, clampedPosition.y, 0);
     }
 
     /// <summary>
@@ -139,20 +122,10 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         if (dropZone == null || startParentTransform == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);
-
-            if (!transform.parent.CompareTag("Slot"))       //only works for quests (until card holder is added)
-            {
-                PopUpManager.Instance.CreateToastPopUp("Invalid placement");
-                ResetCardPosition();
-            }
             return;
         }
 
         HandleEndDrag();
-        //EndDragEvent.Invoke(this, false);
-
-        //canvas.GetComponent<GraphicRaycaster>().enabled = true;
-        //imageComponent.raycastTarget = true;
 
         StartCoroutine(FrameWait());
 
@@ -302,7 +275,6 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             {
                 AssignDraftCardToPlayer();
                 player.SetIsAnimating(false);
-                cardCanvas.overrideSorting = false;
             });
         }
 

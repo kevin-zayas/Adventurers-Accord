@@ -33,6 +33,8 @@ public abstract class Card : NetworkBehaviour
     [SerializeField] protected TMP_Text nameText;
     protected Player player;
 
+    protected RectTransform rectTransform;
+
     public enum CardType
     {
         Adventurer,
@@ -46,6 +48,13 @@ public abstract class Card : NetworkBehaviour
     private void Start()
     {
         player = Player.Instance;
+    }
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        if (rectTransform == null)
+            Debug.LogError("RectTransform is missing on " + gameObject.name);
     }
 
     /// <summary>
@@ -79,7 +88,7 @@ public abstract class Card : NetworkBehaviour
     public virtual void SetCardParent(Transform parentTransform, bool worldPositionStays)
     {
         ObserversSetCardParent(parentTransform, worldPositionStays);
-        this.transform.SetParent(parentTransform, worldPositionStays);
+        //transform.SetParent(parentTransform, worldPositionStays);
     }
 
     /// <summary>

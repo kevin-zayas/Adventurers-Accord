@@ -7,7 +7,11 @@ public class DraftCardSlot : CardHolder
 {
     [field: SerializeField] public int SlotIndex { get; private set; }
     [SerializeField] private GameObject cardSlot;
-    // Start is called before the first frame update
+
+    protected override void Update()
+    {
+        return; //DraftCardSlot does not need to update like other card holders
+    }
 
     [Server]
     public override void AddCard(Card card, Transform cardHolderTransform)
@@ -22,9 +26,8 @@ public class DraftCardSlot : CardHolder
         RemoveCardHandlerListeners(null, card);
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
 
-        TargetEndDrag(card.Owner, cardHandler, false);        //needs to happen on the target
+        //TargetEndDrag(card.Owner, cardHandler, false);        //needs to happen on the target
         CardHolder cardHolder = newTransform.GetComponent<CardHolder>();
         cardHolder.AddCard(card, newTransform);
-        //card.SetCardParent(newTransform, false);
     }
 }

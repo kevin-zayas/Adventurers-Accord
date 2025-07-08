@@ -76,8 +76,7 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
             }
             else
             {
-                player.ControlledHand.Value.MoveCard(card, dropZone.transform);
-                //add card to quest lane
+                player.ControlledHand.Value.MoveCard(card, dropZone.transform); // Move from Hand to Quest
             }
         }
         else if (card.IsDraftCard.Value)
@@ -86,7 +85,9 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         }
         else
         {
-            card.ServerSetCardParent(dropZone.transform, false);
+            CardHolder cardHolder = startParentTransform.GetComponent<CardHolder>();
+            cardHolder.MoveCard(card, dropZone.transform);  // Move from Quest to Hand
+            //card.ServerSetCardParent(dropZone.transform, false);
         }
 
         //EndDragEvent.Invoke(this, returningToSlot);

@@ -19,12 +19,6 @@ public class Hand : CardHolder
     //private RectTransform rect;
     //private bool isCrossing = false;
 
-    protected override void Start()
-    {
-        //Instance = this;
-        base.Start();
-    }
-
     //[Server]
     //public void AddCard(Card card)
     //{

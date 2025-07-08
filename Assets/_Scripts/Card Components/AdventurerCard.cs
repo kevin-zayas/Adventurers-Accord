@@ -17,7 +17,7 @@ public class AdventurerCard : Card
     public readonly SyncVar<bool> IsBlessed = new();
     private int potionPhysicalPower;
     private int potionMagicalPower;
-    public readonly SyncVar<int> potionBasePhysicalPower = new ();
+    public readonly SyncVar<int> potionBasePhysicalPower = new();
     public readonly SyncVar<int> potionBaseMagicalPower = new();
     private int physicalPoisonTotal;
     private int magicalPoisonTotal;
@@ -56,7 +56,7 @@ public class AdventurerCard : Card
     public override void SetCardParent(Transform newParent, bool worldPositionStays)
     {
         ObserversSetCardParent(newParent, worldPositionStays);
-        transform.SetParent(newParent, worldPositionStays);
+        //rectTransform.SetParent(newParent, worldPositionStays);
 
         if (ParentTransform.Value != newParent)
         {
@@ -79,7 +79,7 @@ public class AdventurerCard : Card
         if (newParent == null) return;
         Vector3 scale = newParent.CompareTag(QuestTag) ? new Vector3(.6f, .6f, 1f) : new Vector3(1f, 1f, 1f);
         transform.localScale = scale;
-        transform.SetParent(newParent, worldPositionStays);
+        rectTransform.SetParent(newParent, worldPositionStays);
     }
 
     /// <summary>
@@ -433,8 +433,8 @@ public class AdventurerCard : Card
         string resolutionType = PopUpManager.Instance.CurrentResolutionType;
         if (resolutionType == null) return;
         bool isWolf = CardName.Value == "Wolf";
-        bool hasPower = (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0) || 
-                        (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0 );
+        bool hasPower = (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0) ||
+                        (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0);
 
         bool validTarget = (resolutionType == "Healing Potion" && CurrentRestPeriod.Value > 0 && !isWolf) ||
                            (resolutionType == "Potion of Power" && hasPower) ||
@@ -498,7 +498,7 @@ public class AdventurerCard : Card
     public void ResetPotionPower()
     {
         potionPhysicalPower = potionMagicalPower = 0;
-        potionBasePhysicalPower.Value = potionBaseMagicalPower.Value = 0; 
+        potionBasePhysicalPower.Value = potionBaseMagicalPower.Value = 0;
         ResetPower();
     }
 }

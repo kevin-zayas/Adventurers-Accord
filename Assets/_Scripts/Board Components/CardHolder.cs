@@ -26,7 +26,10 @@ public class CardHolder : NetworkBehaviour
         Spawn(cardSlot);
         ObserversSetCardSlotParent(cardSlot);
         card.SetCardParent(cardSlot.transform, false);
-        ObserversResetCardPosition(card);
+        ObserversResetCardPosition(card);       // handle animate logic for owner, snap back for other players
+
+        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
+        //TargetEndDrag(card.Owner, cardHandler, false);
 
         AddCardHandlerListeners(card.Owner, card);
     }
@@ -41,18 +44,20 @@ public class CardHolder : NetworkBehaviour
     protected void ObserversResetCardPosition(Card card)
     {
         card.transform.localPosition = Vector3.zero;
+        card.gameObject.GetComponent<Canvas>().overrideSorting = false;
     }
-    
 
-    [ServerRpc] //require ownership = false?
+
+    [ServerRpc(RequireOwnership = false)] //require ownership = false?
     public virtual void MoveCard(Card card, Transform newTransform)
     {
         RemoveCardHandlerListeners(card.Owner, card);
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
 
-        EndDrag(cardHandler, false);
+        TargetEndDrag(card.Owner, cardHandler, false);
         GameObject slot = card.transform.parent.gameObject;
-        card.SetCardParent(newTransform, false);
+        CardHolder cardHolder = newTransform.GetComponent<CardHolder>();
+        cardHolder.AddCard(card, newTransform);
         Despawn(slot);
     }
 
@@ -65,15 +70,21 @@ public class CardHolder : NetworkBehaviour
     protected void EndDrag(CardInteractionHandler cardHandler, bool returningToSlot)
     {
         if (selectedCard == null)
-            return;
+        {
+            selectedCard = cardHandler;
+        }
 
-        //will this always be true? once quest lanes are set up? snap animation to holder
-        if (returningToSlot) selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack); 
+        if (returningToSlot)
+        {
+            selectedCard.transform.DOLocalMove(Vector3.zero, 1f).SetEase(Ease.OutBack);
+        }
+
 
         rect.sizeDelta += Vector2.right;
         rect.sizeDelta -= Vector2.right;
+        
+        selectedCard.gameObject.GetComponent<Canvas>().overrideSorting = false;
         selectedCard = null;
-        cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
     }
 
     [TargetRpc]
@@ -92,22 +103,15 @@ public class CardHolder : NetworkBehaviour
         hoveredCard = null;
     }
 
-    void Update()
+    protected virtual void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            foreach (CardInteractionHandler cardHandler in this.cardHandlers)
-            {
-                //cardHandler.Deselect();
-            }
-        }
 
         if (selectedCard == null)
             return;
         if (isCrossing)
             return;
 
-        SwapCheck();
+        //SwapCheck();
     }
 
     protected void SwapCheck()
@@ -147,21 +151,10 @@ public class CardHolder : NetworkBehaviour
         selectedCard.transform.SetParent(crossedParent);
 
         isCrossing = false;
-
-        //if (cardHandlers[index].cardVisual == null)
-        //    return;
-
-        //bool swapIsRight = cardHandlers[index].ParentIndex() > selectedCard.ParentIndex();
-        //cardHandlers[index].cardVisual.Swap(swapIsRight ? -1 : 1);
-
-        ////Updated Visual Indexes
-        //foreach (CardHandler card in cardHandlers)
-        //{
-        //    card.cardVisual.UpdateIndex();
-        //}
     }
 
-    [ObserversRpc][TargetRpc]
+    [ObserversRpc]
+    [TargetRpc]
     protected void AddCardHandlerListeners(NetworkConnection connection, Card card)
     {
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
@@ -174,7 +167,8 @@ public class CardHolder : NetworkBehaviour
         cardHandler.EndDragEvent.AddListener(EndDrag);
     }
 
-    [ObserversRpc][TargetRpc]
+    [ObserversRpc]
+    [TargetRpc]
     protected void RemoveCardHandlerListeners(NetworkConnection connection, Card card)
     {
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
