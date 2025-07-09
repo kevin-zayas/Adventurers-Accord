@@ -151,12 +151,12 @@ public abstract class CardDragDrop : NetworkBehaviour
     /// </summary>
     protected virtual void AssignDraftCardToPlayer()
     {
-        DraftCardSlot cardSlot = startParentTransform.GetComponent<DraftCardSlot>();
+        DraftCardHolder cardSlot = startParentTransform.GetComponent<DraftCardHolder>();
 
         card.ServerSetCardOwner(player);
         card.ServerSetCardParent(dropZone.transform, false);
         player.ServerChangePlayerGold(-card.Cost.Value);
-        Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
+        Board.Instance.ServerReplaceDraftCard(cardSlot.DraftCardIndex);
         GameManager.Instance.EndTurn(false);
     }
 

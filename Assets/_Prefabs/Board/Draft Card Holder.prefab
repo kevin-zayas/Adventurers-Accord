@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 951993302022062511}
   - component: {fileID: -8134760903326750611}
   m_Layer: 0
-  m_Name: Draft Card Slot
+  m_Name: Draft Card Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,17 +88,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6714051032548695215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd514e9ac6592d4298c8598a337b048, type: 3}
+  m_Script: {fileID: 11500000, guid: 256f58e85fd56d0498bd1d939aa37dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
+  _componentIndexCache: 255
   _addedNetworkObject: {fileID: 951993302022062511}
-  _networkObjectCache: {fileID: 951993302022062511}
+  _networkObjectCache: {fileID: 0}
   cardSlotPrefab: {fileID: 979138173749275187, guid: 8b2c280b58b95b64eb32c5c8aba28c4e, type: 3}
   selectedCard: {fileID: 0}
   hoveredCard: {fileID: 0}
   cardHandlers: []
-  <SlotIndex>k__BackingField: 0
+  <DraftCardIndex>k__BackingField: 0
   cardSlot: {fileID: 3788777147086562840}
 --- !u!114 &951993302022062511
 MonoBehaviour:
@@ -117,7 +117,7 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 4975917022585583528}
+  - {fileID: 0}
   - {fileID: -8134760903326750611}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects:
@@ -147,7 +147,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 26
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 10921753109650471421
+  <AssetPathHash>k__BackingField: 16626853159684072493
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}
@@ -304,7 +304,7 @@ PrefabInstance:
     - target: {fileID: 8836156097401460285, guid: 8b2c280b58b95b64eb32c5c8aba28c4e, type: 3}
       propertyPath: InitializedParentNetworkBehaviour
       value: 
-      objectReference: {fileID: 4975917022585583528}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

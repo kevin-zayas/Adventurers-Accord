@@ -67,17 +67,10 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
 
-        if (dropZone.CompareTag("Quest"))
+        if (dropZone.CompareTag("Quest") && IsQuestLaneFull(questLane))
         {
-            if (IsQuestLaneFull(questLane))
-            {
-                PopUpManager.Instance.CreateToastPopUp("This Quest's party size limit has been reached");
-                //ResetCardPosition();
-            }
-            else
-            {
-                player.ControlledHand.Value.MoveCard(card, dropZone.transform); // Move from Hand to Quest
-            }
+            PopUpManager.Instance.CreateToastPopUp("This Quest's party size limit has been reached");
+            EndDragEvent.Invoke(this, true);
         }
         else if (card.IsDraftCard.Value)
         {
@@ -85,12 +78,10 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         }
         else
         {
-            CardHolder cardHolder = startParentTransform.GetComponent<CardHolder>();
-            cardHolder.MoveCard(card, dropZone.transform);  // Move from Quest to Hand
-            //card.ServerSetCardParent(dropZone.transform, false);
+            EndDragEvent.Invoke(this, false);
+            originalCardHolder.MoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
+            
         }
-
-        //EndDragEvent.Invoke(this, returningToSlot);
     }
 
     /// <summary>
@@ -107,11 +98,11 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     /// <summary>
     /// Resets the card's position to its original location before dragging.
     /// </summary>
-    protected override void ResetCardPosition()
-    {
-        card.ServerSetCardParent(startParentTransform, true);
-        base.ResetCardPosition();
-    }
+    //protected override void ResetCardPosition()
+    //{
+    //    card.ServerSetCardParent(originalCardHolder, true);
+    //    base.ResetCardPosition();
+    //}
 
     protected bool IsQuestLaneFull(QuestLane questLane)
     {

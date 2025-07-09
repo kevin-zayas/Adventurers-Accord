@@ -20,15 +20,15 @@ public class CardHolder : NetworkBehaviour
     }
 
     [Server]
-    public virtual void AddCard(Card card, Transform cardHolderTransform)
+    public virtual void AddCard(Card card)
     {
         GameObject cardSlot = Instantiate(cardSlotPrefab);
         Spawn(cardSlot);
         ObserversSetCardSlotParent(cardSlot);
         card.SetCardParent(cardSlot.transform, false);
-        ObserversResetCardPosition(card);       // handle animate logic for owner, snap back for other players
+        ObserversResetCardPosition(card);
 
-        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
+        //CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
         //TargetEndDrag(card.Owner, cardHandler, false);
 
         AddCardHandlerListeners(card.Owner, card);
@@ -48,22 +48,20 @@ public class CardHolder : NetworkBehaviour
     }
 
 
-    [ServerRpc(RequireOwnership = false)] //require ownership = false?
-    public virtual void MoveCard(Card card, Transform newTransform)
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
         RemoveCardHandlerListeners(card.Owner, card);
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
 
-        TargetEndDrag(card.Owner, cardHandler, false);
-        GameObject slot = card.transform.parent.gameObject;
-        CardHolder cardHolder = newTransform.GetComponent<CardHolder>();
-        cardHolder.AddCard(card, newTransform);
-        Despawn(slot);
+        //TargetEndDrag(card.Owner, cardHandler, false);      // why? - to reset selectedCard for swap logic
+        newCardHolder.AddCard(card);
+        Despawn(originalCardSlot.gameObject);
     }
 
-    protected void BeginDrag(CardInteractionHandler card)
+    protected void BeginDrag(CardInteractionHandler cardHandler)
     {
-        selectedCard = card;
+        selectedCard = cardHandler;
     }
 
 
@@ -71,12 +69,12 @@ public class CardHolder : NetworkBehaviour
     {
         if (selectedCard == null)
         {
-            selectedCard = cardHandler;
+            return;
         }
 
         if (returningToSlot)
         {
-            selectedCard.transform.DOLocalMove(Vector3.zero, 1f).SetEase(Ease.OutBack);
+            selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
         }
 
 
@@ -87,11 +85,11 @@ public class CardHolder : NetworkBehaviour
         selectedCard = null;
     }
 
-    [TargetRpc]
-    protected void TargetEndDrag(NetworkConnection connection, CardInteractionHandler cardHandler, bool returningToSlot)
-    {
-        EndDrag(cardHandler, returningToSlot);
-    }
+    //[TargetRpc]
+    //protected void TargetEndDrag(NetworkConnection connection, CardInteractionHandler cardHandler, bool returningToSlot)
+    //{
+    //    EndDrag(cardHandler, returningToSlot);
+    //}
 
     protected void CardPointerEnter(CardInteractionHandler cardHandler)
     {
@@ -100,7 +98,7 @@ public class CardHolder : NetworkBehaviour
 
     protected void CardPointerExit(CardInteractionHandler cardHandler)
     {
-        hoveredCard = null;
+        hoveredCard = null;     //not sure if hovered card is needed. but if so, it is currently not reset when a card is moved
     }
 
     protected virtual void Update()
@@ -171,6 +169,7 @@ public class CardHolder : NetworkBehaviour
     [TargetRpc]
     protected void RemoveCardHandlerListeners(NetworkConnection connection, Card card)
     {
+        selectedCard = null;
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
         cardHandlers.Remove(cardHandler);
         cardHandler.PointerEnterEvent.RemoveListener(CardPointerEnter);

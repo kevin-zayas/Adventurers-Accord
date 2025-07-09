@@ -14,7 +14,7 @@ public class Board : NetworkBehaviour
     #endregion
 
     #region Serialized Fields
-    [field: SerializeField] public DraftCardSlot[] DraftCardSlots { get; private set; }
+    [field: SerializeField] public DraftCardHolder[] DraftCardSlots { get; private set; }
     [field: SerializeField] public QuestLocation[] QuestLocations { get; private set; }
     [field: SerializeField] public GuildStatus[] GuildStatusList{ get; private set; }
     [field: SerializeField] private List<CardData> T1Deck { get; } = new List<CardData>();
@@ -385,7 +385,7 @@ public class Board : NetworkBehaviour
         Spawn(card.gameObject);
         card.LoadCardData(cardData);
         if (player != null) card.SetCardOwner(player);
-        cardHolder.AddCard(card, cardHolder.transform);
+        cardHolder.AddCard(card);
         
         return card;
     }

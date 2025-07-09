@@ -18,7 +18,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [SerializeField] protected GameObject canvas;
     [SerializeField] protected Canvas cardCanvas;
     [SerializeField] protected GameObject dropZone;
-    [SerializeField] protected Transform startParentTransform;
+    [SerializeField] protected CardHolder originalCardHolder;
+    [SerializeField] protected Transform originalCardSlot;  //might not need this
     [SerializeField] protected Vector2 startPosition;
     [SerializeField] protected Player player;
     [SerializeField] protected Card card;
@@ -96,8 +97,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         BeginDragEvent.Invoke(this);
 
         //startPosition = transform.position;
-        startParentTransform = transform.parent.CompareTag("Slot") ? transform.parent.parent : transform.parent;
-        //transform.SetParent(canvas.transform, true);
+        originalCardSlot = transform.parent;
+        originalCardHolder = originalCardSlot.parent.GetComponent<CardHolder>();
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         offset = mousePosition - (Vector2)transform.position;
@@ -119,7 +120,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         isDragging = false;
         
-        if (dropZone == null || startParentTransform == dropZone.transform)
+        if (dropZone == null || originalCardHolder == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);
             return;
@@ -223,10 +224,10 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// <summary>
     /// Resets the card's position to its original location before dragging.
     /// </summary>
-    protected virtual void ResetCardPosition()
-    {
-        transform.localPosition = Vector3.zero;
-    }
+    //protected virtual void ResetCardPosition()
+    //{
+    //    transform.localPosition = Vector3.zero;
+    //}
 
 
     protected void OnCardPurchase()
@@ -240,13 +241,13 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// </summary>
     protected virtual void AssignDraftCardToPlayer()
     {
-        DraftCardSlot cardSlot = startParentTransform.GetComponent<DraftCardSlot>();
+        DraftCardHolder draftCardHolder = originalCardHolder as DraftCardHolder;
 
         card.ServerSetCardOwner(player);
-        cardSlot.MoveCard(card, player.ControlledHand.Value.transform);
+        draftCardHolder.MoveCard(card, player.ControlledHand.Value.GetComponent<CardHolder>());
 
         player.ServerChangePlayerGold(-card.Cost.Value);
-        Board.Instance.ServerReplaceDraftCard(cardSlot.SlotIndex);
+        Board.Instance.ServerReplaceDraftCard(draftCardHolder.DraftCardIndex);
         GameManager.Instance.EndTurn(false);
     }
 
