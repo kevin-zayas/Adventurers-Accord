@@ -70,8 +70,8 @@ public class QuestLane : NetworkBehaviour
 
         for (int i = 0; i < QuestDropZone.transform.childCount; i++)
         {
-            Transform cardTransform = QuestDropZone.transform.GetChild(i);
-            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+            Transform cardSlotTransform = QuestDropZone.transform.GetChild(i);
+            AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
 
             if ((IsPartyGreased || QuestCard.Value.DisableItems.Value) && card.HasItem.Value) card.DisableItem();
 
@@ -152,8 +152,8 @@ public class QuestLane : NetworkBehaviour
 
         while (QuestDropZone.transform.childCount > 0)
         {
-            Transform cardTransform = QuestDropZone.transform.GetChild(0);
-            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+            Transform cardSlotTransform = QuestDropZone.transform.GetChild(0);
+            AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
 
             if (card.CardName.Value == "Wolf")
             {
@@ -298,9 +298,9 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void UpdateEnchanterBuff(int buffDelta, AdventurerCard enchanterCard = null) 
     {
-        foreach (Transform cardTransform in QuestDropZone.transform)
+        foreach (Transform cardSlotTransform in QuestDropZone.transform)
         {
-            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+            AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
             if (enchanterCard == card) continue; //prevent the enchanter from buffing itself
 
             card.ChangePhysicalPower(buffDelta);
@@ -322,9 +322,9 @@ public class QuestLane : NetworkBehaviour
     [Server]
     private void UpdateTinkererBuff(int powerDelta)
     {
-        foreach (Transform cardTransform in QuestDropZone.transform)
+        foreach (Transform cardSlotTransform in QuestDropZone.transform)
         {
-            AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+            AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
             if (!card.HasItem.Value) continue;
 
             card.Item.Value.ChangePhysicalPower(powerDelta);
@@ -339,13 +339,13 @@ public class QuestLane : NetworkBehaviour
     {
         if (despawn)
         {
-            foreach (Transform cardTransform in QuestDropZone.transform)
+            foreach (Transform cardSlotTransform in QuestDropZone.transform)
             {
-                AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+                AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
                 if (card.CardName.Value == "Wolf")
                 {
-                    //card.transform.SetParent(null);
-                    card.SetCardParent(null, false);
+                    //card.SetCardParent(null, false, null);
+                    card.RemoveAdventurer(this);
                     card.Despawn();
                     break;
                 }
@@ -360,8 +360,9 @@ public class QuestLane : NetworkBehaviour
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
         wolfCard.SetCardOwner(controllingPlayer);
-        wolfCard.SetCardParent(Player.Value.ControlledHand.Value.transform,false);
-        wolfCard.SetCardParent(QuestDropZone.transform, false);
+        //wolfCard.SetCardParent(Player.Value.ControlledHand.Value.transform,false);
+        //wolfCard.SetCardParent(QuestDropZone.transform, false);
+        wolfCard.DispatchAdventurer(this);
     }
 
     [ObserversRpc]

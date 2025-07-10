@@ -17,7 +17,7 @@ public class SpellCard : Card
 
 
     [Server]
-    public override void SetCardParent(Transform parent, bool worldPositionStays)
+    public override void SetCardParent(Transform parent, bool worldPositionStays, CardHolder cardHolder = null)
     {
         Player player = ControllingPlayer.Value;
 

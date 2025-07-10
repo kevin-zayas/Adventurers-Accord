@@ -4,6 +4,7 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using TMPro;
 using UnityEngine;
+using static CardHolder;
 
 public class AdventurerCard : Card
 {
@@ -11,7 +12,8 @@ public class AdventurerCard : Card
     public readonly SyncVar<string> AbilityName = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
-    public readonly SyncVar<Transform> ParentTransform = new();
+    //public readonly SyncVar<Transform> ParentTransform = new();
+    public readonly SyncVar<CardHolder> CurrentCardHolder = new();
     public readonly SyncVar<int> RestPeriod = new();
     public readonly SyncVar<int> CurrentRestPeriod = new();
     public readonly SyncVar<bool> IsBlessed = new();
@@ -37,14 +39,7 @@ public class AdventurerCard : Card
 
     private void Start()
     {
-        //if (IsServerInitialized)
-        //{
-        //    IsDraftCard.Value = true;
-        //}
-        //else      //may need to add this back when putting it on dedicated server
-        //{
         player = GameManager.Instance.Players[LocalConnection.ClientId];
-        //}
     }
 
     /// <summary>
@@ -53,18 +48,13 @@ public class AdventurerCard : Card
     /// <param name="newParent">The new parent transform to set.</param>
     /// <param name="worldPositionStays">Whether to maintain the world position of the card.</param>
     [Server]
-    public override void SetCardParent(Transform newParent, bool worldPositionStays)
+    public override void SetCardParent(Transform newParent, bool worldPositionStays, CardHolder cardHolder)
     {
-        ObserversSetCardParent(newParent, worldPositionStays);
-        //rectTransform.SetParent(newParent, worldPositionStays);
+        ObserversSetCardParent(newParent, worldPositionStays, cardHolder);
+        rectTransform.SetParent(newParent, worldPositionStays);
 
-        if (ParentTransform.Value != newParent)
-        {
-            if (ParentTransform.Value != null && ParentTransform.Value.CompareTag(QuestTag)) OnQuestReturn(ParentTransform.Value);
-            if (newParent != null && newParent.CompareTag(QuestTag)) OnQuestDispatch(newParent);
-        }
-
-        ParentTransform.Value = newParent;
+        CurrentCardHolder.Value = cardHolder;
+        //ParentTransform.Value = newParent;
 
     }
 
@@ -74,11 +64,9 @@ public class AdventurerCard : Card
     /// <param name="newParent">The new parent transform.</param>
     /// <param name="worldPositionStays">Whether to maintain the world position of the card.</param>
     [ObserversRpc(BufferLast = true)]
-    protected override void ObserversSetCardParent(Transform newParent, bool worldPositionStays)
+    protected void ObserversSetCardParent(Transform newParent, bool worldPositionStays, CardHolder cardHolder)
     {
         if (newParent == null) return;
-        Vector3 scale = newParent.CompareTag(QuestTag) ? new Vector3(.6f, .6f, 1f) : new Vector3(1f, 1f, 1f);
-        transform.localScale = scale;
         rectTransform.SetParent(newParent, worldPositionStays);
     }
 
@@ -177,7 +165,7 @@ public class AdventurerCard : Card
     [Server]
     public void ChangePhysicalPower(int power)
     {
-        if (ParentTransform.Value == null) return; // || !ParentTransform.Value.CompareTag(QuestTag)) return;
+        if (CardHolderIsNull()) return;
 
         if (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0)
         {
@@ -203,7 +191,7 @@ public class AdventurerCard : Card
     [Server]
     public void ChangeMagicalPower(int powerChange)
     {
-        if (ParentTransform.Value == null) return; // || !ParentTransform.Value.CompareTag(QuestTag)) return;
+        if (CardHolderIsNull()) return;
 
         if (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0)
         {
@@ -318,11 +306,10 @@ public class AdventurerCard : Card
     /// Handles the logic when the card is dispatched to a quest.
     /// Adds the card to the quest lane on the server.
     /// </summary>
-    /// <param name="newParent">The new parent transform, expected to be a quest lane.</param>
+    /// <param name="questLane">The Quest Lane being dispatched to.</param>
     [Server]
-    private void OnQuestDispatch(Transform newParent)
+    public void DispatchAdventurer(QuestLane questLane)
     {
-        QuestLane questLane = newParent.parent.GetComponent<QuestLane>();
         questLane.AddAdventurerToQuestLane(this);
 
         Player player = ControllingPlayer.Value;
@@ -351,11 +338,10 @@ public class AdventurerCard : Card
     /// Handles the logic when the card is returned from a quest.
     /// Removes the card from the quest lane and resets power on the server.
     /// </summary>
-    /// <param name="previousParent">The previous parent transform, expected to be a quest lane.</param>
+    /// <param name="questLane">The Quest Lane the adventurer is being removed from.</param>
     [Server]
-    private void OnQuestReturn(Transform previousParent)
+    public void RemoveAdventurer(QuestLane questLane)
     {
-        QuestLane questLane = previousParent.parent.GetComponent<QuestLane>();
         questLane.RemoveAdventurerFromQuestLane(this);
 
         if (IsBlessed.Value)
@@ -396,13 +382,14 @@ public class AdventurerCard : Card
     {
         if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Ability) return;
         if (!Player.Instance.IsPlayerTurn.Value) return;
-        if (ParentTransform.Value == null) return;
+        if (CardHolderIsNull()) return;
 
-        QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
+        QuestLane lane = CurrentCardHolder.Value.QuestLane;
         if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
 
         string resolutionType = PopUpManager.Instance.CurrentResolutionType;
         if (resolutionType == null) return;
+
         bool isNotPlayer = ControllingPlayer.Value != Player.Instance;
         bool hasActiveItem = HasItem.Value && !Item.Value.IsDisabled.Value;
         bool hasPower = MagicalPower.Value > 0 || PhysicalPower.Value > 0;
@@ -419,9 +406,11 @@ public class AdventurerCard : Card
     public void OnPotionResolutionClick()
     {
         //if (!Player.Instance.IsPlayerTurn.Value) return;
-        if (ParentTransform.Value == null) return;
-        QuestLane lane = ParentTransform.Value.parent.GetComponent<QuestLane>();
+        if (CardHolderIsNull()) return;
+
+        QuestLane lane = CurrentCardHolder.Value.QuestLane;
         if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
+
         if (PopUpManager.Instance.ResolvingPlayer != Player.Instance) return;
 
         if (ControllingPlayer.Value != Player.Instance)
@@ -456,7 +445,7 @@ public class AdventurerCard : Card
     [Server]
     public void ApplyPotionPhysicalPower(int power, bool overridePower = false)
     {
-        if (ParentTransform.Value == null) return;
+        if (CardHolderIsNull()) return;
 
         if (overridePower)
         {
@@ -476,7 +465,7 @@ public class AdventurerCard : Card
     [Server]
     public void ApplyPotionMagicalPower(int power, bool overridePower = false)
     {
-        if (ParentTransform.Value == null) return;
+        if (CardHolderIsNull()) return;
 
         if (overridePower)
         {
@@ -500,5 +489,15 @@ public class AdventurerCard : Card
         potionPhysicalPower = potionMagicalPower = 0;
         potionBasePhysicalPower.Value = potionBaseMagicalPower.Value = 0;
         ResetPower();
+    }
+
+    private bool CardHolderIsNull()
+    {
+        if (CurrentCardHolder.Value == null)
+        {
+            Debug.LogWarning($"CurrentCardHolder is null for card: {CardName.Value}");
+            return true;
+        }
+        return false;
     }
 }

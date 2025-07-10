@@ -50,7 +50,7 @@ public class PotionDragDrop : CardDragDrop
 
         AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
 
-        if (adventurerCard.ParentTransform.Value.CompareTag("Quest"))
+        if (adventurerCard.CurrentCardHolder.Value.IsQuest())
         {
             if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Dispatch && !player.IsPlayerTurn.Value)
             {
@@ -58,7 +58,7 @@ public class PotionDragDrop : CardDragDrop
                 ResetCardPosition();
                 return;
             }
-            HandleQuestEndDrag(adventurerCard);
+            HandleQuestEndDrag(adventurerCard);     //redundant check
             return;
         }
         HandleHandEndDrag(adventurerCard);

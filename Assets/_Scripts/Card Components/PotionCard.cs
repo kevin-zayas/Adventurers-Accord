@@ -113,8 +113,8 @@ public class PotionCard : Card
         bool increasedFromZero = adventurerCard.OriginalPhysicalPower.Value == 0 && adventurerCard.potionBasePhysicalPower.Value == 0;
         adventurerCard.ApplyPotionPhysicalPower(4, true);
 
-        QuestLane questLane = adventurerCard.ParentTransform.Value.parent.GetComponent<QuestLane>();
-        if (questLane != null) questLane.ApplyEnchanterBuff(adventurerCard, increasedFromZero, false);
+        QuestLane questLane = adventurerCard.CurrentCardHolder.Value.QuestLane;
+        questLane.ApplyEnchanterBuff(adventurerCard, increasedFromZero, false);
     }
 
     [Server]
@@ -123,8 +123,8 @@ public class PotionCard : Card
         bool increasedFromZero = adventurerCard.OriginalMagicalPower.Value == 0 && adventurerCard.potionBaseMagicalPower.Value == 0;
         adventurerCard.ApplyPotionMagicalPower(4, true);
 
-        QuestLane questLane = adventurerCard.ParentTransform.Value.parent.GetComponent<QuestLane>();
-        if (questLane != null) questLane.ApplyEnchanterBuff(adventurerCard, false, increasedFromZero);
+        QuestLane questLane = adventurerCard.CurrentCardHolder.Value.QuestLane;
+        questLane.ApplyEnchanterBuff(adventurerCard, false, increasedFromZero);
     }
 
 }

@@ -20,7 +20,7 @@ public class DiscardPile : NetworkBehaviour
     [Server]
     public void DiscardCard(AdventurerCard card, Player player)
     {
-        card.SetCardParent(gameObject.transform, false);
+        card.SetCardParent(gameObject.transform, false, null);      //will need to add cardHolder Script to Discard Pile
         player.DiscardPile.Add(card);
         card.ResetPotionPower();
     }
@@ -37,7 +37,7 @@ public class DiscardPile : NetworkBehaviour
                 if (card.CurrentRestPeriod.Value > 0) card.ChangeCurrentRestPeriod(-1);
                 else
                 {
-                    card.SetCardParent(player.ControlledHand.Value.transform, false);
+                    card.SetCardParent(player.ControlledHand.Value.transform, false, null);
                     cardsToRemove.Add(card);
                     card.ResetCurrentRestPeriod();
                 }

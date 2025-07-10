@@ -105,6 +105,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         isDragging = true;
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
+
+        card.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
         //canvas.GetComponent<GraphicRaycaster>().enabled = false;
         //imageComponent.raycastTarget = false;
 
@@ -120,7 +122,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         isDragging = false;
         
-        if (dropZone == null || originalCardHolder == dropZone.transform)
+        if (dropZone == null || originalCardHolder.transform == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);
             return;
@@ -244,7 +246,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         DraftCardHolder draftCardHolder = originalCardHolder as DraftCardHolder;
 
         card.ServerSetCardOwner(player);
-        draftCardHolder.MoveCard(card, player.ControlledHand.Value.GetComponent<CardHolder>());
+        draftCardHolder.ServerMoveCard(card, player.ControlledHand.Value.GetComponent<CardHolder>());
 
         player.ServerChangePlayerGold(-card.Cost.Value);
         Board.Instance.ServerReplaceDraftCard(draftCardHolder.DraftCardIndex);

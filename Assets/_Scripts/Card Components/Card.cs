@@ -85,10 +85,10 @@ public abstract class Card : NetworkBehaviour
     /// <param name="parentTransform">The new parent transform to set.</param>
     /// <param name="worldPositionStays">Whether to maintain the world position of the card.</param>
     [Server]
-    public virtual void SetCardParent(Transform parentTransform, bool worldPositionStays)
+    public virtual void SetCardParent(Transform parentTransform, bool worldPositionStays, CardHolder cardHolder = null)
     {
         ObserversSetCardParent(parentTransform, worldPositionStays);
-        //transform.SetParent(parentTransform, worldPositionStays);
+        //transform.SetParent(parentTransform, worldPositionStays);     //swap this to rect transform 
     }
 
     /// <summary>

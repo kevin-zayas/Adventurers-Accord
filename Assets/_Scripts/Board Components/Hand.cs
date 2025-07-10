@@ -11,6 +11,11 @@ public class Hand : CardHolder
     public readonly SyncVar<Player> controllingPlayer = new();
     public readonly SyncVar<int> playerID = new();
 
+    protected override void Start()
+    {
+        base.Start();
+        HolderType = CardHolderType.Hand;
+    }
     //[SerializeField] GameObject handSlotPrefab;
     //[SerializeField] private CardInteractionHandler selectedCard;
     //[SerializeReference] private CardInteractionHandler hoveredCard;

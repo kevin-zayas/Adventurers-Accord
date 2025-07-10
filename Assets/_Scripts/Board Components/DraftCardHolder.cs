@@ -1,6 +1,4 @@
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DraftCardHolder : CardHolder
@@ -8,20 +6,26 @@ public class DraftCardHolder : CardHolder
     [field: SerializeField] public int DraftCardIndex { get; private set; }
     [SerializeField] private GameObject cardSlot;
 
+    protected override void Start()
+    {
+        base.Start();
+        HolderType = CardHolderType.Draft;
+    }
+
     protected override void Update()
     {
-        return; //DraftCardSlot does not need to update like other card holders
+        return; //DraftCardHolder will not have swap logic
     }
 
     [Server]
     public override void AddCard(Card card)
     {
-        card.SetCardParent(cardSlot.transform, false);
+        card.SetCardParent(cardSlot.transform, false, this);
         AddCardHandlerListeners(null, card);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public override void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
+    public override void ServerMoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
         RemoveCardHandlerListeners(null, card);
         newCardHolder.AddCard(card);

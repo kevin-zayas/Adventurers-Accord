@@ -409,9 +409,9 @@ public class QuestLocation : NetworkBehaviour
             player.UpdateGuildRecapTracker("Quest Penalty (Rep)", reputationPenalty);
             player.UpdateGuildRecapTracker("Quests Failed", 1);
 
-            foreach (Transform cardTransform in lane.QuestDropZone.transform)
+            foreach (Transform cardSlotTransform in lane.QuestDropZone.transform)
             {
-                AdventurerCard adventurerCard = cardTransform.GetComponent<AdventurerCard>();
+                AdventurerCard adventurerCard = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
                 adventurerCard.ChangeCurrentRestPeriod(restPeriodPenalty);
             }
 
@@ -472,9 +472,9 @@ public class QuestLocation : NetworkBehaviour
         {
             if (lane == questLanes[laneIndex]) continue;    //skip resolution card's lane
 
-            foreach (Transform cardTransform in lane.QuestDropZone.transform)
+            foreach (Transform cardSlotTransform in lane.QuestDropZone.transform)
             {
-                AdventurerCard card = cardTransform.GetComponent<AdventurerCard>();
+                AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
 
                 if (cardName == "Rogue" && card.HasItem.Value) return true;
                 else if (cardName == "Assassin" && !card.IsBlessed.Value) return true;

@@ -6,10 +6,20 @@ using UnityEngine;
 
 public class CardHolder : NetworkBehaviour
 {
+    public virtual QuestLane QuestLane => null;
+
+    public enum CardHolderType
+    {
+        Draft,
+        Hand,
+        Quest,
+        Discard
+    }
     [SerializeField] protected GameObject cardSlotPrefab;
     [SerializeField] protected CardInteractionHandler selectedCard;
     [SerializeReference] protected CardInteractionHandler hoveredCard;
     public List<CardInteractionHandler> cardHandlers;
+    public CardHolderType HolderType { get; protected set; }
 
     protected RectTransform rect;
     protected bool isCrossing = false;
@@ -24,8 +34,9 @@ public class CardHolder : NetworkBehaviour
     {
         GameObject cardSlot = Instantiate(cardSlotPrefab);
         Spawn(cardSlot);
+        cardSlot.transform.SetParent(transform);
         ObserversSetCardSlotParent(cardSlot);
-        card.SetCardParent(cardSlot.transform, false);
+        card.SetCardParent(cardSlot.transform, false, this);
         ObserversResetCardPosition(card);
 
         //CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
@@ -45,16 +56,18 @@ public class CardHolder : NetworkBehaviour
     {
         card.transform.localPosition = Vector3.zero;
         card.gameObject.GetComponent<Canvas>().overrideSorting = false;
+        SetCardScale(card.gameObject);
     }
 
+    protected virtual void SetCardScale(GameObject card)
+    {
+        card.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+    }
 
     [ServerRpc(RequireOwnership = false)]
-    public virtual void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
+    public virtual void ServerMoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
         RemoveCardHandlerListeners(card.Owner, card);
-        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
-
-        //TargetEndDrag(card.Owner, cardHandler, false);      // why? - to reset selectedCard for swap logic
         newCardHolder.AddCard(card);
         Despawn(originalCardSlot.gameObject);
     }
@@ -63,7 +76,6 @@ public class CardHolder : NetworkBehaviour
     {
         selectedCard = cardHandler;
     }
-
 
     protected void EndDrag(CardInteractionHandler cardHandler, bool returningToSlot)
     {
@@ -74,14 +86,14 @@ public class CardHolder : NetworkBehaviour
 
         if (returningToSlot)
         {
-            selectedCard.transform.DOLocalMove(Vector3.zero, .15f).SetEase(Ease.OutBack);
+            SetCardScale(cardHandler.gameObject);
+            selectedCard.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
+            selectedCard.gameObject.GetComponent<Canvas>().overrideSorting = false;
         }
-
 
         rect.sizeDelta += Vector2.right;
         rect.sizeDelta -= Vector2.right;
         
-        selectedCard.gameObject.GetComponent<Canvas>().overrideSorting = false;
         selectedCard = null;
     }
 
@@ -176,5 +188,20 @@ public class CardHolder : NetworkBehaviour
         cardHandler.PointerExitEvent.RemoveListener(CardPointerExit);
         cardHandler.BeginDragEvent.RemoveListener(BeginDrag);
         cardHandler.EndDragEvent.RemoveListener(EndDrag);
+    }
+
+    public bool IsQuest()
+    {
+        return HolderType == CardHolderType.Quest;
+    }
+
+    public bool IsDraft()
+    {
+        return HolderType == CardHolderType.Draft;
+    }
+
+    public bool IsHand()
+    {
+        return HolderType == CardHolderType.Hand;
     }
 }

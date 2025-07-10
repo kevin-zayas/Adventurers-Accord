@@ -93,7 +93,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
     {
         Player.Instance.ServerUpdateGuildRecapTracker($"{PopUpManager.Instance.CurrentResolutionType} Resolutions Completed", 1);
         UpdateGuildBonusTracker(questIndex);
-        card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateQuestLanePower();
+        card.CurrentCardHolder.Value.QuestLane.ServerUpdateQuestLanePower();
 
         GameManager.Instance.ServerCheckForUnresolvedCards();
         Destroy(this.gameObject);

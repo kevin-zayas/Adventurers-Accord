@@ -53,7 +53,7 @@ public class ItemDragDrop : CardDragDrop
             return;
         }
 
-        if (adventurerCard.ParentTransform.Value.CompareTag("Quest"))
+        if (adventurerCard.CurrentCardHolder.Value.IsQuest())
         {
             PopUpManager.Instance.CreateToastPopUp("Cannot equip Magic Item: Adventurer is on a quest");
             ResetCardPosition();

@@ -79,7 +79,7 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         else
         {
             EndDragEvent.Invoke(this, false);
-            originalCardHolder.MoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
+            originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
             
         }
     }

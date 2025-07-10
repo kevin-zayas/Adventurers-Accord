@@ -23,7 +23,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
             {
                 GameManager.Instance.ServerResetEndRoundConfirmations();
             }
-            QuestLane questLane = card.ParentTransform.Value.parent.GetComponent<QuestLane>();
+            QuestLane questLane = card.CurrentCardHolder.Value.QuestLane;
 
             potionCard.UsePotion(card);
             questLane.ServerUpdateQuestLanePower();

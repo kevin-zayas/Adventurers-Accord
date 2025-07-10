@@ -1081,6 +1081,7 @@ MonoBehaviour:
   selectedCard: {fileID: 0}
   hoveredCard: {fileID: 0}
   cardHandlers: []
+  questLane: {fileID: 5807295695286212912}
 --- !u!114 &6675428987643198291
 MonoBehaviour:
   m_ObjectHideFlags: 0

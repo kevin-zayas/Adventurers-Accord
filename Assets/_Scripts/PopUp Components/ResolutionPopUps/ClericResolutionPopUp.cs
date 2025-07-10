@@ -12,7 +12,7 @@ public class ClericResolutionPopUp : ResolutionPopUp
             int questIndex = QuestLocation.QuestLocationIndex;
 
             card.ServerGrantDivineBlessing();
-            card.ParentTransform.Value.parent.GetComponent<QuestLane>().ServerUpdateDrainEffects(card);
+            card.CurrentCardHolder.Value.QuestLane.ServerUpdateDrainEffects(card);
             HandleEndOfResolution(questIndex, card);
         });
     }
