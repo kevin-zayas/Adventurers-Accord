@@ -23,13 +23,10 @@ public class QuestLaneCardHolder : CardHolder
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public override void ServerMoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
+    [Server]
+    public override void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
-        RemoveCardHandlerListeners(card.Owner, card);
-        newCardHolder.AddCard(card);
-        originalCardSlot.SetParent(null);
-        Despawn(originalCardSlot.gameObject);
+        base.MoveCard(card, newCardHolder, originalCardSlot);
 
         if (card is AdventurerCard adventurerCard)
         {

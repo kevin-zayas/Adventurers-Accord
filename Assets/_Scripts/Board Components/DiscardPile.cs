@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DiscardPile : NetworkBehaviour
+public class DiscardPile : CardHolder
 {
     #region Singleton
     public static DiscardPile Instance { get; private set; }
@@ -12,17 +12,29 @@ public class DiscardPile : NetworkBehaviour
 
     [SerializeField] private TMP_Text restingAdventurerCount;
 
-    void Start()
+    protected override void Start()
     {
         Instance = this;
+        base.Start();
+        HolderType = CardHolderType.Discard;
     }
 
     [Server]
-    public void DiscardCard(AdventurerCard card, Player player)
+    public override void AddCard(Card card)
     {
-        card.SetCardParent(gameObject.transform, false, null);      //will need to add cardHolder Script to Discard Pile
-        player.DiscardPile.Add(card);
-        card.ResetPotionPower();
+        AdventurerCard adventurerCard = card as AdventurerCard;
+
+        adventurerCard.SetCardParent(transform, false, this);
+        adventurerCard.ControllingPlayer.Value.DiscardPile.Add(adventurerCard);
+        adventurerCard.ResetPotionPower();
+
+        ObserversResetCardPosition(adventurerCard);
+    }
+
+    [Server]
+    public override void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
+    {
+        newCardHolder.AddCard(card);
     }
 
     [Server]
@@ -37,7 +49,7 @@ public class DiscardPile : NetworkBehaviour
                 if (card.CurrentRestPeriod.Value > 0) card.ChangeCurrentRestPeriod(-1);
                 else
                 {
-                    card.SetCardParent(player.ControlledHand.Value.transform, false, null);
+                    MoveCard(card, player.ControlledHand.Value);
                     cardsToRemove.Add(card);
                     card.ResetCurrentRestPeriod();
                 }

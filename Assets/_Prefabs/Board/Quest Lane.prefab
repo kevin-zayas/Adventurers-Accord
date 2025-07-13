@@ -953,6 +953,7 @@ MonoBehaviour:
     NetworkBehaviour: {fileID: 0}
     _value: 0
   <IsPartyGreased>k__BackingField: 0
+  cardHolder: {fileID: 3726199555870245655}
   physicalPowerText: {fileID: 4129425861735006748}
   magicalPowerText: {fileID: 3172343994968927532}
   rewardIndicator: {fileID: 1367277871247405354}

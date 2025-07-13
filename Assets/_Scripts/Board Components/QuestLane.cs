@@ -40,6 +40,7 @@ public class QuestLane : NetworkBehaviour
     private const int EnchanterEmpower = 2;
     private const int TinkererEmpower = 2;
 
+    [SerializeField] private QuestLaneCardHolder cardHolder;
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private Image rewardIndicator;
@@ -160,7 +161,8 @@ public class QuestLane : NetworkBehaviour
                 HandleWolfSummon(true);
                 continue;
             }
-            DiscardPile.Instance.DiscardCard(card, Player.Value);
+
+            cardHolder.MoveCard(card, DiscardPile.Instance, card.transform.parent);
         }
 
         PhysicalPower.Value = 0;

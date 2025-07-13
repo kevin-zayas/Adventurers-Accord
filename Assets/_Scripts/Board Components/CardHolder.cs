@@ -67,8 +67,15 @@ public class CardHolder : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public virtual void ServerMoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
+        MoveCard(card, newCardHolder, originalCardSlot);
+    }
+
+    [Server]
+    public virtual void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
+    {
         RemoveCardHandlerListeners(card.Owner, card);
         newCardHolder.AddCard(card);
+        originalCardSlot.SetParent(null);
         Despawn(originalCardSlot.gameObject);
     }
 
@@ -88,7 +95,7 @@ public class CardHolder : NetworkBehaviour
         {
             SetCardScale(cardHandler.gameObject);
             selectedCard.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
-            selectedCard.gameObject.GetComponent<Canvas>().overrideSorting = false;
+            selectedCard.gameObject.GetComponent<Canvas>().overrideSorting = false;     //wait frame before doing this? currently it is sliding behind other objects
         }
 
         rect.sizeDelta += Vector2.right;
