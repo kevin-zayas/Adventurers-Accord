@@ -1590,7 +1590,7 @@ GameObject:
   - component: {fileID: 8948479971837407625}
   - component: {fileID: 8006336252910119709}
   m_Layer: 8
-  m_Name: Adventurer Card v4
+  m_Name: Adventurer Card v5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1643,6 +1643,7 @@ MonoBehaviour:
   cardImage: {fileID: 1177701720125259711}
   costText: {fileID: 1356007084095882162}
   nameText: {fileID: 2728476821446806872}
+  cardHandler: {fileID: 565309220462768973}
   HasItem:
     NetworkManager: {fileID: 0}
     NetworkBehaviour: {fileID: 0}
@@ -1670,10 +1671,10 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 8948479971837407625}
   _networkObjectCache: {fileID: 8948479971837407625}
   isDragging: 0
-  canvas: {fileID: 0}
   cardCanvas: {fileID: -7345696642839331292}
   dropZone: {fileID: 0}
-  startParentTransform: {fileID: 0}
+  originalCardHolder: {fileID: 0}
+  originalCardSlot: {fileID: 0}
   startPosition: {x: 0, y: 0}
   player: {fileID: 0}
   card: {fileID: 0}
@@ -2053,7 +2054,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 27
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 10827810311632333306
+  <AssetPathHash>k__BackingField: 666641709042762676
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}

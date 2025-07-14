@@ -161,20 +161,18 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7184070916402621257}
-  - component: {fileID: 3478594553878486444}
-  - component: {fileID: 3738695276855157557}
-  - component: {fileID: -4959033644106127066}
-  - component: {fileID: 5819162330761087941}
+  - component: {fileID: 3885643823678439189}
   - component: {fileID: 9083479996198271190}
-  - component: {fileID: 2743611536816787608}
   - component: {fileID: 1071464946648242112}
   - component: {fileID: -3940136168109046893}
   - component: {fileID: 8381347151152243069}
-  - component: {fileID: -5630888917086196066}
   - component: {fileID: -3672523780777450086}
-  - component: {fileID: 3885643823678439189}
+  - component: {fileID: -4959033644106127066}
+  - component: {fileID: -5630888917086196066}
+  - component: {fileID: 3478594553878486444}
+  - component: {fileID: -6916078920136669456}
   m_Layer: 7
-  m_Name: Item Card v2
+  m_Name: Item Card v2 backup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,126 +201,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3478594553878486444
-MonoBehaviour:
+--- !u!222 &3885643823678439189
+CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e9c879183fa5f47b196f46a2dd2819, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: -3672523780777450086}
-  _networkObjectCache: {fileID: -3672523780777450086}
-  IsDraftCard:
-    NetworkManager: {fileID: 0}
-    NetworkBehaviour: {fileID: 0}
-    _value: 1
-  disableScreen: {fileID: 8997950938491326308}
-  hoverScreen: {fileID: 1261818660500761060}
-  magicalPowerText: {fileID: 3503292238363221274}
-  physicalPowerText: {fileID: 2664241663241787588}
-  cardTypeText: {fileID: 6422823805036521099}
-  cardImage: {fileID: 6958857792175851566}
-  costText: {fileID: 3286174191695016412}
-  nameText: {fileID: 2029664163792765779}
-  cardHandler: {fileID: 3738695276855157557}
-  descriptionText: {fileID: 3101418111192428437}
-  subDescriptionText: {fileID: 6348006093116403189}
---- !u!114 &3738695276855157557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec2142d22f727224f890264515515e7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 255
-  _addedNetworkObject: {fileID: -3672523780777450086}
-  _networkObjectCache: {fileID: 0}
-  isDragging: 0
-  cardCanvas: {fileID: 5819162330761087941}
-  dropZone: {fileID: 0}
-  originalCardHolder: {fileID: 0}
-  originalCardSlot: {fileID: 0}
-  startPosition: {x: 0, y: 0}
-  player: {fileID: 0}
-  card: {fileID: 0}
-  _animationDuration: 0.75
-  wasDragged: 0
-  moveSpeedLimit: 6000
-  PointerEnterEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PointerExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PointerUpEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  PointerDownEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  BeginDragEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  EndDragEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  SelectEvent:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &-4959033644106127066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: -3672523780777450086}
-  _networkObjectCache: {fileID: -3672523780777450086}
-  referenceCard: {fileID: 0}
-  isEnlargedCard: 0
-  isSpotlightCard: 0
-  keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
-  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
---- !u!223 &5819162330761087941
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
+  m_CullTransparentMesh: 1
 --- !u!225 &9083479996198271190
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -335,23 +221,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2743611536816787608
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298241252680445397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &1071464946648242112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,6 +323,80 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &-3672523780777450086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298241252680445397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: -4959033644106127066}
+  - {fileID: 3478594553878486444}
+  - {fileID: -6916078920136669456}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedValusSet: 1
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 29
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 12363589345870638325
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
+--- !u!114 &-4959033644106127066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298241252680445397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99394ab55f9d23e49a9fe238f122ba60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  referenceCard: {fileID: 0}
+  isEnlargedCard: 0
+  isSpotlightCard: 0
+  keywordGrouperPrefab: {fileID: 5733605096587223286, guid: 9e46a770eb9b22847abcc21a8b4f048d, type: 3}
+  spotlightDescriptionPrefab: {fileID: 3943229531704368823, guid: 02682c63f5bfc2941bff5de21dfd214b, type: 3}
 --- !u!114 &-5630888917086196066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,7 +426,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: -6916078920136669456}
           m_TargetAssemblyTypeName: ItemDragDrop, Assembly-CSharp
           m_MethodName: BeginDrag
           m_Mode: 1
@@ -511,7 +454,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: -6916078920136669456}
           m_TargetAssemblyTypeName: ItemDragDrop, Assembly-CSharp
           m_MethodName: EndDrag
           m_Mode: 1
@@ -559,7 +502,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
---- !u!114 &-3672523780777450086
+--- !u!114 &3478594553878486444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -568,59 +511,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 1298241252680445397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Script: {fileID: 11500000, guid: c1e9c879183fa5f47b196f46a2dd2819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: -4959033644106127066}
-  - {fileID: 3478594553878486444}
-  - {fileID: 0}
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedValusSet: 1
-  NetworkObserver: {fileID: 0}
-  _enablePrediction: 0
-  _predictionType: 0
-  _graphicalObject: {fileID: 0}
-  _detachGraphicalObject: 0
-  _enableStateForwarding: 1
-  _networkTransform: {fileID: 0}
-  _ownerInterpolation: 1
-  _ownerSmoothedProperties: 255
-  _adaptiveInterpolation: 3
-  _spectatorSmoothedProperties: 255
-  _spectatorInterpolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  <PrefabId>k__BackingField: 29
-  <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 16267027037570478015
-  <SceneId>k__BackingField: 0
-  SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 1, y: 1, z: 1}
-    IsValid: 1
---- !u!222 &3885643823678439189
-CanvasRenderer:
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  IsDraftCard:
+    NetworkManager: {fileID: 0}
+    NetworkBehaviour: {fileID: 0}
+    _value: 1
+  disableScreen: {fileID: 8997950938491326308}
+  hoverScreen: {fileID: 1261818660500761060}
+  magicalPowerText: {fileID: 3503292238363221274}
+  physicalPowerText: {fileID: 2664241663241787588}
+  cardTypeText: {fileID: 6422823805036521099}
+  cardImage: {fileID: 6958857792175851566}
+  costText: {fileID: 3286174191695016412}
+  nameText: {fileID: 2029664163792765779}
+  descriptionText: {fileID: 3101418111192428437}
+  subDescriptionText: {fileID: 6348006093116403189}
+--- !u!114 &-6916078920136669456
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298241252680445397}
-  m_CullTransparentMesh: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1000182653399494a98739478dabe3c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: -3672523780777450086}
+  _networkObjectCache: {fileID: -3672523780777450086}
+  isDragging: 0
+  canvas: {fileID: 0}
+  dropZone: {fileID: 0}
+  startParentTransform: {fileID: 0}
+  startPosition: {x: 0, y: 0}
+  player: {fileID: 0}
+  card: {fileID: 0}
+  _animationDuration: 0.75
 --- !u!1 &1649686517057891831
 GameObject:
   m_ObjectHideFlags: 0

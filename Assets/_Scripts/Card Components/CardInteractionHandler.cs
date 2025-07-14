@@ -15,7 +15,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     #region Serialized Fields
     [SerializeField] protected bool isDragging = false;
 
-    [SerializeField] protected GameObject canvas;
+    //[SerializeField] protected GameObject canvas;
     [SerializeField] protected Canvas cardCanvas;
     [SerializeField] protected GameObject dropZone;
     [SerializeField] protected CardHolder originalCardHolder;
@@ -45,7 +45,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     protected virtual void Awake()
     {
-        canvas = GameObject.Find("Canvas");
+        //canvas = GameObject.Find("Canvas");
     }
 
     protected virtual void Start()
@@ -280,8 +280,12 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
                 player.SetIsAnimating(false);
             });
         }
-
         sequence.Play();
+    }
+
+    public void InvokeEndDrag()
+    {
+        EndDragEvent.Invoke(this, true);
     }
 
     public int SiblingAmount()

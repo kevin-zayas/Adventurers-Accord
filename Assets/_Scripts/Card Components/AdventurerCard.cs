@@ -13,7 +13,6 @@ public class AdventurerCard : Card
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
     //public readonly SyncVar<Transform> ParentTransform = new();
-    public readonly SyncVar<CardHolder> CurrentCardHolder = new();
     public readonly SyncVar<int> RestPeriod = new();
     public readonly SyncVar<int> CurrentRestPeriod = new();
     public readonly SyncVar<bool> IsBlessed = new();

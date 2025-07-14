@@ -80,7 +80,6 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         {
             EndDragEvent.Invoke(this, false);
             originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
-            
         }
     }
 
@@ -94,15 +93,6 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         if (card.Cost.Value == 5) player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T1)", 1);
         else player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T2)", 1);
     }
-
-    /// <summary>
-    /// Resets the card's position to its original location before dragging.
-    /// </summary>
-    //protected override void ResetCardPosition()
-    //{
-    //    card.ServerSetCardParent(originalCardHolder, true);
-    //    base.ResetCardPosition();
-    //}
 
     protected bool IsQuestLaneFull(QuestLane questLane)
     {

@@ -53,7 +53,7 @@ public class ConfirmationPopUp : PopUp
     {
         cancelButton.onClick.AddListener(() =>
         {
-            itemCard.ServerSetCardParent(itemCard.ControllingPlayerHand.Value.transform, true);
+            itemCard.CardHandler.InvokeEndDrag();
             Destroy(gameObject);
         });
 

@@ -19,10 +19,11 @@ public abstract class Card : NetworkBehaviour
     public readonly SyncVar<CardData> Data = new();
     public readonly SyncVar<Player> ControllingPlayer = new();
     public readonly SyncVar<Hand> ControllingPlayerHand = new();
+    public readonly SyncVar<CardHolder> CurrentCardHolder = new();
     public bool IsClone { get; protected set; }
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> IsDraftCard = new();
     #endregion
-
+    
     [SerializeField] protected Image disableScreen;
     [SerializeField] protected Image hoverScreen;
     [SerializeField] protected TMP_Text magicalPowerText;
@@ -31,9 +32,13 @@ public abstract class Card : NetworkBehaviour
     [SerializeField] protected Image cardImage;
     [SerializeField] protected TMP_Text costText;
     [SerializeField] protected TMP_Text nameText;
+    [SerializeField] protected CardInteractionHandler cardHandler;
+
+    public CardInteractionHandler CardHandler => cardHandler;
     protected Player player;
 
     protected RectTransform rectTransform;
+
 
     public enum CardType
     {
@@ -63,6 +68,11 @@ public abstract class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerDespawnCard()
     {
+        if (CurrentCardHolder.Value.HolderType == CardHolder.CardHolderType.Hand)   //add logic to despawn summons?
+        {
+            Despawn(transform.parent.gameObject);
+
+        }
         this.Despawn();
     }
 
@@ -88,6 +98,7 @@ public abstract class Card : NetworkBehaviour
     public virtual void SetCardParent(Transform parentTransform, bool worldPositionStays, CardHolder cardHolder = null)
     {
         ObserversSetCardParent(parentTransform, worldPositionStays);
+        CurrentCardHolder.Value = cardHolder;
         //transform.SetParent(parentTransform, worldPositionStays);     //swap this to rect transform 
     }
 
