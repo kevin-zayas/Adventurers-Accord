@@ -40,7 +40,12 @@ public class QuestLane : NetworkBehaviour
     private const int EnchanterEmpower = 2;
     private const int TinkererEmpower = 2;
 
-    [SerializeField] private QuestLaneCardHolder cardHolder;
+    [SerializeField] private QuestLaneCardHolder laneCardHolder;
+    [SerializeField] private QuestSpellCardHolder spellCardHolder;
+
+    public QuestLaneCardHolder LaneCardHolder => laneCardHolder;
+    public QuestSpellCardHolder SpellCardHolder => spellCardHolder;
+
     [SerializeField] private TMP_Text physicalPowerText;
     [SerializeField] private TMP_Text magicalPowerText;
     [SerializeField] private Image rewardIndicator;
@@ -69,9 +74,8 @@ public class QuestLane : NetworkBehaviour
         TotalMagicalPower.Value = 0;
         EffectiveTotalPower.Value = 0;
 
-        for (int i = 0; i < QuestDropZone.transform.childCount; i++)
+        foreach (Transform cardSlotTransform in QuestDropZone.transform)
         {
-            Transform cardSlotTransform = QuestDropZone.transform.GetChild(i);
             AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
 
             if ((IsPartyGreased || QuestCard.Value.DisableItems.Value) && card.HasItem.Value) card.DisableItem();
@@ -112,16 +116,15 @@ public class QuestLane : NetworkBehaviour
         UpdateQuestLanePower();
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerUpdateSpellEffects()
+    [Server]
+    public void UpdateSpellEffects()
     {
         SpellPhysicalPower.Value = 0;
         SpellMagicalPower.Value = 0;
 
-        for (int i = 0; i < SpellDropZone.transform.childCount; i++)
+        foreach (Transform cardSlotTransform in SpellDropZone.transform)
         {
-            Transform spellCardTransform = SpellDropZone.transform.GetChild(i);
-            SpellCard spellCard = spellCardTransform.GetComponent<SpellCard>();
+            SpellCard spellCard = cardSlotTransform.GetChild(0).GetComponent<SpellCard>();
 
             SpellPhysicalPower.Value += spellCard.PhysicalPower.Value;
             SpellMagicalPower.Value += spellCard.MagicalPower.Value;
@@ -162,7 +165,7 @@ public class QuestLane : NetworkBehaviour
                 continue;
             }
 
-            cardHolder.MoveCard(card, DiscardPile.Instance, card.transform.parent);
+            laneCardHolder.MoveCard(card, DiscardPile.Instance, card.transform.parent);
         }
 
         PhysicalPower.Value = 0;
@@ -180,12 +183,13 @@ public class QuestLane : NetworkBehaviour
     private void ClearSpellEffects()
     {
         IsPartyGreased = false;
-        for (int i = 0; i < SpellDropZone.transform.childCount; i++)
-        {
-            Transform spellCardTransform = SpellDropZone.transform.GetChild(i);
-            SpellCard spellCard = spellCardTransform.GetComponent<SpellCard>();
 
-            spellCard.Despawn();
+        while (SpellDropZone.transform.childCount > 0)
+        {
+            Transform cardSlotTransform = SpellDropZone.transform.GetChild(0);
+            SpellCard spellCard = cardSlotTransform.GetChild(0).GetComponent<SpellCard>();
+
+            spellCardHolder.MoveCard(spellCard, null, cardSlotTransform);
         }
     }
 
@@ -364,7 +368,7 @@ public class QuestLane : NetworkBehaviour
         wolfCard.SetCardOwner(controllingPlayer);
         //wolfCard.SetCardParent(Player.Value.ControlledHand.Value.transform,false);
         //wolfCard.SetCardParent(QuestDropZone.transform, false);
-        wolfCard.DispatchAdventurer(this);
+        wolfCard.DispatchAdventurer(this);      //cardHolder.AddCard()
     }
 
     [ObserversRpc]

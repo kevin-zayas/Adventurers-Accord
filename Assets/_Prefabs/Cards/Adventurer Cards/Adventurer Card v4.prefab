@@ -1590,7 +1590,7 @@ GameObject:
   - component: {fileID: 8948479971837407625}
   - component: {fileID: 8006336252910119709}
   m_Layer: 8
-  m_Name: Adventurer Card v5
+  m_Name: Adventurer Card v4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2054,7 +2054,7 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 27
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 666641709042762676
+  <AssetPathHash>k__BackingField: 10827810311632333306
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 0, y: 0, z: 0}

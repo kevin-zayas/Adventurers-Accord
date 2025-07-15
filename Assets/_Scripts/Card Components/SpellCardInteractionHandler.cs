@@ -1,11 +1,7 @@
 using UnityEngine;
 
-public class SpellDragDrop : CardDragDrop
+public class SpellCardInteractionHandler : CardInteractionHandler
 {
-    #region Serialized Fields
-    //[SerializeField] private SpellCard card;
-    #endregion
-
     protected override void Start()
     {
         card = GetComponent<SpellCard>();
@@ -36,17 +32,6 @@ public class SpellDragDrop : CardDragDrop
     }
 
     /// <summary>
-    /// Begins the drag operation for the spell card.
-    /// </summary>
-    public override void BeginDrag()
-    {
-        if (CanStartDrag())
-        {
-            base.BeginDrag();
-        }
-    }
-
-    /// <summary>
     /// Handles the specific logic when the drag operation ends, including spell usage validation.
     /// </summary>
     protected override void HandleEndDrag()
@@ -62,20 +47,22 @@ public class SpellDragDrop : CardDragDrop
         if (questLane.QuestCard.Value.BlockSpells.Value)
         {
             PopUpManager.Instance.CreateToastPopUp("Spells cannot be used on this Quest");
-            ResetCardPosition();
+            EndDragEvent.Invoke(this, true);
             return;
         }
 
         if (questLane.QuestDropZone.transform.childCount == 0)
         {
             PopUpManager.Instance.CreateToastPopUp("Spells cannot be used on a lane with no Adventurers");
-            ResetCardPosition();
+            EndDragEvent.Invoke(this, true);
             return;
         }
+
         if (PopUpManager.Instance.CurrentResolutionPopUp != null)
         {
-            PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();
+            PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();        //this should be moved to create popup logic
         }
+
         GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
@@ -94,14 +81,5 @@ public class SpellDragDrop : CardDragDrop
         {
             player.ServerUpdateGuildRecapTracker("Curse Spells (Purchased)", 1);
         }
-    }
-
-    /// <summary>
-    /// Resets the spell card's position to its original location before dragging.
-    /// </summary>
-    protected override void ResetCardPosition()
-    {
-        //card.ServerSetCardParent(startParentTransform, true);
-        base.ResetCardPosition();
     }
 }

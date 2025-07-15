@@ -1,14 +1,9 @@
 using DG.Tweening;
 using FishNet.Object;
-using GameKit.Dependencies.Utilities;
 using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
 {
@@ -33,7 +28,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [Header("Movement")]
     [SerializeField] private float moveSpeedLimit = 6000;
 
-    [Header("Events")] 
+    [Header("Events")]
     [HideInInspector] public UnityEvent<CardInteractionHandler> PointerEnterEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler> PointerExitEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> PointerUpEvent;
@@ -41,7 +36,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [HideInInspector] public UnityEvent<CardInteractionHandler> BeginDragEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> EndDragEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> SelectEvent;
-    
+
 
     protected virtual void Awake()
     {
@@ -121,7 +116,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         isDragging = false;
-        
+
         if (dropZone == null || originalCardHolder.transform == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);

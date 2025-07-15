@@ -73,18 +73,19 @@ public class ConfirmationPopUp : PopUp
     public void InitializeCastSpellPopUp(GameObject dropZone, SpellCard spellCard)
     {
         QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+        QuestSpellCardHolder spellCardHolder = questLane.SpellCardHolder;
         string preposition;
 
         cancelButton.onClick.AddListener(() =>
         {
-            spellCard.ServerSetCardParent(spellCard.ControllingPlayerHand.Value.transform, true);
+            spellCard.CardHandler.InvokeEndDrag();
             Destroy(gameObject);
         });
 
         confirmButton.onClick.AddListener(() =>
         {
-            spellCard.ServerSetCardParent(dropZone.transform, false);
-            questLane.ServerUpdateSpellEffects();
+            spellCard.CurrentCardHolder.Value.ServerMoveCard(spellCard, spellCardHolder, spellCard.transform.parent);
+            //questLane.ServerUpdateSpellEffects();
             Player.Instance.ServerUpdateGuildRecapTracker("Spells Played", 1);
             if (spellCard.IsNegativeEffect.Value) Player.Instance.ServerUpdateGuildRecapTracker("Spells Played (Curses)", 1);
 
@@ -111,7 +112,7 @@ public class ConfirmationPopUp : PopUp
     {
         cancelButton.onClick.AddListener(() =>
         {
-            potionCard.ServerSetCardParent(potionCard.ControllingPlayerHand.Value.transform, true);
+            //potionCard.ServerSetCardParent(potionCard.ControllingPlayerHand.Value.transform, true);
             Destroy(gameObject);
         });
 

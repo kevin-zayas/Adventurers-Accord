@@ -294,6 +294,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3117126216938332001}
   - component: {fileID: 8496206192684840206}
+  - component: {fileID: 8476020438357137326}
   - component: {fileID: 2846361016538595456}
   - component: {fileID: 1541351651529415089}
   - component: {fileID: 4588735285042269388}
@@ -334,6 +335,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3799721727428252521}
   m_CullTransparentMesh: 1
+--- !u!114 &8476020438357137326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3799721727428252521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 092bc8fe4d177104b91c5a308397b7c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 8658483110098520777}
+  _networkObjectCache: {fileID: 0}
+  cardSlotPrefab: {fileID: 979138173749275187, guid: 8b2c280b58b95b64eb32c5c8aba28c4e, type: 3}
+  selectedCard: {fileID: 0}
+  hoveredCard: {fileID: 0}
+  cardHandlers: []
+  questLane: {fileID: 5807295695286212912}
 --- !u!114 &2846361016538595456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -953,7 +974,8 @@ MonoBehaviour:
     NetworkBehaviour: {fileID: 0}
     _value: 0
   <IsPartyGreased>k__BackingField: 0
-  cardHolder: {fileID: 3726199555870245655}
+  laneCardHolder: {fileID: 3726199555870245655}
+  spellCardHolder: {fileID: 8476020438357137326}
   physicalPowerText: {fileID: 4129425861735006748}
   magicalPowerText: {fileID: 3172343994968927532}
   rewardIndicator: {fileID: 1367277871247405354}

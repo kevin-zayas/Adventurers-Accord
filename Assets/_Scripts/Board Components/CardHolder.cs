@@ -13,6 +13,7 @@ public class CardHolder : NetworkBehaviour
         Draft,
         Hand,
         Quest,
+        Spell,
         Discard
     }
     [SerializeField] protected GameObject cardSlotPrefab;

@@ -197,6 +197,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerResetEndRoundConfirmations()
     {
+        if (CurrentPhase.Value != Phase.Magic) return; // Only allow resetting during the Magic phase
         PlayerEndRoundConfirmations.Clear();
         for (int i = 0; i < Players.Count; i++)
         {
@@ -209,6 +210,7 @@ public class GameManager : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerResetPlayerEndRoundConfirmation(NetworkConnection connection, int playerID, bool isPotion = false)
     {
+        if (CurrentPhase.Value != Phase.Magic) return; // Only allow resetting during the Magic phase
         PlayerEndRoundConfirmations[playerID] = false;
         if (!isPotion) TargetEnableEndRoundButon(connection);   //potions will enable/disable the button with their own logic
         Board.Instance.ObserversUpdateTurnMarker(playerID, true);

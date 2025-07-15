@@ -20,6 +20,7 @@ public class SpellCard : Card
     public override void SetCardParent(Transform parent, bool worldPositionStays, CardHolder cardHolder = null)
     {
         Player player = ControllingPlayer.Value;
+        base.SetCardParent(parent, worldPositionStays, cardHolder);
 
         if (parent.CompareTag("Hand") && player.IsMagesGuild && IsNumerical.Value)
         {
@@ -55,7 +56,6 @@ public class SpellCard : Card
             int questIndex = questLane.QuestLocation.Value.QuestLocationIndex;
             player.GuildBonusTracker[questIndex]["curseSpellsPlayed"]++;
         }
-        base.SetCardParent(parent, worldPositionStays);
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public class SpellCard : Card
     public override bool ShouldToggleDisableScreen()
     {
         if (base.ShouldToggleDisableScreen()) return true;
-        if (transform.parent.CompareTag("Quest")) return true;
+        //if (transform.parent.CompareTag("Quest")) return true;
 
         return false;
     }

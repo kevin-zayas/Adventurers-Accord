@@ -98,19 +98,8 @@ public abstract class Card : NetworkBehaviour
     public virtual void SetCardParent(Transform parentTransform, bool worldPositionStays, CardHolder cardHolder = null)
     {
         ObserversSetCardParent(parentTransform, worldPositionStays);
+        rectTransform.SetParent(parentTransform, worldPositionStays);
         CurrentCardHolder.Value = cardHolder;
-        //transform.SetParent(parentTransform, worldPositionStays);     //swap this to rect transform 
-    }
-
-    /// <summary>
-    /// Server-side RPC to set the parent transform of the card.
-    /// </summary>
-    /// <param name="parentTransform">The new parent transform.</param>
-    /// <param name="worldPositionStays">Whether to maintain the world position of the card.</param>
-    [ServerRpc(RequireOwnership = false)]
-    public virtual void ServerSetCardParent(Transform parentTransform, bool worldPositionStays)
-    {
-        SetCardParent(parentTransform, worldPositionStays);
     }
 
     /// <summary>
@@ -121,7 +110,7 @@ public abstract class Card : NetworkBehaviour
     [ObserversRpc(BufferLast = true)]
     protected virtual void ObserversSetCardParent(Transform parentTransform, bool worldPositionStays)
     {
-        this.transform.SetParent(parentTransform, worldPositionStays);
+        rectTransform.SetParent(parentTransform, worldPositionStays);
     }
 
     /// <summary>

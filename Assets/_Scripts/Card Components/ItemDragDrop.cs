@@ -87,7 +87,7 @@ public class ItemDragDrop : CardDragDrop
     /// </summary>
     protected override void ResetCardPosition()
     {
-        card.ServerSetCardParent(startParentTransform, true);
+        //card.ServerSetCardParent(startParentTransform, true);
         base.ResetCardPosition();
     }
 }
