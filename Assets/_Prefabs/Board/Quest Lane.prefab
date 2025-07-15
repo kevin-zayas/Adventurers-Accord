@@ -299,8 +299,6 @@ GameObject:
   - component: {fileID: 1541351651529415089}
   - component: {fileID: 4588735285042269388}
   - component: {fileID: 8658483110098520777}
-  - component: {fileID: 8262437317721587263}
-  - component: {fileID: -7705214029350054740}
   m_Layer: 11
   m_Name: Spell Drop Zone
   m_TagString: Quest
@@ -473,8 +471,8 @@ MonoBehaviour:
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
-  - {fileID: 8262437317721587263}
-  - {fileID: -7705214029350054740}
+  - {fileID: 0}
+  - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 5807295695286212912}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -509,36 +507,6 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
---- !u!114 &8262437317721587263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3799721727428252521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 8658483110098520777}
-  _networkObjectCache: {fileID: 8658483110098520777}
---- !u!114 &-7705214029350054740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3799721727428252521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 8658483110098520777}
-  _networkObjectCache: {fileID: 8658483110098520777}
 --- !u!1 &4152581129744211096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,9 +1016,8 @@ GameObject:
   - component: {fileID: 3726199555870245655}
   - component: {fileID: 6675428987643198291}
   - component: {fileID: 7171029303760169904}
-  - component: {fileID: 2119475767431536679}
   - component: {fileID: 7884932823545543737}
-  - component: {fileID: 9092617660151345388}
+  - component: {fileID: 2119475767431536679}
   m_Layer: 12
   m_Name: Quest Drop Zone
   m_TagString: Quest
@@ -1180,6 +1147,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 112, y: 280}
   m_EdgeRadius: 0
+--- !u!114 &7884932823545543737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9205107535061240866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: -20
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: -190
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!114 &2119475767431536679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1198,7 +1191,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: 3726199555870245655}
-  - {fileID: 9092617660151345388}
+  - {fileID: 0}
   - {fileID: 0}
   InitializedParentNetworkBehaviour: {fileID: 5807295695286212912}
   InitializedNestedNetworkObjects: []
@@ -1234,44 +1227,3 @@ MonoBehaviour:
     Rotation: {x: -0, y: -0, z: -0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
---- !u!114 &7884932823545543737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205107535061240866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: -20
-    m_Bottom: 0
-  m_ChildAlignment: 1
-  m_Spacing: -190
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
---- !u!114 &9092617660151345388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205107535061240866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 2119475767431536679}
-  _networkObjectCache: {fileID: 2119475767431536679}

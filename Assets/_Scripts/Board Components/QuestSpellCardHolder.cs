@@ -1,7 +1,5 @@
 using DG.Tweening;
 using FishNet.Object;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class QuestSpellCardHolder : CardHolder
@@ -20,15 +18,6 @@ public class QuestSpellCardHolder : CardHolder
     {
         base.AddCard(card);
         questLane.UpdateSpellEffects();
-    }
-
-    [Server]
-    public override void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
-    {
-        RemoveCardHandlerListeners(card.Owner, card);
-        Despawn(card.gameObject);
-        originalCardSlot.SetParent(null);
-        Despawn(originalCardSlot.gameObject);
     }
 
     protected override void SetCardScale(GameObject card)

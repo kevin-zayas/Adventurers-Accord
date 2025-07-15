@@ -26,12 +26,12 @@ public class QuestLaneCardHolder : CardHolder
     [Server]
     public override void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
-        base.MoveCard(card, newCardHolder, originalCardSlot);
-
         if (card is AdventurerCard adventurerCard)
         {
             adventurerCard.RemoveAdventurer(questLane);
         }
+
+        base.MoveCard(card, newCardHolder, originalCardSlot);
     }
 
     protected override void SetCardScale(GameObject card)

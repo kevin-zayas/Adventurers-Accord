@@ -75,7 +75,10 @@ public class CardHolder : NetworkBehaviour
     public virtual void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
         RemoveCardHandlerListeners(card.Owner, card);
-        newCardHolder.AddCard(card);
+
+        if (newCardHolder) newCardHolder.AddCard(card);
+        else Despawn(card.gameObject);
+
         originalCardSlot.SetParent(null);
         Despawn(originalCardSlot.gameObject);
     }
@@ -101,7 +104,7 @@ public class CardHolder : NetworkBehaviour
 
         rect.sizeDelta += Vector2.right;
         rect.sizeDelta -= Vector2.right;
-        
+
         selectedCard = null;
     }
 

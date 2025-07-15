@@ -245,9 +245,7 @@ public class QuestLane : NetworkBehaviour
             case "Ranger":
                 HandleWolfSummon(false, card.ControllingPlayer.Value);
                 break;
-            
         }
-
         UpdateQuestLanePower();
     }
 
@@ -341,8 +339,10 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void HandleWolfSummon(bool despawn, Player controllingPlayer = null)
+    private void  HandleWolfSummon(bool despawn, Player controllingPlayer = null)
     {
+        //might be a good idea to update this to a more general use method for handling summons. Add a dictionary
+        //matching cards to their summons so we can more easily track and remove cards as needed.
         if (despawn)
         {
             foreach (Transform cardSlotTransform in QuestDropZone.transform)
@@ -350,9 +350,7 @@ public class QuestLane : NetworkBehaviour
                 AdventurerCard card = cardSlotTransform.GetChild(0).GetComponent<AdventurerCard>();
                 if (card.CardName.Value == "Wolf")
                 {
-                    //card.SetCardParent(null, false, null);
-                    card.RemoveAdventurer(this);
-                    card.Despawn();
+                    laneCardHolder.MoveCard(card, null, cardSlotTransform);
                     break;
                 }
             }
@@ -366,9 +364,7 @@ public class QuestLane : NetworkBehaviour
         Spawn(wolfCard.gameObject);
         wolfCard.LoadCardData(wolfCardData);
         wolfCard.SetCardOwner(controllingPlayer);
-        //wolfCard.SetCardParent(Player.Value.ControlledHand.Value.transform,false);
-        //wolfCard.SetCardParent(QuestDropZone.transform, false);
-        wolfCard.DispatchAdventurer(this);      //cardHolder.AddCard()
+        laneCardHolder.AddCard(wolfCard);
     }
 
     [ObserversRpc]
