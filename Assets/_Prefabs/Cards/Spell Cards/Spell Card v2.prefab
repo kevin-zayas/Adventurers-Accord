@@ -437,7 +437,7 @@ MonoBehaviour:
   cardImage: {fileID: 6958857792175851566}
   costText: {fileID: 1319356541886740125}
   nameText: {fileID: 2029664163792765779}
-  cardHandler: {fileID: 0}
+  cardHandler: {fileID: -3760177407752416970}
   descriptionText: {fileID: 3101418111192428437}
 --- !u!114 &-3760177407752416970
 MonoBehaviour:
@@ -524,7 +524,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

@@ -26,12 +26,14 @@ public class QuestLaneCardHolder : CardHolder
     [Server]
     public override void MoveCard(Card card, CardHolder newCardHolder, Transform originalCardSlot = null)
     {
-        if (card is AdventurerCard adventurerCard)
-        {
-            adventurerCard.RemoveAdventurer(questLane);
-        }
+        AdventurerCard adventurerCard = (AdventurerCard)card;
+        bool isWolf = card.CardName.Value == "Wolf";        //can replace with isSummon, during Summon rework
+
+        if (isWolf) adventurerCard.RemoveAdventurer(questLane);
 
         base.MoveCard(card, newCardHolder, originalCardSlot);
+
+        if (!isWolf) adventurerCard.RemoveAdventurer(questLane);
     }
 
     protected override void SetCardScale(GameObject card)

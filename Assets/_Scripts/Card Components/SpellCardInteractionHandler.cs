@@ -64,6 +64,7 @@ public class SpellCardInteractionHandler : CardInteractionHandler
         }
 
         GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
+        cardCanvas.overrideSorting = false;
         ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
         popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
     }
