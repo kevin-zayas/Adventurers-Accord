@@ -19,15 +19,13 @@ public class PotionResolutionPopUp : ResolutionPopUp
 
         rightButton.onClick.AddListener(() =>
         {
-            if (GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Magic)
-            {
-                GameManager.Instance.ServerResetEndRoundConfirmations();
-            }
+            GameManager.Instance.ServerResetEndRoundConfirmations();
+            
             QuestLane questLane = card.CurrentCardHolder.Value.QuestLane;
 
             potionCard.UsePotion(card);
             questLane.ServerUpdateQuestLanePower();
-            potionCard.ServerDespawnCard();
+            potionCard.CurrentCardHolder.Value.ServerMoveCard(potionCard, null, potionCard.transform.parent);
             PopUpManager.Instance.ClearResolutionType();
             SetEndTurnButtonActive(true);
             Destroy(gameObject);
@@ -52,7 +50,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
         leftButton.onClick.AddListener(() => SetDefaultPopUpSate());
         rightButton.onClick.AddListener(() =>
         {
-            potionCard.transform.SetParent(potionCard.ControllingPlayerHand.Value.transform, false);
+            potionCard.CardHandler.InvokeEndDrag();
             potionCard.gameObject.SetActive(true);
             PopUpManager.Instance.ClearResolutionType();
             SetEndTurnButtonActive(true);

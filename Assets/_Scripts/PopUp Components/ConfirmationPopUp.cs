@@ -61,7 +61,7 @@ public class ConfirmationPopUp : PopUp
         {
             adventurerCard.ServerEquipItem(true, itemCard.Data.Value);
             Player.Instance.ServerUpdateGuildRecapTracker("Magic Items Equipped", 1);
-            itemCard.ServerDespawnCard();
+            itemCard.CurrentCardHolder.Value.ServerMoveCard(itemCard, null, itemCard.transform.parent);
             Destroy(gameObject);
         });
 
@@ -85,7 +85,6 @@ public class ConfirmationPopUp : PopUp
         confirmButton.onClick.AddListener(() =>
         {
             spellCard.CurrentCardHolder.Value.ServerMoveCard(spellCard, spellCardHolder, spellCard.transform.parent);
-            //questLane.ServerUpdateSpellEffects();
             Player.Instance.ServerUpdateGuildRecapTracker("Spells Played", 1);
             if (spellCard.IsNegativeEffect.Value) Player.Instance.ServerUpdateGuildRecapTracker("Spells Played (Curses)", 1);
 
@@ -94,7 +93,7 @@ public class ConfirmationPopUp : PopUp
         });
 
         preposition = spellCard.IsNegativeEffect.Value ? "on" : "for";
-        
+
         if (spellCard.ControllingPlayer.Value == questLane.Player.Value)
         {
             titleText.text = string.Format(castSpellSelfTitle, spellCard.CardName.Value, preposition);
@@ -103,7 +102,7 @@ public class ConfirmationPopUp : PopUp
         {
             titleText.text = string.Format(castSpellOtherTitle, spellCard.CardName.Value, preposition, questLane.Player.Value.PlayerID.Value + 1);
         }
-                
+
         messageText.text = castSpellMessage;
         FormatTextTransforms();
     }
@@ -112,7 +111,7 @@ public class ConfirmationPopUp : PopUp
     {
         cancelButton.onClick.AddListener(() =>
         {
-            //potionCard.ServerSetCardParent(potionCard.ControllingPlayerHand.Value.transform, true);
+            potionCard.CardHandler.InvokeEndDrag();
             Destroy(gameObject);
         });
 
@@ -120,7 +119,7 @@ public class ConfirmationPopUp : PopUp
         {
             potionCard.UsePotion(adventurerCard);
             Player.Instance.ServerUpdateGuildRecapTracker("Potions Used", 1);
-            potionCard.ServerDespawnCard();
+            potionCard.CurrentCardHolder.Value.ServerMoveCard(potionCard, null, potionCard.transform.parent);
             Destroy(gameObject);
         });
 

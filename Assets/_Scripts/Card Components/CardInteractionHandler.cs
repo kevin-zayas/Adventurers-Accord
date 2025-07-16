@@ -125,13 +125,13 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
         HandleEndDrag();
 
-        StartCoroutine(FrameWait());
+        //StartCoroutine(FrameWait());
 
-        IEnumerator FrameWait()
-        {
-            yield return new WaitForEndOfFrame();
-            wasDragged = false;
-        }
+        //IEnumerator FrameWait()
+        //{
+        //    yield return new WaitForEndOfFrame();
+        //    wasDragged = false;
+        //}
     }
 
     public void OnPointerEnter(PointerEventData eventData)

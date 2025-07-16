@@ -446,6 +446,7 @@ GameObject:
   - component: {fileID: 4934590481668214216}
   - component: {fileID: 5168087753436787573}
   - component: {fileID: 3959795110960506628}
+  - component: {fileID: -6535299409501240854}
   m_Layer: 0
   m_Name: 6 - Potions
   m_TagString: Untagged
@@ -515,6 +516,57 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-6535299409501240854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7021995848810397042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  _initializedValusSet: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 16724402398081846214
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1001 &2888725508047371478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -538,6 +590,14 @@ PrefabInstance:
     - target: {fileID: 3101418111192428437, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
       propertyPath: m_text
       value: Empower an Adventurer by 1 Power
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267362970032086494, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: -6535299409501240854}
+    - target: {fileID: 6267362970032086494, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6958857792175851566, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
       propertyPath: m_Sprite
@@ -667,6 +727,18 @@ PrefabInstance:
     - target: {fileID: 3101418111192428437, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
       propertyPath: m_text
       value: Reduce the Rest Period of an Adventurer by 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267362970032086494, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: -6535299409501240854}
+    - target: {fileID: 6267362970032086494, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6267362970032086494, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
+      propertyPath: _componentIndexCache
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6958857792175851566, guid: 9c9a793707dd41b4cad7cd70c9aef241, type: 3}
       propertyPath: m_Sprite

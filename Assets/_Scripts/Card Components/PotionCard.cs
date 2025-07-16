@@ -114,7 +114,7 @@ public class PotionCard : Card
         adventurerCard.ApplyPotionPhysicalPower(4, true);
 
         QuestLane questLane = adventurerCard.CurrentCardHolder.Value.QuestLane;
-        questLane.ApplyEnchanterBuff(adventurerCard, increasedFromZero, false);
+        if (questLane) questLane.ApplyEnchanterBuff(adventurerCard, increasedFromZero, false);
     }
 
     [Server]
@@ -124,7 +124,7 @@ public class PotionCard : Card
         adventurerCard.ApplyPotionMagicalPower(4, true);
 
         QuestLane questLane = adventurerCard.CurrentCardHolder.Value.QuestLane;
-        questLane.ApplyEnchanterBuff(adventurerCard, false, increasedFromZero);
+        if (questLane) questLane.ApplyEnchanterBuff(adventurerCard, false, increasedFromZero);
     }
 
 }
