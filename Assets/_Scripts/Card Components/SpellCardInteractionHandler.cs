@@ -17,7 +17,7 @@ public class SpellCardInteractionHandler : CardInteractionHandler
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
         
-        bool isSpellOnQuest = card.CurrentCardHolder.Value.HolderType == CardHolder.CardHolderType.Spell;
+        bool isSpellOnQuest = card.CurrentCardHolder.Value.IsSpell();
 
         if (isSpellOnQuest)
             return BlockDragWithMessage("You cannot move Spells that have already been cast");
@@ -36,18 +36,16 @@ public class SpellCardInteractionHandler : CardInteractionHandler
             return;
         }
 
-        if (IsEndDragValid())
-        {
-            if (PopUpManager.Instance.CurrentResolutionPopUp != null)
-            {
-                PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();        // TODO: this should be moved to create popup logic
-            }
+        if (!IsEndDragValid()) return;
+            
+        if (PopUpManager.Instance.CurrentResolutionPopUp != null)
+            PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();        // TODO: this should be moved to create popup logic
 
-            GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
-            cardCanvas.overrideSorting = false;
-            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-            popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
-        }
+        GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
+        cardCanvas.overrideSorting = false;
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+        popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
+        
     }
 
     /// <summary>
@@ -77,7 +75,7 @@ public class SpellCardInteractionHandler : CardInteractionHandler
         if (!isMagicPhase && !(isDispatchPhase && isMyTurn))
         {
             EndDragEvent.Invoke(this, true);
-            return BlockDragWithMessage("You can only play Spells during the Magic Phase, or while dispatching Adventurers");
+            return BlockDragWithMessage("You can only play Spells during Magic Phase, or while dispatching Adventurers");
         }
 
         if (questLane.QuestCard.Value.BlockSpells.Value)

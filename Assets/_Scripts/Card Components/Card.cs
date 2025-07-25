@@ -68,7 +68,7 @@ public abstract class Card : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     public void ServerDespawnCard()
     {
-        if (CurrentCardHolder.Value.HolderType == CardHolder.CardHolderType.Hand)   //add logic to despawn summons?
+        if (CurrentCardHolder.Value.IsHand())   //add logic to despawn summons?
         {
             Despawn(transform.parent.gameObject);
 

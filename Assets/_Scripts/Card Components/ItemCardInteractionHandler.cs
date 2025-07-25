@@ -20,13 +20,12 @@ public class ItemCardInteractionHandler : CardInteractionHandler
             return;
         }
 
-        AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
+        if (!IsEndDragValid()) return;
 
-        if (IsEndDragValid())
-        {
-            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-            popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
-        }        
+        AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
+        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+        popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
+           
     }
 
     /// <summary>

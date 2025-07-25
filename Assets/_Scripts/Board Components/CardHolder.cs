@@ -215,4 +215,9 @@ public class CardHolder : NetworkBehaviour
     {
         return HolderType == CardHolderType.Hand;
     }
+
+    public bool IsSpell()
+    {
+        return HolderType == CardHolderType.Spell;
+    }
 }

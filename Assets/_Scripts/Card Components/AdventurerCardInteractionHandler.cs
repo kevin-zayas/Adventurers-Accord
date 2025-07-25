@@ -32,7 +32,7 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
 
-        bool isCardOnQuest = card.CurrentCardHolder.Value.HolderType == CardHolder.CardHolderType.Quest;
+        bool isCardOnQuest = card.CurrentCardHolder.Value.IsQuest();
         bool notDispatchOrNotTurn = GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch || !player.IsPlayerTurn.Value;
 
         if (isCardOnQuest && notDispatchOrNotTurn)
@@ -55,11 +55,11 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
             return;
         }
 
-        if (IsEndDragValid())
-        {
-            EndDragEvent.Invoke(this, false);
-            originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
-        }
+        if (!IsEndDragValid()) return;
+        
+        //EndDragEvent.Invoke(this, false);
+        originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
+        
     }
 
     /// <summary>
