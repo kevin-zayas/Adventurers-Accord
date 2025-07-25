@@ -89,9 +89,9 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!CanStartDrag()) return;
         BeginDragEvent.Invoke(this);
 
-        //startPosition = transform.position;
         originalCardSlot = transform.parent;
         originalCardHolder = originalCardSlot.parent.GetComponent<CardHolder>();
 
@@ -106,7 +106,27 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         //imageComponent.raycastTarget = false;
 
         wasDragged = true;
+    }
 
+    /// <summary>
+    /// Determines whether the drag operation can start. Derived classes should override this method to provide specific logic.
+    /// </summary>
+    /// <returns>True if the drag can start, otherwise false.</returns>
+    protected virtual bool CanStartDrag()
+    {
+        if (card.IsClone || Input.GetMouseButton(1) || player.IsAnimating)
+            return false;
+
+        if (!card.IsDraftCard.Value)
+            return IsOwner || BlockDragWithMessage("You cannot move another player's card");
+
+        if (!player.IsPlayerTurn.Value)
+            return BlockDragWithMessage("You can only purchase cards on your turn");
+
+        if (player.Gold.Value < card.Cost.Value)
+            return BlockDragWithMessage("Insufficient Gold");
+
+        return true;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -115,6 +135,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isDragging) return;
         isDragging = false;
 
         if (dropZone == null || originalCardHolder.transform == dropZone.transform)
@@ -133,6 +154,11 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         //    wasDragged = false;
         //}
     }
+
+    /// <summary>
+    /// Handles the specific logic when the drag operation ends. Must be implemented by derived classes.
+    /// </summary>
+    protected abstract void HandleEndDrag();
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -154,78 +180,6 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     public void OnPointerUp(PointerEventData eventData)
     {
     }
-
-    /// <summary>
-    /// Determines whether the drag operation can start. Derived classes should override this method to provide specific logic.
-    /// </summary>
-    /// <returns>True if the drag can start, otherwise false.</returns>
-    protected virtual bool CanStartDrag()
-    {
-        if (card.IsClone) return false;
-        if (Input.GetMouseButton(1)) return false; // Prevent dragging on right-click
-        if (!card.IsDraftCard.Value && !IsOwner) // Prevent dragging non-draft cards if not owner
-        {
-            PopUpManager.Instance.CreateToastPopUp("You cannot move another player's card");
-            return false;
-        }
-        if (card.IsDraftCard.Value && !player.IsPlayerTurn.Value)
-        {
-            PopUpManager.Instance.CreateToastPopUp("You can only purchase cards on your turn");
-            return false;
-        }
-        if (card.IsDraftCard.Value && player.Gold.Value < card.Cost.Value) // Check player gold if dragging a DraftCard
-        {
-            PopUpManager.Instance.CreateToastPopUp("Insufficient Gold");
-            return false;
-        }
-        if (player.IsAnimating) return false;
-        return true;
-    }
-
-    /// <summary>
-    /// Begins the drag operation for the card.
-    /// </summary>
-    //public virtual void BeginDrag()
-    //{
-    //    startPosition = transform.position;
-    //    startParentTransform = transform.parent;
-    //    isDragging = true;
-
-    //    transform.SetParent(canvas.transform, true);
-    //}
-
-    /// <summary>
-    /// Ends the drag operation for the card, handling card placement and validation.
-    /// </summary>
-    public virtual void EndDrag()
-    {
-        //if (!isDragging) return;
-
-        //isDragging = false;
-
-        //if (dropZone == null || startParentTransform == dropZone.transform)
-        //{
-        //    PopUpManager.Instance.CreateToastPopUp("Invalid placement");
-        //    ResetCardPosition();
-        //    return;
-        //}
-
-        //HandleEndDrag();
-    }
-
-    /// <summary>
-    /// Handles the specific logic when the drag operation ends. Must be implemented by derived classes.
-    /// </summary>
-    protected abstract void HandleEndDrag();
-
-    /// <summary>
-    /// Resets the card's position to its original location before dragging.
-    /// </summary>
-    //protected virtual void ResetCardPosition()
-    //{
-    //    transform.localPosition = Vector3.zero;
-    //}
-
 
     protected void OnCardPurchase()
     {
@@ -276,6 +230,17 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             });
         }
         sequence.Play();
+    }
+
+    protected bool BlockDragWithMessage(string message)
+    {
+        PopUpManager.Instance.CreateToastPopUp(message);
+        return false;
+    }
+
+    protected virtual bool IsEndDragValid()
+    {
+        return true;
     }
 
     public void InvokeEndDrag()

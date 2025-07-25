@@ -18,8 +18,6 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     /// <param name="collision">The collision data associated with this event.</param>
     protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        //revisit after tuning dragging logic. this may not even be possible if you can only drag cards during dispatch.
-        if (collision.gameObject.CompareTag("Quest") && GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch) return;
         if (collision.gameObject.layer == LayerMask.NameToLayer("Magic Items")) return; // Prevent dragging onto Magic Item
 
         base.OnCollisionEnter2D(collision);
@@ -33,46 +31,27 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     {
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
-        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch) // Prevent dragging during all phases except Dispatch
-        {
-            PopUpManager.Instance.CreateToastPopUp("You can only move Adventurers during Dispatch Phase");
-            return false;
-        }
-        if (!player.IsPlayerTurn.Value)
-        {
-            PopUpManager.Instance.CreateToastPopUp("You can only dispatch Adventurers during your turn");
-            return false;
-        }
-        if (card.CardName.Value == "Wolf") return false;
+
+        bool isCardOnQuest = card.CurrentCardHolder.Value.HolderType == CardHolder.CardHolderType.Quest;
+        bool notDispatchOrNotTurn = GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Dispatch || !player.IsPlayerTurn.Value;
+
+        if (isCardOnQuest && notDispatchOrNotTurn)
+            return BlockDragWithMessage("You can only move dispatched Adventurers during Dispatch Phase and on your turn");
+
+        if (card.CardName.Value == "Wolf") // TODO: Replace with isSummon check
+            return BlockDragWithMessage("You cannot move Summons");
 
         return true;
     }
-
-    /// <summary>
-    /// Begins the drag operation for the card and reverts card scale back to base
-    /// </summary>
-    //public override void BeginDrag()
-    //{
-    //    if (CanStartDrag())
-    //    {
-    //        base.BeginDrag();
-    //        transform.localScale = Vector3.one;
-    //    }
-    //}
 
     /// <summary>
     /// Handles the specific logic when the drag operation ends.
     /// </summary>
     protected override void HandleEndDrag()
     {
-        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+        if (!IsEndDragValid()) return;   
 
-        if (dropZone.CompareTag("Quest") && IsQuestLaneFull(questLane))
-        {
-            PopUpManager.Instance.CreateToastPopUp("This Quest's party size limit has been reached");
-            EndDragEvent.Invoke(this, true);
-        }
-        else if (card.IsDraftCard.Value)
+        if (card.IsDraftCard.Value)
         {
             OnCardPurchase();
         }
@@ -94,10 +73,32 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         else player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T2)", 1);
     }
 
+    protected override bool IsEndDragValid()
+    {
+        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+
+        bool isDispatchPhase = GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Dispatch;
+        bool isMyTurn = player.IsPlayerTurn.Value;
+
+        if (dropZone.CompareTag("Quest"))
+        {
+            if (!isDispatchPhase || !isMyTurn)
+            {
+                EndDragEvent.Invoke(this, true);
+                return BlockDragWithMessage("You can only dispatch Adventurers Dispatch Phase and on your turn");
+            }
+
+            if (IsQuestLaneFull(questLane))
+            {
+                EndDragEvent.Invoke(this, true);
+                return BlockDragWithMessage("This Quest's party size limit has been reached");
+            }
+        }
+        return true;
+    }
+
     protected bool IsQuestLaneFull(QuestLane questLane)
     {
-        if (questLane.CurrentAdventurerCount.Value >= questLane.MaxAdventurerCount.Value) return true;
-
-        return false;
+        return questLane.CurrentAdventurerCount.Value >= questLane.MaxAdventurerCount.Value;
     }
 }
