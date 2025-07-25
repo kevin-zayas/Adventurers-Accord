@@ -19,36 +19,14 @@ public class ItemCardInteractionHandler : CardInteractionHandler
             OnCardPurchase();
             return;
         }
+
         AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
 
-        if (adventurerCard.IsDraftCard.Value || adventurerCard.HasItem.Value || !adventurerCard.IsOwner)
+        if (IsEndDragValid())
         {
-            string message;
-            if (adventurerCard.HasItem.Value) message = "Cannot equip Magic Item: Adventurer already has an item equipped";
-            else message = "Cannot equip Magic Item: Adventurer does not belong to the player";
-
-            PopUpManager.Instance.CreateToastPopUp(message);
-            EndDragEvent.Invoke(this, true);
-            return;
-        }
-
-        if (adventurerCard.CurrentCardHolder.Value.IsQuest())
-        {
-            PopUpManager.Instance.CreateToastPopUp("Cannot equip Magic Item: Adventurer is on a quest");
-            EndDragEvent.Invoke(this, true);
-            return;
-        }
-
-        if ((card.MagicalPower.Value > 0 && adventurerCard.OriginalMagicalPower.Value == 0) ||
-            (card.PhysicalPower.Value > 0 && adventurerCard.OriginalPhysicalPower.Value == 0))
-        {
-            PopUpManager.Instance.CreateToastPopUp("Cannot equip Magic Item: Adventurer does not have the required Power");
-            EndDragEvent.Invoke(this, true);
-            return;
-        }
-
-        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-        popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
+            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+            popUp.InitializeEquipItemPopUp(adventurerCard, (ItemCard)card);
+        }        
     }
 
     /// <summary>
@@ -59,5 +37,34 @@ public class ItemCardInteractionHandler : CardInteractionHandler
         base.AssignDraftCardToPlayer();
         card.gameObject.layer = LayerMask.NameToLayer("Magic Items");
         Player.Instance.ServerUpdateGuildRecapTracker("Magic Items (Purchased)", 1);
+    }
+
+    protected override bool IsEndDragValid()
+    {
+        AdventurerCard adventurerCard = dropZone.GetComponent<AdventurerCard>();
+
+        if (adventurerCard.IsDraftCard.Value || adventurerCard.HasItem.Value || !adventurerCard.IsOwner)
+        {
+            string message;
+            if (adventurerCard.HasItem.Value) message = "Cannot equip Magic Item: Adventurer already has an item equipped";
+            else message = "Cannot equip Magic Item: Adventurer does not belong to the player";
+
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage(message);
+        }
+
+        if (adventurerCard.CurrentCardHolder.Value.IsQuest())
+        {
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("Cannot equip Magic Item: Adventurer is on a quest");
+        }
+
+        if ((card.MagicalPower.Value > 0 && adventurerCard.OriginalMagicalPower.Value == 0) ||
+            (card.PhysicalPower.Value > 0 && adventurerCard.OriginalPhysicalPower.Value == 0))
+        {
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("Cannot equip Magic Item: Adventurer does not have the required Power");
+        }
+        return true;
     }
 }

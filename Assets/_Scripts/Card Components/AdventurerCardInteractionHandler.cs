@@ -49,13 +49,13 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
     /// </summary>
     protected override void HandleEndDrag()
     {
-        if (!IsEndDragValid()) return;   
-
         if (card.IsDraftCard.Value)
         {
             OnCardPurchase();
+            return;
         }
-        else
+
+        if (IsEndDragValid())
         {
             EndDragEvent.Invoke(this, false);
             originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
@@ -75,25 +75,25 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
 
     protected override bool IsEndDragValid()
     {
-        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+        if (!dropZone.CompareTag("Quest"))
+            return true;
 
+        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
         bool isDispatchPhase = GameManager.Instance.CurrentPhase.Value == GameManager.Phase.Dispatch;
         bool isMyTurn = player.IsPlayerTurn.Value;
 
-        if (dropZone.CompareTag("Quest"))
+        if (!isDispatchPhase || !isMyTurn)
         {
-            if (!isDispatchPhase || !isMyTurn)
-            {
-                EndDragEvent.Invoke(this, true);
-                return BlockDragWithMessage("You can only dispatch Adventurers Dispatch Phase and on your turn");
-            }
-
-            if (IsQuestLaneFull(questLane))
-            {
-                EndDragEvent.Invoke(this, true);
-                return BlockDragWithMessage("This Quest's party size limit has been reached");
-            }
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("You can only dispatch Adventurers Dispatch Phase and on your turn");
         }
+
+        if (IsQuestLaneFull(questLane))
+        {
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("This Quest's party size limit has been reached");
+        }
+        
         return true;
     }
 

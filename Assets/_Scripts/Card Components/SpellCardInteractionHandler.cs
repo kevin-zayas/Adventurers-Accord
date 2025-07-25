@@ -16,17 +16,11 @@ public class SpellCardInteractionHandler : CardInteractionHandler
     {
         if (!base.CanStartDrag()) return false;
         if (card.IsDraftCard.Value) return true;
-        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Magic) // Prevent dragging during all phases except Magic
-        {
-            PopUpManager.Instance.CreateToastPopUp("You can only use Spells during Magic Phase");
-            return false;
-        }
+        
+        bool isSpellOnQuest = card.CurrentCardHolder.Value.HolderType == CardHolder.CardHolderType.Spell;
 
-        if (transform.parent.CompareTag("Quest")) // Prevent dragging if the card is already in a quest lane
-        {
-            PopUpManager.Instance.CreateToastPopUp("You cannot move Spells that have already been cast");
-            return false;
-        }
+        if (isSpellOnQuest)
+            return BlockDragWithMessage("You cannot move Spells that have already been cast");
 
         return true;
     }
@@ -42,31 +36,18 @@ public class SpellCardInteractionHandler : CardInteractionHandler
             return;
         }
 
-        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
-
-        if (questLane.QuestCard.Value.BlockSpells.Value)
+        if (IsEndDragValid())
         {
-            PopUpManager.Instance.CreateToastPopUp("Spells cannot be used on this Quest");
-            EndDragEvent.Invoke(this, true);
-            return;
-        }
+            if (PopUpManager.Instance.CurrentResolutionPopUp != null)
+            {
+                PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();        // TODO: this should be moved to create popup logic
+            }
 
-        if (questLane.QuestDropZone.transform.childCount == 0)
-        {
-            PopUpManager.Instance.CreateToastPopUp("Spells cannot be used on a lane with no Adventurers");
-            EndDragEvent.Invoke(this, true);
-            return;
+            GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
+            cardCanvas.overrideSorting = false;
+            ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
+            popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
         }
-
-        if (PopUpManager.Instance.CurrentResolutionPopUp != null)
-        {
-            PopUpManager.Instance.DestroyCurrentPotionResolutionPopUp();        //this should be moved to create popup logic
-        }
-
-        GameManager.Instance.ServerResetPlayerEndRoundConfirmation(LocalConnection, player.PlayerID.Value);
-        cardCanvas.overrideSorting = false;
-        ConfirmationPopUp popUp = PopUpManager.Instance.CreateConfirmationPopUp();
-        popUp.InitializeCastSpellPopUp(dropZone, (SpellCard)card);
     }
 
     /// <summary>
@@ -82,5 +63,35 @@ public class SpellCardInteractionHandler : CardInteractionHandler
         {
             player.ServerUpdateGuildRecapTracker("Curse Spells (Purchased)", 1);
         }
+    }
+
+    protected override bool IsEndDragValid()
+    {
+        QuestLane questLane = dropZone.transform.parent.GetComponent<QuestLane>();
+
+        var currentPhase = GameManager.Instance.CurrentPhase.Value;
+        bool isMagicPhase = currentPhase == GameManager.Phase.Magic;
+        bool isDispatchPhase = currentPhase == GameManager.Phase.Dispatch;
+        bool isMyTurn = player.IsPlayerTurn.Value;
+
+        if (!isMagicPhase && !(isDispatchPhase && isMyTurn))
+        {
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("You can only play Spells during the Magic Phase, or while dispatching Adventurers");
+        }
+
+        if (questLane.QuestCard.Value.BlockSpells.Value)
+        {
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("Spells cannot be used on this Quest");
+        }
+
+        if (questLane.QuestDropZone.transform.childCount == 0)
+        {
+            EndDragEvent.Invoke(this, true);
+            return BlockDragWithMessage("Spells cannot be used on a lane with no Adventurers");
+        }
+
+        return true;
     }
 }
