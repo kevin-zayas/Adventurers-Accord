@@ -174,7 +174,7 @@ public class QuestLane : NetworkBehaviour
         guildBonusMagicalPower = 0;
         EffectiveTotalPower.Value = 0;
         CurrentAdventurerCount.Value = 0;
-        
+
         ClearSpellEffects();
         ObserversUpdateLaneTotalPower(PhysicalPower.Value, MagicalPower.Value);
     }
@@ -240,7 +240,7 @@ public class QuestLane : NetworkBehaviour
                 break;
             case "Tinkerer":
                 TinkererBuff = adventurerEffects["Tinkerer"] > 0;
-                UpdateTinkererBuff(TinkererEmpower);     
+                UpdateTinkererBuff(TinkererEmpower);
                 break;
             case "Ranger":
                 HandleWolfSummon(false, card.ControllingPlayer.Value);
@@ -263,7 +263,7 @@ public class QuestLane : NetworkBehaviour
             case "Assassin":
             case "Cleric":
             case "Rogue":
-            
+
                 QuestLocation.Value.CardsToResolvePerLane[Player.Value.PlayerID.Value].Remove(card);
                 break;
             case "Enchanter":
@@ -280,7 +280,7 @@ public class QuestLane : NetworkBehaviour
 
         }
         if (QuestDropZone.transform.childCount == 0) ObserversUpdateRewardIndicator("blank");
-        
+
         UpdateQuestLanePower();
     }
 
@@ -300,7 +300,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void UpdateEnchanterBuff(int buffDelta, AdventurerCard enchanterCard = null) 
+    private void UpdateEnchanterBuff(int buffDelta, AdventurerCard enchanterCard = null)
     {
         foreach (Transform cardSlotTransform in QuestDropZone.transform)
         {
@@ -309,7 +309,7 @@ public class QuestLane : NetworkBehaviour
 
             card.ChangePhysicalPower(buffDelta);
             card.ChangeMagicalPower(buffDelta);
-        } 
+        }
     }
 
     [Server]
@@ -339,7 +339,7 @@ public class QuestLane : NetworkBehaviour
     }
 
     [Server]
-    private void  HandleWolfSummon(bool despawn, Player controllingPlayer = null)
+    private void HandleWolfSummon(bool despawn, Player controllingPlayer = null)
     {
         //might be a good idea to update this to a more general use method for handling summons. Add a dictionary
         //matching cards to their summons so we can more easily track and remove cards as needed.

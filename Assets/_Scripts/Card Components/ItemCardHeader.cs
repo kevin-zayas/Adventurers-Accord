@@ -1,4 +1,3 @@
-using FishNet.CodeGenerating;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -9,9 +8,9 @@ public class ItemCardHeader : Card
 {
     #region SyncVars
     public readonly SyncVar<bool> IsDisabled = new();
-    [AllowMutableSyncTypeAttribute] public SyncVar<Transform> ParentCard = new();
     #endregion
-
+    //public AdventurerCard ParentCard => parentCard;
+    [SerializeField] private AdventurerCard parentCard;
     public bool equippedOnBattlemage = false;
 
     #region UI Elements
@@ -50,7 +49,12 @@ public class ItemCardHeader : Card
     [Server]
     public void ChangePhysicalPower(int powerDelta)
     {
-        if (!ParentCard.Value || !ParentCard.Value.parent.CompareTag("Quest")) return;
+        if (!parentCard.CurrentCardHolder.Value.IsQuest())
+        {
+            Debug.LogWarning("ChangePhysialPower called on ItemHeader while card was not on Quest");
+            return;
+        }
+
         if (OriginalPhysicalPower.Value > 0)
         {
             PhysicalPower.Value += powerDelta;
@@ -65,7 +69,12 @@ public class ItemCardHeader : Card
     [Server]
     public void ChangeMagicalPower(int powerDelta)
     {
-        if (!ParentCard.Value || !ParentCard.Value.parent.CompareTag("Quest")) return;
+        if (!parentCard.CurrentCardHolder.Value.IsQuest())
+        {
+            Debug.LogWarning("ChangeMagicalPower called on ItemHeader while card was not on Quest");
+            return;
+        }
+
         if (OriginalMagicalPower.Value > 0)
         {
             MagicalPower.Value += powerDelta;
