@@ -1,5 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -39,10 +40,12 @@ public class GuildRosterPopUp : NetworkBehaviour
     }
 
     [TargetRpc]
-    public void TargetInitializeGuildRoster(NetworkConnection connection, Player player, bool isViewingRival)
+    public void TargetInitializeGuildRoster(NetworkConnection connection, Player player, bool isViewingRival, bool enableBackButton)
     {
         if (isViewingRival) ServerPopulateRivalGuildRoster(connection, player);
         else ServerPopulateGuildRoster(connection, player);
+
+        goBackButton.gameObject.SetActive(enableBackButton);
 
         transform.SetParent(GameObject.Find("Canvas").transform);
         transform.localPosition = Vector3.zero;
@@ -55,26 +58,18 @@ public class GuildRosterPopUp : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     protected void ServerPopulateGuildRoster(NetworkConnection connection, Player player)
     {
-        bool hasAdventurerCard = false;
-        foreach (Transform handCard in player.ControlledHand.Value.transform)
+        // Add active cards (from hand)
+        foreach (Transform cardSlot in player.ControlledHand.Value.transform)
         {
-            if (handCard.GetComponent<AdventurerCard>() != null)
+            if (cardSlot.GetChild(0).TryGetComponent(out AdventurerCard handCard))
             {
-                hasAdventurerCard = true;
                 AddCardToRoster(connection, handCard.gameObject, "Active");
             }
         }
 
-        //if (!hasAdventurerCard) TargetDisableRoster(connection, "Active");
-        //if (player.DiscardPile.Count == 0)
-        //{
-        //    TargetDisableRoster(connection, "Resting");
-        //    return;
-        //}
-
-        // Sort the player's discard pile by current cooldown
+        // Add resting cards (from discard pile), sorted by cooldown
         player.DiscardPile.Sort((x, y) => x.CurrentRestPeriod.Value.CompareTo(y.CurrentRestPeriod.Value));
-        foreach (AdventurerCard restingCard in player.DiscardPile)
+        foreach (var restingCard in player.DiscardPile)
         {
             AddCardToRoster(connection, restingCard.gameObject, "Resting");
         }
@@ -83,25 +78,25 @@ public class GuildRosterPopUp : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     protected void ServerPopulateRivalGuildRoster(NetworkConnection connection, Player player)
     {
-        List<AdventurerCard> rivalRoster = new List<AdventurerCard>();
+        List<AdventurerCard> rivalCards = new();
 
-        foreach (Transform handCard in player.ControlledHand.Value.transform)
+        // Active hand cards
+        foreach (Transform cardSlot in player.ControlledHand.Value.transform)
         {
-            if (handCard.GetComponent<AdventurerCard>() != null)
+            if (cardSlot.GetChild(0).TryGetComponent(out AdventurerCard card))
             {
-                rivalRoster.Add(handCard.GetComponent<AdventurerCard>());
+                rivalCards.Add(card);
             }
         }
-        foreach (AdventurerCard restingCard in player.DiscardPile)
-        {
-            rivalRoster.Add(restingCard);
-        }
-        // sort the list of rival cards alphabetically by card name
-        rivalRoster.Sort((x, y) => x.CardName.Value.CompareTo(y.CardName.Value));
 
-        foreach (AdventurerCard rivalCard in rivalRoster)
+        // Resting cards
+        rivalCards.AddRange(player.DiscardPile);
+        rivalCards.Sort((x, y) => x.CardName.Value.CompareTo(y.CardName.Value));
+
+        // Add all to roster as "Active"
+        foreach (var card in rivalCards)
         {
-            AddCardToRoster(connection, rivalCard.gameObject, "Active");
+            AddCardToRoster(connection, card.gameObject, "Active");
         }
     }
 
@@ -117,14 +112,8 @@ public class GuildRosterPopUp : NetworkBehaviour
         int currentCooldown = rosterCardObject.GetComponent<AdventurerCard>().CurrentRestPeriod.Value + 1;
         TargetSetCardParent(connection, newCardObject, rosterGroup, currentCooldown);
 
-        if (rosterGroup == "Active")
-        {
-            newCardObject.transform.SetParent(activeRosterGroup.transform, false);
-        }
-        else
-        {
-            newCardObject.transform.SetParent(restingRosterGroup.transform, false);
-        }
+        Transform parent = rosterGroup == "Active" ? activeRosterGroup.transform : restingRosterGroup.transform;
+        newCardObject.transform.SetParent(parent, false);
     }
 
 

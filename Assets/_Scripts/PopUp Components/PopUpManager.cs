@@ -150,14 +150,14 @@ public class PopUpManager : NetworkBehaviour
     }
 
     [Server]
-    public void CreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival)
+    public void CreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival, bool enableBackButton = false)
     {
         GuildRosterPopUp guildRosterPopUp;
         if (isViewingRival) guildRosterPopUp = Instantiate(RivalGuildRosterPopUpPrefab);
         else guildRosterPopUp = Instantiate(GuildRosterPopUpPrefab);
 
         Spawn(guildRosterPopUp.gameObject);
-        guildRosterPopUp.TargetInitializeGuildRoster(connection, player, isViewingRival);
+        guildRosterPopUp.TargetInitializeGuildRoster(connection, player, isViewingRival, enableBackButton);
         ScoreBoard.Instance.TargetSetGuildRosterPopUp(connection, guildRosterPopUp);
     }
 

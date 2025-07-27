@@ -61,7 +61,7 @@ public class ScoreBoardPopUp : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void ServerCreateGuildRosterPopUp(NetworkConnection connection, Player player, bool isViewingRival)
     {
-        PopUpManager.Instance.CreateGuildRosterPopUp(connection, player, isViewingRival);
+        PopUpManager.Instance.CreateGuildRosterPopUp(connection, player, isViewingRival, true);
         Despawn(gameObject);
     }
 

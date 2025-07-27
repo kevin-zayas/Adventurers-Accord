@@ -957,6 +957,7 @@ MonoBehaviour:
   activeRosterGroup: {fileID: 5988105659829238069}
   restingRosterGroup: {fileID: 0}
   cooldownDisplayPrefab: {fileID: 7793253908698207358, guid: ceaf1bb289ec39646844d832993c6e8b, type: 3}
+  showActiveAdventurersToggle: {fileID: 0}
 --- !u!114 &7096642719562053532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1268,6 +1269,10 @@ PrefabInstance:
     - target: {fileID: 7529910800338755733, guid: afe449c569c3d974d9d35b5baaed401a, type: 3}
       propertyPath: m_Name
       value: GoBackButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529910800338755733, guid: afe449c569c3d974d9d35b5baaed401a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8213552201584956570, guid: afe449c569c3d974d9d35b5baaed401a, type: 3}
       propertyPath: m_Pivot.x
