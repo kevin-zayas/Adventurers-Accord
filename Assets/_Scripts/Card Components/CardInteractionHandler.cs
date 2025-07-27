@@ -25,10 +25,16 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [HideInInspector] public bool wasDragged;
     private Vector3 offset;
 
+    #region Movement Variables
     [Header("Movement")]
-    [SerializeField] private float moveSpeedLimit = 6000;
+    [SerializeField] private float followSpeed = 15f;
+    [SerializeField] private float tiltStrength = 8f;
+    [SerializeField] private float tiltLerpSpeed = 10f;
+    [SerializeField] private float maxTilt = 35f;
+    private Vector3 lastPosition;
+    #endregion
 
-    [Header("Events")]
+    #region Events
     [HideInInspector] public UnityEvent<CardInteractionHandler> PointerEnterEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler> PointerExitEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> PointerUpEvent;
@@ -36,6 +42,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [HideInInspector] public UnityEvent<CardInteractionHandler> BeginDragEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> EndDragEvent;
     [HideInInspector] public UnityEvent<CardInteractionHandler, bool> SelectEvent;
+    #endregion
 
 
     protected virtual void Awake()
@@ -58,11 +65,55 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// </summary>
     protected virtual void Update()
     {
+        // TODO: Move this logic to OnDrag, section outlogic to be resuable for card swapping animations. or maybe have similar logic in card Holder
         if (isDragging)
         {
-            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = worldPosition;
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = Mathf.Abs(Camera.main.transform.position.z);
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+
+            // Smooth follow
+            Vector3 clampedTarget = ClampToScreen(worldPosition);
+            transform.position = Vector3.Lerp(transform.position, clampedTarget, Time.deltaTime * 15f);
+
+            // Tilt based on movement delta
+            Vector3 delta = transform.position - lastPosition;
+            float rawTilt = -delta.x * tiltStrength;
+            float targetZRotation = Mathf.Clamp(rawTilt, -maxTilt, maxTilt);
+
+            Quaternion targetRotation = Quaternion.Euler(0, 0, targetZRotation);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * tiltLerpSpeed);
+
+            lastPosition = transform.position;
         }
+        else
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, Time.deltaTime * tiltLerpSpeed);
+        }
+    }
+
+    Vector3 ClampToScreen(Vector2 targetPosition)
+    {
+        // Get screen bounds in world units
+        Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Mathf.Abs(Camera.main.transform.position.z)));
+        Vector3 topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Mathf.Abs(Camera.main.transform.position.z)));
+
+        // Get card's half size
+        Vector2 halfSize = Vector2.zero;
+        if (TryGetComponent(out RectTransform rect))
+        {
+            halfSize = rect.rect.size * 0.5f * rect.lossyScale;
+        }
+
+        float minX = bottomLeft.x + halfSize.x;
+        float maxX = topRight.x - halfSize.x;
+        float minY = bottomLeft.y + halfSize.y;
+        float maxY = topRight.y - halfSize.y;
+
+        float clampedX = Mathf.Clamp(targetPosition.x, minX, maxX);
+        float clampedY = Mathf.Clamp(targetPosition.y, minY, maxY);
+
+        return new Vector3(clampedX, clampedY, transform.position.z);
     }
 
     /// <summary>
