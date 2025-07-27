@@ -90,16 +90,16 @@ public class CardHolder : NetworkBehaviour
 
     protected void EndDrag(CardInteractionHandler cardHandler, bool returningToSlot)
     {
-        if (selectedCard == null)
-        {
-            return;
-        }
+        //if (selectedCard == null)
+        //{
+        //    return;
+        //}
 
         if (returningToSlot)
         {
             SetCardScale(cardHandler.gameObject);
-            selectedCard.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
-            selectedCard.gameObject.GetComponent<Canvas>().overrideSorting = false;     //wait frame before doing this? currently it is sliding behind other objects
+            cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
+            cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;     //wait frame before doing this? currently it is sliding behind other objects
         }
 
         rect.sizeDelta += Vector2.right;

@@ -71,7 +71,7 @@ public class PotionResolutionPopUp : ResolutionPopUp
         return;
     }
 
-    private void SetEndTurnButtonActive(bool value)
+    public override void SetEndTurnButtonActive(bool value)
     {
         GameManager.Phase phase = GameManager.Instance.CurrentPhase.Value;
         View view;
@@ -88,7 +88,6 @@ public class PotionResolutionPopUp : ResolutionPopUp
                 Debug.LogError("Error - Potion quest drag logic reached during invalid phase");
                 return;
         }
-
         view.SetButtonInteractable(value);
     }
 }

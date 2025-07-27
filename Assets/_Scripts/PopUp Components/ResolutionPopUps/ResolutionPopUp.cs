@@ -103,4 +103,8 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     protected virtual void UpdateGuildBonusTracker(int questIndex) { }
 
+    public virtual void SetEndTurnButtonActive(bool value)
+    {
+        return;
+    }
 }

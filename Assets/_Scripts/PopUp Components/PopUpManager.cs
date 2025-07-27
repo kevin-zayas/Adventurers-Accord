@@ -1,13 +1,12 @@
 using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PopUpManager : NetworkBehaviour
 {
     public static PopUpManager Instance { get; private set; }
-    
+
     [SerializeField] CreditsPopUp CreditsPopUpPrefab;
     [SerializeField] GameOverPopUp GameOverPopUpPrefab;
     [SerializeField] HowToPlayPopUp HowToPlayPopUpPrefab;
@@ -70,8 +69,9 @@ public class PopUpManager : NetworkBehaviour
     {
         if (currentResolutionPotion != null)
         {
-            currentResolutionPotion.transform.SetParent(Player.Instance.ControlledHand.Value.transform, false);
+            currentResolutionPotion.CardHandler.InvokeEndDrag();
             currentResolutionPotion.gameObject.SetActive(true);
+            CurrentResolutionPopUp.SetEndTurnButtonActive(true);
             Destroy(CurrentResolutionPopUp.gameObject);
             ClearResolutionType();
         }
