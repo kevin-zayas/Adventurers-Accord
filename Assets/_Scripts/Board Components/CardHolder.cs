@@ -2,11 +2,13 @@ using DG.Tweening;
 using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CardHolder : NetworkBehaviour
 {
     public virtual QuestLane QuestLane => null;
+    public virtual Vector3 Scale => Vector3.one;
 
     public enum CardHolderType
     {
@@ -60,9 +62,9 @@ public class CardHolder : NetworkBehaviour
         SetCardScale(card.gameObject);
     }
 
-    protected virtual void SetCardScale(GameObject card)
+    protected void SetCardScale(GameObject card)
     {
-        card.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        card.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -97,9 +99,15 @@ public class CardHolder : NetworkBehaviour
 
         if (returningToSlot)
         {
-            SetCardScale(cardHandler.gameObject);
-            cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
-            cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;     // TODO: wait frame before doing this? currently it is sliding behind other objects on its way back
+            Sequence shrinkSequence = DOTween.Sequence()
+            .Append(cardHandler.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack))
+            .Join(cardHandler.transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
+            .OnKill(() =>
+            {
+                cardHandler.transform.localScale = Scale;
+                cardHandler.transform.localPosition = Vector3.zero;
+                cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
+            });
         }
 
         rect.sizeDelta += Vector2.right;
@@ -122,9 +130,30 @@ public class CardHolder : NetworkBehaviour
     protected void CardPointerExit(CardInteractionHandler cardHandler)
     {
         //hoveredCard = null;     //not sure if hovered card is needed. but if so, it is currently not reset when a card is moved
-        SetCardScale(cardHandler.gameObject);
-        cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
-        cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
+
+        //cardHandler.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack);
+        //cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
+        //cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
+
+        Sequence shrinkSequence = DOTween.Sequence()
+            .Append(cardHandler.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack))
+            .Join(cardHandler.transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
+            .OnStart(() =>
+            {
+                Debug.Log($"[Tween Start] Pointer Exit Scale down on card: {cardHandler.gameObject.name}");
+            })
+            .OnComplete(() =>
+            {
+                Debug.Log($"[Tween Complete] Pointer Exit Scale down on finished: {cardHandler.gameObject.name}");
+                cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
+            })
+            .OnKill(() =>
+            {
+                Debug.Log($"[Tween Killed] Forcing Pointer Exit Scale down on: {cardHandler.gameObject.name}");
+                cardHandler.transform.localScale = Scale;
+                cardHandler.transform.localPosition = Vector3.zero;
+                cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
+            });
     }
 
     protected virtual void Update()
@@ -178,7 +207,6 @@ public class CardHolder : NetworkBehaviour
     }
 
     [ObserversRpc]
-    [TargetRpc]
     protected void AddCardHandlerListeners(NetworkConnection connection, Card card)
     {
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
@@ -192,10 +220,10 @@ public class CardHolder : NetworkBehaviour
     }
 
     [ObserversRpc]
-    [TargetRpc]
     protected void RemoveCardHandlerListeners(NetworkConnection connection, Card card)
     {
-        selectedCard = null;
+        if (connection == LocalConnection) selectedCard = null;
+
         CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
         cardHandlers.Remove(cardHandler);
         cardHandler.PointerEnterEvent.RemoveListener(CardPointerEnter);

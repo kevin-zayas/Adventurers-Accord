@@ -1,5 +1,3 @@
-using FishNet.Object;
-
 public class RogueResolutionPopUp : ResolutionPopUp
 {
     public override void SetConfirmSelectionState(AdventurerCard card)
@@ -10,7 +8,7 @@ public class RogueResolutionPopUp : ResolutionPopUp
         rightButton.onClick.AddListener(() =>
         {
             int questIndex = QuestLocation.QuestLocationIndex;
-            
+
             card.ServerDisableItem();
             HandleEndOfResolution(questIndex, card);
         });
@@ -31,5 +29,16 @@ public class RogueResolutionPopUp : ResolutionPopUp
         {
             Player.Instance.ServerUpdateGuildBonusTracker(questIndex, "disabledItems");
         }
+    }
+
+    protected override void IsResolutionClickValid(AdventurerCard card)
+    {
+        bool isNotPlayer = card.ControllingPlayer.Value != Player.Instance;
+        bool hasActiveItem = card.HasItem.Value && !card.Item.Value.IsDisabled.Value;
+
+        bool validTarget = isNotPlayer && hasActiveItem;
+
+        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
+        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
     }
 }

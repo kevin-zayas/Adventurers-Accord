@@ -379,27 +379,27 @@ public class AdventurerCard : Card
     /// </summary>
     public void OnResolutionClick()
     {
-        if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Ability) return;
-        if (!Player.Instance.IsPlayerTurn.Value) return;
-        if (CardHolderIsNull()) return;
+        //if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Ability) return;
+        //if (!Player.Instance.IsPlayerTurn.Value) return;
+        //if (CardHolderIsNull()) return;
 
-        QuestLane lane = CurrentCardHolder.Value.QuestLane;
-        if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
+        //QuestLane lane = CurrentCardHolder.Value.QuestLane;
+        //if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
 
-        string resolutionType = PopUpManager.Instance.CurrentResolutionType;
-        if (resolutionType == null) return;
+        //string resolutionType = PopUpManager.Instance.CurrentResolutionType;
+        //if (resolutionType == null) return;
 
-        bool isNotPlayer = ControllingPlayer.Value != Player.Instance;
-        bool hasActiveItem = HasItem.Value && !Item.Value.IsDisabled.Value;
-        bool hasPower = MagicalPower.Value > 0 || PhysicalPower.Value > 0;
-        bool isWolf = CardName.Value == "Wolf";
+        //bool isNotPlayer = ControllingPlayer.Value != Player.Instance;
+        //bool hasActiveItem = HasItem.Value && !Item.Value.IsDisabled.Value;
+        //bool hasPower = MagicalPower.Value > 0 || PhysicalPower.Value > 0;
+        //bool isWolf = CardName.Value == "Wolf";
 
-        bool validTarget = (resolutionType == "Rogue" && isNotPlayer && hasActiveItem) ||
-                           (resolutionType == "Assassin" && isNotPlayer && !IsBlessed.Value && hasPower) ||
-                           (resolutionType == "Cleric" && !IsBlessed.Value && !isWolf);
+        //bool validTarget = (resolutionType == "Rogue" && isNotPlayer && hasActiveItem) ||
+        //                   (resolutionType == "Assassin" && isNotPlayer && !IsBlessed.Value && hasPower) ||
+        //                   (resolutionType == "Cleric" && !IsBlessed.Value && !isWolf);
 
-        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
-        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
+        //if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
+        //else PopUpManager.Instance.CreateToastPopUp("Invalid target");
     }
 
     public void OnPotionResolutionClick()

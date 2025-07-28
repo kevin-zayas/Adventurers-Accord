@@ -1,4 +1,4 @@
-using FishNet.Object;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +10,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
     protected string confirmSelectionText;
     protected string confirmCloseText = "You won't be able to use this ability this round. Are you sure?";
     protected string buttonText;
+    protected List<AdventurerCardInteractionHandler> clickListeners = new();
 
     [SerializeField] protected Button leftButton;
     [SerializeField] protected Button rightButton;
@@ -41,6 +42,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
     protected virtual void SetDefaultPopUpSate()
     {
         QuestLocation.ServerSetAllowResolution(true);
+        AddClickEventListeners(QuestLocation);
 
         alertImage.gameObject.SetActive(false);
         leftButton.gameObject.SetActive(false);
@@ -55,6 +57,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
     public virtual void SetConfirmSelectionState(AdventurerCard card)
     {
         QuestLocation.ServerSetAllowResolution(false);
+        RemoveClickEventListeners();
 
         alertImage.gameObject.SetActive(true);
         alertImage.sprite = yellowAlert;
@@ -102,6 +105,29 @@ public abstract class ResolutionPopUp : MonoBehaviour
     protected abstract void SetPopUpText();
 
     protected virtual void UpdateGuildBonusTracker(int questIndex) { }
+    protected virtual void IsResolutionClickValid(AdventurerCard card) { }
+
+    protected void AddClickEventListeners(QuestLocation questLocation)
+    {
+        foreach (QuestLane lane in questLocation.QuestLanes)
+        {
+            foreach (Transform cardSlotTransform in lane.QuestDropZone.transform)
+            {
+                AdventurerCardInteractionHandler cardHandler = cardSlotTransform.GetChild(0).GetComponent<AdventurerCardInteractionHandler>();
+                cardHandler.PointerClickEvent.AddListener(IsResolutionClickValid);
+                clickListeners.Add(cardHandler);
+            }
+        }
+    }
+
+    protected void RemoveClickEventListeners()
+    {
+        foreach (var handler in clickListeners)
+        {
+            handler.PointerClickEvent.RemoveListener(IsResolutionClickValid);
+        }
+        clickListeners.Clear();
+    }
 
     public virtual void SetEndTurnButtonActive(bool value)
     {

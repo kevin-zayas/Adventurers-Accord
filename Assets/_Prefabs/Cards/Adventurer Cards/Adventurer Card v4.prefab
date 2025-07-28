@@ -1680,7 +1680,6 @@ MonoBehaviour:
   card: {fileID: 0}
   _animationDuration: 0.75
   wasDragged: 0
-  moveSpeedLimit: 6000
   PointerEnterEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1700,6 +1699,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   SelectEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  PointerClickEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &5300939677924261238
@@ -1904,7 +1906,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
         - m_Target: {fileID: 565309220462768973}
           m_TargetAssemblyTypeName: AdventurerCardInteractionHandler, Assembly-CSharp
           m_MethodName: BeginDrag
@@ -1916,7 +1918,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
   - eventID: 14
     callback:
       m_PersistentCalls:
@@ -1932,7 +1934,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
         - m_Target: {fileID: 565309220462768973}
           m_TargetAssemblyTypeName: CardInteractionHandler, Assembly-CSharp
           m_MethodName: EndDrag
@@ -1944,7 +1946,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -1960,7 +1962,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
   - eventID: 4
     callback:
       m_PersistentCalls:
@@ -2004,7 +2006,7 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
+          m_CallState: 0
 --- !u!114 &8948479971837407625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2052,7 +2054,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 27
+  <PrefabId>k__BackingField: 25
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 10827810311632333306
   <SceneId>k__BackingField: 0

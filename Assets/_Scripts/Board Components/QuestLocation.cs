@@ -1,10 +1,7 @@
-using FishNet.CodeGenerating;
-using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +9,7 @@ using UnityEngine.UI;
 public class QuestLocation : NetworkBehaviour
 {
     [SerializeField] private QuestLane[] questLanes;
+    public QuestLane[] QuestLanes => questLanes;
 
     public enum QuestStatus { Unchallenged, Completed, Failed }
 
@@ -34,7 +32,7 @@ public class QuestLocation : NetworkBehaviour
 
     public readonly SyncVar<bool> AllowResolution = new();
 
-    private readonly Dictionary<int, Tuple<int,int>> bardBonusMap = new();
+    private readonly Dictionary<int, Tuple<int, int>> bardBonusMap = new();
 
     [field: SerializeField] private TMP_Text totalPhysicalPowerText;
     [field: SerializeField] private TMP_Text totalMagicalPowerText;
@@ -172,7 +170,7 @@ public class QuestLocation : NetworkBehaviour
         if (AreQuestReqsMet())
         {
             Status = QuestStatus.Completed;
-            CalculateQuestContributions(true,questSummaryData);
+            CalculateQuestContributions(true, questSummaryData);
             DistributeBardBonus(questSummaryData);
         }
         else
@@ -222,7 +220,7 @@ public class QuestLocation : NetworkBehaviour
     {
         if (QuestCard.Value.PhysicalPower.Value > 0 && lane.TotalPhysicalPower.Value < QuestCard.Value.PhysicalPower.Value) return false;
         if (QuestCard.Value.MagicalPower.Value > 0 && lane.TotalMagicalPower.Value < QuestCard.Value.MagicalPower.Value) return false;
- 
+
         return true;
     }
 
@@ -251,7 +249,7 @@ public class QuestLocation : NetworkBehaviour
         (int goldReward, int reputationReward, int lootReward) = fullRewards
             ? (QuestCard.Value.GoldReward.Value, QuestCard.Value.ReputationReward.Value, QuestCard.Value.LootReward.Value)
             : (QuestCard.Value.GoldReward.Value / 2, QuestCard.Value.ReputationReward.Value / 2, (int)Mathf.Floor(QuestCard.Value.LootReward.Value / 2));
-        
+
         player.ChangePlayerGold(goldReward);
         player.ChangePlayerReputation(reputationReward);
         Board.Instance.RewardLoot(player, lootReward);
@@ -293,7 +291,7 @@ public class QuestLocation : NetworkBehaviour
                         player.UpdateGuildRecapTracker("First to the Spoils (Loot)", 1);
                         questPlayerSummaryData.AddBonusReward("First to the Spoils", 0, 0, 1);
                     }
-                       
+
                 }
                 if (player.GuildBonusTracker[QuestLocationIndex]["disabledItems"] > 0)
                 {
@@ -356,7 +354,7 @@ public class QuestLocation : NetworkBehaviour
         foreach (Player player in GameManager.Instance.Players)
         {
             if (questSummaryData.PlayerQuestSummaries.ContainsKey(player.PlayerID.Value)) continue;
-            
+
             if (player.IsAssassinsGuild && player.GuildBonusTracker[QuestLocationIndex]["curseSpellsPlayed"] > 0)
             {
                 PlayerRoundSummaryData playerSummary = new($"Player {player.PlayerID.Value + 1}");
@@ -380,7 +378,7 @@ public class QuestLocation : NetworkBehaviour
             if (lane.BardBonus.Value > 0)
             {
                 Player player = lane.Player.Value;
-                (bardBonusGold,bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
+                (bardBonusGold, bardBonusReputation) = bardBonusMap[lane.BardBonus.Value];
                 player.ChangePlayerGold(bardBonusGold);
                 player.ChangePlayerReputation(bardBonusReputation);
                 player.UpdateGuildRecapTracker("Bardsong (Gold)", bardBonusGold);
@@ -442,7 +440,7 @@ public class QuestLocation : NetworkBehaviour
         if (cardList.Count > 0)
         {
             AdventurerCard card = cardList[0];
-            cardList.RemoveAt(0); 
+            cardList.RemoveAt(0);
             ResolveCard(card, laneIndex);
             return true;
         }
@@ -465,7 +463,7 @@ public class QuestLocation : NetworkBehaviour
 
     [Server]
     private bool IsResolutionValid(string cardName, int laneIndex)
-    {   
+    {
         if (cardName == "Cleric") return true; // Cleric can always resolve
 
         foreach (QuestLane lane in questLanes)

@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class AdventurerCardInteractionHandler : CardInteractionHandler
 {
-    #region Serialized Fields
-    //[SerializeField] private AdventurerCard card;
-    #endregion
+    [HideInInspector] public UnityEvent<AdventurerCard> PointerClickEvent;
 
     protected override void Start()
     {
@@ -59,7 +59,6 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         
         //EndDragEvent.Invoke(this, false);
         originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
-        
     }
 
     /// <summary>
@@ -71,6 +70,11 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         player.ServerUpdateGuildRecapTracker("Adventurers Purchased", 1);
         if (card.Cost.Value == 5) player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T1)", 1);
         else player.ServerUpdateGuildRecapTracker("Adventurers Purchased (T2)", 1);
+    }
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        PointerClickEvent.Invoke((AdventurerCard)card);
     }
 
     protected override bool IsEndDragValid()

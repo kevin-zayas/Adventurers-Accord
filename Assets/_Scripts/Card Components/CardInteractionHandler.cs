@@ -1,11 +1,12 @@
 using DG.Tweening;
 using FishNet.Object;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler
+public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
 {
     #region Serialized Fields
     [SerializeField] protected bool isDragging = false;
@@ -23,9 +24,9 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     #endregion
 
     [HideInInspector] public bool wasDragged;
-    private Vector3 offset;
     private Vector3 enlargedScale = new(1.75f, 1.75f, 1f);
     private Tween scaleTween;
+    private bool isPointerInside = false;
 
     #region Movement Variables
     [Header("Movement")]
@@ -47,10 +48,6 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     #endregion
 
 
-    protected virtual void Awake()
-    {
-        //canvas = GameObject.Find("Canvas");
-    }
 
     protected virtual void Start()
     {
@@ -145,17 +142,29 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         if (!CanStartDrag()) return;
         BeginDragEvent.Invoke(this);
         scaleTween?.Kill();
-
+        isDragging = true;
+        player.IsDragging = true;       // TODO: either only use player isDragging or reduce card follow delay
         originalCardSlot = transform.parent;
         originalCardHolder = originalCardSlot.parent.GetComponent<CardHolder>();
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        offset = mousePosition - (Vector2)transform.position;
-        isDragging = true;
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
 
-        card.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        card.transform.DOScale(Vector3.one, 0.2f)
+            .SetEase(Ease.OutBack)
+            .OnStart(() =>
+            {
+                Debug.Log($"[Tween Start] BeginDrag scale on {card.name}");
+            })
+            .OnComplete(() =>
+            {
+                Debug.Log($"[Tween Complete] BeginDrag scale complete on {card.name}");
+            })
+            .OnKill(() =>
+            {
+                Debug.Log($"[Tween Killed] Forcing BeginDrag scale on {card.name}");
+                card.transform.localScale = Vector3.one;
+            });
         //canvas.GetComponent<GraphicRaycaster>().enabled = false;
         //imageComponent.raycastTarget = false;
 
@@ -191,6 +200,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         if (!isDragging) return;
         isDragging = false;
+        player.IsDragging = false;
 
         if (dropZone == null || originalCardHolder.transform == dropZone.transform)
         {
@@ -217,22 +227,51 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isDragging) return;
+        if (player.IsDragging || isDragging || isPointerInside) return;
+        isPointerInside = true;
         scaleTween?.Kill();
 
-        scaleTween = transform.DOScale(enlargedScale, 0.2f).SetDelay(1f).SetEase(Ease.OutQuad)
-            .OnStart(() => cardCanvas.overrideSorting = true)
-            .OnUpdate(() => transform.position = ClampToScreen(transform.position));
+        //scaleTween = rectTransform.DOScale(enlargedScale, 0.2f).SetDelay(1f).SetEase(Ease.OutQuad)
+        //    .OnStart(() => cardCanvas.overrideSorting = true)
+        //    .OnUpdate(() => transform.position = ClampToScreen(transform.position));
+
+        scaleTween = transform.DOScale(enlargedScale, 0.2f)
+            .SetDelay(1f)
+            .SetEase(Ease.OutBack)
+            .OnStart(() =>
+            {
+                Debug.Log($"[Tween Start] Pointer Enter Scale up on {gameObject.name}");
+                cardCanvas.overrideSorting = true;
+                cardCanvas.sortingOrder = 100;
+            })
+            .OnUpdate(() =>
+            {
+                Debug.Log($"[Tween Update] Clamping position on {gameObject.name}");
+                transform.position = ClampToScreen(transform.position);
+            })
+            .OnComplete(() =>
+            {
+                Debug.Log($"[Tween Complete] Pointer Enter Scale up on {gameObject.name}");
+            })
+            .OnKill(() =>
+            {
+                Debug.Log($"[Tween Killed] Pointer Enter Scale up on {gameObject.name}");
+                Debug.LogWarning("[Tween Killed] Stack trace:\n" + Environment.StackTrace);
+            });
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isDragging || player.IsAnimating) return;
+        if (isDragging || !isPointerInside || player.IsAnimating) return;
+        isPointerInside = false;
         scaleTween?.Kill();
 
         PointerExitEvent.Invoke(this);
     }
 
+    public virtual void OnPointerClick(PointerEventData eventData)
+    {
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

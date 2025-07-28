@@ -6,6 +6,7 @@ public class QuestSpellCardHolder : CardHolder
 {
     [SerializeField] private QuestLane questLane;
     public override QuestLane QuestLane => questLane;
+    public override Vector3 Scale => new(0.6f, 0.6f, 1f);
 
     protected override void Start()
     {
@@ -18,10 +19,5 @@ public class QuestSpellCardHolder : CardHolder
     {
         base.AddCard(card);
         questLane.UpdateSpellEffects();
-    }
-
-    protected override void SetCardScale(GameObject card)
-    {
-        card.transform.DOScale(new Vector3(0.6f, 0.6f, 1f), 0.2f).SetEase(Ease.OutBack);
     }
 }

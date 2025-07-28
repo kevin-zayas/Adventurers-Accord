@@ -66,11 +66,11 @@ public class SpotlightCard : NetworkBehaviour, IPointerDownHandler, IPointerExit
 
         if (card is ItemCardHeader itemHeader)
         {
-            ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, isSpotlight);
+            //ServerSpawnItemHeaderCard(LocalConnection, itemHeader, spawnPosition, isSpotlight);
         }
         else
         {
-            ServerSpawnCard(LocalConnection, gameObject, spawnPosition, isSpotlight);
+            //ServerSpawnCard(LocalConnection, gameObject, spawnPosition, isSpotlight);
         }
     }
 

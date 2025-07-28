@@ -38,6 +38,7 @@ public class Player : NetworkBehaviour
     public bool IsMerchantsGuild { get; private set; }
     public bool IsAssassinsGuild { get; private set; }
     public bool IsAnimating { get; private set; }
+    public bool IsDragging;
 
     public override void OnStartServer()
     {

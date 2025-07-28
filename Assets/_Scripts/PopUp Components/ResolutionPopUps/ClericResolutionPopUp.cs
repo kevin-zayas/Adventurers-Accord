@@ -1,5 +1,3 @@
-using FishNet.Object;
-
 public class ClericResolutionPopUp : ResolutionPopUp
 {
     public override void SetConfirmSelectionState(AdventurerCard card)
@@ -28,5 +26,14 @@ public class ClericResolutionPopUp : ResolutionPopUp
     protected override void UpdateGuildBonusTracker(int questIndex)
     {
         return;
+    }
+
+    protected override void IsResolutionClickValid(AdventurerCard card)
+    {
+        bool isWolf = card.CardName.Value == "Wolf";
+        bool validTarget = !card.IsBlessed.Value && !isWolf;
+
+        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
+        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
     }
 }

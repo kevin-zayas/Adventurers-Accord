@@ -1,5 +1,3 @@
-using FishNet.Object;
-
 public class AssassinResolutionPopUp : ResolutionPopUp
 {
     private string assassinConfirmStatText;
@@ -12,7 +10,7 @@ public class AssassinResolutionPopUp : ResolutionPopUp
         rightButton.onClick.AddListener(() =>
         {
             int questIndex = QuestLocation.QuestLocationIndex;
-            
+
             if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value == 0) card.ServerApplyPoison(true, false);
             else if (card.PhysicalPower.Value == 0 && card.MagicalPower.Value > 0) card.ServerApplyPoison(false, true);
             else if (card.PhysicalPower.Value > 0 && card.MagicalPower.Value > 0)
@@ -38,7 +36,7 @@ public class AssassinResolutionPopUp : ResolutionPopUp
 
         leftButton.onClick.AddListener(() =>
         {
-            card.ServerApplyPoison(true,false);
+            card.ServerApplyPoison(true, false);
             HandleEndOfResolution(questIndex, card);
         });
 
@@ -65,5 +63,16 @@ public class AssassinResolutionPopUp : ResolutionPopUp
         {
             Player.Instance.ServerUpdateGuildBonusTracker(questIndex, "poisonedAdventurers");
         }
+    }
+
+    protected override void IsResolutionClickValid(AdventurerCard card)
+    {
+        bool isNotPlayer = card.ControllingPlayer.Value != Player.Instance;
+        bool hasPower = card.MagicalPower.Value > 0 || card.PhysicalPower.Value > 0;
+
+        bool validTarget = isNotPlayer && !card.IsBlessed.Value && hasPower;
+
+        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
+        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
     }
 }
