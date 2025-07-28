@@ -24,13 +24,15 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     [HideInInspector] public bool wasDragged;
     private Vector3 offset;
+    private Vector3 enlargedScale = new(1.75f, 1.75f, 1f);
+    private Tween scaleTween;
 
     #region Movement Variables
     [Header("Movement")]
-    [SerializeField] private float followSpeed = 15f;
-    [SerializeField] private float tiltStrength = 8f;
-    [SerializeField] private float tiltLerpSpeed = 10f;
-    [SerializeField] private float maxTilt = 35f;
+    private readonly float followSpeed = 15f;
+    private readonly float tiltStrength = 8f;
+    private readonly float tiltLerpSpeed = 10f;
+    private readonly float maxTilt = 35f;
     private Vector3 lastPosition;
     #endregion
 
@@ -74,7 +76,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
             // Smooth follow
             Vector3 clampedTarget = ClampToScreen(worldPosition);
-            transform.position = Vector3.Lerp(transform.position, clampedTarget, Time.deltaTime * 15f);
+            transform.position = Vector3.Lerp(transform.position, clampedTarget, Time.deltaTime * followSpeed);
 
             // Tilt based on movement delta
             Vector3 delta = transform.position - lastPosition;
@@ -92,7 +94,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         }
     }
 
-    Vector3 ClampToScreen(Vector2 targetPosition)
+    private Vector3 ClampToScreen(Vector2 targetPosition)
     {
         // Get screen bounds in world units
         Vector3 bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Mathf.Abs(Camera.main.transform.position.z)));
@@ -142,6 +144,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         if (!CanStartDrag()) return;
         BeginDragEvent.Invoke(this);
+        scaleTween?.Kill();
 
         originalCardSlot = transform.parent;
         originalCardHolder = originalCardSlot.parent.GetComponent<CardHolder>();
@@ -156,7 +159,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         //canvas.GetComponent<GraphicRaycaster>().enabled = false;
         //imageComponent.raycastTarget = false;
 
-        wasDragged = true;
+        //wasDragged = true;
     }
 
     /// <summary>
@@ -192,6 +195,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         if (dropZone == null || originalCardHolder.transform == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);
+            //StartCoroutine(FrameWait());
             return;
         }
 
@@ -213,14 +217,20 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        PointerEnterEvent.Invoke(this);
-        //isHovering = true;
+        if (isDragging) return;
+        scaleTween?.Kill();
+
+        scaleTween = transform.DOScale(enlargedScale, 0.2f).SetDelay(1f).SetEase(Ease.OutQuad)
+            .OnStart(() => cardCanvas.overrideSorting = true)
+            .OnUpdate(() => transform.position = ClampToScreen(transform.position));
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (isDragging || player.IsAnimating) return;
+        scaleTween?.Kill();
+
         PointerExitEvent.Invoke(this);
-        //isHovering = false;
     }
 
 

@@ -99,7 +99,7 @@ public class CardHolder : NetworkBehaviour
         {
             SetCardScale(cardHandler.gameObject);
             cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
-            cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;     //wait frame before doing this? currently it is sliding behind other objects
+            cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;     // TODO: wait frame before doing this? currently it is sliding behind other objects on its way back
         }
 
         rect.sizeDelta += Vector2.right;
@@ -116,12 +116,15 @@ public class CardHolder : NetworkBehaviour
 
     protected void CardPointerEnter(CardInteractionHandler cardHandler)
     {
-        hoveredCard = cardHandler;
+        //hoveredCard = cardHandler;
     }
 
     protected void CardPointerExit(CardInteractionHandler cardHandler)
     {
-        hoveredCard = null;     //not sure if hovered card is needed. but if so, it is currently not reset when a card is moved
+        //hoveredCard = null;     //not sure if hovered card is needed. but if so, it is currently not reset when a card is moved
+        SetCardScale(cardHandler.gameObject);
+        cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
+        cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
     }
 
     protected virtual void Update()

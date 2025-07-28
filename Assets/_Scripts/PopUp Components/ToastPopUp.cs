@@ -20,16 +20,10 @@ public class ToastPopUp : MonoBehaviour
         rt.SetParent(GameObject.Find("Canvas").transform, false);
         rt.anchoredPosition = new Vector3(-25f, 125f, 0);
 
-
         Sequence sequence = DOTween.Sequence();
-        //sequence.Append(canvasGroup.DOFade(0f, 0f));
-        //sequence.Append(canvasGroup.DOFade(1f, .5f));
-        //sequence.AppendInterval(3f);
-        //sequence.Append(canvasGroup.DOFade(0f, .5f));
-        sequence.Append(transform.DOScale(Vector3.zero, 0f));
-        sequence.Append(transform.DOScale(Vector3.one, scaleDuration).SetEase(Ease.OutBack));
+        sequence.Append(rt.DOScale(Vector3.zero, 0f));
+        sequence.Append(rt.DOScale(Vector3.one, scaleDuration).SetEase(Ease.OutBack));
         sequence.AppendInterval(displayDuration);
-        //sequence.Append(transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack));
         sequence.Append(canvasGroup.DOFade(0f, fadeDuration).SetEase(Ease.InSine));
         sequence.OnComplete(() => Destroy(gameObject));
         sequence.Play();
