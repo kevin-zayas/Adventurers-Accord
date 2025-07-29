@@ -1,6 +1,7 @@
 public class AssassinResolutionPopUp : ResolutionPopUp
 {
     private string assassinConfirmStatText;
+    protected override string ResolutionType => "Assassin";
 
     public override void SetConfirmSelectionState(AdventurerCard card)
     {
@@ -67,12 +68,25 @@ public class AssassinResolutionPopUp : ResolutionPopUp
 
     protected override void IsResolutionClickValid(AdventurerCard card)
     {
-        bool isNotPlayer = card.ControllingPlayer.Value != Player.Instance;
-        bool hasPower = card.MagicalPower.Value > 0 || card.PhysicalPower.Value > 0;
+        bool isPlayerCard = card.ControllingPlayer.Value == Player.Instance;
+        bool isBlessed = card.IsBlessed.Value;
+        bool hasNoPower = card.MagicalPower.Value <= 0 && card.PhysicalPower.Value <= 0;
 
-        bool validTarget = isNotPlayer && !card.IsBlessed.Value && hasPower;
-
-        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
-        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
+        if (isPlayerCard)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer belongs to you.");
+        }
+        else if (isBlessed)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer is protected by Divine Blessing.");
+        }
+        else if (hasNoPower)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer has no remaining Power.");
+        }
+        else
+        {
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
+        }
     }
 }

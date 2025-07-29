@@ -1,5 +1,7 @@
 public class RogueResolutionPopUp : ResolutionPopUp
 {
+    protected override string ResolutionType => "Rogue";
+
     public override void SetConfirmSelectionState(AdventurerCard card)
     {
         base.SetConfirmSelectionState(card);
@@ -33,12 +35,25 @@ public class RogueResolutionPopUp : ResolutionPopUp
 
     protected override void IsResolutionClickValid(AdventurerCard card)
     {
-        bool isNotPlayer = card.ControllingPlayer.Value != Player.Instance;
-        bool hasActiveItem = card.HasItem.Value && !card.Item.Value.IsDisabled.Value;
+        bool isPlayerCard = card.ControllingPlayer.Value == Player.Instance;
+        bool hasNoItem = !card.HasItem.Value;
+        bool itemIsDisabled = card.HasItem.Value && card.Item.Value.IsDisabled.Value;
 
-        bool validTarget = isNotPlayer && hasActiveItem;
-
-        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
-        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
+        if (isPlayerCard)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer belongs to you.");
+        }
+        else if (hasNoItem)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer has no Magic Item equipped.");
+        }
+        else if (itemIsDisabled)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer's Magic Item is already disabled.");
+        }
+        else
+        {
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
+        }
     }
 }

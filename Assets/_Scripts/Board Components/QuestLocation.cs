@@ -30,8 +30,6 @@ public class QuestLocation : NetworkBehaviour
 
     [field: SerializeField] public List<List<AdventurerCard>> CardsToResolvePerLane { get; private set; } = new List<List<AdventurerCard>>();
 
-    public readonly SyncVar<bool> AllowResolution = new();
-
     private readonly Dictionary<int, Tuple<int, int>> bardBonusMap = new();
 
     [field: SerializeField] private TMP_Text totalPhysicalPowerText;
@@ -479,11 +477,5 @@ public class QuestLocation : NetworkBehaviour
             }
         }
         return false;   //no valid targets found
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerSetAllowResolution(bool value)
-    {
-        AllowResolution.Value = value;
     }
 }

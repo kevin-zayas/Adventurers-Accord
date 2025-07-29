@@ -10,6 +10,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
     protected string confirmSelectionText;
     protected string confirmCloseText = "You won't be able to use this ability this round. Are you sure?";
     protected string buttonText;
+    protected virtual string ResolutionType => null;
     protected List<AdventurerCardInteractionHandler> clickListeners = new();
 
     [SerializeField] protected Button leftButton;
@@ -41,7 +42,6 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     protected virtual void SetDefaultPopUpSate()
     {
-        QuestLocation.ServerSetAllowResolution(true);
         AddClickEventListeners(QuestLocation);
 
         alertImage.gameObject.SetActive(false);
@@ -56,7 +56,6 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     public virtual void SetConfirmSelectionState(AdventurerCard card)
     {
-        QuestLocation.ServerSetAllowResolution(false);
         RemoveClickEventListeners();
 
         alertImage.gameObject.SetActive(true);
@@ -71,8 +70,6 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     protected virtual void SetConfirmClosePopupState()
     {
-        QuestLocation.ServerSetAllowResolution(false);
-
         alertImage.gameObject.SetActive(true);
         alertImage.sprite = redAlert;
         leftButton.gameObject.SetActive(true);
@@ -94,7 +91,7 @@ public abstract class ResolutionPopUp : MonoBehaviour
 
     protected void HandleEndOfResolution(int questIndex, AdventurerCard card)
     {
-        Player.Instance.ServerUpdateGuildRecapTracker($"{PopUpManager.Instance.CurrentResolutionType} Resolutions Completed", 1);
+        Player.Instance.ServerUpdateGuildRecapTracker($"{ResolutionType} Resolutions Completed", 1);
         UpdateGuildBonusTracker(questIndex);
         card.CurrentCardHolder.Value.QuestLane.ServerUpdateQuestLanePower();
 

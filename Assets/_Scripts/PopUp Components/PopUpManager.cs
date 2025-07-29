@@ -27,8 +27,6 @@ public class PopUpManager : NetworkBehaviour
     [SerializeField] AdventurerRegistryPopUp AdventurerRegistryPopUpPrefab;
 
     public ResolutionPopUp CurrentResolutionPopUp { get; private set; }
-    public string CurrentResolutionType { get; private set; }
-    public Player ResolvingPlayer { get; private set; }
     private PotionCard currentResolutionPotion;
 
     private void Awake()
@@ -50,7 +48,6 @@ public class PopUpManager : NetworkBehaviour
         }
         popUp.InitializePopUp(questLocation, cardName);
         CurrentResolutionPopUp = popUp;
-        CurrentResolutionType = cardName;
     }
 
     public void CreatePotionResolutionPopUp(PotionCard potionCard, QuestLocation questLocation)
@@ -61,8 +58,6 @@ public class PopUpManager : NetworkBehaviour
         popUp.InitializePopUp(questLocation, potionCard);
         currentResolutionPotion = potionCard;
         CurrentResolutionPopUp = popUp;
-        CurrentResolutionType = potionCard.CardName.Value;
-        ResolvingPlayer = potionCard.ControllingPlayer.Value;
     }
 
     public void DestroyCurrentPotionResolutionPopUp()
@@ -81,8 +76,6 @@ public class PopUpManager : NetworkBehaviour
     {
         currentResolutionPotion = null;
         CurrentResolutionPopUp = null;
-        CurrentResolutionType = null;
-        ResolvingPlayer = null;
     }
 
     [ObserversRpc]

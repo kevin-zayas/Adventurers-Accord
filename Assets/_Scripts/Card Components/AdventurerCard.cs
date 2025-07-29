@@ -374,65 +374,6 @@ public class AdventurerCard : Card
         }
     }
 
-    /// <summary>
-    /// Handles the resolution click event for the card, validating if it can be selected based on the current game state.
-    /// </summary>
-    public void OnResolutionClick()
-    {
-        //if (GameManager.Instance.CurrentPhase.Value != GameManager.Phase.Ability) return;
-        //if (!Player.Instance.IsPlayerTurn.Value) return;
-        //if (CardHolderIsNull()) return;
-
-        //QuestLane lane = CurrentCardHolder.Value.QuestLane;
-        //if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
-
-        //string resolutionType = PopUpManager.Instance.CurrentResolutionType;
-        //if (resolutionType == null) return;
-
-        //bool isNotPlayer = ControllingPlayer.Value != Player.Instance;
-        //bool hasActiveItem = HasItem.Value && !Item.Value.IsDisabled.Value;
-        //bool hasPower = MagicalPower.Value > 0 || PhysicalPower.Value > 0;
-        //bool isWolf = CardName.Value == "Wolf";
-
-        //bool validTarget = (resolutionType == "Rogue" && isNotPlayer && hasActiveItem) ||
-        //                   (resolutionType == "Assassin" && isNotPlayer && !IsBlessed.Value && hasPower) ||
-        //                   (resolutionType == "Cleric" && !IsBlessed.Value && !isWolf);
-
-        //if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
-        //else PopUpManager.Instance.CreateToastPopUp("Invalid target");
-    }
-
-    public void OnPotionResolutionClick()
-    {
-        //if (!Player.Instance.IsPlayerTurn.Value) return;
-        if (CardHolderIsNull()) return;
-
-        QuestLane lane = CurrentCardHolder.Value.QuestLane;
-        if (lane == null || !lane.QuestLocation.Value.AllowResolution.Value) return;
-
-        if (PopUpManager.Instance.ResolvingPlayer != Player.Instance) return;
-
-        if (ControllingPlayer.Value != Player.Instance)
-        {
-            PopUpManager.Instance.CreateToastPopUp("Cannot use Potion: Adventurer does not belong to the player");
-            return;
-        }
-
-        string resolutionType = PopUpManager.Instance.CurrentResolutionType;
-        if (resolutionType == null) return;
-        bool isWolf = CardName.Value == "Wolf";
-        bool hasPower = (OriginalPhysicalPower.Value > 0 || potionBasePhysicalPower.Value > 0) ||
-                        (OriginalMagicalPower.Value > 0 || potionBaseMagicalPower.Value > 0);
-
-        bool validTarget = (resolutionType == "Healing Potion" && CurrentRestPeriod.Value > 0 && !isWolf) ||
-                           (resolutionType == "Potion of Power" && hasPower) ||
-                           (resolutionType == "Potion of Strength") ||
-                           (resolutionType == "Potion of Intelligence");
-
-        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(this);
-        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
-    }
-
     public override bool ShouldToggleDisableScreen()
     {
         if (base.ShouldToggleDisableScreen()) return true;
@@ -442,11 +383,11 @@ public class AdventurerCard : Card
     }
 
     [Server]
-    public void ApplyPotionPhysicalPower(int power, bool overridePower = false)
+    public void ApplyPotionPhysicalPower(int power, bool overridebasePower = false)
     {
         if (CardHolderIsNull()) return;
 
-        if (overridePower)
+        if (overridebasePower)
         {
             if (OriginalPhysicalPower.Value >= power) return;
             if (potionBasePhysicalPower.Value >= power) return;
@@ -462,11 +403,11 @@ public class AdventurerCard : Card
     }
 
     [Server]
-    public void ApplyPotionMagicalPower(int power, bool overridePower = false)
+    public void ApplyPotionMagicalPower(int power, bool overridebasePower = false)
     {
         if (CardHolderIsNull()) return;
 
-        if (overridePower)
+        if (overridebasePower)
         {
             if (OriginalMagicalPower.Value >= power) return;
             if (potionBaseMagicalPower.Value >= power) return;

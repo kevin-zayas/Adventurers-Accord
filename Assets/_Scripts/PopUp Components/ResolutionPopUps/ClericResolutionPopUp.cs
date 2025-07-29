@@ -1,5 +1,7 @@
 public class ClericResolutionPopUp : ResolutionPopUp
 {
+    protected override string ResolutionType => "Cleric";
+
     public override void SetConfirmSelectionState(AdventurerCard card)
     {
         base.SetConfirmSelectionState(card);
@@ -30,10 +32,15 @@ public class ClericResolutionPopUp : ResolutionPopUp
 
     protected override void IsResolutionClickValid(AdventurerCard card)
     {
-        bool isWolf = card.CardName.Value == "Wolf";
-        bool validTarget = !card.IsBlessed.Value && !isWolf;
+        bool isBlessed = card.IsBlessed.Value;
 
-        if (validTarget) PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
-        else PopUpManager.Instance.CreateToastPopUp("Invalid target");
+        if (isBlessed)
+        {
+            PopUpManager.Instance.CreateToastPopUp("Invalid target: This Adventurer is already protected by Divine Blessing.");
+        }
+        else
+        {
+            PopUpManager.Instance.CurrentResolutionPopUp.SetConfirmSelectionState(card);
+        }
     }
 }

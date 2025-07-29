@@ -113,6 +113,11 @@ public class CardHolder : NetworkBehaviour
         //hoveredCard = cardHandler;
     }
 
+    protected void CardPointerExit(CardInteractionHandler cardHandler)
+    {
+        //hoveredCard = null;
+    }
+
     protected virtual void Update()
     {
 
