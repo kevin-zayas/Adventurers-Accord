@@ -1,7 +1,5 @@
 using DG.Tweening;
 using FishNet.Object;
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -25,8 +23,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     [HideInInspector] public bool wasDragged;
     private Vector3 enlargedScale = new(1.75f, 1.75f, 1f);
-    private Tween scaleTween;
-    private bool isPointerInside = false;
+    //private Tween scaleTween;
+    private bool cardIsAnimating;
 
     #region Movement Variables
     [Header("Movement")]
@@ -131,7 +129,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// <param name="collision">The collision data associated with this event.</param>
     protected virtual void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject == dropZone)       // only excecute logic if the card is leaving the dropZone it just entered
+        // only excecute logic if the card is leaving the dropZone it just entered
+        if (collision.gameObject == dropZone)
         {
             dropZone = null;
             //print("exiting dropzone");
@@ -141,34 +140,30 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         if (!CanStartDrag()) return;
         BeginDragEvent.Invoke(this);
-        scaleTween?.Kill();
-        isDragging = true;
-        player.IsDragging = true;       // TODO: either only use player isDragging or reduce card follow delay
+
+        DOTween.Kill(this);
+        player.IsDragging = isDragging = true;
         originalCardSlot = transform.parent;
         originalCardHolder = originalCardSlot.parent.GetComponent<CardHolder>();
 
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
 
-        card.transform.DOScale(Vector3.one, 0.2f)
+        card.transform.DOScale(Vector3.one, 0.2f).SetId(this)
             .SetEase(Ease.OutBack)
             .OnStart(() =>
             {
-                Debug.Log($"[Tween Start] BeginDrag scale on {card.name}");
+                Debug.Log($"[Tween Start] BeginDrag scale on {card.CardName.Value}");
             })
             .OnComplete(() =>
             {
-                Debug.Log($"[Tween Complete] BeginDrag scale complete on {card.name}");
+                Debug.Log($"[Tween Complete] BeginDrag scale complete on {card.CardName.Value}");
             })
             .OnKill(() =>
             {
-                Debug.Log($"[Tween Killed] Forcing BeginDrag scale on {card.name}");
+                Debug.Log($"[Tween Killed] Forcing BeginDrag scale on {card.CardName.Value}");
                 card.transform.localScale = Vector3.one;
             });
-        //canvas.GetComponent<GraphicRaycaster>().enabled = false;
-        //imageComponent.raycastTarget = false;
-
-        //wasDragged = true;
     }
 
     /// <summary>
@@ -177,7 +172,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// <returns>True if the drag can start, otherwise false.</returns>
     protected virtual bool CanStartDrag()
     {
-        if (card.IsClone || Input.GetMouseButton(1) || player.IsAnimating)
+        if (card.IsClone || Input.GetMouseButton(1) || player.IsAnimating || cardIsAnimating)
             return false;
 
         if (!card.IsDraftCard.Value)
@@ -199,25 +194,15 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     public void OnEndDrag(PointerEventData eventData)
     {
         if (!isDragging) return;
-        isDragging = false;
-        player.IsDragging = false;
+        player.IsDragging = isDragging = false;
 
         if (dropZone == null || originalCardHolder.transform == dropZone.transform)
         {
             EndDragEvent.Invoke(this, true);
-            //StartCoroutine(FrameWait());
             return;
         }
 
         HandleEndDrag();
-
-        //StartCoroutine(FrameWait());
-
-        //IEnumerator FrameWait()
-        //{
-        //    yield return new WaitForEndOfFrame();
-        //    wasDragged = false;
-        //}
     }
 
     /// <summary>
@@ -227,46 +212,37 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (player.IsDragging || isDragging || isPointerInside) return;
-        isPointerInside = true;
-        scaleTween?.Kill();
+        if (player.IsDragging || cardIsAnimating) return;
+        DOTween.Kill(this);
 
-        //scaleTween = rectTransform.DOScale(enlargedScale, 0.2f).SetDelay(1f).SetEase(Ease.OutQuad)
-        //    .OnStart(() => cardCanvas.overrideSorting = true)
-        //    .OnUpdate(() => transform.position = ClampToScreen(transform.position));
-
-        scaleTween = transform.DOScale(enlargedScale, 0.2f)
+        transform.DOScale(enlargedScale, 0.2f).SetId(this)
             .SetDelay(1f)
             .SetEase(Ease.OutBack)
             .OnStart(() =>
             {
-                Debug.Log($"[Tween Start] Pointer Enter Scale up on {gameObject.name}");
+                Debug.Log($"[Tween Start] Pointer Enter Scale up on {card.CardName.Value}");
                 cardCanvas.overrideSorting = true;
                 cardCanvas.sortingOrder = 100;
             })
             .OnUpdate(() =>
             {
-                Debug.Log($"[Tween Update] Clamping position on {gameObject.name}");
+                //Debug.Log($"[Tween Update] Clamping position on {gameObject.name}");
                 transform.position = ClampToScreen(transform.position);
             })
             .OnComplete(() =>
             {
-                Debug.Log($"[Tween Complete] Pointer Enter Scale up on {gameObject.name}");
+                Debug.Log($"[Tween Complete] Pointer Enter Scale up on {card.CardName.Value}");
             })
             .OnKill(() =>
             {
-                Debug.Log($"[Tween Killed] Pointer Enter Scale up on {gameObject.name}");
-                Debug.LogWarning("[Tween Killed] Stack trace:\n" + Environment.StackTrace);
+                Debug.Log($"[Tween Killed] Pointer Enter Scale up on {card.CardName.Value}");
             });
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isDragging || !isPointerInside || player.IsAnimating) return;
-        isPointerInside = false;
-        scaleTween?.Kill();
-
-        PointerExitEvent.Invoke(this);
+        if (player.IsDragging || cardIsAnimating) return;
+        PlayReturnTween("Pointer Exit Scale down");
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)
@@ -284,6 +260,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     protected void OnCardPurchase()
     {
         player.SetIsAnimating(true);
+        cardIsAnimating = true;
         ServerPlayPurchaseAnimation(player.PlayerID.Value);
     }
 
@@ -311,25 +288,53 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [ObserversRpc]
     protected void ObserversPlayMoveAnimation(int playerID)
     {
-        Transform guildTransform = Board.Instance.GuildStatusList[playerID].gameObject.transform;
+        Transform guildTransform = Board.Instance.GuildStatusList[playerID].transform;
         Sequence sequence = DOTween.Sequence();
+
         if (LocalConnection.ClientId != playerID)
         {
-
-            sequence.Append(transform.DOMove(guildTransform.position, _animationDuration).SetEase(Ease.OutSine));
-            sequence.Join(transform.DOScale(Vector3.zero, _animationDuration).SetEase(Ease.InQuad));
-
+            sequence.Append(transform.DOMove(guildTransform.position, _animationDuration).SetEase(Ease.OutSine))
+                .Join(transform.DOScale(Vector3.zero, _animationDuration).SetEase(Ease.InQuad));
         }
         else
         {
-            sequence.Append(transform.DOJump(transform.position, 10f, 1, _animationDuration));
-            sequence.OnComplete(() =>
-            {
-                AssignDraftCardToPlayer();
-                player.SetIsAnimating(false);
-            });
+            sequence.Append(transform.DOJump(transform.position, 10f, 1, _animationDuration))
+                .OnComplete(() =>
+                {
+                    AssignDraftCardToPlayer();
+                    player.SetIsAnimating(false);
+                    cardIsAnimating = false;
+                });
         }
-        sequence.Play();
+    }
+
+    public void PlayReturnTween(string contextLabel)
+    {
+        if (cardIsAnimating) return;
+        DOTween.Kill(this);
+
+        Vector3 originalScale = card.CurrentCardHolder.Value.Scale;
+        cardIsAnimating = true;
+
+        DOTween.Sequence().SetTarget(transform).SetId(this)
+            .Append(transform.DOScale(originalScale, 0.2f).SetEase(Ease.OutBack))
+            .Join(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
+            .OnStart(() =>
+            {
+                Debug.Log($"[Tween Start] {contextLabel} on card: {card.CardName.Value}");
+            })
+            .OnComplete(() =>
+            {
+                Debug.Log($"[Tween Complete] {contextLabel} finished: {card.CardName.Value}");
+            })
+            .OnKill(() =>
+            {
+                Debug.Log($"[Tween Killed] Forcing {contextLabel} on: {card.CardName.Value}");
+                transform.localScale = originalScale;
+                transform.localPosition = Vector3.zero;
+                gameObject.GetComponent<Canvas>().overrideSorting = false;
+                cardIsAnimating = false;
+            });
     }
 
     protected bool BlockDragWithMessage(string message)

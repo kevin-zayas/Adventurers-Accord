@@ -99,61 +99,18 @@ public class CardHolder : NetworkBehaviour
 
         if (returningToSlot)
         {
-            Sequence shrinkSequence = DOTween.Sequence()
-            .Append(cardHandler.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack))
-            .Join(cardHandler.transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
-            .OnKill(() =>
-            {
-                cardHandler.transform.localScale = Scale;
-                cardHandler.transform.localPosition = Vector3.zero;
-                cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
-            });
+            cardHandler.PlayReturnTween("Return to Slot");
         }
 
-        rect.sizeDelta += Vector2.right;
+        rect.sizeDelta += Vector2.right;        // TODO: try removing this
         rect.sizeDelta -= Vector2.right;
 
         selectedCard = null;
     }
 
-    //[TargetRpc]
-    //protected void TargetEndDrag(NetworkConnection connection, CardInteractionHandler cardHandler, bool returningToSlot)
-    //{
-    //    EndDrag(cardHandler, returningToSlot);
-    //}
-
     protected void CardPointerEnter(CardInteractionHandler cardHandler)
     {
         //hoveredCard = cardHandler;
-    }
-
-    protected void CardPointerExit(CardInteractionHandler cardHandler)
-    {
-        //hoveredCard = null;     //not sure if hovered card is needed. but if so, it is currently not reset when a card is moved
-
-        //cardHandler.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack);
-        //cardHandler.transform.DOLocalMove(Vector3.zero, .25f).SetEase(Ease.OutBack);
-        //cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
-
-        Sequence shrinkSequence = DOTween.Sequence()
-            .Append(cardHandler.transform.DOScale(Scale, 0.2f).SetEase(Ease.OutBack))
-            .Join(cardHandler.transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
-            .OnStart(() =>
-            {
-                Debug.Log($"[Tween Start] Pointer Exit Scale down on card: {cardHandler.gameObject.name}");
-            })
-            .OnComplete(() =>
-            {
-                Debug.Log($"[Tween Complete] Pointer Exit Scale down on finished: {cardHandler.gameObject.name}");
-                cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
-            })
-            .OnKill(() =>
-            {
-                Debug.Log($"[Tween Killed] Forcing Pointer Exit Scale down on: {cardHandler.gameObject.name}");
-                cardHandler.transform.localScale = Scale;
-                cardHandler.transform.localPosition = Vector3.zero;
-                cardHandler.gameObject.GetComponent<Canvas>().overrideSorting = false;
-            });
     }
 
     protected virtual void Update()
