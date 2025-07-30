@@ -335,6 +335,26 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             });
     }
 
+    public void PlaySwapTween(int dir)
+    {
+        if (cardIsAnimating) return;
+        DOTween.Kill(this);
+
+        float angle = 30f * dir;
+        cardIsAnimating = true;
+
+        DOTween.Sequence().SetTarget(transform).SetId(this)
+            .Append(transform.DOLocalRotate(Vector3.forward * angle, 0.15f).SetEase(Ease.OutCubic))
+            .Join(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.InOutCubic))
+            .Append(transform.DOLocalRotate(Vector3.zero, 0.2f).SetEase(Ease.InOutCubic))
+            .OnKill(() =>
+            {
+                transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                gameObject.GetComponent<Canvas>().overrideSorting = false;
+                cardIsAnimating = false;
+            });
+    }
+
     protected bool BlockDragWithMessage(string message)
     {
         PopUpManager.Instance.CreateToastPopUp(message);

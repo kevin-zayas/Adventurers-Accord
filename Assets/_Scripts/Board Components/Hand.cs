@@ -81,7 +81,11 @@ public class Hand : CardHolder
         selectedCard.transform.SetParent(targetSlot);
         targetCard.transform.SetParent(selectedSlot);
 
-        if (IsOwner) targetCard.CardHandler.PlayReturnTween("Swapping");
+        if (IsOwner)
+        {
+            int dir = targetIndex > selectedIndex ? 1 : -1;
+            targetCard.CardHandler.PlaySwapTween(dir);
+        }
     }
 
     //protected void SwapCheck()
