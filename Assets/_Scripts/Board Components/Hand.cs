@@ -21,30 +21,25 @@ public class Hand : CardHolder
         if (isCrossing)
             return;
 
-        //SwapCheck();
-        UpdateDrag();
+        SwapCheck();
     }
 
-    public void UpdateDrag()
+    public void SwapCheck()
     {
         int selectedIndex = cardList.IndexOf(selectedCard);
         float selectedX = selectedCard.transform.position.x;
+        int targetIndex = -1;
 
-        for (int i = 0; i < cardList.Count; i++)
+        if (selectedIndex > 0 && selectedX < cardList[selectedIndex - 1].transform.position.x)
+            targetIndex = selectedIndex - 1;
+        else if (selectedIndex < cardList.Count - 1 && selectedX > cardList[selectedIndex + 1].transform.position.x)
+            targetIndex = selectedIndex + 1;
+
+        if (targetIndex != -1)
         {
-            if (i == selectedIndex) continue;
-
-            float targetX = cardList[i].transform.position.x;
-            bool crossedRight = i > selectedIndex && selectedX > targetX;
-            bool crossedLeft = i < selectedIndex && selectedX < targetX;
-
-            if (crossedRight || crossedLeft)
-            {
-                isCrossing = true;
-                ServerSwapCards(selectedIndex, i);
-                PerformSwap(selectedIndex, i);
-                break;
-            }
+            isCrossing = true;
+            ServerSwapCards(selectedIndex, targetIndex);
+            PerformSwap(selectedIndex, targetIndex);
         }
     }
 
