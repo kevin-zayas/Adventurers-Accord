@@ -2,13 +2,6 @@ using UnityEngine;
 
 public class ItemCardInteractionHandler : CardInteractionHandler
 {
-
-    protected override void Start()
-    {
-        card = GetComponent<ItemCard>();
-        base.Start();
-    }
-
     /// <summary>
     /// Handles the specific logic when the drag operation ends, including item equipping validation.
     /// </summary>

@@ -12,7 +12,6 @@ public class AdventurerCard : Card
     public readonly SyncVar<string> AbilityName = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<bool> HasItem = new();
     [AllowMutableSyncTypeAttribute] public SyncVar<ItemCardHeader> Item = new();
-    //public readonly SyncVar<Transform> ParentTransform = new();
     public readonly SyncVar<int> RestPeriod = new();
     public readonly SyncVar<int> CurrentRestPeriod = new();
     public readonly SyncVar<bool> IsBlessed = new();
@@ -51,10 +50,7 @@ public class AdventurerCard : Card
     {
         ObserversSetCardParent(newParent, worldPositionStays, cardHolder);
         rectTransform.SetParent(newParent, worldPositionStays);
-
         CurrentCardHolder.Value = cardHolder;
-        //ParentTransform.Value = newParent;
-
     }
 
     /// <summary>
@@ -67,6 +63,7 @@ public class AdventurerCard : Card
     {
         if (newParent == null) return;
         rectTransform.SetParent(newParent, worldPositionStays);
+        this.name = CardName.Value;
     }
 
     /// <summary>

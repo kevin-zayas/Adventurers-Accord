@@ -38,8 +38,7 @@ public abstract class Card : NetworkBehaviour
     protected Player player;
 
     protected RectTransform rectTransform;
-
-
+    
     public enum CardType
     {
         Adventurer,

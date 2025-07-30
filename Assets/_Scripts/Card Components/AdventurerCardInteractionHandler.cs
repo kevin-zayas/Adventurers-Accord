@@ -6,12 +6,6 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
 {
     [HideInInspector] public UnityEvent<AdventurerCard> PointerClickEvent;
 
-    protected override void Start()
-    {
-        card = GetComponent<AdventurerCard>();
-        base.Start();
-    }
-
     /// <summary>
     /// Handles the collision enter event, with additional logic to filter invalid drop zones.
     /// </summary>
@@ -57,8 +51,8 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
 
         if (!IsEndDragValid()) return;
         
-        //EndDragEvent.Invoke(this, false);
-        originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), originalCardSlot);  // Move to Hand/Quest
+        EndDragEvent.Invoke(this, false);
+        originalCardHolder.ServerMoveCard(card, dropZone.GetComponent<CardHolder>(), transform.parent);  // Move to Hand/Quest
     }
 
     /// <summary>

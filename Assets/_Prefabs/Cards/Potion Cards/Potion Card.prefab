@@ -245,17 +245,11 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: -3672523780777450086}
   _networkObjectCache: {fileID: 0}
-  isDragging: 0
   cardCanvas: {fileID: 4311970994342425090}
-  dropZone: {fileID: 0}
-  originalCardHolder: {fileID: 0}
-  originalCardSlot: {fileID: 0}
-  startPosition: {x: 0, y: 0}
   player: {fileID: 0}
-  card: {fileID: 0}
+  card: {fileID: 6814718253389100152}
   _animationDuration: 0.75
   wasDragged: 0
-  moveSpeedLimit: 6000
   PointerEnterEvent:
     m_PersistentCalls:
       m_Calls: []

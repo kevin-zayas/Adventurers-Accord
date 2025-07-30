@@ -7,16 +7,15 @@ using UnityEngine.EventSystems;
 public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler
 {
     #region Serialized Fields
-    [SerializeField] protected bool isDragging = false;
+    protected bool isDragging = false;
 
     //[SerializeField] protected GameObject canvas;
     [SerializeField] protected Canvas cardCanvas;
-    [SerializeField] protected GameObject dropZone;
-    [SerializeField] protected CardHolder originalCardHolder;
-    [SerializeField] protected Transform originalCardSlot;  //might not need this
-    [SerializeField] protected Vector2 startPosition;
+    protected GameObject dropZone;
+    protected CardHolder originalCardHolder;
     [SerializeField] protected Player player;
     [SerializeField] protected Card card;
+    public Card Card => card;
 
     [SerializeField] private float _animationDuration = 0.75f;
     #endregion
@@ -143,8 +142,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
         DOTween.Kill(this);
         player.IsDragging = isDragging = true;
-        originalCardSlot = transform.parent;
-        originalCardHolder = originalCardSlot.parent.GetComponent<CardHolder>();
+        originalCardHolder = transform.parent.parent.GetComponent<CardHolder>();
 
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
@@ -153,15 +151,15 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             .SetEase(Ease.OutBack)
             .OnStart(() =>
             {
-                Debug.Log($"[Tween Start] BeginDrag scale on {card.CardName.Value}");
+                //Debug.Log($"[Tween Start] BeginDrag scale on {card.CardName.Value}");
             })
             .OnComplete(() =>
             {
-                Debug.Log($"[Tween Complete] BeginDrag scale complete on {card.CardName.Value}");
+                //Debug.Log($"[Tween Complete] BeginDrag scale complete on {card.CardName.Value}");
             })
             .OnKill(() =>
             {
-                Debug.Log($"[Tween Killed] Forcing BeginDrag scale on {card.CardName.Value}");
+                //Debug.Log($"[Tween Killed] Forcing BeginDrag scale on {card.CardName.Value}");
                 card.transform.localScale = Vector3.one;
             });
     }
@@ -220,7 +218,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             .SetEase(Ease.OutBack)
             .OnStart(() =>
             {
-                Debug.Log($"[Tween Start] Pointer Enter Scale up on {card.CardName.Value}");
+                //Debug.Log($"[Tween Start] Pointer Enter Scale up on {card.CardName.Value}");
                 cardCanvas.overrideSorting = true;
                 cardCanvas.sortingOrder = 100;
             })
@@ -231,11 +229,11 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             })
             .OnComplete(() =>
             {
-                Debug.Log($"[Tween Complete] Pointer Enter Scale up on {card.CardName.Value}");
+                //Debug.Log($"[Tween Complete] Pointer Enter Scale up on {card.CardName.Value}");
             })
             .OnKill(() =>
             {
-                Debug.Log($"[Tween Killed] Pointer Enter Scale up on {card.CardName.Value}");
+                //Debug.Log($"[Tween Killed] Pointer Enter Scale up on {card.CardName.Value}");
             });
     }
 
@@ -321,15 +319,15 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             .Join(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
             .OnStart(() =>
             {
-                Debug.Log($"[Tween Start] {contextLabel} on card: {card.CardName.Value}");
+                //Debug.Log($"[Tween Start] {contextLabel} on card: {card.CardName.Value}");
             })
             .OnComplete(() =>
             {
-                Debug.Log($"[Tween Complete] {contextLabel} finished: {card.CardName.Value}");
+                //Debug.Log($"[Tween Complete] {contextLabel} finished: {card.CardName.Value}");
             })
             .OnKill(() =>
             {
-                Debug.Log($"[Tween Killed] Forcing {contextLabel} on: {card.CardName.Value}");
+                //Debug.Log($"[Tween Killed] Forcing {contextLabel} on: {card.CardName.Value}");
                 transform.localScale = originalScale;
                 transform.localPosition = Vector3.zero;
                 gameObject.GetComponent<Canvas>().overrideSorting = false;
@@ -360,7 +358,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public int ParentIndex()
     {
-        return transform.parent.CompareTag("Slot") ? transform.parent.GetSiblingIndex() : 0;
+        return transform.parent.GetSiblingIndex();
     }
 
     public float NormalizedPosition()

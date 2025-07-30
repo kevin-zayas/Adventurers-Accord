@@ -7,6 +7,7 @@ public class QuestLaneCardHolder : CardHolder
     [SerializeField] private QuestLane questLane;
     public override Vector3 Scale => new(0.6f, 0.6f, 1f);
     public override QuestLane QuestLane => questLane;
+
     protected override void Start()
     {
         base.Start();

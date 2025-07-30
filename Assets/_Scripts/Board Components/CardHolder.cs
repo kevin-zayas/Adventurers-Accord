@@ -2,7 +2,6 @@ using DG.Tweening;
 using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class CardHolder : NetworkBehaviour
@@ -19,13 +18,14 @@ public class CardHolder : NetworkBehaviour
         Discard
     }
     [SerializeField] protected GameObject cardSlotPrefab;
-    [SerializeField] protected CardInteractionHandler selectedCard;
+    [SerializeField] protected Card selectedCard;
     [SerializeReference] protected CardInteractionHandler hoveredCard;
-    public List<CardInteractionHandler> cardHandlers;
+    public List<Card> cardList;
     public CardHolderType HolderType { get; protected set; }
 
     protected RectTransform rect;
     protected bool isCrossing = false;
+    int count = 0;
 
     protected virtual void Start()
     {
@@ -42,9 +42,6 @@ public class CardHolder : NetworkBehaviour
         card.SetCardParent(cardSlot.transform, false, this);
         ObserversResetCardPosition(card);
 
-        //CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
-        //TargetEndDrag(card.Owner, cardHandler, false);
-
         AddCardHandlerListeners(card.Owner, card);
     }
 
@@ -52,6 +49,7 @@ public class CardHolder : NetworkBehaviour
     protected void ObserversSetCardSlotParent(GameObject cardSlot)
     {
         cardSlot.transform.SetParent(transform);
+        cardSlot.name = "Card Slot " + count++;
     }
 
     [ObserversRpc]
@@ -87,7 +85,7 @@ public class CardHolder : NetworkBehaviour
 
     protected void BeginDrag(CardInteractionHandler cardHandler)
     {
-        selectedCard = cardHandler;
+        selectedCard = cardHandler.Card;
     }
 
     protected void EndDrag(CardInteractionHandler cardHandler, bool returningToSlot)
@@ -118,63 +116,13 @@ public class CardHolder : NetworkBehaviour
         //hoveredCard = null;
     }
 
-    protected virtual void Update()
-    {
-
-        if (selectedCard == null)
-            return;
-        if (isCrossing)
-            return;
-
-        //SwapCheck();
-    }
-
-    protected void SwapCheck()
-    {
-        for (int i = 0; i < cardHandlers.Count; i++)
-        {
-
-            if (selectedCard.transform.position.x > cardHandlers[i].transform.position.x)
-            {
-                if (selectedCard.ParentIndex() < cardHandlers[i].ParentIndex())
-                {
-                    Swap(i);
-                    break;
-                }
-            }
-
-            if (selectedCard.transform.position.x < cardHandlers[i].transform.position.x)
-            {
-                if (selectedCard.ParentIndex() > cardHandlers[i].ParentIndex())
-                {
-                    Swap(i);
-                    break;
-                }
-            }
-        }
-    }
-
-    protected void Swap(int index)
-    {
-        isCrossing = true;
-
-        Transform focusedParent = selectedCard.transform.parent;
-        Transform crossedParent = cardHandlers[index].transform.parent;
-
-        cardHandlers[index].transform.SetParent(focusedParent);
-        cardHandlers[index].transform.localPosition = Vector3.zero;
-        selectedCard.transform.SetParent(crossedParent);
-
-        isCrossing = false;
-    }
-
     [ObserversRpc]
     protected void AddCardHandlerListeners(NetworkConnection connection, Card card)
     {
-        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
+        CardInteractionHandler cardHandler = card.CardHandler;
         if (cardHandler == null)
             return;
-        cardHandlers.Add(cardHandler);      //Might be able to just add the card itself. During swap just compare card positions?
+        cardList.Add(card);
         cardHandler.PointerEnterEvent.AddListener(CardPointerEnter);
         cardHandler.PointerExitEvent.AddListener(CardPointerExit);
         cardHandler.BeginDragEvent.AddListener(BeginDrag);
@@ -186,8 +134,8 @@ public class CardHolder : NetworkBehaviour
     {
         if (connection == LocalConnection) selectedCard = null;
 
-        CardInteractionHandler cardHandler = card.GetComponent<CardInteractionHandler>();
-        cardHandlers.Remove(cardHandler);
+        cardList.Remove(card);
+        CardInteractionHandler cardHandler = card.CardHandler;
         cardHandler.PointerEnterEvent.RemoveListener(CardPointerEnter);
         cardHandler.PointerExitEvent.RemoveListener(CardPointerExit);
         cardHandler.BeginDragEvent.RemoveListener(BeginDrag);

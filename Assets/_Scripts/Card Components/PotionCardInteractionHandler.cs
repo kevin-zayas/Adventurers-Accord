@@ -2,12 +2,6 @@ using static PotionCard;
 
 public class PotionCardInteractionHandler : CardInteractionHandler
 {
-    protected override void Start()
-    {
-        card = GetComponent<PotionCard>();
-        base.Start();
-    }
-
     /// <summary>
     /// Handles the specific logic when the drag operation ends, including item equipping validation.
     /// </summary>

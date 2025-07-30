@@ -12,11 +12,6 @@ public class DraftCardHolder : CardHolder
         HolderType = CardHolderType.Draft;
     }
 
-    protected override void Update()
-    {
-        return; //DraftCardHolder will not have swap logic
-    }
-
     [Server]
     public override void AddCard(Card card)
     {

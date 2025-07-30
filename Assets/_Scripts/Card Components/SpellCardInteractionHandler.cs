@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class SpellCardInteractionHandler : CardInteractionHandler
 {
-    protected override void Start()
-    {
-        card = GetComponent<SpellCard>();
-        base.Start();
-    }
-
     /// <summary>
     /// Determines whether the drag operation can start based on various conditions.
     /// </summary>
