@@ -34,19 +34,15 @@ public class Hand : CardHolder
         {
             if (i == selectedIndex) continue;
 
-            Card targetCard = cardList[i];
-            if (targetCard == null) continue;
-
-            float targetX = targetCard.transform.position.x;
-            float halfWidth = targetCard.GetComponent<RectTransform>().rect.width / 2f;
-
-            bool crossedRight = selectedIndex < i && selectedX > targetX + halfWidth;
-            bool crossedLeft = selectedIndex > i && selectedX < targetX - halfWidth;
+            float targetX = cardList[i].transform.position.x;
+            bool crossedRight = i > selectedIndex && selectedX > targetX;
+            bool crossedLeft = i < selectedIndex && selectedX < targetX;
 
             if (crossedRight || crossedLeft)
             {
+                isCrossing = true;
                 ServerSwapCards(selectedIndex, i);
-                PerformSwap(selectedIndex, i); // Apply immediately for local visual feedback
+                PerformSwap(selectedIndex, i);
                 break;
             }
         }
@@ -56,7 +52,7 @@ public class Hand : CardHolder
     private void ServerSwapCards(int selectedIndex, int targetIndex)
     {
         if (!IsServerInitialized) return;
-        ObserversSwapCards(selectedIndex, targetIndex); // Sync other clients
+        ObserversSwapCards(selectedIndex, targetIndex);
     }
 
     [ObserversRpc]
@@ -65,7 +61,6 @@ public class Hand : CardHolder
         if (IsOwner) return;
         PerformSwap(selectedIndex, targetIndex);
     }
-
 
     private void PerformSwap(int selectedIndex, int targetIndex)
     {
@@ -85,45 +80,7 @@ public class Hand : CardHolder
         {
             int dir = targetIndex > selectedIndex ? 1 : -1;
             targetCard.CardHandler.PlaySwapTween(dir);
+            isCrossing = false;
         }
     }
-
-    //protected void SwapCheck()
-    //{
-    //    for (int i = 0; i < cardList.Count; i++)
-    //    {
-
-    //        if (selectedCard.transform.position.x > cardList[i].transform.position.x)
-    //        {
-    //            if (selectedCard.CardHandler.ParentIndex() < cardList[i].CardHandler.ParentIndex())
-    //            {
-    //                Swap(i);
-    //                break;
-    //            }
-    //        }
-
-    //        if (selectedCard.transform.position.x < cardList[i].transform.position.x)
-    //        {
-    //            if (selectedCard.CardHandler.ParentIndex() > cardList[i].CardHandler.ParentIndex())
-    //            {
-    //                Swap(i);
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
-
-    //protected void Swap(int index)
-    //{
-    //    isCrossing = true;
-
-    //    Transform focusedParent = selectedCard.transform.parent;
-    //    Transform crossedParent = cardList[index].transform.parent;
-
-    //    cardList[index].transform.SetParent(focusedParent);
-    //    cardList[index].transform.localPosition = Vector3.zero;
-    //    selectedCard.transform.SetParent(crossedParent);
-
-    //    isCrossing = false;
-    //}
 }

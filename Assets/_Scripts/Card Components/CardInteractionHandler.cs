@@ -22,7 +22,6 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     [HideInInspector] public bool wasDragged;
     private Vector3 enlargedScale = new(1.75f, 1.75f, 1f);
-    //private Tween scaleTween;
     private bool cardIsAnimating;
 
     #region Movement Variables
@@ -337,21 +336,16 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void PlaySwapTween(int dir)
     {
-        if (cardIsAnimating) return;
         DOTween.Kill(this);
 
         float angle = 30f * dir;
-        cardIsAnimating = true;
-
         DOTween.Sequence().SetTarget(transform).SetId(this)
             .Append(transform.DOLocalRotate(Vector3.forward * angle, 0.15f).SetEase(Ease.OutCubic))
             .Join(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.InOutCubic))
             .Append(transform.DOLocalRotate(Vector3.zero, 0.2f).SetEase(Ease.InOutCubic))
             .OnKill(() =>
             {
-                transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-                gameObject.GetComponent<Canvas>().overrideSorting = false;
-                cardIsAnimating = false;
+                transform.localRotation = Quaternion.identity;
             });
     }
 
