@@ -23,6 +23,7 @@ public class CardHolder : NetworkBehaviour
     public List<Card> cardList;
     public CardHolderType HolderType { get; protected set; }
 
+    protected GameObject previewCardSlot;
     protected RectTransform rect;
     protected bool isCrossing = false;
     int count = 0;
@@ -35,12 +36,24 @@ public class CardHolder : NetworkBehaviour
     [Server]
     public virtual void AddCard(Card card)
     {
-        GameObject cardSlot = Instantiate(cardSlotPrefab);
-        Spawn(cardSlot);
-        cardSlot.transform.SetParent(transform);
-        ObserversSetCardSlotParent(cardSlot);
-        card.SetCardParent(cardSlot.transform, false, this);
-        ObserversResetCardPosition(card);
+        GameObject cardSlot;
+        bool animateMove = false;
+        if (previewCardSlot == null)
+        {
+            cardSlot = Instantiate(cardSlotPrefab);
+            Spawn(cardSlot);
+            cardSlot.transform.SetParent(transform);
+            ObserversSetCardSlotParent(cardSlot);
+        }
+        else
+        {
+            cardSlot = previewCardSlot;
+            animateMove = true;
+            previewCardSlot = null;
+        }
+
+        card.SetCardParent(cardSlot.transform, true, this);
+        ObserversResetCardPosition(card, animateMove);
 
         AddCardHandlerListeners(card.Owner, card);
     }
@@ -53,11 +66,19 @@ public class CardHolder : NetworkBehaviour
     }
 
     [ObserversRpc]
-    protected void ObserversResetCardPosition(Card card)
+    protected void ObserversResetCardPosition(Card card, bool animateMove = false)
     {
-        card.transform.localPosition = Vector3.zero;
-        card.gameObject.GetComponent<Canvas>().overrideSorting = false;
-        SetCardScale(card.gameObject);
+        if (animateMove && card.IsOwner)
+        {
+            card.CardHandler.PlayReturnTween("Return to Slot");
+        }
+        else
+        {
+            card.transform.localPosition = Vector3.zero;
+            card.gameObject.GetComponent<Canvas>().overrideSorting = false;
+            SetCardScale(card.gameObject);
+        }
+
     }
 
     protected void SetCardScale(GameObject card)

@@ -135,6 +135,10 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         dropZone = collision.gameObject;
         //print(dropZone);
+        if (isDragging && dropZone.TryGetComponent(out Hand hand))
+        {
+            hand.ServerCreatePreviewSlot(card);
+        }
     }
 
     /// <summary>
@@ -143,6 +147,10 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// <param name="collision">The collision data associated with this event.</param>
     protected virtual void OnCollisionExit2D(Collision2D collision)
     {
+        if (isDragging && dropZone.TryGetComponent(out Hand hand))
+        {
+            hand.ServerRemovePreviewSlot();
+        }
         // only excecute logic if the card is leaving the dropZone it just entered
         if (collision.gameObject == dropZone)
         {
@@ -302,11 +310,11 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     [ServerRpc(RequireOwnership = false)]
     protected void ServerPlayPurchaseAnimation(int playerID)
     {
-        ObserversPlayMoveAnimation(playerID);
+        ObserversPlayPurchaseAnimation(playerID);
     }
 
     [ObserversRpc]
-    protected void ObserversPlayMoveAnimation(int playerID)
+    protected void ObserversPlayPurchaseAnimation(int playerID)
     {
         Transform guildTransform = Board.Instance.GuildStatusList[playerID].transform;
         Sequence sequence = DOTween.Sequence();
@@ -318,7 +326,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         }
         else
         {
-            sequence.Append(transform.DOJump(transform.position, 10f, 1, _animationDuration))
+            sequence.Append(transform.DOJump(transform.position, 15f, 1, .5f))
                 .OnComplete(() =>
                 {
                     AssignDraftCardToPlayer();
