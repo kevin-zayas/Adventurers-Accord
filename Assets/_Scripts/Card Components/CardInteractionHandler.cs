@@ -21,11 +21,27 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     #endregion
 
     [HideInInspector] public bool wasDragged;
-    private Vector3 enlargedScale = new(1.75f, 1.75f, 1f);
     private bool cardIsAnimating;
 
-    #region Movement Variables
-    [Header("Movement")]
+    #region Card Animation Parameters
+    [Header("Card Animation Parameters")]
+    [SerializeField] private float scaleOnHover = 1.15f;
+    [SerializeField] private float hoverEnlargeTimer = .8f;
+    [SerializeField] private float scaleOnEnlarge = 1.8f;
+    [SerializeField] private float scaleDuration = .15f;
+
+    [SerializeField] private float hoverPunchAngle = 5;
+    [SerializeField] private float punchDuration = .15f;
+    [SerializeField] private int hoverPunchVibrato = 10;
+
+    [SerializeField] private float returnMoveDuration = 0.25f;
+    [SerializeField] private float swapMoveDuration = 0.2f;
+    [SerializeField] private float swapRotateDuration = 0.15f;
+    [SerializeField] private float swapAngle = 30f;
+    #endregion
+
+    #region Movement Paremters
+    [Header("Movement Paremeters")]
     private readonly float followSpeed = 15f;
     private readonly float tiltStrength = 8f;
     private readonly float tiltLerpSpeed = 10f;
@@ -60,7 +76,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// </summary>
     protected virtual void Update()
     {
-        // TODO: Move this logic to OnDrag, section outlogic to be resuable for card swapping animations. or maybe have similar logic in card Holder
+        // TODO: Move this logic to OnDrag
         if (isDragging)
         {
             Vector3 mousePos = Input.mousePosition;
@@ -146,7 +162,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         cardCanvas.overrideSorting = true;
         cardCanvas.sortingOrder = 100;
 
-        card.transform.DOScale(Vector3.one, 0.2f).SetId(this)
+        card.transform.DOScale(Vector3.one, scaleDuration).SetId(this)
             .SetEase(Ease.OutBack)
             .OnStart(() =>
             {
@@ -212,8 +228,15 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         if (player.IsDragging || cardIsAnimating) return;
         DOTween.Kill(this);
 
-        transform.DOScale(enlargedScale, 0.2f).SetId(this)
-            .SetDelay(1f)
+        var sequence = DOTween.Sequence().SetId(this);
+
+        // Immediate scale and punch rotation
+        sequence.Append(transform.DOScale(transform.localScale * scaleOnHover, scaleDuration).SetEase(Ease.OutBack));
+        sequence.Join(transform.DOPunchRotation(Vector3.forward * hoverPunchAngle, punchDuration, hoverPunchVibrato, 1));
+
+        //Delay before main hover scale and canvas sorting override
+        sequence.AppendInterval(hoverEnlargeTimer);
+        sequence.Append(transform.DOScale(Vector3.one * scaleOnEnlarge, scaleDuration)
             .SetEase(Ease.OutBack)
             .OnStart(() =>
             {
@@ -233,7 +256,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
             .OnKill(() =>
             {
                 //Debug.Log($"[Tween Killed] Pointer Enter Scale up on {card.CardName.Value}");
-            });
+            }));
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -314,8 +337,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         cardIsAnimating = true;
 
         DOTween.Sequence().SetTarget(transform).SetId(this)
-            .Append(transform.DOScale(originalScale, 0.2f).SetEase(Ease.OutBack))
-            .Join(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.OutBack))
+            .Append(transform.DOScale(originalScale, returnMoveDuration).SetEase(Ease.OutBack))
+            .Join(transform.DOLocalMove(Vector3.zero, returnMoveDuration).SetEase(Ease.OutBack))
             .OnStart(() =>
             {
                 //Debug.Log($"[Tween Start] {contextLabel} on card: {card.CardName.Value}");
@@ -338,11 +361,10 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         DOTween.Kill(this);
 
-        float angle = 30f * dir;
         DOTween.Sequence().SetTarget(transform).SetId(this)
-            .Append(transform.DOLocalRotate(Vector3.forward * angle, 0.15f).SetEase(Ease.OutCubic))
-            .Join(transform.DOLocalMove(Vector3.zero, 0.25f).SetEase(Ease.InOutCubic))
-            .Append(transform.DOLocalRotate(Vector3.zero, 0.2f).SetEase(Ease.InOutCubic))
+            .Append(transform.DOLocalRotate(dir * swapAngle * Vector3.forward, swapRotateDuration).SetEase(Ease.OutCubic))
+            .Join(transform.DOLocalMove(Vector3.zero, swapMoveDuration).SetEase(Ease.InOutCubic))
+            .Append(transform.DOLocalRotate(Vector3.zero, swapRotateDuration).SetEase(Ease.InOutCubic))
             .OnKill(() =>
             {
                 transform.localRotation = Quaternion.identity;
