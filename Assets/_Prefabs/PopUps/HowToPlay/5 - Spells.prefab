@@ -75,10 +75,6 @@ MonoBehaviour:
     immediately and be displayed below the Quest.
 
 
-    Spells can only be played
-    during the Magic Phase.
-
-
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 26373f4dfc29f6a4fb36530861bd26e8, type: 2}
@@ -440,7 +436,6 @@ GameObject:
   - component: {fileID: 4934590481668214216}
   - component: {fileID: 5168087753436787573}
   - component: {fileID: 3959795110960506628}
-  - component: {fileID: 3278377416216294457}
   m_Layer: 0
   m_Name: 5 - Spells
   m_TagString: Untagged
@@ -510,57 +505,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3278377416216294457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7021995848810397042}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  _initializedValusSet: 0
-  NetworkObserver: {fileID: 0}
-  _enablePrediction: 0
-  _predictionType: 0
-  _graphicalObject: {fileID: 0}
-  _detachGraphicalObject: 0
-  _enableStateForwarding: 1
-  _networkTransform: {fileID: 0}
-  _ownerInterpolation: 1
-  _ownerSmoothedProperties: 255
-  _adaptiveInterpolation: 3
-  _spectatorSmoothedProperties: 255
-  _spectatorInterpolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
-  <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 10958927245526624836
-  <SceneId>k__BackingField: 0
-  SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
 --- !u!1001 &5802057709226743805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -577,10 +521,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -3760177407752416970, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
-      propertyPath: _addedNetworkObject
-      value: 
-      objectReference: {fileID: 3278377416216294457}
     - target: {fileID: -3760177407752416970, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: _networkObjectCache
       value: 
@@ -769,6 +709,7 @@ PrefabInstance:
     - {fileID: -5630888917086196066, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     - {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     - {fileID: 3577841985777620674, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -3760177407752416970, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -794,10 +735,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -3760177407752416970, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
-      propertyPath: _addedNetworkObject
-      value: 
-      objectReference: {fileID: 3278377416216294457}
     - target: {fileID: -3760177407752416970, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
       propertyPath: _networkObjectCache
       value: 
@@ -986,6 +923,7 @@ PrefabInstance:
     - {fileID: -5630888917086196066, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     - {fileID: 6669853012309926568, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     - {fileID: 3577841985777620674, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
+    - {fileID: -3760177407752416970, guid: e5221a8516ff80d42a6a640b4818ce50, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
