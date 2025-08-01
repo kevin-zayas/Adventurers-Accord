@@ -86,7 +86,7 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
             return BlockDragWithMessage("You can only dispatch Adventurers Dispatch Phase and on your turn");
         }
 
-        if (IsQuestLaneFull(questLane))
+        if (questLane.IsQuestLaneFull())
         {
             EndDragEvent.Invoke(this, true);
             return BlockDragWithMessage("This Quest's party size limit has been reached");
@@ -95,8 +95,5 @@ public class AdventurerCardInteractionHandler : CardInteractionHandler
         return true;
     }
 
-    protected bool IsQuestLaneFull(QuestLane questLane)
-    {
-        return questLane.CurrentAdventurerCount.Value >= questLane.MaxAdventurerCount.Value;
-    }
+    
 }

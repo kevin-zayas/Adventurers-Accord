@@ -70,7 +70,7 @@ public class CardHolder : NetworkBehaviour
     {
         if (animateMove && card.IsOwner)
         {
-            card.CardHandler.PlayReturnTween("Return to Slot");
+            card.CardHandler.PlayReturnTween("Return to Slot", Scale);
         }
         else
         {
@@ -78,7 +78,6 @@ public class CardHolder : NetworkBehaviour
             card.gameObject.GetComponent<Canvas>().overrideSorting = false;
             SetCardScale(card.gameObject);
         }
-
     }
 
     protected void SetCardScale(GameObject card)
@@ -118,7 +117,7 @@ public class CardHolder : NetworkBehaviour
 
         if (returningToSlot)
         {
-            cardHandler.PlayReturnTween("Return to Slot");
+            cardHandler.PlayReturnTween("Return to Slot", Scale);
         }
 
         rect.sizeDelta += Vector2.right;        // TODO: try removing this
@@ -181,5 +180,39 @@ public class CardHolder : NetworkBehaviour
     public bool IsSpell()
     {
         return HolderType == CardHolderType.Spell;
+    }
+
+    public bool CreatePreviewSlot(Card card)
+    {
+        if (cardList.Contains(card)) return false;
+        if (QuestLane != null && QuestLane.IsQuestLaneFull()) return false;
+
+        ServerCreatePreviewSlot();
+        return true;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerCreatePreviewSlot()
+    {
+        if (previewCardSlot != null)
+        {
+            Debug.LogWarning("Preview card slot already exists. Removing the old one.");
+            Despawn(previewCardSlot);
+            previewCardSlot = null;
+        }
+        previewCardSlot = Instantiate(cardSlotPrefab);
+        Spawn(previewCardSlot);
+        previewCardSlot.transform.SetParent(transform);
+        ObserversSetCardSlotParent(previewCardSlot);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void ServerRemovePreviewSlot()
+    {
+        if (previewCardSlot != null)
+        {
+            Despawn(previewCardSlot);
+            previewCardSlot = null;
+        }
     }
 }

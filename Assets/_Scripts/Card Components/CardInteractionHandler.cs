@@ -22,6 +22,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     [HideInInspector] public bool wasDragged;
     private bool cardIsAnimating;
+    public CardHolder previewSlotCardHolder;
 
     #region Card Animation Parameters
     [Header("Card Animation Parameters")]
@@ -135,9 +136,13 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         dropZone = collision.gameObject;
         //print(dropZone);
-        if (isDragging && dropZone.TryGetComponent(out Hand hand))
+        if (isDragging && dropZone.TryGetComponent(out CardHolder cardHolder))
         {
-            hand.ServerCreatePreviewSlot(card);
+            if (previewSlotCardHolder != null)
+                previewSlotCardHolder.ServerRemovePreviewSlot();
+
+            if (cardHolder.CreatePreviewSlot(card))
+                previewSlotCardHolder = cardHolder;
         }
     }
 
@@ -147,13 +152,14 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     /// <param name="collision">The collision data associated with this event.</param>
     protected virtual void OnCollisionExit2D(Collision2D collision)
     {
-        if (isDragging && dropZone.TryGetComponent(out Hand hand))
-        {
-            hand.ServerRemovePreviewSlot();
-        }
         // only excecute logic if the card is leaving the dropZone it just entered
         if (collision.gameObject == dropZone)
         {
+            if (previewSlotCardHolder != null)
+            {
+                previewSlotCardHolder.ServerRemovePreviewSlot();
+                previewSlotCardHolder = null;
+            }
             dropZone = null;
             //print("exiting dropzone");
         }
@@ -216,6 +222,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
     {
         if (!isDragging) return;
         player.IsDragging = isDragging = false;
+        previewSlotCardHolder = null;
 
         if (dropZone == null || originalCardHolder.transform == dropZone.transform)
         {
@@ -233,7 +240,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (player.IsDragging || cardIsAnimating) return;
+        if (player.IsDragging || cardIsAnimating || card.IsClone) return;
         DOTween.Kill(this);
 
         var sequence = DOTween.Sequence().SetId(this);
@@ -326,7 +333,7 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         }
         else
         {
-            sequence.Append(transform.DOJump(transform.position, 15f, 1, .5f))
+            sequence.Append(transform.DOJump(transform.position, 15f, 1, _animationDuration))
                 .OnComplete(() =>
                 {
                     AssignDraftCardToPlayer();
@@ -336,12 +343,12 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         }
     }
 
-    public void PlayReturnTween(string contextLabel)
+    public void PlayReturnTween(string contextLabel, Vector3? scale = null)
     {
-        if (cardIsAnimating) return;
+        if (cardIsAnimating || card.IsClone) return;
         DOTween.Kill(this);
 
-        Vector3 originalScale = card.CurrentCardHolder.Value.Scale;
+        Vector3 originalScale = scale ?? card.CurrentCardHolder.Value.Scale;
         cardIsAnimating = true;
 
         DOTween.Sequence().SetTarget(transform).SetId(this)

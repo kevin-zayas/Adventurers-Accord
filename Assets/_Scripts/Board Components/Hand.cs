@@ -78,31 +78,4 @@ public class Hand : CardHolder
             isCrossing = false;
         }
     }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerCreatePreviewSlot(Card card)
-    {
-        if (cardList.Contains(card)) return;
-
-        if (previewCardSlot != null)
-        {
-            Debug.LogWarning("Preview card slot already exists. Removing the old one.");
-            Despawn(previewCardSlot);
-            previewCardSlot = null;
-        }
-        previewCardSlot = Instantiate(cardSlotPrefab);
-        Spawn(previewCardSlot);
-        previewCardSlot.transform.SetParent(transform);
-        ObserversSetCardSlotParent(previewCardSlot);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void ServerRemovePreviewSlot()
-    {
-        if (previewCardSlot != null)
-        {
-            Despawn(previewCardSlot);
-            previewCardSlot = null;
-        }
-    }
 }

@@ -379,4 +379,9 @@ public class QuestLane : NetworkBehaviour
         if (color == "gold") rewardIndicator.sprite = _goldReward;
         if (color == "silver") rewardIndicator.sprite = _silverReward;
     }
+
+    public bool IsQuestLaneFull()
+    {
+        return CurrentAdventurerCount.Value >= MaxAdventurerCount.Value;
+    }
 }
