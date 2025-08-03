@@ -1,3 +1,4 @@
+using FishNet.Component.Observing;
 using FishNet.Connection;
 using FishNet.Object;
 using System.Collections.Generic;
@@ -103,7 +104,7 @@ public class GuildRosterPopUp : NetworkBehaviour
     private void AddCardToRoster(NetworkConnection connection, GameObject rosterCardObject, string rosterGroup)
     {
         GameObject newCardObject = Instantiate(rosterCardObject, Vector2.zero, Quaternion.identity);
-        Spawn(newCardObject);
+        Spawn(newCardObject, connection);
 
         Card newCard = newCardObject.GetComponent<Card>();
         newCard.CopyCardData(connection, newCardObject, rosterCardObject);
@@ -116,9 +117,15 @@ public class GuildRosterPopUp : NetworkBehaviour
     }
 
 
-    [TargetRpc]
+    [ObserversRpc]
     private void TargetSetCardParent(NetworkConnection connection, GameObject card, string rosterGroup, int currentCooldown)
     {
+        if (!IsOwner)
+        {
+            card.SetActive(false);
+            return;
+        }
+
         card.transform.localScale = new Vector3(1.25f, 1.25f, 1f);
 
         if (rosterGroup == "Resting")
