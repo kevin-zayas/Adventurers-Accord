@@ -8,6 +8,7 @@ public class CardHolder : NetworkBehaviour
 {
     public virtual QuestLane QuestLane => null;
     public virtual Vector3 Scale => Vector3.one;
+    public Card draggedCard;
 
     public enum CardHolderType
     {
@@ -59,10 +60,13 @@ public class CardHolder : NetworkBehaviour
     }
 
     [ObserversRpc]
-    protected void ObserversSetCardSlotParent(GameObject cardSlot)
+    protected void ObserversSetCardSlotParent(GameObject cardSlot, int? index = null)
     {
         cardSlot.transform.SetParent(transform);
         cardSlot.name = "Card Slot " + count++;
+
+        if (index != null)
+            cardSlot.transform.SetSiblingIndex((int)index);
     }
 
     [ObserversRpc]
@@ -142,7 +146,8 @@ public class CardHolder : NetworkBehaviour
         CardInteractionHandler cardHandler = card.CardHandler;
         if (cardHandler == null)
             return;
-        cardList.Add(card);
+        if (!cardList.Contains(card)) cardList.Add(card);
+        draggedCard = null;
         cardHandler.PointerEnterEvent.AddListener(CardPointerEnter);
         cardHandler.PointerExitEvent.AddListener(CardPointerExit);
         cardHandler.BeginDragEvent.AddListener(BeginDrag);
@@ -187,12 +192,13 @@ public class CardHolder : NetworkBehaviour
         if (cardList.Contains(card)) return false;
         if (QuestLane != null && QuestLane.IsQuestLaneFull()) return false;
 
-        ServerCreatePreviewSlot();
+        int index = GetInsertIndexForDraggedCard(card);
+        ServerCreatePreviewSlot(card, index);
         return true;
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void ServerCreatePreviewSlot()
+    public void ServerCreatePreviewSlot(Card card, int index)
     {
         if (previewCardSlot != null)
         {
@@ -200,10 +206,18 @@ public class CardHolder : NetworkBehaviour
             Despawn(previewCardSlot);
             previewCardSlot = null;
         }
+        //draggedCard = card;
         previewCardSlot = Instantiate(cardSlotPrefab);
         Spawn(previewCardSlot);
-        previewCardSlot.transform.SetParent(transform);
-        ObserversSetCardSlotParent(previewCardSlot);
+        //previewCardSlot.transform.SetParent(transform);
+        ObserversSetCardSlotParent(previewCardSlot, index);
+        ObserversAddPreviewCardToList(card, index);
+    }
+
+    public void RemovePreviewSlot()
+    {
+        selectedCard = null;
+        ServerRemovePreviewSlot();
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -211,8 +225,48 @@ public class CardHolder : NetworkBehaviour
     {
         if (previewCardSlot != null)
         {
+            //int index = cardList.IndexOf(draggedCard);
+            //GameObject cardSlot = transform.GetChild(index).gameObject;
             Despawn(previewCardSlot);
             previewCardSlot = null;
+            ObserversRemovePreviewCardFromList(draggedCard);
+            draggedCard = null;
         }
+    }
+
+    [ObserversRpc]
+    private void ObserversAddPreviewCardToList(Card card, int index)
+    {
+        cardList.Insert(index, card);
+        draggedCard = card;
+        if (IsOwner) selectedCard = card;
+    }
+
+    [ObserversRpc]
+    private void ObserversRemovePreviewCardFromList(Card card)
+    {
+        if (!cardList.Contains(card))
+        {
+            Debug.LogWarning("Card not in cardList");
+            return;
+        }
+
+        cardList.Remove(card);
+        draggedCard = null;
+        //if (IsOwner) selectedCard = null;
+    }
+
+    private int GetInsertIndexForDraggedCard(Card draggedCard)
+    {
+        float draggedX = draggedCard.transform.position.x;
+
+        for (int i = 0; i < cardList.Count; i++)
+        {
+            float currentX = cardList[i].transform.position.x;
+
+            if (draggedX < currentX)
+                return i;
+        }
+        return cardList.Count;
     }
 }

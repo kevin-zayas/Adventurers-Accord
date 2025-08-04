@@ -1,5 +1,6 @@
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using System;
 using UnityEngine;
 
 public class Hand : CardHolder
@@ -37,6 +38,7 @@ public class Hand : CardHolder
 
         if (targetIndex != -1)
         {
+            if (selectedCard == null) return;
             isCrossing = true;
             ServerSwapCards(selectedIndex, targetIndex);
             PerformSwap(selectedIndex, targetIndex);
@@ -46,11 +48,10 @@ public class Hand : CardHolder
     [ServerRpc]
     private void ServerSwapCards(int selectedIndex, int targetIndex)
     {
-        if (!IsServerInitialized) return;
         ObserversSwapCards(selectedIndex, targetIndex);
     }
 
-    [ObserversRpc]
+    [ObserversRpc]  // exclude owner
     private void ObserversSwapCards(int selectedIndex, int targetIndex)
     {
         if (IsOwner) return;
@@ -62,14 +63,20 @@ public class Hand : CardHolder
         Card selectedCard = cardList[selectedIndex];
         Card targetCard = cardList[targetIndex];
 
-        cardList[selectedIndex] = targetCard;
-        cardList[targetIndex] = selectedCard;
+        //cardList[selectedIndex] = targetCard;
+        //cardList[targetIndex] = selectedCard;
 
-        Transform selectedSlot = selectedCard.transform.parent;     // instead of accessing transfom, could maybe get index of carslot
+        //Transform selectedSlot = selectedCard.transform.parent;
+        Transform selectedSlot = transform.GetChild(selectedIndex);    // instead of accessing transfom, could maybe get index of carslot
         Transform targetSlot = targetCard.transform.parent;         // this could allow card preview slot dragging without setparent issue
 
-        selectedCard.transform.SetParent(targetSlot);
+        if (draggedCard == null) selectedCard.transform.SetParent(targetSlot);
+        else previewCardSlot = targetSlot.gameObject;
+        
         targetCard.transform.SetParent(selectedSlot);
+
+        cardList[selectedIndex] = targetCard;
+        cardList[targetIndex] = selectedCard;
 
         if (IsOwner)
         {
