@@ -32,9 +32,9 @@ public class Hand : CardHolder
         float currentX = selectedCard.transform.position.x;
         int targetIndex = -1;
 
-        if (currentIndex > 0 && currentX < cardList[currentIndex - 1].transform.position.x)     //maybe use parent transform position instead of card position?
+        if (currentIndex > 0 && currentX < cardList[currentIndex - 1].transform.parent.position.x)     //maybe use parent transform position instead of card position?
             targetIndex = currentIndex - 1;
-        else if (currentIndex < cardList.Count - 1 && currentX > cardList[currentIndex + 1].transform.position.x)
+        else if (currentIndex < cardList.Count - 1 && currentX > cardList[currentIndex + 1].transform.parent.position.x)
             targetIndex = currentIndex + 1;
 
         if (targetIndex != -1 && currentIndex != -1)
