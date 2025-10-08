@@ -1,6 +1,7 @@
 using DG.Tweening;
 using FishNet.Connection;
 using FishNet.Object;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class CardHolder : NetworkBehaviour
 {
     public virtual QuestLane QuestLane => null;
     public virtual Vector3 Scale => Vector3.one;
-    public Card draggedCard;
+    public Card draggedPreviewCard;
 
     public enum CardHolderType
     {
@@ -26,12 +27,15 @@ public class CardHolder : NetworkBehaviour
 
     protected GameObject previewCardSlot;
     protected RectTransform rect;
-    protected bool isCrossing = false;
+    protected bool isSwapping = false;
     int count = 0;
+    protected float swapTimer;
+    protected float swapDelay = 0.1f;
 
     protected virtual void Start()
     {
         rect = GetComponent<RectTransform>();
+        swapTimer = Time.time;
     }
 
     [Server]
@@ -147,7 +151,7 @@ public class CardHolder : NetworkBehaviour
         if (cardHandler == null)
             return;
         if (!cardList.Contains(card)) cardList.Add(card);
-        draggedCard = null;
+        draggedPreviewCard = null;
         cardHandler.PointerEnterEvent.AddListener(CardPointerEnter);
         cardHandler.PointerExitEvent.AddListener(CardPointerExit);
         cardHandler.BeginDragEvent.AddListener(BeginDrag);
@@ -194,6 +198,7 @@ public class CardHolder : NetworkBehaviour
 
         int index = GetInsertIndexForDraggedCard(card);
         ServerCreatePreviewSlot(card, index);
+        swapTimer = Time.time;
         return true;
     }
 
@@ -217,6 +222,24 @@ public class CardHolder : NetworkBehaviour
     public void RemovePreviewSlot()
     {
         selectedCard = null;
+
+        if (isSwapping)
+        {
+            StartCoroutine(WaitForSwapCompletion());
+        }
+        else
+        {
+            ServerRemovePreviewSlot();
+        }
+    }
+
+    private IEnumerator WaitForSwapCompletion()
+    {
+        while (isSwapping)
+        {
+            yield return null;
+        }
+
         ServerRemovePreviewSlot();
     }
 
@@ -225,12 +248,9 @@ public class CardHolder : NetworkBehaviour
     {
         if (previewCardSlot != null)
         {
-            //int index = cardList.IndexOf(draggedCard);
-            //GameObject cardSlot = transform.GetChild(index).gameObject;
             Despawn(previewCardSlot);
             previewCardSlot = null;
-            ObserversRemovePreviewCardFromList(draggedCard);
-            draggedCard = null;
+            ObserversRemovePreviewCardFromList(draggedPreviewCard);
         }
     }
 
@@ -238,7 +258,7 @@ public class CardHolder : NetworkBehaviour
     private void ObserversAddPreviewCardToList(Card card, int index)
     {
         cardList.Insert(index, card);
-        draggedCard = card;
+        draggedPreviewCard = card;
         if (IsOwner) selectedCard = card;
     }
 
@@ -252,8 +272,8 @@ public class CardHolder : NetworkBehaviour
         }
 
         cardList.Remove(card);
-        draggedCard = null;
-        //if (IsOwner) selectedCard = null;
+        draggedPreviewCard = null;
+        previewCardSlot = null;
     }
 
     private int GetInsertIndexForDraggedCard(Card draggedCard)

@@ -19,70 +19,72 @@ public class Hand : CardHolder
     {
         if (selectedCard == null)
             return;
-        if (isCrossing)
+        if (isSwapping)
             return;
 
-        SwapCheck();
+        if (Time.time - swapTimer > swapDelay) SwapCheck();
     }
 
     public void SwapCheck()
     {
-        int selectedIndex = cardList.IndexOf(selectedCard);
-        float selectedX = selectedCard.transform.position.x;
+        isSwapping = true;
+        int currentIndex = cardList.IndexOf(selectedCard);
+        float currentX = selectedCard.transform.position.x;
         int targetIndex = -1;
 
-        if (selectedIndex > 0 && selectedX < cardList[selectedIndex - 1].transform.position.x)
-            targetIndex = selectedIndex - 1;
-        else if (selectedIndex < cardList.Count - 1 && selectedX > cardList[selectedIndex + 1].transform.position.x)
-            targetIndex = selectedIndex + 1;
+        if (currentIndex > 0 && currentX < cardList[currentIndex - 1].transform.position.x)
+            targetIndex = currentIndex - 1;
+        else if (currentIndex < cardList.Count - 1 && currentX > cardList[currentIndex + 1].transform.position.x)
+            targetIndex = currentIndex + 1;
 
-        if (targetIndex != -1)
+        if (targetIndex != -1 && currentIndex != -1)
         {
-            if (selectedCard == null) return;
-            isCrossing = true;
-            ServerSwapCards(selectedIndex, targetIndex);
-            PerformSwap(selectedIndex, targetIndex);
+            //if (selectedCard == null) return;
+
+            //PerformSwap(currentIndex, targetIndex);
+            ServerSwapCards(currentIndex, targetIndex);
+        }
+        else
+        {
+            isSwapping = false;
         }
     }
 
     [ServerRpc]
-    private void ServerSwapCards(int selectedIndex, int targetIndex)
+    private void ServerSwapCards(int currentIndex, int targetIndex)
     {
-        ObserversSwapCards(selectedIndex, targetIndex);
+        ObserversSwapCards(currentIndex, targetIndex);
     }
 
-    [ObserversRpc]  // exclude owner
-    private void ObserversSwapCards(int selectedIndex, int targetIndex)
+    [ObserversRpc]
+    private void ObserversSwapCards(int currentIndex, int targetIndex)
     {
-        if (IsOwner) return;
-        PerformSwap(selectedIndex, targetIndex);
+        //if (IsOwner) return;
+        PerformSwap(currentIndex, targetIndex);
     }
 
-    private void PerformSwap(int selectedIndex, int targetIndex)
+    private void PerformSwap(int currentIndex, int targetIndex)
     {
-        Card selectedCard = cardList[selectedIndex];
+        Card currentCard = cardList[currentIndex];
         Card targetCard = cardList[targetIndex];
 
-        //cardList[selectedIndex] = targetCard;
-        //cardList[targetIndex] = selectedCard;
+        Transform currentSlot = transform.GetChild(currentIndex);
+        Transform targetSlot = targetCard.transform.parent;
 
-        //Transform selectedSlot = selectedCard.transform.parent;
-        Transform selectedSlot = transform.GetChild(selectedIndex);    // instead of accessing transfom, could maybe get index of carslot
-        Transform targetSlot = targetCard.transform.parent;         // this could allow card preview slot dragging without setparent issue
+        targetCard.transform.SetParent(currentSlot);
 
-        if (draggedCard == null) selectedCard.transform.SetParent(targetSlot);
+        if (draggedPreviewCard == null) currentCard.transform.SetParent(targetSlot);
         else previewCardSlot = targetSlot.gameObject;
-        
-        targetCard.transform.SetParent(selectedSlot);
 
-        cardList[selectedIndex] = targetCard;
-        cardList[targetIndex] = selectedCard;
+        cardList[currentIndex] = targetCard;
+        cardList[targetIndex] = currentCard;
 
         if (IsOwner)
         {
-            int dir = targetIndex > selectedIndex ? 1 : -1;
+            int dir = targetIndex > currentIndex ? 1 : -1;
             targetCard.CardHandler.PlaySwapTween(dir);
-            isCrossing = false;
+            isSwapping = false;
+            //swapTimer = Time.time;    //might need this to prevent rapid swap bug
         }
     }
 }
