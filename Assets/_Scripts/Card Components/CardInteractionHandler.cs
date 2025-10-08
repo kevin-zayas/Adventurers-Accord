@@ -138,8 +138,8 @@ public abstract class CardInteractionHandler : NetworkBehaviour, IDragHandler, I
         //print(dropZone);
         if (isDragging && dropZone.TryGetComponent(out CardHolder cardHolder))
         {
-            if (previewSlotCardHolder != null)
-                previewSlotCardHolder.RemovePreviewSlot();
+            //if (previewSlotCardHolder != null)
+            //    previewSlotCardHolder.RemovePreviewSlot();
 
             if (cardHolder.CreatePreviewSlot(card))
                 previewSlotCardHolder = cardHolder;

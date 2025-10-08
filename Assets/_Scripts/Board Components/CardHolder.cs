@@ -211,10 +211,10 @@ public class CardHolder : NetworkBehaviour
             Despawn(previewCardSlot);
             previewCardSlot = null;
         }
-        //draggedCard = card;
+        //draggedCard = card;       //maybe set preview card here?
         previewCardSlot = Instantiate(cardSlotPrefab);
         Spawn(previewCardSlot);
-        //previewCardSlot.transform.SetParent(transform);
+
         ObserversSetCardSlotParent(previewCardSlot, index);
         ObserversAddPreviewCardToList(card, index);
     }
@@ -250,6 +250,10 @@ public class CardHolder : NetworkBehaviour
         {
             Despawn(previewCardSlot);
             previewCardSlot = null;
+            if (draggedPreviewCard == null)
+            {
+                Debug.LogWarning($"draggedPreviewCard is null : {draggedPreviewCard}");
+            }
             ObserversRemovePreviewCardFromList(draggedPreviewCard);
         }
     }
@@ -267,11 +271,13 @@ public class CardHolder : NetworkBehaviour
     {
         if (!cardList.Contains(card))
         {
-            Debug.LogWarning("Card not in cardList");
-            return;
+            Debug.LogWarning($"Card: {card} not in cardList");
         }
 
-        cardList.Remove(card);
+        if (!cardList.Remove(draggedPreviewCard))
+        {
+            Debug.LogWarning($"Dragged Preview Card: {draggedPreviewCard} not in cardList");
+        }
         draggedPreviewCard = null;
         previewCardSlot = null;
     }
